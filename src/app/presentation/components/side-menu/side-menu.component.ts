@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   input,
+  output,
   signal,
 } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -25,4 +26,6 @@ export class SideMenuComponent {
   date = signal(formatDate(new Date(), 'yyyy', 'en-US'));
 
   titleColor = input<TitleColor>(TitleColor.blue);
+
+  onLogout = output();
 }

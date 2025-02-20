@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-50/50">
-  <app-side-menu />
+  <app-side-menu (onLogout)="handleLogout()" />
   <div class="px-4 xl:ml-80">
-    <p>dashboard-layout works!</p>
+    <router-outlet />
   </div>
 </div>

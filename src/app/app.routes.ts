@@ -20,6 +20,23 @@ export const routes: Routes = [
       import(
         './presentation/layouts/dashboard-layout/dashboard-layout.component'
       ),
+    children: [
+      {
+        path: 'admin',
+        loadComponent: () =>
+          import('./presentation/pages/admin-page/admin-page.component'),
+      },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./presentation/pages/profile-page/profile-page.component'),
+      },
+      {
+        path: 'projects',
+        loadComponent: () =>
+          import('./presentation/pages/projects-page/projects-page.component'),
+      },
+    ],
   },
   {
     path: '**',
