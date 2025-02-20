@@ -16,7 +16,7 @@
         >
           Iniciar Sesión
         </label>
-        <form class="mt-10" autocomplete="off" [formGroup]="myForm">
+        <form class="mt-10" autocomplete="off" [formGroup]="myForm" (keydown.enter)="handleLogin()">
           <div>
             <input
               type="text"

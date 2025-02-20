@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -15,6 +16,7 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class LoginPageComponent {
+  private router = inject(Router);
   public authService = inject(AuthService);
 
   myForm: FormGroup;
@@ -35,7 +37,10 @@ export default class LoginPageComponent {
     const { nomina, cip } = this.myForm.value;
 
     this.authService.login(nomina, cip).subscribe({
-      next: (res) => console.log(res.mensaje),
+      next: (res) => {
+        // Alerta de inicio de sesión exitoso
+        this.router.navigateByUrl('/dashboard');
+      },
       error: (res) => console.error(res.mensaje),
     });
   }
