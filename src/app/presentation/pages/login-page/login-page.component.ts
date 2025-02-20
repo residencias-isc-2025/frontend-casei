@@ -8,6 +8,7 @@ import {
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-login-page',
@@ -17,7 +18,9 @@ import { Router } from '@angular/router';
 })
 export default class LoginPageComponent {
   private router = inject(Router);
+
   public authService = inject(AuthService);
+  public toastService = inject(ToastService);
 
   myForm: FormGroup;
 
@@ -30,18 +33,27 @@ export default class LoginPageComponent {
 
   handleLogin() {
     if (this.myForm.invalid) {
-      console.log('FORMULARIO INVÁLIDO');
+      this.toastService.showWarning(
+        'Por favor revisa la información ingresada.',
+        'Formulario inválido'
+      );
       return;
     }
 
     const { nomina, cip } = this.myForm.value;
 
     this.authService.login(nomina, cip).subscribe({
-      next: (res) => {
-        // Alerta de inicio de sesión exitoso
-        this.router.navigateByUrl('/dashboard');
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
-      error: (res) => console.error(res.mensaje),
+      next: (res) => {
+        if (res.ok) {
+          this.toastService.showSuccess(res.mensaje!, 'Bienvenido');
+          this.router.navigateByUrl('/dashboard');
+        } else {
+          this.toastService.showError(res.mensaje!, 'Malas noticias');
+        }
+      },
     });
   }
 }
