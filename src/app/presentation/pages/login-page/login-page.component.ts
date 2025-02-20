@@ -27,13 +27,16 @@ export default class LoginPageComponent {
   }
 
   handleLogin() {
-    if (this.myForm.invalid) console.log('FORMULARIO INVÁLIDO');
+    if (this.myForm.invalid) {
+      console.log('FORMULARIO INVÁLIDO');
+      return;
+    }
 
     const { nomina, cip } = this.myForm.value;
 
     this.authService.login(nomina, cip).subscribe({
-      next: (res) => console.log('Login exitoso'),
-      error: (res) => console.error('Error al iniciar sesión')
+      next: (res) => console.log(res.mensaje),
+      error: (res) => console.error(res.mensaje),
     });
   }
 }

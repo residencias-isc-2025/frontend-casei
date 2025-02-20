@@ -1,4 +1,5 @@
 import { environment } from '../../../environments/environment.development';
+import { LoginResponse } from '../../interfaces/use-cases/login.response';
 
 export const loginUseCase = async (username: string, password: string) => {
   try {
@@ -13,12 +14,24 @@ export const loginUseCase = async (username: string, password: string) => {
       }),
     });
 
-    if(resp.status !== 200 ) throw new Error(`ERROR ${resp.status}`);
+    const data = (await resp.json()) as LoginResponse;
 
-    return resp.json;
+    if (!resp.ok) {
+      return {
+        ok: false,
+        mensaje: data.mensaje,
+      };
+    }
 
+    return {
+      ok: true,
+      mensaje: data.mensaje,
+    };
   } catch (error) {
-    console.log(error);
-    return ('ERROR')
+    console.error(error);
+    return {
+      ok: false,
+      error: error,
+    };
   }
 };
