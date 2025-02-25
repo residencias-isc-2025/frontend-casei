@@ -26,6 +26,7 @@ export const loginUseCase = async (username: string, password: string) => {
     return {
       ok: true,
       mensaje: data.mensaje,
+      tokens: data.tokens
     };
   } catch (error) {
     console.error(error);

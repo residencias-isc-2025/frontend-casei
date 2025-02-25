@@ -14,6 +14,9 @@ export default class DashboardLayoutComponent {
   public authService = inject(AuthService);
 
   handleLogout() {
+
+    localStorage.removeItem('casei_residencias_access_token');
+    localStorage.removeItem('casei_residencias_refresh_token');
     this.router.navigateByUrl('/auth/login');
   }
 }

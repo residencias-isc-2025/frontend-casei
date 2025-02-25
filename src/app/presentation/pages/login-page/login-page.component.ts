@@ -48,6 +48,15 @@ export default class LoginPageComponent {
       },
       next: (res) => {
         if (res.ok) {
+          localStorage.setItem(
+            'casei_residencias_access_token',
+            res.tokens!.access!
+          );
+          localStorage.setItem(
+            'casei_residencias_refresh_token',
+            res.tokens!.refresh!
+          );
+
           this.toastService.showSuccess(res.mensaje!, 'Bienvenido');
           this.router.navigateByUrl('/dashboard');
         } else {
