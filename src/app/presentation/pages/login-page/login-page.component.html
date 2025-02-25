@@ -2,17 +2,17 @@
   <div
     class="relative flex flex-col sm:justify-center items-center bg-gray-100"
   >
-    <div class="relative sm:max-w-sm w-full">
+    <div class="relative sm:max-w-xl w-full">
       <div
         class="card bg-blue-500 shadow-lg w-full h-full rounded-3xl absolute transform -rotate-6"
       ></div>
       <div
         class="card bg-red-700 shadow-lg w-full h-full rounded-3xl absolute transform rotate-6"
       ></div>
-      <div class="relative w-full rounded-3xl px-6 py-4 bg-gray-100 shadow-md">
+      <div class="relative w-full rounded-3xl px-6 py-4 bg-gray-300 shadow-md">
         <label
           for=""
-          class="block mt-3 text-sm text-gray-700 text-center font-semibold"
+          class="block mt-3 text-4xl text-gray-700 text-center font-semibold"
         >
           Iniciar Sesión
         </label>
@@ -22,7 +22,7 @@
               type="text"
               formControlName="nomina"
               placeholder="Número de nómina"
-              class="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-4"
+              class="mt-1 block w-full border-none bg-gray-100 h-14 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-4 text-2xl"
             />
           </div>
 
@@ -31,7 +31,7 @@
               type="password"
               formControlName="cip"
               placeholder="CIP"
-              class="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-4"
+              class="mt-1 block w-full border-none bg-gray-100 h-14 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-4 text-2xl"
             />
           </div>
 
@@ -43,17 +43,17 @@
               <input
                 id="remember_me"
                 type="checkbox"
-                class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                class="rounded size-4 border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 name="remember"
               />
-              <span class="ml-2 text-sm text-gray-600"> Recuérdame </span>
+              <span class="ml-2 text-xl text-gray-600"> Recuérdame </span>
             </label>
           </div>
         </form>
         <div class="mt-7">
           <button
             (click)="handleLogin()"
-            class="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105 hover:cursor-pointer"
+            class="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105 hover:cursor-pointer text-xl"
           >
             Ingresar
           </button>
