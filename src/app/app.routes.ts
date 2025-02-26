@@ -22,6 +22,11 @@ export const routes: Routes = [
       ),
     children: [
       {
+        path: 'users',
+        loadComponent: () =>
+          import('./presentation/pages/users-page/users-page.component'),
+      },
+      {
         path: 'admin',
         loadComponent: () =>
           import('./presentation/pages/admin-page/admin-page.component'),
