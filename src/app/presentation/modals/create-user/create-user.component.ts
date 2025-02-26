@@ -3,6 +3,7 @@ import {
   Component,
   inject,
   output,
+  signal,
 } from '@angular/core';
 import { ToastService, UsersService } from '../../services';
 import {
@@ -20,6 +21,8 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateUserComponent {
+  isUserRole = signal(false);
+
   onCancel = output();
 
   public toastService = inject(ToastService);
@@ -37,11 +40,25 @@ export class CreateUserComponent {
         ],
       ],
       rol: ['', Validators.required],
+      tipo: [''],
     });
   }
 
+  onRoleChanged() {
+    const selectedRole = this.createUserForm.get('rol')?.value;
+    this.isUserRole.set(selectedRole === 'user');
+
+    if (this.isUserRole()) {
+      this.createUserForm.get('tipo')?.setValidators([Validators.required]);
+    } else {
+      this.createUserForm.get('tipo')?.clearValidators();
+    }
+
+    this.createUserForm.get('tipo')?.updateValueAndValidity();
+  }
+
   onCreateUser() {
-    const { nomina, rol } = this.createUserForm.value;
+    const { nomina, rol, tipo } = this.createUserForm.value;
 
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
@@ -50,6 +67,7 @@ export class CreateUserComponent {
         username: nomina,
         password: nomina,
         role: rol,
+        type: tipo,
         accessToken: token,
       })
       .subscribe({

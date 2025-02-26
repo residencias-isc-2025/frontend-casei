@@ -16,6 +16,7 @@ export const createUserUseCase = async (user: CreateUserInterface) => {
           username: user.username,
           password: user.password,
           role: user.role,
+          tipo_docente: user.type
         }),
       }
     );
