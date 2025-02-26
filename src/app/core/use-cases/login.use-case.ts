@@ -1,4 +1,4 @@
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { LoginResponse } from '../../interfaces/use-cases/login.response';
 
 export const loginUseCase = async (username: string, password: string) => {
@@ -26,7 +26,7 @@ export const loginUseCase = async (username: string, password: string) => {
     return {
       ok: true,
       mensaje: data.mensaje,
-      tokens: data.tokens
+      tokens: data.tokens,
     };
   } catch (error) {
     console.error(error);

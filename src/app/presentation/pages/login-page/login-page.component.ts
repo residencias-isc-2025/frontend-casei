@@ -26,13 +26,7 @@ export default class LoginPageComponent {
 
   constructor(private fb: FormBuilder) {
     this.myForm = this.fb.group({
-      nomina: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^\d{2}(0[1-9]|1[0-2])\d{2}$/),
-        ],
-      ],
+      nomina: ['', [Validators.required]],
       cip: ['', [Validators.required]],
     });
   }
