@@ -27,19 +27,14 @@ export const routes: Routes = [
           import('./presentation/pages/users-page/users-page.component'),
       },
       {
-        path: 'admin',
-        loadComponent: () =>
-          import('./presentation/pages/admin-page/admin-page.component'),
-      },
-      {
         path: 'profile',
         loadComponent: () =>
           import('./presentation/pages/profile-page/profile-page.component'),
       },
       {
-        path: 'projects',
-        loadComponent: () =>
-          import('./presentation/pages/projects-page/projects-page.component'),
+        path: '**',
+        redirectTo: 'profile',
+        pathMatch: 'full',
       },
     ],
   },
