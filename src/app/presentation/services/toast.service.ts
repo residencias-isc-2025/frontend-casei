@@ -19,5 +19,7 @@ export class ToastService {
     this.toastr.error(message, title);
   }
 
-
+  showInfo(message: string, title: string) {
+    this.toastr.info(message, title);
+  }
 }

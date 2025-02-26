@@ -1,10 +1,7 @@
-<!-- Fondo oscuro del modal -->
 <div
   class="fixed inset-0 bg-opacity-50 flex items-center justify-center backdrop-blur-sm"
 >
-  <!-- Contenedor del modal -->
   <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-    <!-- Encabezado del modal -->
     <div class="flex justify-between items-center border-b pb-2">
       <h2 class="text-xl font-semibold text-gray-800">Crear Usuario</h2>
       <button
@@ -15,13 +12,11 @@
       </button>
     </div>
 
-    <!-- Formulario dentro del modal -->
     <form
       [formGroup]="createUserForm"
       (keydown.enter)="onCreateUser()"
       class="mt-4"
     >
-      <!-- Campo de Número de Nómina -->
       <div class="mb-4">
         <label for="nomina" class="block text-gray-700 font-medium mb-2"
           >Número de Nómina</label
@@ -34,7 +29,6 @@
         />
       </div>
 
-      <!-- Campo de Selección de Rol -->
       <div class="mb-4">
         <label for="rol" class="block text-gray-700 font-medium mb-2"
           >Rol</label
@@ -49,7 +43,6 @@
         </select>
       </div>
 
-      <!-- Botones de acción -->
       <div class="flex justify-end gap-3 mt-4">
         <button
           class="px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-lg"

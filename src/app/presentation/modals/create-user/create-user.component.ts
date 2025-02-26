@@ -45,8 +45,6 @@ export class CreateUserComponent {
 
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    console.log(token);
-
     this.usersService
       .createUser({
         username: nomina,
