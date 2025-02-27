@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-gray-50/50">
   <app-side-menu
     (onLogout)="handleLogout()"
-    [userRole]="usersService.getUserRole()"
+    [userRole]="userRole()"
   />
   <div class="px-4 xl:ml-80">
     <router-outlet />
