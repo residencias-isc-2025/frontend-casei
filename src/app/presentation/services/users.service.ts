@@ -8,6 +8,7 @@ import {
   addAcademicTrainingUseCase,
   createUserUseCase,
   getAllUsersUseCase,
+  getUserDataUseCase,
   getUserUseCase,
 } from '../../core';
 
@@ -25,6 +26,10 @@ export class UsersService {
 
   getLoggedUser(accessToken: string) {
     return from(getUserUseCase(accessToken));
+  }
+
+  getUserData(accessToken: string) {
+    return from(getUserDataUseCase(accessToken));
   }
 
   addAcademicTrainingFunction(formacionAcademica: FormacionAcademicaInterface) {

@@ -15,12 +15,15 @@
     <div class="space-y-4 flex-grow">
       <div>
         <p class="text-gray-500 font-medium">Nombre</p>
-        <p class="text-lg font-semibold text-gray-800"></p>
+        <p class="text-lg font-semibold text-gray-800">
+          {{ user()?.profile?.nombre }} {{ user()?.profile?.apellido_paterno }}
+          {{ user()?.profile?.apellido_materno }}
+        </p>
       </div>
       <div>
         <p class="text-gray-500 font-medium">Número de nómina</p>
         <p class="text-lg font-semibold text-gray-800">
-          {{ user()?.username }}
+          {{ user()?.user?.username }}
         </p>
       </div>
 
@@ -29,9 +32,9 @@
         <span
           class="px-3 py-1 text-sm font-medium text-white rounded-full"
           [ngClass]="{
-            'bg-red-500': user()?.role === 'superuser',
-            'bg-green-500': user()?.role === 'admin',
-            'bg-blue-500': user()?.role === 'user',
+            'bg-red-500':   user()?.user?.role === 'superuser',
+            'bg-green-500': user()?.user?.role === 'admin',
+            'bg-blue-500':  user()?.user?.role === 'user',
           }"
         >
           {{ cleanRole() | uppercase }}

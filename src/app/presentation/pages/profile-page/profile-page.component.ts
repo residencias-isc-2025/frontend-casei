@@ -22,13 +22,20 @@ import { ContributionsComponent } from '../../modals/contributions/contributions
 
 // Interfaces
 import { UserResponse } from '../../../interfaces/use-cases/user.response';
+import { UserDataResponse } from '../../../interfaces/use-cases/user-data.response';
 // Services
 import { ToastService, UsersService } from '../../services';
+import { combineLatestWith } from 'rxjs';
 
 interface ProfileButtons {
   id: number;
   text: string;
   action: () => void;
+}
+
+interface CustomProfile {
+  user?: UserResponse | null;
+  profile?: UserDataResponse | null;
 }
 
 @Component({
@@ -51,7 +58,7 @@ interface ProfileButtons {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ProfilePageComponent implements OnInit {
-  user = signal<UserResponse | null>(null);
+  user = signal<CustomProfile | undefined>(undefined);
   selectedId = signal<number>(-1);
 
   toastService = inject(ToastService);
@@ -71,19 +78,11 @@ export default class ProfilePageComponent implements OnInit {
     'Aportaciones relevantes',
   ];
 
-  buttons: ProfileButtons[] = [
-    { id: 1, text: this.titles[0], action: () => this.handleClick(1) },
-    { id: 2, text: this.titles[1], action: () => this.handleClick(2) },
-    { id: 3, text: this.titles[2], action: () => this.handleClick(3) },
-    { id: 4, text: this.titles[3], action: () => this.handleClick(4) },
-    { id: 5, text: this.titles[4], action: () => this.handleClick(5) },
-    { id: 6, text: this.titles[5], action: () => this.handleClick(6) },
-    { id: 7, text: this.titles[6], action: () => this.handleClick(7) },
-    { id: 8, text: this.titles[7], action: () => this.handleClick(8) },
-    { id: 9, text: this.titles[8], action: () => this.handleClick(9) },
-    { id: 10, text: this.titles[9], action: () => this.handleClick(10) },
-    { id: 11, text: this.titles[10], action: () => this.handleClick(11) },
-  ];
+  buttons: ProfileButtons[] = this.titles.map((title, index) => ({
+    id: index + 1,
+    text: title,
+    action: () => this.handleClick(index + 1),
+  }));
 
   ngOnInit(): void {
     this.loadUserInfo();
@@ -92,25 +91,31 @@ export default class ProfilePageComponent implements OnInit {
   loadUserInfo(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.usersService.getLoggedUser(token).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.user.set(res.usuario || null);
-        } else {
-          this.toastService.showWarning(
-            'No se pudo obtener la información.',
-            'Hubo un problema'
-          );
-        }
-      },
-    });
+    this.usersService
+      .getLoggedUser(token)
+      .pipe(combineLatestWith(this.usersService.getUserData(token)))
+      .subscribe({
+        next: ([user, profile]) => {
+          if (user.ok && profile.ok) {
+            this.user.set({
+              user: user.usuario,
+              profile: profile.usuario,
+            });
+          } else {
+            this.toastService.showWarning(
+              'No se pudo obtener la información.',
+              'Hubo un problema'
+            );
+          }
+        },
+        error: (res) => {
+          this.toastService.showError(res.mensaje!, 'Malas noticias');
+        },
+      });
   }
 
   cleanRole(): string {
-    switch (this.user()?.role) {
+    switch (this.user()?.user?.role) {
       case 'superuser':
         return 'Super usuario';
       case 'admin':

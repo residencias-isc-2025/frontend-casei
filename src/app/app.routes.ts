@@ -16,6 +16,7 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
+    title: 'Dashboard',
     loadComponent: () =>
       import(
         './presentation/layouts/dashboard-layout/dashboard-layout.component'
