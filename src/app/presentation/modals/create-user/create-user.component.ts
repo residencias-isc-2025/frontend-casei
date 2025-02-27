@@ -24,6 +24,7 @@ export class CreateUserComponent {
   isUserRole = signal(false);
 
   onCancel = output();
+  onSave = output();
 
   public toastService = inject(ToastService);
   public usersService = inject(UsersService);
@@ -77,7 +78,7 @@ export class CreateUserComponent {
         next: (res) => {
           if (res.ok) {
             this.toastService.showSuccess(res.mensaje!, 'Éxito');
-            this.onCancel.emit();
+            this.onSave.emit();
           } else {
             this.toastService.showWarning(res.mensaje!, 'Malas noticias');
           }
