@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { userRoleGuard } from './guards';
 
 export const routes: Routes = [
   {
@@ -26,6 +27,7 @@ export const routes: Routes = [
         path: 'users',
         loadComponent: () =>
           import('./presentation/pages/users-page/users-page.component'),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'profile',

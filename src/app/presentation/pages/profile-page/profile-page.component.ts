@@ -6,26 +6,26 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
+import { combineLatest } from 'rxjs';
 
 // Modals
-import { AcademicTrainingComponent } from '../../modals/academic-training/academic-training.component';
-import { TeachingTrainingComponent } from '../../modals/teaching-training/teaching-training.component';
-import { DisciplinaryUpdateComponent } from '../../modals/disciplinary-update/disciplinary-update.component';
-import { AcademicManagementComponent } from '../../modals/academic-management/academic-management.component';
-import { AcademicProductsComponent } from '../../modals/academic-products/academic-products.component';
-import { ProfessionalExperienceComponent } from '../../modals/professional-experience/professional-experience.component';
-import { EngineeringDesignComponent } from '../../modals/engineering-design/engineering-design.component';
-import { ProfessionalAchievementsComponent } from '../../modals/professional-achievements/professional-achievements.component';
-import { AssociationsComponent } from '../../modals/associations/associations.component';
-import { AwardsComponent } from '../../modals/awards/awards.component';
-import { ContributionsComponent } from '../../modals/contributions/contributions.component';
+import { AcademicTrainingComponent } from '../../modals';
+import { TeachingTrainingComponent } from '../../modals';
+import { DisciplinaryUpdateComponent } from '../../modals';
+import { AcademicManagementComponent } from '../../modals';
+import { AcademicProductsComponent } from '../../modals';
+import { ProfessionalExperienceComponent } from '../../modals';
+import { EngineeringDesignComponent } from '../../modals';
+import { ProfessionalAchievementsComponent } from '../../modals';
+import { AssociationsComponent } from '../../modals';
+import { AwardsComponent } from '../../modals';
+import { ContributionsComponent } from '../../modals';
 
 // Interfaces
 import { UserResponse } from '../../../interfaces/use-cases/user.response';
 import { UserDataResponse } from '../../../interfaces/use-cases/user-data.response';
 // Services
 import { ToastService, UsersService } from '../../services';
-import { combineLatestWith } from 'rxjs';
 
 interface ProfileButtons {
   id: number;
@@ -91,38 +91,43 @@ export default class ProfilePageComponent implements OnInit {
   loadUserInfo(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.usersService
-      .getLoggedUser(token)
-      .pipe(combineLatestWith(this.usersService.getUserData(token)))
-      .subscribe({
-        next: ([user, profile]) => {
-          if (user.ok && profile.ok) {
-            this.user.set({
-              user: user.usuario,
-              profile: profile.usuario,
-            });
-          } else {
-            this.toastService.showWarning(
-              'No se pudo obtener la información.',
-              'Hubo un problema'
-            );
-          }
-        },
-        error: (res) => {
-          this.toastService.showError(res.mensaje!, 'Malas noticias');
-        },
-      });
+    combineLatest([
+      this.usersService.getLoggedUser(token),
+      this.usersService.getUserData(token),
+    ]).subscribe({
+      next: ([user, profile]) => {
+        const userData = user.ok ? user.usuario : null;
+        const profileData = profile.ok ? profile.usuario : null;
+
+        if (userData) {
+          localStorage.setItem('user-role', userData.role); // Guardamos el rol
+        }
+
+        if (userData || profileData) {
+          this.user.set({ user: userData, profile: profileData });
+        } else {
+          this.toastService.showWarning(
+            'No se pudo obtener la información.',
+            'Hubo un problema'
+          );
+        }
+      },
+      error: (err) => {
+        this.toastService.showError(
+          err.mensaje || 'Error al cargar datos',
+          'Malas noticias'
+        );
+      },
+    });
   }
 
   cleanRole(): string {
-    switch (this.user()?.user?.role) {
-      case 'superuser':
-        return 'Super usuario';
-      case 'admin':
-        return 'Administrador';
-      default:
-        return 'Docente';
-    }
+    const role = this.user()?.user?.role;
+    return role === 'superuser'
+      ? 'Super usuario'
+      : role === 'admin'
+      ? 'Administrador'
+      : 'Docente';
   }
 
   handleClick(id: number) {

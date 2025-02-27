@@ -23,6 +23,8 @@ export enum TitleColor {
 })
 export class SideMenuComponent {
   title = input('Residencias');
+  userRole = input.required();
+
   date = signal(formatDate(new Date(), 'yyyy', 'en-US'));
 
   titleColor = input<TitleColor>(TitleColor.blue);
