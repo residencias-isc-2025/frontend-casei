@@ -2,14 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   inject,
   OnInit,
   signal,
 } from '@angular/core';
-import { CreateUserComponent } from '../../modals/create-user/create-user.component';
-import { ToastService, UsersService } from '../../services';
-import { UserResponse } from '../../../interfaces/use-cases/user.response';
+import { CreateUserComponent } from '@modals/index';
+import { ToastService, UsersService } from '@services/index';
+import { UserResponse } from '@interfaces/index';
 
 @Component({
   selector: 'app-users-page',
@@ -49,13 +48,9 @@ export default class UsersPageComponent implements OnInit {
     });
   }
 
-  onSaveEmit(): void{
+  onSaveEmit(): void {
     this.showModal.set(false);
     this.toastService.showInfo('Cargando usuarios', 'Por favor espere');
     this.loadUsers();
   }
-
-
-
-
 }

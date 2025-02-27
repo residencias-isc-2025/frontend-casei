@@ -9,23 +9,24 @@ import {
 import { combineLatest } from 'rxjs';
 
 // Modals
-import { AcademicTrainingComponent } from '../../modals';
-import { TeachingTrainingComponent } from '../../modals';
-import { DisciplinaryUpdateComponent } from '../../modals';
-import { AcademicManagementComponent } from '../../modals';
-import { AcademicProductsComponent } from '../../modals';
-import { ProfessionalExperienceComponent } from '../../modals';
-import { EngineeringDesignComponent } from '../../modals';
-import { ProfessionalAchievementsComponent } from '../../modals';
-import { AssociationsComponent } from '../../modals';
-import { AwardsComponent } from '../../modals';
-import { ContributionsComponent } from '../../modals';
+import {
+  AcademicTrainingComponent,
+  TeachingTrainingComponent,
+  DisciplinaryUpdateComponent,
+  AcademicManagementComponent,
+  AcademicProductsComponent,
+  ProfessionalExperienceComponent,
+  EngineeringDesignComponent,
+  ProfessionalAchievementsComponent,
+  AssociationsComponent,
+  AwardsComponent,
+  ContributionsComponent,
+} from '@modals/index';
 
 // Interfaces
-import { UserResponse } from '../../../interfaces/use-cases/user.response';
-import { UserDataResponse } from '../../../interfaces/use-cases/user-data.response';
+import { UserResponse, UserDataResponse } from '@interfaces/index';
 // Services
-import { ToastService, UsersService } from '../../services';
+import { ToastService, UsersService } from '@services/index';
 
 interface ProfileButtons {
   id: number;

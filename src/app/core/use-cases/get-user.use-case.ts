@@ -1,5 +1,5 @@
-import { environment } from '../../../environments/environment';
-import { UserResponse } from '../../interfaces/use-cases/user.response';
+import { environment } from '@environments/environment';
+import { UserResponse } from '@interfaces/index';
 
 export const getUserUseCase = async (accessToken: string) => {
   try {

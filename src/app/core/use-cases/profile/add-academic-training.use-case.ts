@@ -1,6 +1,9 @@
-import { environment } from '../../../../environments/environment';
-import { FormacionAcademicaInterface } from '../../../interfaces/dtos/formacion-academica.dto';
-import { FormacionAcademicaResponse } from '../../../interfaces/use-cases/formacion-academica.response';
+import { environment } from '@environments/environment';
+
+import {
+  FormacionAcademicaInterface,
+  FormacionAcademicaResponse,
+} from '@interfaces/index';
 
 export const addAcademicTrainingUseCase = async (
   academicTraining: FormacionAcademicaInterface

@@ -1,6 +1,5 @@
-import { CreateUserInterface } from '../../interfaces/dtos/create-user.dto';
-import { environment } from '../../../environments/environment';
-import { CreateUserResponse } from '../../interfaces/use-cases/create-user.response';
+import { environment } from '@environments/environment';
+import { CreateUserInterface, CreateUserResponse } from '@interfaces/index';
 
 export const createUserUseCase = async (user: CreateUserInterface) => {
   try {
@@ -16,7 +15,7 @@ export const createUserUseCase = async (user: CreateUserInterface) => {
           username: user.username,
           password: user.password,
           role: user.role,
-          tipo_docente: user.type
+          tipo_docente: user.type,
         }),
       }
     );

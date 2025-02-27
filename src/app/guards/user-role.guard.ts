@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { Router, type CanMatchFn } from '@angular/router';
-import { UsersService } from '../presentation/services';
+import { UsersService } from '@presentation/services';
 
 export const userRoleGuard: CanMatchFn = () => {
   const usersService = inject(UsersService);

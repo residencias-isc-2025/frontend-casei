@@ -5,9 +5,9 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { SideMenuComponent } from '../../components/side-menu/side-menu.component';
+import { SideMenuComponent } from '@components/side-menu/side-menu.component';
 import { Router, RouterOutlet } from '@angular/router';
-import { UsersService, AuthService } from '../../services';
+import { UsersService, AuthService } from '@services/index';
 
 @Component({
   selector: 'app-dashboard-layout',

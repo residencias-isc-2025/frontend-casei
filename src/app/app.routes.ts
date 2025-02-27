@@ -1,17 +1,17 @@
 import { Routes } from '@angular/router';
-import { userRoleGuard } from './guards';
+import { userRoleGuard } from '@guards/index';
 
 export const routes: Routes = [
   {
     path: 'auth',
     loadComponent: () =>
-      import('./presentation/layouts/auth-layout/auth-layout.component'),
+      import('@presentation/layouts/auth-layout/auth-layout.component'),
     children: [
       {
         path: 'login',
         title: 'Iniciar Sesión',
         loadComponent: () =>
-          import('./presentation/pages/login-page/login-page.component'),
+          import('@presentation/pages/login-page/login-page.component'),
       },
     ],
   },
@@ -20,24 +20,24 @@ export const routes: Routes = [
     title: 'Dashboard',
     loadComponent: () =>
       import(
-        './presentation/layouts/dashboard-layout/dashboard-layout.component'
+        '@presentation/layouts/dashboard-layout/dashboard-layout.component'
       ),
     children: [
       {
         path: 'users',
         loadComponent: () =>
-          import('./presentation/pages/users-page/users-page.component'),
+          import('@presentation/pages/users-page/users-page.component'),
         canMatch: [userRoleGuard],
       },
       {
         path: 'profile',
         loadComponent: () =>
-          import('./presentation/pages/profile-page/profile-page.component'),
+          import('@presentation/pages/profile-page/profile-page.component'),
       },
       {
         path: 'formats',
         loadComponent: () =>
-          import('./presentation/pages/formats-page/formats-page.component'),
+          import('@presentation/pages/formats-page/formats-page.component'),
       },
       {
         path: '**',

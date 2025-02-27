@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
-
-import { CreateUserInterface } from '../../interfaces/dtos/create-user.dto';
-import { FormacionAcademicaInterface } from '../../interfaces/dtos/formacion-academica.dto';
-
 import { from } from 'rxjs';
+
+import {
+  CreateUserInterface,
+  FormacionAcademicaInterface,
+} from '@interfaces/index';
+
 import {
   addAcademicTrainingUseCase,
   createUserUseCase,
   getAllUsersUseCase,
   getUserDataUseCase,
   getUserUseCase,
-} from '../../core';
+} from '@core/index';
 
 @Injectable({
   providedIn: 'root',

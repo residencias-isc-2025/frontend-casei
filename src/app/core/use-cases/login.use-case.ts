@@ -1,5 +1,5 @@
-import { environment } from '../../../environments/environment';
-import { LoginResponse } from '../../interfaces/use-cases/login.response';
+import { environment } from '@environments/environment';
+import { LoginResponse } from '@interfaces/index';
 
 export const loginUseCase = async (username: string, password: string) => {
   try {

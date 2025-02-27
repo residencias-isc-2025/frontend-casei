@@ -5,7 +5,7 @@ import {
   input,
   output,
 } from '@angular/core';
-import { ToastService, UsersService } from '../../services';
+import { ToastService, UsersService } from '@services/index';
 
 @Component({
   selector: 'app-academic-management',

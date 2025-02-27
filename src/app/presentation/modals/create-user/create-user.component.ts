@@ -5,7 +5,6 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { ToastService, UsersService } from '../../services';
 import {
   FormBuilder,
   FormGroup,
@@ -13,7 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { ToastService, UsersService } from '@services/index';
 @Component({
   selector: 'app-create-user',
   imports: [CommonModule, ReactiveFormsModule],

@@ -5,10 +5,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ToastService } from '../../services/toast.service';
+import { AuthService, ToastService } from '@services/index';
 
 @Component({
   selector: 'app-login-page',

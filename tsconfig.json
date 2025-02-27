@@ -3,6 +3,19 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@core/*": ["src/app/core/*"],
+      "@guards/*": ["src/app/guards/*"],
+      "@interfaces/*": ["src/app/interfaces/*"],
+      "@presentation/*": ["src/app/presentation/*"],
+      "@components/*": ["src/app/presentation/components/*"],
+      "@layouts/*": ["src/app/presentation/layouts/*"],
+      "@services/*": ["src/app/presentation/services/*"],
+      "@modals/*": ["src/app/presentation/modals/*"],
+      "@validators/*": ["src/app/validators/*"],
+      "@environments/*": ["src/environments/*"]
+    },
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,

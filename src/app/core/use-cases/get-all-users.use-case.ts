@@ -1,18 +1,15 @@
-import { environment } from '../../../environments/environment';
-import { UserResponse } from '../../interfaces/use-cases/user.response';
+import { environment } from '@environments/environment';
+import { UserResponse } from '@interfaces/index';
 
 export const getAllUsersUseCase = async (accessToken: string) => {
   try {
-    const resp = await fetch(
-      `${environment.api_url}/api/registration/users/`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    const resp = await fetch(`${environment.api_url}/api/registration/users/`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
 
     const data = (await resp.json()) as UserResponse[];
 

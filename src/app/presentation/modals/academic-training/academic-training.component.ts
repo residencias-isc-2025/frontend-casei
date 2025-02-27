@@ -5,7 +5,7 @@ import {
   input,
   output,
 } from '@angular/core';
-import { ToastService, UsersService } from '../../services';
+
 import {
   FormBuilder,
   FormGroup,
@@ -13,7 +13,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { validYearValidator } from '../../../validators';
+
+import { ToastService, UsersService } from '@services/index';
+import { validYearValidator } from '@validators/index';
 
 @Component({
   selector: 'app-academic-training',

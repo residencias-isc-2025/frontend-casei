@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
-import { loginUseCase } from '../../core';
+import { loginUseCase } from '@core/index';
 
 @Injectable({
   providedIn: 'root',
