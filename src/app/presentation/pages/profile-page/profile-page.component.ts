@@ -123,4 +123,8 @@ export default class ProfilePageComponent implements OnInit {
   handleClick(id: number) {
     this.selectedId.set(id);
   }
+
+  onSaveEmit(): void {
+    this.selectedId.set(-1);
+  }
 }
