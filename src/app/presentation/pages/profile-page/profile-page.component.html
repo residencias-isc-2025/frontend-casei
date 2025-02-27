@@ -5,11 +5,20 @@
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-semibold text-gray-800">Perfil de usuario</h2>
 
+      @if(user()?.profile === null) {
+      <button
+        (click)="showAddModal.set(true)"
+        class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+      >
+        Agregar
+      </button>
+      }@else {
       <button
         class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
       >
         Editar
       </button>
+      }
     </div>
 
     <div class="space-y-4 flex-grow">
@@ -55,7 +64,12 @@
   </div>
 </div>
 
-@switch (selectedId()) { @case (1) {
+@if (showAddModal()) {
+<app-add-teacher-name
+  (onCancel)="showAddModal.set(false)"
+  (onSave)="onAddInfoSaveEmit()"
+/>
+} @switch (selectedId()) { @case (1) {
 <app-academic-training
   (onCancel)="selectedId.set(-1)"
   (onSave)="onSaveEmit()"

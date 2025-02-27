@@ -6,3 +6,4 @@ export * from './use-cases/formacion-academica.response';
 export * from './use-cases/login.response';
 export * from './use-cases/user-data.response';
 export * from './use-cases/user.response';
+export * from './use-cases/nombre-profesor.response';

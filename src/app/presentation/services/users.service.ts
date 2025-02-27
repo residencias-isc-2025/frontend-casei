@@ -4,10 +4,12 @@ import { from } from 'rxjs';
 import {
   CreateUserInterface,
   FormacionAcademicaInterface,
+  NombreProfesorData,
 } from '@interfaces/index';
 
 import {
   addAcademicTrainingUseCase,
+  addUserDataUseCase,
   createUserUseCase,
   getAllUsersUseCase,
   getUserDataUseCase,
@@ -36,6 +38,10 @@ export class UsersService {
 
   getUserData(accessToken: string) {
     return from(getUserDataUseCase(accessToken));
+  }
+
+  addUserData(accessToken: string, user: NombreProfesorData) {
+    return from(addUserDataUseCase(accessToken, user));
   }
 
   addAcademicTrainingFunction(formacionAcademica: FormacionAcademicaInterface) {

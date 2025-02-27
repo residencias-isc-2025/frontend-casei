@@ -11,3 +11,4 @@ export * from './engineering-design/engineering-design.component';
 export * from './professional-achievements/professional-achievements.component';
 export * from './professional-experience/professional-experience.component';
 export * from './teaching-training/teaching-training.component';
+export * from './add-teacher-name/add-teacher-name.component';

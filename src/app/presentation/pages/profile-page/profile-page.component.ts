@@ -21,6 +21,7 @@ import {
   AssociationsComponent,
   AwardsComponent,
   ContributionsComponent,
+  AddTeacherNameComponent
 } from '@modals/index';
 
 // Interfaces
@@ -54,13 +55,17 @@ interface CustomProfile {
     AssociationsComponent,
     AwardsComponent,
     ContributionsComponent,
-  ],
+    AddTeacherNameComponent
+],
   templateUrl: './profile-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ProfilePageComponent implements OnInit {
   user = signal<CustomProfile | undefined>(undefined);
   selectedId = signal<number>(-1);
+
+  showAddModal = signal(false);
+  showUpdateModal = signal(false);
 
   toastService = inject(ToastService);
   usersService = inject(UsersService);
@@ -137,5 +142,10 @@ export default class ProfilePageComponent implements OnInit {
 
   onSaveEmit(): void {
     this.selectedId.set(-1);
+  }
+
+  onAddInfoSaveEmit(): void {
+    this.loadUserInfo();
+    this.showAddModal.set(false);
   }
 }
