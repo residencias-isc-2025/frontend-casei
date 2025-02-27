@@ -16,8 +16,8 @@ import {
   providedIn: 'root',
 })
 export class UsersService {
-  getUserRole(): string | null {
-    return localStorage.getItem('user-role');
+  getUserRole(): string {
+    return localStorage.getItem('user-role') || 'user';
   }
 
   createUser(user: CreateUserInterface) {

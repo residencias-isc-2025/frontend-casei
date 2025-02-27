@@ -20,23 +20,26 @@ export default class DashboardLayoutComponent implements OnInit {
   public authService = inject(AuthService);
   public usersService = inject(UsersService);
 
-  userRole = signal<string | null>(null);
+  userRole = signal<string>(this.loadUserRole());
 
   ngOnInit(): void {
-    this.loadUserRole();
     this.listenToStorageChanges();
   }
 
-  loadUserRole(): void {
-    const role = this.usersService.getUserRole();
-    this.userRole.set(role);
+  loadUserRole(): string {
+    return this.usersService.getUserRole();
   }
 
   listenToStorageChanges(): void {
-    window.addEventListener('storage', (event) => {
-      if (event.key === 'user-role') {
-        this.userRole.set(event.newValue);
-      }
+    const observer = new MutationObserver(() => {
+      const newRole = localStorage.getItem('user-role') || 'user';
+      this.userRole.set(newRole);
+    });
+
+    observer.observe(document, {
+      subtree: true,
+      childList: true,
+      attributes: true,
     });
   }
 
@@ -44,7 +47,7 @@ export default class DashboardLayoutComponent implements OnInit {
     localStorage.removeItem('casei_residencias_access_token');
     localStorage.removeItem('casei_residencias_refresh_token');
     localStorage.removeItem('user-role');
-    this.userRole.set(null);
+    this.userRole.set('user');
     this.router.navigateByUrl('/auth/login');
   }
 }
