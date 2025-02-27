@@ -35,6 +35,11 @@ export const routes: Routes = [
           import('./presentation/pages/profile-page/profile-page.component'),
       },
       {
+        path: 'formats',
+        loadComponent: () =>
+          import('./presentation/pages/formats-page/formats-page.component'),
+      },
+      {
         path: '**',
         redirectTo: 'profile',
         pathMatch: 'full',
