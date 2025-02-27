@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 
 // Modals
 import { AcademicTrainingComponent } from '../../modals/academic-training/academic-training.component';
@@ -13,6 +19,11 @@ import { ProfessionalAchievementsComponent } from '../../modals/professional-ach
 import { AssociationsComponent } from '../../modals/associations/associations.component';
 import { AwardsComponent } from '../../modals/awards/awards.component';
 import { ContributionsComponent } from '../../modals/contributions/contributions.component';
+
+// Interfaces
+import { UserResponse } from '../../../interfaces/use-cases/user.response';
+// Services
+import { ToastService, UsersService } from '../../services';
 
 interface ProfileButtons {
   id: number;
@@ -39,14 +50,12 @@ interface ProfileButtons {
   templateUrl: './profile-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class ProfilePageComponent {
-  user = {
-    name: 'Sergio Barreras',
-    nomina: '990837',
-    role: 'superuser',
-  };
-
+export default class ProfilePageComponent implements OnInit {
+  user = signal<UserResponse | null>(null);
   selectedId = signal<number>(-1);
+
+  toastService = inject(ToastService);
+  usersService = inject(UsersService);
 
   titles = [
     'Formación académica',
@@ -76,9 +85,42 @@ export default class ProfilePageComponent {
     { id: 11, text: this.titles[10], action: () => this.handleClick(11) },
   ];
 
+  ngOnInit(): void {
+    this.loadUserInfo();
+  }
+
+  loadUserInfo(): void {
+    const token = localStorage.getItem('casei_residencias_access_token') || '';
+
+    this.usersService.getLoggedUser(token).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        if (res.ok) {
+          this.user.set(res.usuario || null);
+        } else {
+          this.toastService.showWarning(
+            'No se pudo obtener la información.',
+            'Hubo un problema'
+          );
+        }
+      },
+    });
+  }
+
+  cleanRole(): string {
+    switch (this.user()?.role) {
+      case 'superuser':
+        return 'Super usuario';
+      case 'admin':
+        return 'Administrador';
+      default:
+        return 'Docente';
+    }
+  }
+
   handleClick(id: number) {
     this.selectedId.set(id);
-
-    console.log(id);
   }
 }

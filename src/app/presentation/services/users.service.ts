@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CreateUserInterface } from '../../interfaces/dtos/create-user.dto';
 import { from } from 'rxjs';
-import { createUserUseCase, getAllUsersUseCase } from '../../core';
+import {
+  createUserUseCase,
+  getAllUsersUseCase,
+  getUserUseCase,
+} from '../../core';
 
 @Injectable({
   providedIn: 'root',
@@ -13,5 +17,9 @@ export class UsersService {
 
   getAllUsers(accessToken: string) {
     return from(getAllUsersUseCase(accessToken));
+  }
+
+  getLoggedUser(accessToken: string) {
+    return from(getUserUseCase(accessToken));
   }
 }
