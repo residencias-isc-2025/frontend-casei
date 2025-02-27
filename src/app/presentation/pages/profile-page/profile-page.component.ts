@@ -21,7 +21,8 @@ import {
   AssociationsComponent,
   AwardsComponent,
   ContributionsComponent,
-  AddTeacherNameComponent
+  AddTeacherNameComponent,
+  UpdateTeacherNameComponent,
 } from '@modals/index';
 
 // Interfaces
@@ -55,8 +56,9 @@ interface CustomProfile {
     AssociationsComponent,
     AwardsComponent,
     ContributionsComponent,
-    AddTeacherNameComponent
-],
+    AddTeacherNameComponent,
+    UpdateTeacherNameComponent,
+  ],
   templateUrl: './profile-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -147,5 +149,10 @@ export default class ProfilePageComponent implements OnInit {
   onAddInfoSaveEmit(): void {
     this.loadUserInfo();
     this.showAddModal.set(false);
+  }
+
+  onUpdateInfoEmit(): void {
+    this.loadUserInfo();
+    this.showUpdateModal.set(false);
   }
 }

@@ -14,6 +14,7 @@ import {
   getAllUsersUseCase,
   getUserDataUseCase,
   getUserUseCase,
+  updateUserDataUseCase,
 } from '@core/index';
 
 @Injectable({
@@ -42,6 +43,10 @@ export class UsersService {
 
   addUserData(accessToken: string, user: NombreProfesorData) {
     return from(addUserDataUseCase(accessToken, user));
+  }
+
+  updateUserData(accessToken: string, user: NombreProfesorData) {
+    return from(updateUserDataUseCase(accessToken, user));
   }
 
   addAcademicTrainingFunction(formacionAcademica: FormacionAcademicaInterface) {
