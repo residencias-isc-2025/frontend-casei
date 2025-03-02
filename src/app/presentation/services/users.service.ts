@@ -9,6 +9,7 @@ import {
 
 import {
   addAcademicTrainingUseCase,
+  changePasswordUseCase,
   createUserUseCase,
   getAllUsersUseCase,
   getUserUseCase,
@@ -41,5 +42,9 @@ export class UsersService {
 
   updateUserData(accessToken: string, user: UpdateUserDto) {
     return from(updateUserUseCase(accessToken, user));
+  }
+
+  changePassword(accessToken: string, newPassword: string) {
+    return from(changePasswordUseCase(accessToken, newPassword));
   }
 }

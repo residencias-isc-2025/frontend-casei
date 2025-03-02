@@ -12,6 +12,7 @@
           Editar perfil
         </button>
         <button
+          (click)="showPasswordModal.set(true)"
           class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
         >
           Cambiar contraseña
@@ -31,7 +32,7 @@
       <div>
         <p class="text-gray-500 font-medium">Fecha de nacimiento</p>
         <p class="text-lg font-semibold text-gray-800">
-          {{ user()?.fecha_nacimiento  | date: "dd/MM/yy"}}
+          {{ user()?.fecha_nacimiento | date : "dd/MM/yy" }}
         </p>
       </div>
 
@@ -77,6 +78,10 @@
   (onSave)="onUpdateInfoEmit()"
   [userProfile]="user()!"
 />
+} @if (showPasswordModal()) {
+  <app-change-password
+  (onCancel)="showPasswordModal.set(false)"
+  (onSave)="onChangePasswordEmit()"/>
 }
 
 <!-- Modales CV0 -->

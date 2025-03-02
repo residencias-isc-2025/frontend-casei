@@ -21,6 +21,7 @@ import {
   AwardsComponent,
   ContributionsComponent,
   UpdateTeacherNameComponent,
+  ChangePasswordComponent
 } from '@modals/index';
 
 // Services
@@ -49,6 +50,7 @@ interface ProfileButtons {
     AwardsComponent,
     ContributionsComponent,
     UpdateTeacherNameComponent,
+    ChangePasswordComponent
   ],
   templateUrl: './profile-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,6 +59,7 @@ export default class ProfilePageComponent implements OnInit {
   user = signal<UserResponse | null>(null);
   selectedId = signal<number>(-1);
 
+  showPasswordModal = signal(false);
   showUpdateModal = signal(false);
 
   toastService = inject(ToastService);
@@ -124,5 +127,9 @@ export default class ProfilePageComponent implements OnInit {
   onUpdateInfoEmit(): void {
     this.loadUserInfo();
     this.showUpdateModal.set(false);
+  }
+
+  onChangePasswordEmit(): void {
+    this.showPasswordModal.set(false);
   }
 }
