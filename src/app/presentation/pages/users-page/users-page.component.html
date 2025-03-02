@@ -23,8 +23,8 @@
         @for (user of users(); track $index) {
         <tr class="border-b hover:bg-gray-100 transition">
           <td class="py-3 px-4">{{ user.username }}</td>
-          <td class="py-3 px-4"></td>
-          <td class="py-3 px-4"></td>
+          <td class="py-3 px-4">{{ user.nombre }}</td>
+          <td class="py-3 px-4">{{ user.apellido_paterno}} {{user.apellido_materno}}</td>
           <td class="py-3 px-4">
             <div class="flex flex-row space-x-2">
               <button
