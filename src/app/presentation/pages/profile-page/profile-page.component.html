@@ -4,36 +4,41 @@
   >
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-semibold text-gray-800">Perfil de usuario</h2>
-
-      @if(user()?.profile === null) {
-      <button
-        (click)="showAddModal.set(true)"
-        class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-      >
-        Agregar
-      </button>
-      }@else {
-      <button
-        (click)="showUpdateModal.set(true)"
-        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-      >
-        Editar
-      </button>
-      }
+      <div class="flex justify-end items-center mb-4 space-x-1">
+        <button
+          (click)="showUpdateModal.set(true)"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+        >
+          Editar perfil
+        </button>
+        <button
+          class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+        >
+          Cambiar contraseña
+        </button>
+      </div>
     </div>
 
     <div class="space-y-4 flex-grow">
       <div>
         <p class="text-gray-500 font-medium">Nombre</p>
         <p class="text-lg font-semibold text-gray-800">
-          {{ user()?.profile?.nombre }} {{ user()?.profile?.apellido_paterno }}
-          {{ user()?.profile?.apellido_materno }}
+          {{ user()?.nombre }} {{ user()?.apellido_paterno }}
+          {{ user()?.apellido_materno }}
         </p>
       </div>
+
+      <div>
+        <p class="text-gray-500 font-medium">Fecha de nacimiento</p>
+        <p class="text-lg font-semibold text-gray-800">
+          {{ user()?.fecha_nacimiento  | date: "dd/MM/yy"}}
+        </p>
+      </div>
+
       <div>
         <p class="text-gray-500 font-medium">Número de nómina</p>
         <p class="text-lg font-semibold text-gray-800">
-          {{ user()?.user?.username }}
+          {{ user()?.username }}
         </p>
       </div>
 
@@ -42,9 +47,9 @@
         <span
           class="px-3 py-1 text-sm font-medium text-white rounded-full"
           [ngClass]="{
-            'bg-red-500':   user()?.user?.role === 'superuser',
-            'bg-green-500': user()?.user?.role === 'admin',
-            'bg-blue-500':  user()?.user?.role === 'user',
+            'bg-red-500':   user()?.role === 'superuser',
+            'bg-green-500': user()?.role === 'admin',
+            'bg-blue-500':  user()?.role === 'user',
           }"
         >
           {{ cleanRole() | uppercase }}
@@ -65,20 +70,12 @@
   </div>
 </div>
 
-<!-- Agregar información -->
-@if (showAddModal()) {
-<app-add-teacher-name
-  (onCancel)="showAddModal.set(false)"
-  (onSave)="onAddInfoSaveEmit()"
-/>
-}
-
 <!-- Editar información -->
 @if(showUpdateModal()) {
 <app-update-teacher-name
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onUpdateInfoEmit()"
-  [userProfile]="user()?.profile!"
+  [userProfile]="user()!"
 />
 }
 

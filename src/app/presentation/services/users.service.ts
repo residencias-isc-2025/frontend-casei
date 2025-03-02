@@ -2,19 +2,17 @@ import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
 
 import {
-  CreateUserInterface,
-  FormacionAcademicaInterface,
-  NombreProfesorData,
+  CreateUserDto,
+  FormacionAcademicaDto,
+  UpdateUserDto,
 } from '@interfaces/index';
 
 import {
   addAcademicTrainingUseCase,
-  addUserDataUseCase,
   createUserUseCase,
   getAllUsersUseCase,
-  getUserDataUseCase,
   getUserUseCase,
-  updateUserDataUseCase,
+  updateUserUseCase,
 } from '@core/index';
 
 @Injectable({
@@ -25,7 +23,7 @@ export class UsersService {
     return localStorage.getItem('user-role') || 'user';
   }
 
-  createUser(user: CreateUserInterface) {
+  createUser(user: CreateUserDto) {
     return from(createUserUseCase(user));
   }
 
@@ -37,19 +35,11 @@ export class UsersService {
     return from(getUserUseCase(accessToken));
   }
 
-  getUserData(accessToken: string) {
-    return from(getUserDataUseCase(accessToken));
-  }
-
-  addUserData(accessToken: string, user: NombreProfesorData) {
-    return from(addUserDataUseCase(accessToken, user));
-  }
-
-  updateUserData(accessToken: string, user: NombreProfesorData) {
-    return from(updateUserDataUseCase(accessToken, user));
-  }
-
-  addAcademicTrainingFunction(formacionAcademica: FormacionAcademicaInterface) {
+  addAcademicTrainingFunction(formacionAcademica: FormacionAcademicaDto) {
     return from(addAcademicTrainingUseCase(formacionAcademica));
+  }
+
+  updateUserData(accessToken: string, user: UpdateUserDto) {
+    return from(updateUserUseCase(accessToken, user));
   }
 }

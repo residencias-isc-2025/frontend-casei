@@ -1,4 +1,4 @@
-export interface CreateUserInterface {
+export interface CreateUserDto {
   username: string;
   password: string;
   role: string;

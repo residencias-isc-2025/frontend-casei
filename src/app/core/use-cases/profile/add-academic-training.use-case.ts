@@ -1,12 +1,12 @@
 import { environment } from '@environments/environment';
 
 import {
-  FormacionAcademicaInterface,
+  FormacionAcademicaDto,
   FormacionAcademicaResponse,
 } from '@interfaces/index';
 
 export const addAcademicTrainingUseCase = async (
-  academicTraining: FormacionAcademicaInterface
+  academicTraining: FormacionAcademicaDto
 ) => {
   try {
     const resp = await fetch(

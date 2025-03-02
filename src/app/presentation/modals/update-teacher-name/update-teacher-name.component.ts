@@ -13,13 +13,14 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { UserDataResponse } from '@interfaces/index';
 
+import { UserResponse } from '@interfaces/index';
 import { ToastService, UsersService } from '@services/index';
+import { CustomDatepickerComponent } from '@components/custom-datepicker/custom-datepicker.component';
 
 @Component({
   selector: 'app-update-teacher-name',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CustomDatepickerComponent],
   templateUrl: './update-teacher-name.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -27,7 +28,7 @@ export class UpdateTeacherNameComponent implements OnInit {
   onCancel = output();
   onSave = output();
 
-  userProfile = input.required<UserDataResponse>();
+  userProfile = input.required<UserResponse>();
 
   public toastService = inject(ToastService);
   public usersService = inject(UsersService);
@@ -39,6 +40,7 @@ export class UpdateTeacherNameComponent implements OnInit {
       nombre: ['', Validators.required],
       apellido_p: ['', Validators.required],
       apellido_m: ['', Validators.required],
+      fecha_nacimiento: ['', Validators.required],
     });
   }
 
@@ -51,20 +53,25 @@ export class UpdateTeacherNameComponent implements OnInit {
       nombre: this.userProfile().nombre,
       apellido_p: this.userProfile().apellido_paterno,
       apellido_m: this.userProfile().apellido_materno,
+      fecha_nacimiento: this.userProfile().fecha_nacimiento,
     });
   }
 
-  onSaveData() {
-    const { nombre, apellido_p, apellido_m } = this.updateTeacherNameForm.value;
+  onDateSelected(date: string) {
+    this.updateTeacherNameForm.get('fecha_nacimiento')?.setValue(date);
+  }
 
+  onSaveData() {
+    const { nombre, apellido_p, apellido_m, fecha_nacimiento} = this.updateTeacherNameForm.value;
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
       .updateUserData(token, {
-        id: 0,
+        id: this.userProfile().id!,
         nombre,
         apellido_paterno: apellido_p,
         apellido_materno: apellido_m,
+        fecha_nacimiento
       })
       .subscribe({
         error: (res) => {

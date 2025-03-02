@@ -1,7 +1,7 @@
 import { environment } from '@environments/environment';
-import { CreateUserInterface, CreateUserResponse } from '@interfaces/index';
+import { CreateUserDto, CreateUserResponse } from '@interfaces/index';
 
-export const createUserUseCase = async (user: CreateUserInterface) => {
+export const createUserUseCase = async (user: CreateUserDto) => {
   try {
     const resp = await fetch(
       `${environment.api_url}/api/registration/register/`,

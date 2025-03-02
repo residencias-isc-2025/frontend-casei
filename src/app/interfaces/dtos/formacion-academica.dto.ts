@@ -1,4 +1,4 @@
-export interface FormacionAcademicaInterface {
+export interface FormacionAcademicaDto {
   level: string;
   name: string;
   institution: string;

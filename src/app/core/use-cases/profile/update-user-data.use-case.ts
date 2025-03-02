@@ -1,13 +1,15 @@
 import { environment } from '@environments/environment';
-import { NombreProfesorData, NombreProfesorResponse } from '@interfaces/index';
+import { UpdateUserDto, UpdateUserResponse } from '@interfaces/index';
 
-export const updateUserDataUseCase = async (
+export const updateUserUseCase = async (
   accessToken: string,
-  user: NombreProfesorData
+  user: UpdateUserDto
 ) => {
   try {
+    console.log({ user });
+
     const resp = await fetch(
-      `${environment.api_url}/api/registration/nombre-profesor/`,
+      `${environment.api_url}/api/registration/register/${user.id}/`,
       {
         method: 'PUT',
         headers: {
@@ -18,11 +20,12 @@ export const updateUserDataUseCase = async (
           nombre: user.nombre,
           apellido_paterno: user.apellido_paterno,
           apellido_materno: user.apellido_materno,
+          fecha_nacimiento: user.fecha_nacimiento,
         }),
       }
     );
 
-    const data = (await resp.json()) as NombreProfesorResponse;
+    const data = (await resp.json()) as UpdateUserResponse;
 
     if (!resp.ok) {
       return {
@@ -33,7 +36,7 @@ export const updateUserDataUseCase = async (
 
     return {
       ok: true,
-      mensaje: data.message,
+      mensaje: data.mensaje,
       usuario: data.data,
     };
   } catch (error) {

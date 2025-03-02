@@ -6,7 +6,6 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { combineLatest } from 'rxjs';
 
 // Modals
 import {
@@ -21,24 +20,17 @@ import {
   AssociationsComponent,
   AwardsComponent,
   ContributionsComponent,
-  AddTeacherNameComponent,
   UpdateTeacherNameComponent,
 } from '@modals/index';
 
-// Interfaces
-import { UserResponse, UserDataResponse } from '@interfaces/index';
 // Services
 import { ToastService, UsersService } from '@services/index';
+import { UserResponse } from '@interfaces/index';
 
 interface ProfileButtons {
   id: number;
   text: string;
   action: () => void;
-}
-
-interface CustomProfile {
-  user?: UserResponse | null;
-  profile?: UserDataResponse | null;
 }
 
 @Component({
@@ -56,17 +48,15 @@ interface CustomProfile {
     AssociationsComponent,
     AwardsComponent,
     ContributionsComponent,
-    AddTeacherNameComponent,
     UpdateTeacherNameComponent,
   ],
   templateUrl: './profile-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ProfilePageComponent implements OnInit {
-  user = signal<CustomProfile | undefined>(undefined);
+  user = signal<UserResponse | null>(null);
   selectedId = signal<number>(-1);
 
-  showAddModal = signal(false);
   showUpdateModal = signal(false);
 
   toastService = inject(ToastService);
@@ -99,38 +89,23 @@ export default class ProfilePageComponent implements OnInit {
   loadUserInfo(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    combineLatest([
-      this.usersService.getLoggedUser(token),
-      this.usersService.getUserData(token),
-    ]).subscribe({
-      next: ([user, profile]) => {
-        const userData = user.ok ? user.usuario : null;
-        const profileData = profile.ok ? profile.usuario : null;
-
-        if (userData) {
-          localStorage.setItem('user-role', userData.role); // Guardamos el rol
-        }
-
-        if (userData || profileData) {
-          this.user.set({ user: userData, profile: profileData });
-        } else {
-          this.toastService.showWarning(
-            'No se pudo obtener la información.',
-            'Hubo un problema'
-          );
-        }
-      },
+    this.usersService.getLoggedUser(token).subscribe({
       error: (err) => {
         this.toastService.showError(
           err.mensaje || 'Error al cargar datos',
           'Malas noticias'
         );
       },
+      next: (resp) => {
+        localStorage.setItem('user-role', resp.usuario!.role);
+
+        this.user.set(resp.usuario!);
+      },
     });
   }
 
   cleanRole(): string {
-    const role = this.user()?.user?.role;
+    const role = this.user()?.role;
     return role === 'superuser'
       ? 'Super usuario'
       : role === 'admin'
@@ -144,11 +119,6 @@ export default class ProfilePageComponent implements OnInit {
 
   onSaveEmit(): void {
     this.selectedId.set(-1);
-  }
-
-  onAddInfoSaveEmit(): void {
-    this.loadUserInfo();
-    this.showAddModal.set(false);
   }
 
   onUpdateInfoEmit(): void {
