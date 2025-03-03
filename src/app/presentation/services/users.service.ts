@@ -3,6 +3,7 @@ import { from } from 'rxjs';
 
 import {
   ActualizacionDisciplinarDto,
+  AportacionesDto,
   CapacitacionDocenteDto,
   CreateUserDto,
   DisenoIngenierilDto,
@@ -21,6 +22,7 @@ import {
   addAcademicProductsUseCase,
   addAcademicTrainingUseCase,
   addAwardsUseCase,
+  addContributionsUseCase,
   addDisciplinaryUpdateUseCase,
   addEngineeringDesignUseCase,
   addParticipationUseCase,
@@ -36,6 +38,7 @@ import {
   updateAcademicProductsUseCase,
   updateAcademicTrainingUseCase,
   updateAwardsUseCase,
+  updateContributionUseCase,
   updateDisciplinaryUpdateUseCase,
   updateEngineeringDesignUseCase,
   updateParticipationUseCase,
@@ -220,6 +223,19 @@ export class UsersService {
 
   updatePremioFunction(idPremio: number, premioDto: PremiosDto) {
     return from(updateAwardsUseCase(idPremio, premioDto));
+  }
+  //#endregion
+
+  //#region Aportaciones
+  addAportacionesFunction(aportacionDto: AportacionesDto) {
+    return from(addContributionsUseCase(aportacionDto));
+  }
+
+  updateAportacionesFunction(
+    idAportacion: number,
+    aportacionDto: AportacionesDto
+  ) {
+    return from(updateContributionUseCase(idAportacion, aportacionDto));
   }
   //#endregion
 }

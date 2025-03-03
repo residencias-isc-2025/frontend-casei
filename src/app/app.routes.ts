@@ -103,6 +103,13 @@ export const routes: Routes = [
           import('@presentation/pages/profile/premios/premios.component'),
       },
       {
+        path: 'aportaciones',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/profile/aportaciones/aportaciones.component'
+          ),
+      },
+      {
         path: 'formats',
         loadComponent: () =>
           import('@presentation/pages/formats-page/formats-page.component'),

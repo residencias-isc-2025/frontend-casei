@@ -4,6 +4,7 @@ import {
   loadAcademicProductsUseCase,
   loadAcademicTrainingUseCase,
   loadAwardsUseCase,
+  loadContributionsUseCase,
   loadDisciplinaryUpdateUseCase,
   loadEngineeringDesignUseCase,
   loadParticipationUseCase,
@@ -56,5 +57,9 @@ export class ProfileService {
 
   loadPremios(accessToken: string) {
     return from(loadAwardsUseCase(accessToken));
+  }
+
+  loadAportaciones(accessToken: string) {
+    return from(loadContributionsUseCase(accessToken));
   }
 }

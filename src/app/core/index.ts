@@ -16,6 +16,7 @@ export * from './use-cases/profile/load/load-engineering-design.use-case';
 export * from './use-cases/profile/load/load-professional-achievements.use-case';
 export * from './use-cases/profile/load/load-participation.use-case';
 export * from './use-cases/profile/load/load-awards.use-case';
+export * from './use-cases/profile/load/load-contributions.use-case';
 
 export * from './use-cases/profile/add/add-academic-training.use-case';
 export * from './use-cases/profile/add/add-teaching-training.use-case';
@@ -27,6 +28,7 @@ export * from './use-cases/profile/add/add-engineering-design.use-case';
 export * from './use-cases/profile/add/add-professional-achievements.use-case';
 export * from './use-cases/profile/add/add-participation.use-case';
 export * from './use-cases/profile/add/add-awards.use-case';
+export * from './use-cases/profile/add/add-contributions.use-case';
 
 export * from './use-cases/profile/update/update-academic-training.use-case';
 export * from './use-cases/profile/update/update-teaching-training.use-case';
@@ -38,6 +40,7 @@ export * from './use-cases/profile/update/update-engineering-design.use-case';
 export * from './use-cases/profile/update/update-professional-achievements.use-case';
 export * from './use-cases/profile/update/update-participation.use-case';
 export * from './use-cases/profile/update/update-awards.use-case';
+export * from './use-cases/profile/update/update-contributions.use-case';
 
 export * from './use-cases/users/reset-password.use-case';
 
