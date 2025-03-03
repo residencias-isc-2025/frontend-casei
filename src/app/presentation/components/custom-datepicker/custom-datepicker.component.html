@@ -9,48 +9,55 @@
   />
 
   @if (showDatePicker()) {
-    <div
-      class="absolute bg-white border rounded-lg shadow-lg p-4 mt-2 z-10 w-full"
-    >
-      <div class="flex justify-between items-center mb-2">
-        <button
-          class="px-2 py-1 text-sm rounded-md bg-gray-200 hover:bg-gray-300"
-          (click)="changeMonth(-1)"
-        >
-          &#x276E;
-        </button>
-        <span class="text-gray-800 font-medium">
-          {{ monthNames[currentMonth()] }} {{ currentYear() }}
-        </span>
-        <button
-          class="px-2 py-1 text-sm rounded-md bg-gray-200 hover:bg-gray-300"
-          (click)="changeMonth(1)"
-        >
-          &#x276F;
-        </button>
-      </div>
-
-      <div class="grid grid-cols-7 gap-2 mb-2">
-        @for (day of daysOfWeek; track null) {
-          <span class="text-xs font-semibold text-center">{{ day }}</span>
+  <div
+    class="absolute bg-white border rounded-lg shadow-lg p-4 mt-2 z-10 w-full"
+  >
+    <!-- Navegación por Mes y Año con ComboBox -->
+    <div class="flex justify-between items-center mb-2 gap-2">
+      <select
+        class="px-2 py-1 border rounded-md bg-gray-100 focus:outline-none"
+        [value]="currentMonth()"
+        (change)="onMonthChange($event)"
+      >
+        @for (monthName of monthNames; track monthName.index) {
+        <option [value]="monthName.index">{{ monthName.name }}</option>
         }
-      </div>
+      </select>
 
-      <div class="grid grid-cols-7 gap-2">
-        @for (date of generateDays(); track null) {
-          <button
-            type="button"
-            class="text-sm px-2 py-1 rounded-lg transition"
-            [ngClass]="{
-              'bg-blue-500 text-white': selectedDate() === date,
-              'hover:bg-blue-500 hover:text-white': selectedDate() !== date
-            }"
-            (click)="selectDate(date)"
-          >
-            {{ date.split('-')[2] }}
-          </button>
+      <select
+        class="px-2 py-1 border rounded-md bg-gray-100 focus:outline-none"
+        [value]="currentYear()"
+        (change)="onYearChange($event)"
+      >
+        @for (year of generateYearOptions(); track year) {
+        <option [value]="year">{{ year }}</option>
         }
-      </div>
+      </select>
     </div>
+
+    <!-- Días de la semana -->
+    <div class="grid grid-cols-7 gap-2 mb-2">
+      @for (day of daysOfWeek; track day.index) {
+      <span class="text-xs font-semibold text-center">{{ day.name }}</span>
+      }
+    </div>
+
+    <!-- Días del mes -->
+    <div class="grid grid-cols-7 gap-2">
+      @for (date of generateDays(); track date) {
+      <button
+        type="button"
+        class="text-sm px-2 py-1 rounded-lg transition"
+        [ngClass]="{
+          'bg-blue-500 text-white': selectedDate() === date,
+          'hover:bg-blue-500 hover:text-white': selectedDate() !== date
+        }"
+        (click)="selectDate(date)"
+      >
+        {{ date.split("-")[2] }}
+      </button>
+      }
+    </div>
+  </div>
   }
 </div>

@@ -9,6 +9,11 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+interface MonthData {
+  index: number;
+  name: string;
+}
+
 @Component({
   selector: 'app-custom-datepicker',
   imports: [CommonModule, FormsModule],
@@ -26,20 +31,29 @@ export class CustomDatepickerComponent implements OnInit {
   currentMonth = signal<number>(new Date().getMonth());
   currentYear = signal<number>(new Date().getFullYear());
 
-  daysOfWeek: string[] = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
-  monthNames: string[] = [
-    'Enero',
-    'Febrero',
-    'Marzo',
-    'Abril',
-    'Mayo',
-    'Junio',
-    'Julio',
-    'Agosto',
-    'Septiembre',
-    'Octubre',
-    'Noviembre',
-    'Diciembre',
+  daysOfWeek: MonthData[] = [
+    { index: 0, name: 'D' },
+    { index: 1, name: 'L' },
+    { index: 2, name: 'M' },
+    { index: 3, name: 'X' },
+    { index: 4, name: 'J' },
+    { index: 5, name: 'V' },
+    { index: 6, name: 'S' },
+  ];
+
+  monthNames: MonthData[] = [
+    { index: 0, name: 'Enero' },
+    { index: 1, name: 'Febrero' },
+    { index: 2, name: 'Marzo' },
+    { index: 3, name: 'Abril' },
+    { index: 4, name: 'Mayo' },
+    { index: 5, name: 'Junio' },
+    { index: 6, name: 'Julio' },
+    { index: 7, name: 'Agosto' },
+    { index: 8, name: 'Septiembre' },
+    { index: 9, name: 'Octubre' },
+    { index: 10, name: 'Noviembre' },
+    { index: 11, name: 'Diciembre' },
   ];
 
   ngOnInit(): void {
@@ -56,25 +70,26 @@ export class CustomDatepickerComponent implements OnInit {
   }
 
   selectDate(date: string) {
+    console.log({date});
     this.selectedDate.set(date);
     this.dateSelected.emit(date);
     this.toggleDatePicker();
   }
 
-  changeMonth(direction: number) {
-    let newMonth = this.currentMonth() + direction;
-    let newYear = this.currentYear();
+  onMonthChange(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    this.currentMonth.set(Number(selectElement.value));
+  }
 
-    if (newMonth < 0) {
-      newMonth = 11;
-      newYear -= 1;
-    } else if (newMonth > 11) {
-      newMonth = 0;
-      newYear += 1;
-    }
+  onYearChange(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    this.currentYear.set(Number(selectElement.value));
+  }
 
-    this.currentMonth.set(newMonth);
-    this.currentYear.set(newYear);
+  generateYearOptions(): number[] {
+    const currentYear = new Date().getFullYear();
+    const startYear = currentYear - 50; // Últimos 100 años
+    return Array.from({ length: 50 }, (_, i) => startYear + i);
   }
 
   generateDays() {
