@@ -1,37 +1,30 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   input,
-  OnInit,
   output,
 } from '@angular/core';
-
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-
+import { InstitucionesResponse } from '@interfaces/index';
 import { ToastService, UsersService } from '@services/index';
 import { validYearValidator } from '@validators/index';
-import {
-  FormacionAcademicaData,
-  InstitucionesResponse,
-} from '@interfaces/index';
 
 @Component({
-  selector: 'app-update-academic-training',
+  selector: 'app-add-teaching-training',
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './update-academic-training.component.html',
+  templateUrl: './add-teaching-training.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UpdateAcademicTrainingComponent implements OnInit {
+export class AddTeachingTrainingComponent {
   title = input('');
   listaInstituciones = input.required<InstitucionesResponse[]>();
-  formacionAcademica = input.required<FormacionAcademicaData>();
 
   onCancel = output();
   onSave = output();
@@ -39,48 +32,30 @@ export class UpdateAcademicTrainingComponent implements OnInit {
   public toastService = inject(ToastService);
   public usersService = inject(UsersService);
 
-  updateAcademicTrainingForm: FormGroup;
+  addTeachingTrainingForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    this.updateAcademicTrainingForm = this.fb.group({
-      nivel: ['', Validators.required],
-      nombre: ['', Validators.required],
+    this.addTeachingTrainingForm = this.fb.group({
+      tipo: ['', Validators.required],
       institucion: ['', Validators.required],
       obtencion: ['', [Validators.required, validYearValidator]],
-      cedula: ['', Validators.required],
-    });
-  }
-
-  ngOnInit(): void {
-    this.initForm();
-  }
-
-  initForm() {
-    this.updateAcademicTrainingForm.patchValue({
-      nivel: this.formacionAcademica().nivel,
-      nombre: this.formacionAcademica().nombre,
-      institucion: this.formacionAcademica().id,
-      obtencion: this.formacionAcademica().anio_obtencion,
-      cedula: this.formacionAcademica().cedula_profesional,
+      horas: [''],
     });
   }
 
   onSaveData() {
-    let { nivel, nombre, institucion, obtencion, cedula } =
-      this.updateAcademicTrainingForm.value;
-
-    if (cedula === '') cedula = 'En proceso';
+    const { tipo, institucion, obtencion, horas } =
+      this.addTeachingTrainingForm.value;
 
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .updateAcademicTrainingFunction(this.formacionAcademica().id, {
+      .addTeachingTrainingFunction({
         accessToken: token,
-        code: cedula,
-        institution: institucion,
-        level: nivel,
-        name: nombre,
-        year: obtencion,
+        anio_obtencion: obtencion,
+        horas: horas,
+        institucion_pais: institucion,
+        tipo_capacitacion: tipo,
       })
       .subscribe({
         error: (res) => {

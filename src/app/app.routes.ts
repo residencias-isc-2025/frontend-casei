@@ -42,6 +42,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'capacitacion-docente',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/profile/capacitacion-docente/capacitacion-docente.component'
+          ),
+      },
+      {
         path: 'formats',
         loadComponent: () =>
           import('@presentation/pages/formats-page/formats-page.component'),

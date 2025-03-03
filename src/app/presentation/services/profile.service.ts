@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { loadAcademicTrainingUseCase } from '@core/index';
+import {
+  loadAcademicTrainingUseCase,
+  loadTeachingTrainingUseCase,
+} from '@core/index';
 import { from } from 'rxjs';
 
 @Injectable({
@@ -8,5 +11,9 @@ import { from } from 'rxjs';
 export class ProfileService {
   loadFormacionAcademica(accessToken: string) {
     return from(loadAcademicTrainingUseCase(accessToken));
+  }
+
+  loadCapacitacionDocente(accessToken: string) {
+    return from(loadTeachingTrainingUseCase(accessToken));
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
 
 import {
+  CapacitacionDocenteDto,
   CreateUserDto,
   FormacionAcademicaDto,
   UpdateUserDto,
@@ -9,12 +10,14 @@ import {
 
 import {
   addAcademicTrainingUseCase,
+  addTeachingTrainingUseCase,
   changePasswordUseCase,
   createUserUseCase,
   getAllUsersUseCase,
   getUserUseCase,
   resetPasswordUseCase,
   updateAcademicTrainingUseCase,
+  updateTeachingTrainingUseCase,
   updateUserUseCase,
 } from '@core/index';
 
@@ -38,17 +41,6 @@ export class UsersService {
     return from(getUserUseCase(accessToken));
   }
 
-  addAcademicTrainingFunction(formacionAcademica: FormacionAcademicaDto) {
-    return from(addAcademicTrainingUseCase(formacionAcademica));
-  }
-
-  updateAcademicTrainingFunction(
-    idFormacion: number,
-    formacionAcademica: FormacionAcademicaDto
-  ) {
-    return from(updateAcademicTrainingUseCase(idFormacion, formacionAcademica));
-  }
-
   updateUserData(accessToken: string, user: UpdateUserDto) {
     return from(updateUserUseCase(accessToken, user));
   }
@@ -59,5 +51,29 @@ export class UsersService {
 
   resetPassword(accessToken: string, payrollNumber: string) {
     return from(resetPasswordUseCase(accessToken, payrollNumber));
+  }
+
+  addAcademicTrainingFunction(formacionAcademica: FormacionAcademicaDto) {
+    return from(addAcademicTrainingUseCase(formacionAcademica));
+  }
+
+  addTeachingTrainingFunction(capacitacionDocente: CapacitacionDocenteDto) {
+    return from(addTeachingTrainingUseCase(capacitacionDocente));
+  }
+
+  updateAcademicTrainingFunction(
+    idFormacion: number,
+    formacionAcademica: FormacionAcademicaDto
+  ) {
+    return from(updateAcademicTrainingUseCase(idFormacion, formacionAcademica));
+  }
+
+  updateTeachingTrainingFunction(
+    idCapacitacion: number,
+    capacitacionDocente: CapacitacionDocenteDto
+  ) {
+    return from(
+      updateTeachingTrainingUseCase(idCapacitacion, capacitacionDocente)
+    );
   }
 }

@@ -86,9 +86,7 @@
 }
 
 <!-- Modales CV0 -->
-@switch (selectedId()) { @case (2) {
-<app-teaching-training (onCancel)="selectedId.set(-1)" [title]="titles[1]" />
-} @case (3) {
+@switch (selectedId()) {  @case (3) {
 <app-disciplinary-update (onCancel)="selectedId.set(-1)" [title]="titles[2]" />
 } @case (4) {
 <app-academic-management (onCancel)="selectedId.set(-1)" [title]="titles[3]" />

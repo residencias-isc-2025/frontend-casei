@@ -9,7 +9,6 @@ import {
 
 // Modals
 import {
-  TeachingTrainingComponent,
   DisciplinaryUpdateComponent,
   AcademicManagementComponent,
   AcademicProductsComponent,
@@ -38,7 +37,6 @@ interface ProfileButtons {
   selector: 'app-profile-page',
   imports: [
     CommonModule,
-    TeachingTrainingComponent,
     DisciplinaryUpdateComponent,
     AcademicManagementComponent,
     AcademicProductsComponent,
@@ -118,7 +116,12 @@ export default class ProfilePageComponent implements OnInit {
 
   handleClick(id: number) {
     switch (id) {
-      case 1: this.router.navigateByUrl('/dashboard/formacion-academica'); break;
+      case 1:
+        this.router.navigateByUrl('/dashboard/formacion-academica');
+        break;
+      case 2:
+        this.router.navigateByUrl('/dashboard/capacitacion-docente');
+        break;
     }
   }
 

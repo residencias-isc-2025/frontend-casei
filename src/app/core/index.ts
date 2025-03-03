@@ -5,11 +5,15 @@ export * from './use-cases/get-user.use-case';
 
 export * from './use-cases/profile/update-user-data.use-case';
 export * from './use-cases/profile/change-password.use-case';
-export * from './use-cases/profile/load-academic-training.use-case';
 
+export * from './use-cases/profile/load/load-academic-training.use-case';
+export * from './use-cases/profile/load/load-teaching-training.use-case';
 
-export * from './use-cases/profile/add-academic-training.use-case';
-export * from './use-cases/profile/update-academic-training.use-case';
+export * from './use-cases/profile/add/add-academic-training.use-case';
+export * from './use-cases/profile/add/add-teaching-training.use-case';
+
+export * from './use-cases/profile/update/update-academic-training.use-case';
+export * from './use-cases/profile/update/update-teaching-training.use-case';
 
 export * from './use-cases/users/reset-password.use-case';
 

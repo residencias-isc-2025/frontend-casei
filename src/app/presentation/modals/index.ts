@@ -6,7 +6,8 @@ export * from './change-password/change-password.component';
 export * from './01-formacion-academica/add-academic-training/add-academic-training.component';
 export * from './01-formacion-academica/update-academic-training/update-academic-training.component';
 
-
+export * from './02-capacitacion-docente/add-teaching-training/add-teaching-training.component';
+export * from './02-capacitacion-docente/update-teaching-training/update-teaching-training.component';
 
 
 
@@ -20,4 +21,4 @@ export * from './disciplinary-update/disciplinary-update.component';
 export * from './engineering-design/engineering-design.component';
 export * from './professional-achievements/professional-achievements.component';
 export * from './professional-experience/professional-experience.component';
-export * from './teaching-training/teaching-training.component';
+

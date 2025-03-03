@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,32 +7,29 @@ import {
   OnInit,
   output,
 } from '@angular/core';
-
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-
-import { ToastService, UsersService } from '@services/index';
-import { validYearValidator } from '@validators/index';
 import {
-  FormacionAcademicaData,
+  CapacitacionDocenteResponse,
   InstitucionesResponse,
 } from '@interfaces/index';
+import { ToastService, UsersService } from '@services/index';
+import { validYearValidator } from '@validators/index';
 
 @Component({
-  selector: 'app-update-academic-training',
+  selector: 'app-update-teaching-training',
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './update-academic-training.component.html',
+  templateUrl: './update-teaching-training.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UpdateAcademicTrainingComponent implements OnInit {
+export class UpdateTeachingTrainingComponent implements OnInit {
   title = input('');
   listaInstituciones = input.required<InstitucionesResponse[]>();
-  formacionAcademica = input.required<FormacionAcademicaData>();
+  capacitacionDocente = input.required<CapacitacionDocenteResponse>();
 
   onCancel = output();
   onSave = output();
@@ -39,15 +37,14 @@ export class UpdateAcademicTrainingComponent implements OnInit {
   public toastService = inject(ToastService);
   public usersService = inject(UsersService);
 
-  updateAcademicTrainingForm: FormGroup;
+  updateTeachingTrainingForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    this.updateAcademicTrainingForm = this.fb.group({
-      nivel: ['', Validators.required],
-      nombre: ['', Validators.required],
+    this.updateTeachingTrainingForm = this.fb.group({
+      tipo: ['', Validators.required],
       institucion: ['', Validators.required],
       obtencion: ['', [Validators.required, validYearValidator]],
-      cedula: ['', Validators.required],
+      horas: [''],
     });
   }
 
@@ -56,32 +53,32 @@ export class UpdateAcademicTrainingComponent implements OnInit {
   }
 
   initForm() {
-    this.updateAcademicTrainingForm.patchValue({
-      nivel: this.formacionAcademica().nivel,
-      nombre: this.formacionAcademica().nombre,
-      institucion: this.formacionAcademica().id,
-      obtencion: this.formacionAcademica().anio_obtencion,
-      cedula: this.formacionAcademica().cedula_profesional,
+    this.updateTeachingTrainingForm.patchValue({
+      tipo: this.capacitacionDocente().tipo_capacitacion,
+      institucion: this.capacitacionDocente().institucion_pais,
+      obtencion: this.capacitacionDocente().anio_obtencion,
+      horas: this.capacitacionDocente().horas,
     });
   }
 
   onSaveData() {
-    let { nivel, nombre, institucion, obtencion, cedula } =
-      this.updateAcademicTrainingForm.value;
-
-    if (cedula === '') cedula = 'En proceso';
+    const { tipo, institucion, obtencion, horas } =
+      this.updateTeachingTrainingForm.value;
 
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .updateAcademicTrainingFunction(this.formacionAcademica().id, {
-        accessToken: token,
-        code: cedula,
-        institution: institucion,
-        level: nivel,
-        name: nombre,
-        year: obtencion,
-      })
+      .updateTeachingTrainingFunction(
+        this.capacitacionDocente().id,
+
+        {
+          accessToken: token,
+          anio_obtencion: obtencion,
+          horas: horas,
+          institucion_pais: institucion,
+          tipo_capacitacion: tipo,
+        }
+      )
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
