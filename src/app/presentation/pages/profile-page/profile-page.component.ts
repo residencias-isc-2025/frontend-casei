@@ -118,6 +118,9 @@ export default class ProfilePageComponent implements OnInit {
       case 8:
         this.router.navigateByUrl('/dashboard/logros-profesionales');
         break;
+      case 9:
+        this.router.navigateByUrl('/dashboard/participacion');
+        break;
     }
   }
 

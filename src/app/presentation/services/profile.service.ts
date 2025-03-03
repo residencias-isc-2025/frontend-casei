@@ -5,6 +5,7 @@ import {
   loadAcademicTrainingUseCase,
   loadDisciplinaryUpdateUseCase,
   loadEngineeringDesignUseCase,
+  loadParticipationUseCase,
   loadProfessionalAchievementsUseCase,
   loadProfessionalExperienceUseCase,
   loadTeachingTrainingUseCase,
@@ -46,5 +47,9 @@ export class ProfileService {
 
   loadLogrosProfesionales(accessToken: string) {
     return from(loadProfessionalAchievementsUseCase(accessToken));
+  }
+
+  loadParticipaciones(accessToken: string) {
+    return from(loadParticipationUseCase(accessToken));
   }
 }

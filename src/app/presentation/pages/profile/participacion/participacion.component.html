@@ -1,6 +1,8 @@
 <div class="container mx-auto p-6">
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Diseño Ingenieril</h1>
+    <h1 class="text-2xl font-bold text-gray-800">
+      Participación en asociaciones
+    </h1>
     <button
       (click)="showAddModal.set(true)"
       class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
@@ -14,15 +16,15 @@
       <thead class="bg-gray-200 text-gray-700">
         <th class="py-3 px-4 text-left">Organismo</th>
         <th class="py-3 px-4 text-left">Periodo (Años)</th>
-        <th class="py-3 px-4 text-left">Nivel de experiencia</th>
+        <th class="py-3 px-4 text-left">Nivel de participacion</th>
         <th class="py-3 px-4 text-left">Acciones</th>
       </thead>
       <tbody class="text-gray-600">
-        @for(lista of disenoIngenierilList(); track $index) {
+        @for(lista of participacionList(); track $index) {
         <tr class="border-b hover:bg-gray-100 transition">
           <td class="py-3 px-4">{{ lista.organismo }}</td>
           <td class="py-3 px-4">{{ lista.periodo }}</td>
-          <td class="py-3 px-4">{{ lista.nivel_experiencia }}</td>
+          <td class="py-3 px-4">{{ lista.nivel_p }}</td>
 
           <td class="py-3 px-4">
             <div class="flex flex-row space-x-2">
@@ -47,16 +49,16 @@
 </div>
 
 @if (showAddModal()) {
-<app-add-diseno-ingenieril
+<app-add-participacion
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
-  title="Agregar diseño ingenieril"
+  title="Agregar participación"
 />
 } @if (showUpdateModal()) {
-<app-update-diseno-ingenieril
+<app-update-participacion
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
-  [disenoIngenieril]="disenoIngenierilSelected()!"
-  title="Editar diseño ingenieril"
+  [participacion]="participacionSelected()!"
+  title="Editar participación"
 />
 }

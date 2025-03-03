@@ -91,6 +91,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'participacion',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/profile/participacion/participacion.component'
+          ),
+      },
+      {
         path: 'formats',
         loadComponent: () =>
           import('@presentation/pages/formats-page/formats-page.component'),

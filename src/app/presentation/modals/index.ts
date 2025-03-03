@@ -26,3 +26,6 @@ export * from './07-diseno-ingenieril/update-diseno-ingenieril/update-diseno-ing
 
 export * from './08-logros-profesionales/add-logro-profesional/add-logro-profesional.component';
 export * from './08-logros-profesionales/update-logro-profesional/update-logro-profesional.component';
+
+export * from './09-participacion/add-participacion/add-participacion.component';
+export * from './09-participacion/update-participacion/update-participacion.component';

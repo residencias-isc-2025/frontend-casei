@@ -10,6 +10,7 @@ import {
   FormacionAcademicaDto,
   GestionAcademicaDto,
   LogrosPrefesionalesDto,
+  ParticipacionDto,
   ProductosAcademicosDto,
   UpdateUserDto,
 } from '@interfaces/index';
@@ -20,6 +21,7 @@ import {
   addAcademicTrainingUseCase,
   addDisciplinaryUpdateUseCase,
   addEngineeringDesignUseCase,
+  addParticipationUseCase,
   addProfessionalAchievementsUseCase,
   addProfessionalExperienceUseCase,
   addTeachingTrainingUseCase,
@@ -33,6 +35,7 @@ import {
   updateAcademicTrainingUseCase,
   updateDisciplinaryUpdateUseCase,
   updateEngineeringDesignUseCase,
+  updateParticipationUseCase,
   updateProfessionalAchievementsUseCase,
   updateProfessionalExperienceUseCase,
   updateTeachingTrainingUseCase,
@@ -178,7 +181,9 @@ export class UsersService {
   //#endregion
 
   //#region Logros profesionales
-  addProfessionalAchievementsFunction(logroProfesionalDto: LogrosPrefesionalesDto) {
+  addProfessionalAchievementsFunction(
+    logroProfesionalDto: LogrosPrefesionalesDto
+  ) {
     return from(addProfessionalAchievementsUseCase(logroProfesionalDto));
   }
 
@@ -186,7 +191,22 @@ export class UsersService {
     idLogro: number,
     logroProfesionalDto: LogrosPrefesionalesDto
   ) {
-    return from(updateProfessionalAchievementsUseCase(idLogro, logroProfesionalDto));
+    return from(
+      updateProfessionalAchievementsUseCase(idLogro, logroProfesionalDto)
+    );
+  }
+  //#endregion
+
+  //#region Participación
+  addParticipationFunction(participacionDto: ParticipacionDto) {
+    return from(addParticipationUseCase(participacionDto));
+  }
+
+  updateParticipationFunction(
+    idParticipacion: number,
+    participacionDto: ParticipacionDto
+  ) {
+    return from(updateParticipationUseCase(idParticipacion, participacionDto));
   }
   //#endregion
 }
