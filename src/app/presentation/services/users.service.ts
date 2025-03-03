@@ -11,6 +11,7 @@ import {
   GestionAcademicaDto,
   LogrosPrefesionalesDto,
   ParticipacionDto,
+  PremiosDto,
   ProductosAcademicosDto,
   UpdateUserDto,
 } from '@interfaces/index';
@@ -19,6 +20,7 @@ import {
   addAcademicManagmentUseCase,
   addAcademicProductsUseCase,
   addAcademicTrainingUseCase,
+  addAwardsUseCase,
   addDisciplinaryUpdateUseCase,
   addEngineeringDesignUseCase,
   addParticipationUseCase,
@@ -33,6 +35,7 @@ import {
   updateAcademicManagmentUseCase,
   updateAcademicProductsUseCase,
   updateAcademicTrainingUseCase,
+  updateAwardsUseCase,
   updateDisciplinaryUpdateUseCase,
   updateEngineeringDesignUseCase,
   updateParticipationUseCase,
@@ -207,6 +210,16 @@ export class UsersService {
     participacionDto: ParticipacionDto
   ) {
     return from(updateParticipationUseCase(idParticipacion, participacionDto));
+  }
+  //#endregion
+
+  //#region Premios
+  addPremioFunction(premioDto: PremiosDto) {
+    return from(addAwardsUseCase(premioDto));
+  }
+
+  updatePremioFunction(idPremio: number, premioDto: PremiosDto) {
+    return from(updateAwardsUseCase(idPremio, premioDto));
   }
   //#endregion
 }

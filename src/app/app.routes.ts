@@ -98,6 +98,11 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'premios',
+        loadComponent: () =>
+          import('@presentation/pages/profile/premios/premios.component'),
+      },
+      {
         path: 'formats',
         loadComponent: () =>
           import('@presentation/pages/formats-page/formats-page.component'),
