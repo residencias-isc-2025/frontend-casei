@@ -4,6 +4,7 @@ export * from './dtos/update-user.dto';
 export * from './dtos/formacion-academica.dto';
 export * from './dtos/capacitacion-docente.dto';
 export * from './dtos/actualizacion-disciplinar.dto';
+export * from './dtos/gestion-academica.dto';
 
 export * from './use-cases/create-user.response';
 export * from './use-cases/update-user.reponse';

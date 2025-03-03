@@ -6,10 +6,12 @@ import {
   CapacitacionDocenteDto,
   CreateUserDto,
   FormacionAcademicaDto,
+  GestionAcademicaDto,
   UpdateUserDto,
 } from '@interfaces/index';
 
 import {
+  addAcademicManagmentUseCase,
   addAcademicTrainingUseCase,
   addDisciplinaryUpdateUseCase,
   addTeachingTrainingUseCase,
@@ -68,6 +70,10 @@ export class UsersService {
     actualizacionDisciplinar: ActualizacionDisciplinarDto
   ) {
     return from(addDisciplinaryUpdateUseCase(actualizacionDisciplinar));
+  }
+
+  addAcademicManagmentFunction(gestionAcademicaDto: GestionAcademicaDto) {
+    return from(addAcademicManagmentUseCase(gestionAcademicaDto));
   }
 
   updateAcademicTrainingFunction(

@@ -2,7 +2,7 @@ import { environment } from '@environments/environment';
 
 import { GestionAcademicaResponse } from '@interfaces/index';
 
-export const loadAcademicManagment = async (accessToken: string) => {
+export const loadAcademicManagmentUseCase = async (accessToken: string) => {
   try {
     const resp = await fetch(
       `${environment.api_url}/api/registration/gestion-academica/`,

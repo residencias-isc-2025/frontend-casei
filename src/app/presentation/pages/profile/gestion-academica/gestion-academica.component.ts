@@ -9,10 +9,11 @@ import {
   InstitucionesResponse,
 } from '@interfaces/index';
 import { CommonService, ProfileService, ToastService } from '@services/index';
+import { AddGestionAcademicaComponent } from '../../../modals/04-gestion-academica/add-gestion-academica/add-gestion-academica.component';
 
 @Component({
   selector: 'app-gestion-academica',
-  imports: [],
+  imports: [AddGestionAcademicaComponent],
   templateUrl: './gestion-academica.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

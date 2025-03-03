@@ -11,3 +11,5 @@ export * from './02-capacitacion-docente/update-teaching-training/update-teachin
 
 export * from './03-actualizacion-disciplinar/add-actualizacion-disciplinar/add-actualizacion-disciplinar.component';
 export * from './03-actualizacion-disciplinar/update-actualizacion-disciplinar/update-actualizacion-disciplinar.component';
+
+export * from './04-gestion-academica/add-gestion-academica/add-gestion-academica.component';
