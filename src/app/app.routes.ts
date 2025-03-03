@@ -70,6 +70,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'experiencia-profesional',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/profile/experiencia-profesional/experiencia-profesional.component'
+          ),
+      },
+      {
         path: 'formats',
         loadComponent: () =>
           import('@presentation/pages/formats-page/formats-page.component'),

@@ -5,6 +5,7 @@ import {
   ActualizacionDisciplinarDto,
   CapacitacionDocenteDto,
   CreateUserDto,
+  ExperienciaProfesionalDto,
   FormacionAcademicaDto,
   GestionAcademicaDto,
   ProductosAcademicosDto,
@@ -16,6 +17,7 @@ import {
   addAcademicProductsUseCase,
   addAcademicTrainingUseCase,
   addDisciplinaryUpdateUseCase,
+  addProfessionalExperienceUseCase,
   addTeachingTrainingUseCase,
   changePasswordUseCase,
   createUserUseCase,
@@ -26,6 +28,7 @@ import {
   updateAcademicProductsUseCase,
   updateAcademicTrainingUseCase,
   updateDisciplinaryUpdateUseCase,
+  updateProfessionalExperienceUseCase,
   updateTeachingTrainingUseCase,
   updateUserUseCase,
 } from '@core/index';
@@ -62,26 +65,9 @@ export class UsersService {
     return from(resetPasswordUseCase(accessToken, payrollNumber));
   }
 
+  //#region Formación académica
   addAcademicTrainingFunction(formacionAcademica: FormacionAcademicaDto) {
     return from(addAcademicTrainingUseCase(formacionAcademica));
-  }
-
-  addTeachingTrainingFunction(capacitacionDocente: CapacitacionDocenteDto) {
-    return from(addTeachingTrainingUseCase(capacitacionDocente));
-  }
-
-  addDisciplinaryUpdateFunction(
-    actualizacionDisciplinar: ActualizacionDisciplinarDto
-  ) {
-    return from(addDisciplinaryUpdateUseCase(actualizacionDisciplinar));
-  }
-
-  addAcademicManagmentFunction(gestionAcademicaDto: GestionAcademicaDto) {
-    return from(addAcademicManagmentUseCase(gestionAcademicaDto));
-  }
-
-  addAcademicProductFunction(productosAcademicosDto: ProductosAcademicosDto) {
-    return from(addAcademicProductsUseCase(productosAcademicosDto));
   }
 
   updateAcademicTrainingFunction(
@@ -89,6 +75,12 @@ export class UsersService {
     formacionAcademica: FormacionAcademicaDto
   ) {
     return from(updateAcademicTrainingUseCase(idFormacion, formacionAcademica));
+  }
+  //#endregion
+
+  //#region Capacitación docente
+  addTeachingTrainingFunction(capacitacionDocente: CapacitacionDocenteDto) {
+    return from(addTeachingTrainingUseCase(capacitacionDocente));
   }
 
   updateTeachingTrainingFunction(
@@ -99,6 +91,14 @@ export class UsersService {
       updateTeachingTrainingUseCase(idCapacitacion, capacitacionDocente)
     );
   }
+  //#endregion
+
+  //#region Actualización disciplinar
+  addDisciplinaryUpdateFunction(
+    actualizacionDisciplinar: ActualizacionDisciplinarDto
+  ) {
+    return from(addDisciplinaryUpdateUseCase(actualizacionDisciplinar));
+  }
 
   updateDisciplinaryUpdateFunction(
     idActualizacion: number,
@@ -108,12 +108,24 @@ export class UsersService {
       updateDisciplinaryUpdateUseCase(idActualizacion, actualizacionDisciplinar)
     );
   }
+  //#endregion
+
+  //#region Gestión académica
+  addAcademicManagmentFunction(gestionAcademicaDto: GestionAcademicaDto) {
+    return from(addAcademicManagmentUseCase(gestionAcademicaDto));
+  }
 
   updateAcademicManagmentFunction(
     idGestion: number,
     gestionAcademicaDto: GestionAcademicaDto
   ) {
     return from(updateAcademicManagmentUseCase(idGestion, gestionAcademicaDto));
+  }
+  //#endregion
+
+  //#region Productos académicos
+  addAcademicProductFunction(productosAcademicosDto: ProductosAcademicosDto) {
+    return from(addAcademicProductsUseCase(productosAcademicosDto));
   }
 
   updateAcademicProductFunction(
@@ -124,4 +136,25 @@ export class UsersService {
       updateAcademicProductsUseCase(idProducto, productosAcademicosDto)
     );
   }
+  //#endregion
+
+  //#region Experiencia profesional
+  addProfessionalExperienceFunction(
+    experienciaProfesionalDto: ExperienciaProfesionalDto
+  ) {
+    return from(addProfessionalExperienceUseCase(experienciaProfesionalDto));
+  }
+
+  updateProfessionalExperienceFunction(
+    idExperiencia: number,
+    experienciaProfesionalDto: ExperienciaProfesionalDto
+  ) {
+    return from(
+      updateProfessionalExperienceUseCase(
+        idExperiencia,
+        experienciaProfesionalDto
+      )
+    );
+  }
+  //#endregion
 }

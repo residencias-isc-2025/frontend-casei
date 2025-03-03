@@ -109,6 +109,9 @@ export default class ProfilePageComponent implements OnInit {
       case 5:
         this.router.navigateByUrl('/dashboard/productos-academicos');
         break;
+      case 6:
+        this.router.navigateByUrl('/dashboard/experiencia-profesional');
+        break;
     }
   }
 

@@ -4,6 +4,7 @@ import {
   loadAcademicProductsUseCase,
   loadAcademicTrainingUseCase,
   loadDisciplinaryUpdateUseCase,
+  loadProfessionalExperienceUseCase,
   loadTeachingTrainingUseCase,
 } from '@core/index';
 import { from } from 'rxjs';
@@ -30,5 +31,9 @@ export class ProfileService {
 
   loadProductosAcademicos(accessToken: string) {
     return from(loadAcademicProductsUseCase(accessToken));
+  }
+
+  loadExperienciaProfesional(accessToken: string) {
+    return from(loadProfessionalExperienceUseCase(accessToken));
   }
 }
