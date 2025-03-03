@@ -11,3 +11,5 @@ export * from './use-cases/profile/load-academic-training.use-case';
 export * from './use-cases/profile/add-academic-training.use-case';
 
 export * from './use-cases/users/reset-password.use-case';
+
+export * from './use-cases/common/get-schools.use-case';

@@ -23,7 +23,9 @@
         <tr class="border-b hover:bg-gray-100 transition">
           <td class="py-3 px-4">{{ lista.nivel }}</td>
           <td class="py-3 px-4">{{ lista.nombre }}</td>
-          <td class="py-3 px-4">Institución</td>
+          <td class="py-3 px-4">
+            {{ getInstitucion(lista.institucion_pais) }}
+          </td>
           <td class="py-3 px-4">{{ lista.anio_obtencion }}</td>
           <td class="py-3 px-4">{{ lista.cedula_profesional }}</td>
 
