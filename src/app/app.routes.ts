@@ -77,6 +77,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'diseno-ingenieril',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/profile/diseno-ingenieril/diseno-ingenieril.component'
+          ),
+      },
+      {
         path: 'formats',
         loadComponent: () =>
           import('@presentation/pages/formats-page/formats-page.component'),

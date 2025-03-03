@@ -5,6 +5,7 @@ import {
   ActualizacionDisciplinarDto,
   CapacitacionDocenteDto,
   CreateUserDto,
+  DisenoIngenierilDto,
   ExperienciaProfesionalDto,
   FormacionAcademicaDto,
   GestionAcademicaDto,
@@ -17,6 +18,7 @@ import {
   addAcademicProductsUseCase,
   addAcademicTrainingUseCase,
   addDisciplinaryUpdateUseCase,
+  addEngineeringDesignUseCase,
   addProfessionalExperienceUseCase,
   addTeachingTrainingUseCase,
   changePasswordUseCase,
@@ -28,6 +30,7 @@ import {
   updateAcademicProductsUseCase,
   updateAcademicTrainingUseCase,
   updateDisciplinaryUpdateUseCase,
+  updateEngineeringDesignUseCase,
   updateProfessionalExperienceUseCase,
   updateTeachingTrainingUseCase,
   updateUserUseCase,
@@ -155,6 +158,19 @@ export class UsersService {
         experienciaProfesionalDto
       )
     );
+  }
+  //#endregion
+
+  //#region Diseño ingenieril
+  addEngineeringDesignFunction(disenoIngenierilDto: DisenoIngenierilDto) {
+    return from(addEngineeringDesignUseCase(disenoIngenierilDto));
+  }
+
+  updateEngineeringDesignFunction(
+    idDiseno: number,
+    disenoIngenierilDto: DisenoIngenierilDto
+  ) {
+    return from(updateEngineeringDesignUseCase(idDiseno, disenoIngenierilDto));
   }
   //#endregion
 }

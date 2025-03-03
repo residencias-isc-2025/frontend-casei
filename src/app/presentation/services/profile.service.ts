@@ -4,6 +4,7 @@ import {
   loadAcademicProductsUseCase,
   loadAcademicTrainingUseCase,
   loadDisciplinaryUpdateUseCase,
+  loadEngineeringDesignUseCase,
   loadProfessionalExperienceUseCase,
   loadTeachingTrainingUseCase,
 } from '@core/index';
@@ -35,5 +36,9 @@ export class ProfileService {
 
   loadExperienciaProfesional(accessToken: string) {
     return from(loadProfessionalExperienceUseCase(accessToken));
+  }
+
+  loadDisenoIngenieril(accessToken: string) {
+    return from(loadEngineeringDesignUseCase(accessToken));
   }
 }
