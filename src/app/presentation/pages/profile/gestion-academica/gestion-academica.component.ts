@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnInit,
   signal,
 } from '@angular/core';
 import {
@@ -20,7 +21,7 @@ import {
   templateUrl: './gestion-academica.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class GestionAcademicaComponent {
+export default class GestionAcademicaComponent implements OnInit {
   public toastService = inject(ToastService);
   public profileService = inject(ProfileService);
   public commonService = inject(CommonService);

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   loadAcademicManagmentUseCase,
+  loadAcademicProductsUseCase,
   loadAcademicTrainingUseCase,
   loadDisciplinaryUpdateUseCase,
   loadTeachingTrainingUseCase,
@@ -25,5 +26,9 @@ export class ProfileService {
 
   loadGestionAcademica(accessToken: string) {
     return from(loadAcademicManagmentUseCase(accessToken));
+  }
+
+  loadProductosAcademicos(accessToken: string) {
+    return from(loadAcademicProductsUseCase(accessToken));
   }
 }

@@ -10,6 +10,7 @@ export * from './use-cases/profile/load/load-academic-training.use-case';
 export * from './use-cases/profile/load/load-teaching-training.use-case';
 export * from './use-cases/profile/load/load-disciplinary-update.use-case';
 export * from './use-cases/profile/load/load-academic-management.use-case';
+export * from './use-cases/profile/load/load-academic-products.use-case';
 
 export * from './use-cases/profile/add/add-academic-training.use-case';
 export * from './use-cases/profile/add/add-teaching-training.use-case';

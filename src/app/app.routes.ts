@@ -63,6 +63,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'productos-academicos',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/profile/productos-academicos/productos-academicos.component'
+          ),
+      },
+      {
         path: 'formats',
         loadComponent: () =>
           import('@presentation/pages/formats-page/formats-page.component'),
