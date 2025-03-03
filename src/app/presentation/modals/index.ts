@@ -16,3 +16,4 @@ export * from './04-gestion-academica/add-gestion-academica/add-gestion-academic
 export * from './04-gestion-academica/update-gestion-academica/update-gestion-academica.component';
 
 export * from './05-productos-academicos/add-producto-academico/add-producto-academico.component';
+export * from './05-productos-academicos/update-producto-academico/update-producto-academico.component';

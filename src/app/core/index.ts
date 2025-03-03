@@ -22,6 +22,7 @@ export * from './use-cases/profile/update/update-academic-training.use-case';
 export * from './use-cases/profile/update/update-teaching-training.use-case';
 export * from './use-cases/profile/update/update-disciplinary-update.use-case';
 export * from './use-cases/profile/update/update-academic-management.use-case';
+export * from './use-cases/profile/update/update-academic-products.use-case';
 
 export * from './use-cases/users/reset-password.use-case';
 

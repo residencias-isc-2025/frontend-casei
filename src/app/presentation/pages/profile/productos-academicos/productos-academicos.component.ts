@@ -6,12 +6,12 @@ import {
   signal,
 } from '@angular/core';
 import { ProductosAcademicosResponse } from '@interfaces/index';
-import { AddProductoAcademicoComponent } from '@presentation/modals';
+import { AddProductoAcademicoComponent, UpdateProductoAcademicoComponent} from '@presentation/modals';
 import { CommonService, ProfileService, ToastService } from '@services/index';
 
 @Component({
   selector: 'app-productos-academicos',
-  imports: [AddProductoAcademicoComponent],
+  imports: [AddProductoAcademicoComponent, UpdateProductoAcademicoComponent],
   templateUrl: './productos-academicos.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

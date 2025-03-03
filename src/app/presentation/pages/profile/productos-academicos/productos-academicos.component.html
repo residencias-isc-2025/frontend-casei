@@ -50,14 +50,11 @@
   (onSave)="onSaveEmit()"
   title="Agregar producto académico"
 />
-}
-
-<!-- @if (showUpdateModal()) {
-<app-update-gestion-academica
+} @if (showUpdateModal()) {
+<app-update-producto-academico
   (onCancel)="showAddModal.set(false)"
   (onSave)="onEditEmit()"
-  [listaInstituciones]="institucionesList()"
-  [gestionAcademica]="gestionAcademicaSelected()!"
+  [productoAcademico]="productoAcademicoSelected()!"
   title="Agregar gestión académica"
 />
-} -->
+}
