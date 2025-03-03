@@ -5,14 +5,15 @@ import {
   ActualizacionDisciplonarResponse,
 } from '@interfaces/index';
 
-export const addDisciplinaryUpdateUseCase = async (
+export const updateDisciplinaryUpdateUseCase = async (
+  idActualizacion: number,
   actualizacionDisciplinarDto: ActualizacionDisciplinarDto
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/actualizacion-disciplinar/`,
+      `${environment.api_url}/api/registration/actualizacion-disciplinar/${idActualizacion}/`,
       {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           Authorization: `Bearer ${actualizacionDisciplinarDto.accessToken}`,
           'Content-Type': 'application/json',

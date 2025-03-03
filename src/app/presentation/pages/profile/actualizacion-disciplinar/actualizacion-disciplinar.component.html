@@ -57,4 +57,12 @@
   [listaInstituciones]="institucionesList()"
   title="Agregar actualización disciplinar"
 />
+} @if (showUpdateModal()) {
+<app-update-actualizacion-disciplinar
+  (onCancel)="showAddModal.set(false)"
+  (onSave)="onEditEmit()"
+  [listaInstituciones]="institucionesList()"
+  [actualizacionDisciplinar]="actualizacionDisciplinarSelected()!"
+  title="Agregar actualización disciplinar"
+/>
 }

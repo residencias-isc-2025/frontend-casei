@@ -19,6 +19,7 @@ import {
   getUserUseCase,
   resetPasswordUseCase,
   updateAcademicTrainingUseCase,
+  updateDisciplinaryUpdateUseCase,
   updateTeachingTrainingUseCase,
   updateUserUseCase,
 } from '@core/index';
@@ -82,6 +83,15 @@ export class UsersService {
   ) {
     return from(
       updateTeachingTrainingUseCase(idCapacitacion, capacitacionDocente)
+    );
+  }
+
+  updateDisciplinaryUpdateFunction(
+    idActualizacion: number,
+    actualizacionDisciplinar: ActualizacionDisciplinarDto
+  ) {
+    return from(
+      updateDisciplinaryUpdateUseCase(idActualizacion, actualizacionDisciplinar)
     );
   }
 }

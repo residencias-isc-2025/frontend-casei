@@ -9,13 +9,19 @@ import {
   InstitucionesResponse,
 } from '@interfaces/index';
 
-import { AddActualizacionDisciplinarComponent } from '@modals/index';
+import {
+  AddActualizacionDisciplinarComponent,
+  UpdateActualizacionDisciplinarComponent,
+} from '@modals/index';
 
 import { ToastService, ProfileService, CommonService } from '@services/index';
 
 @Component({
   selector: 'app-actualizacion-disciplinar',
-  imports: [AddActualizacionDisciplinarComponent],
+  imports: [
+    AddActualizacionDisciplinarComponent,
+    UpdateActualizacionDisciplinarComponent,
+  ],
   templateUrl: './actualizacion-disciplinar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -37,7 +43,7 @@ export default class ActualizacionDisciplinarComponent {
 
   ngOnInit(): void {
     this.loadInstituciones();
-    this.loadActualizacionDisplinarList();
+    this.loadActualizacionDisciplinarList();
   }
 
   private loadInstituciones(): void {
@@ -60,7 +66,7 @@ export default class ActualizacionDisciplinarComponent {
     });
   }
 
-  private loadActualizacionDisplinarList(): void {
+  private loadActualizacionDisciplinarList(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.profileService.loadActualizacionDisciplinar(token).subscribe({
@@ -101,12 +107,12 @@ export default class ActualizacionDisciplinarComponent {
   }
 
   onSaveEmit() {
-    this.loadActualizacionDisplinarList();
+    this.loadActualizacionDisciplinarList();
     this.showAddModal.set(false);
   }
 
   onEditEmit() {
-    this.loadActualizacionDisplinarList();
+    this.loadActualizacionDisciplinarList();
     this.showUpdateModal.set(false);
   }
 }
