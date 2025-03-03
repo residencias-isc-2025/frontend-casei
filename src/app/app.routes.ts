@@ -35,6 +35,13 @@ export const routes: Routes = [
           import('@presentation/pages/profile-page/profile-page.component'),
       },
       {
+        path: 'formacion-academica',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/profile/formacion-academica/formacion-academica.component'
+          ),
+      },
+      {
         path: 'formats',
         loadComponent: () =>
           import('@presentation/pages/formats-page/formats-page.component'),

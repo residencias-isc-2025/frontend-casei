@@ -22,7 +22,6 @@ export default class UsersPageComponent implements OnInit {
 
   public showModal = signal(false);
   public users = signal<UserResponse[]>([]);
-  public totalUsers = computed(() => this.users().length);
 
   ngOnInit(): void {
     this.loadUsers();
