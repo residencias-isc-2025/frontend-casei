@@ -13,7 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  ActualizacionDisciplonarResponse,
+  ActualizacionDisciplinarResponse,
   InstitucionesResponse,
 } from '@interfaces/index';
 import { ToastService, UsersService } from '@services/index';
@@ -28,7 +28,7 @@ import { validYearValidator } from '@validators/index';
 export class UpdateActualizacionDisciplinarComponent {
   title = input('');
   listaInstituciones = input.required<InstitucionesResponse[]>();
-  actualizacionDisciplinar = input.required<ActualizacionDisciplonarResponse>();
+  actualizacionDisciplinar = input.required<ActualizacionDisciplinarResponse>();
 
   onCancel = output();
   onSave = output();

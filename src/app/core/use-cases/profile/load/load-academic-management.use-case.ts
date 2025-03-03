@@ -1,11 +1,11 @@
 import { environment } from '@environments/environment';
 
-import { ActualizacionDisciplinarResponse } from '@interfaces/index';
+import { GestionAcademicaResponse } from '@interfaces/index';
 
-export const loadDisciplinaryUpdateUseCase = async (accessToken: string) => {
+export const loadAcademicManagment = async (accessToken: string) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/actualizacion-disciplinar/`,
+      `${environment.api_url}/api/registration/gestion-academica/`,
       {
         method: 'GET',
         headers: {
@@ -15,7 +15,7 @@ export const loadDisciplinaryUpdateUseCase = async (accessToken: string) => {
       }
     );
 
-    const data = (await resp.json()) as ActualizacionDisciplinarResponse[];
+    const data = (await resp.json()) as GestionAcademicaResponse[];
 
     if (!resp.ok) {
       return {

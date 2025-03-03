@@ -1,4 +1,4 @@
-export interface ActualizacionDisciplonarResponse {
+export interface ActualizacionDisciplinarResponse {
   id: number;
   tipo_actualizacion: string;
   institucion_pais: number;

@@ -2,7 +2,7 @@ import { environment } from '@environments/environment';
 
 import {
   ActualizacionDisciplinarDto,
-  ActualizacionDisciplonarResponse,
+  ActualizacionDisciplinarResponse,
 } from '@interfaces/index';
 
 export const updateDisciplinaryUpdateUseCase = async (
@@ -27,7 +27,7 @@ export const updateDisciplinaryUpdateUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as ActualizacionDisciplonarResponse;
+    const data = (await resp.json()) as ActualizacionDisciplinarResponse;
 
     if (!resp.ok) {
       return {

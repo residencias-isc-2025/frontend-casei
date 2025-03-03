@@ -56,6 +56,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'gestion-academica',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/profile/gestion-academica/gestion-academica.component'
+          ),
+      },
+      {
         path: 'formats',
         loadComponent: () =>
           import('@presentation/pages/formats-page/formats-page.component'),

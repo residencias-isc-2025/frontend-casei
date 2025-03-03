@@ -5,27 +5,18 @@ import {
   signal,
 } from '@angular/core';
 import {
-  ActualizacionDisciplinarResponse,
+  GestionAcademicaResponse,
   InstitucionesResponse,
 } from '@interfaces/index';
-
-import {
-  AddActualizacionDisciplinarComponent,
-  UpdateActualizacionDisciplinarComponent,
-} from '@modals/index';
-
-import { ToastService, ProfileService, CommonService } from '@services/index';
+import { CommonService, ProfileService, ToastService } from '@services/index';
 
 @Component({
-  selector: 'app-actualizacion-disciplinar',
-  imports: [
-    AddActualizacionDisciplinarComponent,
-    UpdateActualizacionDisciplinarComponent,
-  ],
-  templateUrl: './actualizacion-disciplinar.component.html',
+  selector: 'app-gestion-academica',
+  imports: [],
+  templateUrl: './gestion-academica.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class ActualizacionDisciplinarComponent {
+export default class GestionAcademicaComponent {
   public toastService = inject(ToastService);
   public profileService = inject(ProfileService);
   public commonService = inject(CommonService);
@@ -33,17 +24,15 @@ export default class ActualizacionDisciplinarComponent {
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
 
-  public actualizacionDisciplinarList = signal<
-    ActualizacionDisciplinarResponse[]
-  >([]);
+  public gestionAcademicaList = signal<GestionAcademicaResponse[]>([]);
   public institucionesList = signal<InstitucionesResponse[]>([]);
 
   public actualizacionDisciplinarSelected =
-    signal<ActualizacionDisciplinarResponse | null>(null);
+    signal<GestionAcademicaResponse | null>(null);
 
   ngOnInit(): void {
     this.loadInstituciones();
-    this.loadActualizacionDisciplinarList();
+    this.loadGestionAcademicaList();
   }
 
   private loadInstituciones(): void {
@@ -66,16 +55,16 @@ export default class ActualizacionDisciplinarComponent {
     });
   }
 
-  private loadActualizacionDisciplinarList(): void {
+  private loadGestionAcademicaList(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.profileService.loadActualizacionDisciplinar(token).subscribe({
+    this.profileService.loadGestionAcademica(token).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
         if (res.ok) {
-          this.actualizacionDisciplinarList.set(res.data || []);
+          this.gestionAcademicaList.set(res.data || []);
         } else {
           this.toastService.showWarning(
             'No se pudo obtener la actualización disciplinar.',
@@ -95,7 +84,7 @@ export default class ActualizacionDisciplinarComponent {
   }
 
   onShowUpdateModel(idFormacion: number) {
-    const formacion = this.actualizacionDisciplinarList().find(
+    const formacion = this.gestionAcademicaList().find(
       (formacion) => formacion.id === idFormacion
     );
 
@@ -107,12 +96,12 @@ export default class ActualizacionDisciplinarComponent {
   }
 
   onSaveEmit() {
-    this.loadActualizacionDisciplinarList();
+    this.loadGestionAcademicaList();
     this.showAddModal.set(false);
   }
 
   onEditEmit() {
-    this.loadActualizacionDisciplinarList();
+    this.loadGestionAcademicaList();
     this.showUpdateModal.set(false);
   }
 }
