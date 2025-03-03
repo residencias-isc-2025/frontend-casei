@@ -9,11 +9,14 @@ import {
   InstitucionesResponse,
 } from '@interfaces/index';
 import { CommonService, ProfileService, ToastService } from '@services/index';
-import { AddGestionAcademicaComponent } from '../../../modals/04-gestion-academica/add-gestion-academica/add-gestion-academica.component';
+import {
+  AddGestionAcademicaComponent,
+  UpdateGestionAcademicaComponent,
+} from '@modals/index';
 
 @Component({
   selector: 'app-gestion-academica',
-  imports: [AddGestionAcademicaComponent],
+  imports: [AddGestionAcademicaComponent, UpdateGestionAcademicaComponent],
   templateUrl: './gestion-academica.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -28,8 +31,9 @@ export default class GestionAcademicaComponent {
   public gestionAcademicaList = signal<GestionAcademicaResponse[]>([]);
   public institucionesList = signal<InstitucionesResponse[]>([]);
 
-  public actualizacionDisciplinarSelected =
-    signal<GestionAcademicaResponse | null>(null);
+  public gestionAcademicaSelected = signal<GestionAcademicaResponse | null>(
+    null
+  );
 
   ngOnInit(): void {
     this.loadInstituciones();
@@ -89,7 +93,7 @@ export default class GestionAcademicaComponent {
       (formacion) => formacion.id === idFormacion
     );
 
-    this.actualizacionDisciplinarSelected.set(
+    this.gestionAcademicaSelected.set(
       formacion !== undefined ? formacion : null
     );
 

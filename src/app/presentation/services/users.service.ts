@@ -20,6 +20,7 @@ import {
   getAllUsersUseCase,
   getUserUseCase,
   resetPasswordUseCase,
+  updateAcademicManagmentUseCase,
   updateAcademicTrainingUseCase,
   updateDisciplinaryUpdateUseCase,
   updateTeachingTrainingUseCase,
@@ -99,5 +100,12 @@ export class UsersService {
     return from(
       updateDisciplinaryUpdateUseCase(idActualizacion, actualizacionDisciplinar)
     );
+  }
+
+  updateAcademicManagmentFunction(
+    idGestion: number,
+    gestionAcademicaDto: GestionAcademicaDto
+  ) {
+    return from(updateAcademicManagmentUseCase(idGestion, gestionAcademicaDto));
   }
 }

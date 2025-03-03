@@ -57,4 +57,12 @@
   [listaInstituciones]="institucionesList()"
   title="Agregar gestión académica"
 />
+} @if (showUpdateModal()) {
+<app-update-gestion-academica
+  (onCancel)="showAddModal.set(false)"
+  (onSave)="onEditEmit()"
+  [listaInstituciones]="institucionesList()"
+  [gestionAcademica]="gestionAcademicaSelected()!"
+  title="Agregar gestión académica"
+/>
 }
