@@ -5,9 +5,11 @@ import {
   loadAcademicTrainingUseCase,
   loadDisciplinaryUpdateUseCase,
   loadEngineeringDesignUseCase,
+  loadProfessionalAchievementsUseCase,
   loadProfessionalExperienceUseCase,
   loadTeachingTrainingUseCase,
 } from '@core/index';
+
 import { from } from 'rxjs';
 
 @Injectable({
@@ -40,5 +42,9 @@ export class ProfileService {
 
   loadDisenoIngenieril(accessToken: string) {
     return from(loadEngineeringDesignUseCase(accessToken));
+  }
+
+  loadLogrosProfesionales(accessToken: string) {
+    return from(loadProfessionalAchievementsUseCase(accessToken));
   }
 }

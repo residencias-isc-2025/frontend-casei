@@ -8,6 +8,7 @@ export * from './dtos/gestion-academica.dto';
 export * from './dtos/productos-academicos.dto';
 export * from './dtos/experiencia-profesional.dto';
 export * from './dtos/diseno-ingenieril.dto';
+export * from './dtos/logro-profesional.dto';
 
 export * from './use-cases/create-user.response';
 export * from './use-cases/update-user.reponse';
@@ -22,3 +23,4 @@ export * from './use-cases/gestion-academica.response';
 export * from './use-cases/productos-academicos.response';
 export * from './use-cases/experiencia-profesional.response';
 export * from './use-cases/diseno-ingenieril.response';
+export * from './use-cases/logros-profesionales.response';

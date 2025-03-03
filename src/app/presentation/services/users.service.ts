@@ -9,6 +9,7 @@ import {
   ExperienciaProfesionalDto,
   FormacionAcademicaDto,
   GestionAcademicaDto,
+  LogrosPrefesionalesDto,
   ProductosAcademicosDto,
   UpdateUserDto,
 } from '@interfaces/index';
@@ -19,6 +20,7 @@ import {
   addAcademicTrainingUseCase,
   addDisciplinaryUpdateUseCase,
   addEngineeringDesignUseCase,
+  addProfessionalAchievementsUseCase,
   addProfessionalExperienceUseCase,
   addTeachingTrainingUseCase,
   changePasswordUseCase,
@@ -31,6 +33,7 @@ import {
   updateAcademicTrainingUseCase,
   updateDisciplinaryUpdateUseCase,
   updateEngineeringDesignUseCase,
+  updateProfessionalAchievementsUseCase,
   updateProfessionalExperienceUseCase,
   updateTeachingTrainingUseCase,
   updateUserUseCase,
@@ -171,6 +174,19 @@ export class UsersService {
     disenoIngenierilDto: DisenoIngenierilDto
   ) {
     return from(updateEngineeringDesignUseCase(idDiseno, disenoIngenierilDto));
+  }
+  //#endregion
+
+  //#region Logros profesionales
+  addProfessionalAchievementsFunction(logroProfesionalDto: LogrosPrefesionalesDto) {
+    return from(addProfessionalAchievementsUseCase(logroProfesionalDto));
+  }
+
+  updateProfessionalAchievementsFunction(
+    idLogro: number,
+    logroProfesionalDto: LogrosPrefesionalesDto
+  ) {
+    return from(updateProfessionalAchievementsUseCase(idLogro, logroProfesionalDto));
   }
   //#endregion
 }

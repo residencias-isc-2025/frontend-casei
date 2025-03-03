@@ -84,6 +84,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'logros-profesionales',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/profile/logros-profesionales/logros-profesionales.component'
+          ),
+      },
+      {
         path: 'formats',
         loadComponent: () =>
           import('@presentation/pages/formats-page/formats-page.component'),

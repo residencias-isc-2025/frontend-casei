@@ -23,3 +23,6 @@ export * from './06-experiencia-profesional/update-experiencia-profesional/updat
 
 export * from './07-diseno-ingenieril/add-diseno-ingenieril/add-diseno-ingenieril.component';
 export * from './07-diseno-ingenieril/update-diseno-ingenieril/update-diseno-ingenieril.component';
+
+export * from './08-logros-profesionales/add-logro-profesional/add-logro-profesional.component';
+export * from './08-logros-profesionales/update-logro-profesional/update-logro-profesional.component';
