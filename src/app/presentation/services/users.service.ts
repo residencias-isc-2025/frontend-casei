@@ -42,8 +42,11 @@ export class UsersService {
     return from(addAcademicTrainingUseCase(formacionAcademica));
   }
 
-  updateAcademicTrainingFunction(formacionAcademica: FormacionAcademicaDto) {
-    return from(updateAcademicTrainingUseCase(formacionAcademica));
+  updateAcademicTrainingFunction(
+    idFormacion: number,
+    formacionAcademica: FormacionAcademicaDto
+  ) {
+    return from(updateAcademicTrainingUseCase(idFormacion, formacionAcademica));
   }
 
   updateUserData(accessToken: string, user: UpdateUserDto) {

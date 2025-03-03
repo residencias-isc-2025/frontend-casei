@@ -6,6 +6,7 @@ import {
 } from '@interfaces/index';
 
 export const updateAcademicTrainingUseCase = async (
+  idFormacion: number,
   academicTraining: FormacionAcademicaDto
 ) => {
   try {
@@ -18,6 +19,7 @@ export const updateAcademicTrainingUseCase = async (
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          id: idFormacion,
           nivel: academicTraining.level,
           nombre: academicTraining.name,
           institucion_pais: academicTraining.institution,

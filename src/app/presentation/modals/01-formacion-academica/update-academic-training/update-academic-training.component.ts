@@ -75,7 +75,7 @@ export class UpdateAcademicTrainingComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .updateAcademicTrainingFunction({
+      .updateAcademicTrainingFunction(this.formacionAcademica().id, {
         accessToken: token,
         code: cedula,
         institution: institucion,
