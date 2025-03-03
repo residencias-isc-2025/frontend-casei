@@ -49,6 +49,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'actualizacion-disciplinar',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/profile/actualizacion-disciplinar/actualizacion-disciplinar.component'
+          ),
+      },
+      {
         path: 'formats',
         loadComponent: () =>
           import('@presentation/pages/formats-page/formats-page.component'),

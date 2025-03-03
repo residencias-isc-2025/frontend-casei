@@ -100,6 +100,9 @@ export default class ProfilePageComponent implements OnInit {
       case 2:
         this.router.navigateByUrl('/dashboard/capacitacion-docente');
         break;
+      case 3:
+        this.router.navigateByUrl('/dashboard/actualizacion-disciplinar');
+        break;
     }
   }
 

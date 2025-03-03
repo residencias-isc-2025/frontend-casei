@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   loadAcademicTrainingUseCase,
+  loadDisciplinaryUpdateUseCase,
   loadTeachingTrainingUseCase,
 } from '@core/index';
 import { from } from 'rxjs';
@@ -15,5 +16,9 @@ export class ProfileService {
 
   loadCapacitacionDocente(accessToken: string) {
     return from(loadTeachingTrainingUseCase(accessToken));
+  }
+
+  loadActualizacionDisciplinar(accessToken: string) {
+    return from(loadDisciplinaryUpdateUseCase(accessToken));
   }
 }

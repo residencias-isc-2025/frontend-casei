@@ -12,3 +12,4 @@ export * from './use-cases/instituciones.response';
 
 export * from './use-cases/formacion-academica.response';
 export * from './use-cases/capacitacion-docente.response';
+export * from './use-cases/actualizacion-disciplinar.response';
