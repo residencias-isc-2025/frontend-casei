@@ -84,30 +84,3 @@
   (onSave)="onChangePasswordEmit()"
 />
 }
-
-<!-- Modales CV0 -->
-@switch (selectedId()) {  @case (3) {
-<app-disciplinary-update (onCancel)="selectedId.set(-1)" [title]="titles[2]" />
-} @case (4) {
-<app-academic-management (onCancel)="selectedId.set(-1)" [title]="titles[3]" />
-} @case (5) {
-<app-academic-products (onCancel)="selectedId.set(-1)" [title]="titles[4]" />
-} @case (6) {
-<app-professional-experience
-  (onCancel)="selectedId.set(-1)"
-  [title]="titles[5]"
-/>
-} @case (7) {
-<app-engineering-design (onCancel)="selectedId.set(-1)" [title]="titles[6]" />
-} @case (8) {
-<app-professional-achievements
-  (onCancel)="selectedId.set(-1)"
-  [title]="titles[7]"
-/>
-} @case (9) {
-<app-associations (onCancel)="selectedId.set(-1)" [title]="titles[8]" />
-} @case (10) {
-<app-awards (onCancel)="selectedId.set(-1)" [title]="titles[9]" />
-} @case (11) {
-<app-contributions (onCancel)="selectedId.set(-1)" [title]="titles[10]" />
-} }

@@ -9,15 +9,6 @@ import {
 
 // Modals
 import {
-  DisciplinaryUpdateComponent,
-  AcademicManagementComponent,
-  AcademicProductsComponent,
-  ProfessionalExperienceComponent,
-  EngineeringDesignComponent,
-  ProfessionalAchievementsComponent,
-  AssociationsComponent,
-  AwardsComponent,
-  ContributionsComponent,
   UpdateTeacherNameComponent,
   ChangePasswordComponent,
 } from '@modals/index';
@@ -35,20 +26,7 @@ interface ProfileButtons {
 
 @Component({
   selector: 'app-profile-page',
-  imports: [
-    CommonModule,
-    DisciplinaryUpdateComponent,
-    AcademicManagementComponent,
-    AcademicProductsComponent,
-    ProfessionalExperienceComponent,
-    EngineeringDesignComponent,
-    ProfessionalAchievementsComponent,
-    AssociationsComponent,
-    AwardsComponent,
-    ContributionsComponent,
-    UpdateTeacherNameComponent,
-    ChangePasswordComponent,
-  ],
+  imports: [CommonModule, UpdateTeacherNameComponent, ChangePasswordComponent],
   templateUrl: './profile-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
