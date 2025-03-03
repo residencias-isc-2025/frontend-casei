@@ -78,18 +78,15 @@
   (onSave)="onUpdateInfoEmit()"
   [userProfile]="user()!"
 />
-}
-
-@if (showPasswordModal()) {
-  <app-change-password
+} @if (showPasswordModal()) {
+<app-change-password
   (onCancel)="showPasswordModal.set(false)"
-  (onSave)="onChangePasswordEmit()"/>
+  (onSave)="onChangePasswordEmit()"
+/>
 }
 
 <!-- Modales CV0 -->
-@switch (selectedId()) { @case (1) {
-
-} @case (2) {
+@switch (selectedId()) { @case (2) {
 <app-teaching-training (onCancel)="selectedId.set(-1)" [title]="titles[1]" />
 } @case (3) {
 <app-disciplinary-update (onCancel)="selectedId.set(-1)" [title]="titles[2]" />

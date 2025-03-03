@@ -26,6 +26,7 @@ import {
 // Services
 import { ToastService, UsersService } from '@services/index';
 import { UserResponse } from '@interfaces/index';
+import { Router } from '@angular/router';
 
 interface ProfileButtons {
   id: number;
@@ -60,6 +61,7 @@ export default class ProfilePageComponent implements OnInit {
   showPasswordModal = signal(false);
   showUpdateModal = signal(false);
 
+  router = inject(Router);
   toastService = inject(ToastService);
   usersService = inject(UsersService);
 
@@ -115,7 +117,9 @@ export default class ProfilePageComponent implements OnInit {
   }
 
   handleClick(id: number) {
-    this.selectedId.set(id);
+    switch (id) {
+      case 1: this.router.navigateByUrl('/dashboard/formacion-academica'); break;
+    }
   }
 
   onSaveEmit(): void {
