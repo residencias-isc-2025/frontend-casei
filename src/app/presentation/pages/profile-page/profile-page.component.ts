@@ -9,7 +9,6 @@ import {
 
 // Modals
 import {
-  AcademicTrainingComponent,
   TeachingTrainingComponent,
   DisciplinaryUpdateComponent,
   AcademicManagementComponent,
@@ -21,7 +20,7 @@ import {
   AwardsComponent,
   ContributionsComponent,
   UpdateTeacherNameComponent,
-  ChangePasswordComponent
+  ChangePasswordComponent,
 } from '@modals/index';
 
 // Services
@@ -38,7 +37,6 @@ interface ProfileButtons {
   selector: 'app-profile-page',
   imports: [
     CommonModule,
-    AcademicTrainingComponent,
     TeachingTrainingComponent,
     DisciplinaryUpdateComponent,
     AcademicManagementComponent,
@@ -50,7 +48,7 @@ interface ProfileButtons {
     AwardsComponent,
     ContributionsComponent,
     UpdateTeacherNameComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
   ],
   templateUrl: './profile-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 
 import { ToastService, UsersService } from '@services/index';
 import { validYearValidator } from '@validators/index';
+import { InstitucionesResponse } from '@interfaces/index';
 
 @Component({
   selector: 'app-academic-training',
@@ -25,6 +26,7 @@ import { validYearValidator } from '@validators/index';
 })
 export class AcademicTrainingComponent {
   title = input('');
+  listaInstituciones = input.required<InstitucionesResponse[]>();
 
   onCancel = output();
   onSave = output();

@@ -86,11 +86,7 @@
 
 <!-- Modales CV0 -->
 @switch (selectedId()) { @case (1) {
-<app-academic-training
-  (onCancel)="selectedId.set(-1)"
-  (onSave)="onSaveEmit()"
-  [title]="titles[0]"
-/>
+
 } @case (2) {
 <app-teaching-training (onCancel)="selectedId.set(-1)" [title]="titles[1]" />
 } @case (3) {

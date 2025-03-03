@@ -9,11 +9,14 @@ import {
   FormacionAcademicaData,
   InstitucionesResponse,
 } from '@interfaces/index';
+
+import { AcademicTrainingComponent } from '@modals/index';
+
 import { CommonService, ProfileService, ToastService } from '@services/index';
 
 @Component({
   selector: 'app-formacion-academica',
-  imports: [],
+  imports: [AcademicTrainingComponent],
   templateUrl: './formacion-academica.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -79,5 +82,10 @@ export default class FormacionAcademicaComponent implements OnInit {
     );
 
     return institucion ? institucion.nombre_institucion : '';
+  }
+
+  onSaveEmit() {
+    this.loadFormacionAcademica();
+    this.showAddModal.set(false);
   }
 }

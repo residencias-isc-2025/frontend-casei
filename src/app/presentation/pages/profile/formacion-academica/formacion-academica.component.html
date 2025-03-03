@@ -2,6 +2,7 @@
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-bold text-gray-800">Formación Académica</h1>
     <button
+      (click)="showAddModal.set(true)"
       class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
     >
       Agregar
@@ -49,3 +50,13 @@
     </table>
   </div>
 </div>
+
+<!-- Agregar formación académica -->
+@if (showAddModal()) {
+<app-academic-training
+  (onCancel)="showAddModal.set(false)"
+  (onSave)="onSaveEmit()"
+  [listaInstituciones]="institucionesList()"
+  title="Agregar formación académica"
+/>
+}

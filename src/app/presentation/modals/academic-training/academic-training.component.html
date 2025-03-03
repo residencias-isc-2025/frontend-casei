@@ -49,12 +49,15 @@
         <label for="institucion" class="block text-gray-700 font-medium mb-2"
           >Institución</label
         >
-        <input
-          type="text"
+        <select
           formControlName="institucion"
-          placeholder="Ej. ITSON"
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        >
+          <option value="" disabled selected>Selecciona una institución</option>
+          @for (school of listaInstituciones(); track $index) {
+          <option [value]="school.id">{{ school.nombre_institucion }}</option>
+          }
+        </select>
       </div>
       <div class="mb-4">
         <label for="obtencion" class="block text-gray-700 font-medium mb-2"
