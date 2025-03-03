@@ -59,7 +59,7 @@
 />
 } @if (showUpdateModal()) {
 <app-update-gestion-academica
-  (onCancel)="showAddModal.set(false)"
+  (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
   [listaInstituciones]="institucionesList()"
   [gestionAcademica]="gestionAcademicaSelected()!"

@@ -52,9 +52,9 @@
 />
 } @if (showUpdateModal()) {
 <app-update-producto-academico
-  (onCancel)="showAddModal.set(false)"
+  (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
   [productoAcademico]="productoAcademicoSelected()!"
-  title="Agregar gestión académica"
+  title="Editar producto académico"
 />
 }

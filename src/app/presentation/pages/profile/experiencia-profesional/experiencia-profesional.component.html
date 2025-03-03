@@ -1,6 +1,6 @@
 <div class="container mx-auto p-6">
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Gestión Académica</h1>
+    <h1 class="text-2xl font-bold text-gray-800">Experiencia Profesional</h1>
     <button
       (click)="showAddModal.set(true)"
       class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
@@ -60,9 +60,9 @@
 
 @if (showUpdateModal()) {
 <app-update-experiencia-profesional
-  (onCancel)="showAddModal.set(false)"
+  (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
   [experienciaProfesional]="experienciaProfesionalSelected()!"
-  title="Agregar gestión académica"
+  title="Editar experiencia profesional"
 />
 }

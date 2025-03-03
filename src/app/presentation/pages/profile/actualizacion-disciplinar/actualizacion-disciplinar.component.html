@@ -59,7 +59,7 @@
 />
 } @if (showUpdateModal()) {
 <app-update-actualizacion-disciplinar
-  (onCancel)="showAddModal.set(false)"
+  (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
   [listaInstituciones]="institucionesList()"
   [actualizacionDisciplinar]="actualizacionDisciplinarSelected()!"
