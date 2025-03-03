@@ -6,3 +6,5 @@ export * from './use-cases/get-user.use-case';
 export * from './use-cases/profile/add-academic-training.use-case';
 export * from './use-cases/profile/update-user-data.use-case';
 export * from './use-cases/profile/change-password.use-case';
+
+export * from './use-cases/users/reset-password.use-case';

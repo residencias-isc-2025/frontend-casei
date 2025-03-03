@@ -48,6 +48,23 @@ export default class UsersPageComponent implements OnInit {
     });
   }
 
+  resetPassword(payrollNumber: string): void {
+    const token = localStorage.getItem('casei_residencias_access_token') || '';
+
+    this.usersService.resetPassword(token, payrollNumber).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        if (res.ok) {
+          this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        } else {
+          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
+        }
+      },
+    });
+  }
+
   onSaveEmit(): void {
     this.showModal.set(false);
     this.toastService.showInfo('Cargando usuarios', 'Por favor espere');

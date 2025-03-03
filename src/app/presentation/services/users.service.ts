@@ -13,6 +13,7 @@ import {
   createUserUseCase,
   getAllUsersUseCase,
   getUserUseCase,
+  resetPasswordUseCase,
   updateUserUseCase,
 } from '@core/index';
 
@@ -46,5 +47,9 @@ export class UsersService {
 
   changePassword(accessToken: string, newPassword: string) {
     return from(changePasswordUseCase(accessToken, newPassword));
+  }
+
+  resetPassword(accessToken: string, payrollNumber: string) {
+    return from(resetPasswordUseCase(accessToken, payrollNumber));
   }
 }
