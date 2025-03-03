@@ -3,9 +3,16 @@ export * from './update-teacher-name/update-teacher-name.component';
 export * from './change-password/change-password.component';
 
 // CAMBIAR A VENTANAS
+export * from './01-formacion-academica/add-academic-training/add-academic-training.component';
+export * from './01-formacion-academica/update-academic-training/update-academic-training.component';
+
+
+
+
+
+
 export * from './academic-management/academic-management.component';
 export * from './academic-products/academic-products.component';
-export * from './academic-training/academic-training.component';
 export * from './associations/associations.component';
 export * from './awards/awards.component';
 export * from './contributions/contributions.component';

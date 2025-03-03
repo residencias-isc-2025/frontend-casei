@@ -19,12 +19,12 @@ import { validYearValidator } from '@validators/index';
 import { InstitucionesResponse } from '@interfaces/index';
 
 @Component({
-  selector: 'app-academic-training',
+  selector: 'app-add-academic-training',
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './academic-training.component.html',
+  templateUrl: './add-academic-training.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AcademicTrainingComponent {
+export class AddAcademicTrainingComponent {
   title = input('');
   listaInstituciones = input.required<InstitucionesResponse[]>();
 
@@ -42,7 +42,7 @@ export class AcademicTrainingComponent {
       nombre: ['', Validators.required],
       institucion: ['', Validators.required],
       obtencion: ['', [Validators.required, validYearValidator]],
-      cedula: [''],
+      cedula: ['', Validators.required],
     });
   }
 

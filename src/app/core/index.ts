@@ -9,6 +9,7 @@ export * from './use-cases/profile/load-academic-training.use-case';
 
 
 export * from './use-cases/profile/add-academic-training.use-case';
+export * from './use-cases/profile/update-academic-training.use-case';
 
 export * from './use-cases/users/reset-password.use-case';
 

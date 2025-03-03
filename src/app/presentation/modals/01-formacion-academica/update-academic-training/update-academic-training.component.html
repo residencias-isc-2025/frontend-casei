@@ -1,0 +1,103 @@
+<div
+  class="fixed inset-0 bg-opacity-50 flex items-center justify-center backdrop-blur-sm"
+>
+  <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+    <div class="flex justify-between items-center border-b pb-2">
+      <h2 class="text-xl font-semibold text-gray-800">{{ title() }}</h2>
+      <button
+        class="text-gray-500 hover:text-gray-700 text-xl"
+        (click)="onCancel.emit()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <form
+      [formGroup]="updateAcademicTrainingForm"
+      (keydown.enter)="onSaveData()"
+      class="mt-4"
+    >
+      <div class="mb-4">
+        <label for="nivel" class="block text-gray-700 font-medium mb-2"
+          >Nivel</label
+        >
+        <select
+          formControlName="nivel"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="" disabled selected>Selecciona un nivel</option>
+          <option value="L">Licenciatura</option>
+          <option value="E">Especialidad</option>
+          <option value="M">Maestría</option>
+          <option value="D">Doctorado</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label for="nombre" class="block text-gray-700 font-medium mb-2"
+          >Nombre</label
+        >
+        <input
+          type="text"
+          formControlName="nombre"
+          placeholder="Ej. Ingeniería en Electrónica"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="institucion" class="block text-gray-700 font-medium mb-2">
+          Institución
+        </label>
+        <select
+          formControlName="institucion"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="" disabled>Selecciona una institución</option>
+          @for (school of listaInstituciones(); track $index) {
+          <option [value]="school.id">{{ school.nombre_institucion }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label for="obtencion" class="block text-gray-700 font-medium mb-2"
+          >Año de obtención</label
+        >
+        <input
+          type="text"
+          formControlName="obtencion"
+          placeholder="Ej. 1999"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      <div class="mb-4">
+        <label for="cedula" class="block text-gray-700 font-medium mb-2"
+          >Cédula Profesional</label
+        >
+        <input
+          type="text"
+          formControlName="cedula"
+          placeholder="Ej. 3060974"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div class="flex justify-end gap-3 mt-4">
+        <button
+          class="px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-lg"
+          (click)="onCancel.emit()"
+        >
+          Cancelar
+        </button>
+        <button
+          class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg disabled:bg-gray-500"
+          [disabled]="updateAcademicTrainingForm.invalid"
+          (click)="onSaveData()"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

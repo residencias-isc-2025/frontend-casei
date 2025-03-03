@@ -14,6 +14,7 @@ import {
   getAllUsersUseCase,
   getUserUseCase,
   resetPasswordUseCase,
+  updateAcademicTrainingUseCase,
   updateUserUseCase,
 } from '@core/index';
 
@@ -39,6 +40,10 @@ export class UsersService {
 
   addAcademicTrainingFunction(formacionAcademica: FormacionAcademicaDto) {
     return from(addAcademicTrainingUseCase(formacionAcademica));
+  }
+
+  updateAcademicTrainingFunction(formacionAcademica: FormacionAcademicaDto) {
+    return from(updateAcademicTrainingUseCase(formacionAcademica));
   }
 
   updateUserData(accessToken: string, user: UpdateUserDto) {

@@ -10,13 +10,16 @@ import {
   InstitucionesResponse,
 } from '@interfaces/index';
 
-import { AcademicTrainingComponent } from '@modals/index';
+import {
+  AddAcademicTrainingComponent,
+  UpdateAcademicTrainingComponent,
+} from '@modals/index';
 
 import { CommonService, ProfileService, ToastService } from '@services/index';
 
 @Component({
   selector: 'app-formacion-academica',
-  imports: [AcademicTrainingComponent],
+  imports: [AddAcademicTrainingComponent, UpdateAcademicTrainingComponent],
   templateUrl: './formacion-academica.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -30,6 +33,10 @@ export default class FormacionAcademicaComponent implements OnInit {
 
   public formacionAcademicaList = signal<FormacionAcademicaData[]>([]);
   public institucionesList = signal<InstitucionesResponse[]>([]);
+
+  public formacionAcademicaSelected = signal<FormacionAcademicaData | null>(
+    null
+  );
 
   ngOnInit(): void {
     this.loadInstituciones();
@@ -84,8 +91,25 @@ export default class FormacionAcademicaComponent implements OnInit {
     return institucion ? institucion.nombre_institucion : '';
   }
 
+  onShowUpdateModel(idFormacion: number) {
+    const formacion = this.formacionAcademicaList().find(
+      (formacion) => formacion.id === idFormacion
+    );
+
+    this.formacionAcademicaSelected.set(
+      formacion !== undefined ? formacion : null
+    );
+
+    this.showUpdateModal.set(true);
+  }
+
   onSaveEmit() {
     this.loadFormacionAcademica();
     this.showAddModal.set(false);
+  }
+
+  onEditEmit() {
+    this.loadFormacionAcademica();
+    this.showUpdateModal.set(false);
   }
 }
