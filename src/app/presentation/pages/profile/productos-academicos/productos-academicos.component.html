@@ -44,14 +44,13 @@
   </div>
 </div>
 
-<!-- @if (showAddModal()) {
-<app-add-gestion-academica
+@if (showAddModal()) {
+<app-add-producto-academico
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
-  [listaInstituciones]="institucionesList()"
-  title="Agregar gestión académica"
+  title="Agregar producto académico"
 />
-}  -->
+}
 
 <!-- @if (showUpdateModal()) {
 <app-update-gestion-academica

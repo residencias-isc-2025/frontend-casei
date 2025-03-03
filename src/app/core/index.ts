@@ -16,6 +16,7 @@ export * from './use-cases/profile/add/add-academic-training.use-case';
 export * from './use-cases/profile/add/add-teaching-training.use-case';
 export * from './use-cases/profile/add/add-disciplinary-update.use-case';
 export * from './use-cases/profile/add/add-academic-management.use-case';
+export * from './use-cases/profile/add/add-academic-products.use-case';
 
 export * from './use-cases/profile/update/update-academic-training.use-case';
 export * from './use-cases/profile/update/update-teaching-training.use-case';
