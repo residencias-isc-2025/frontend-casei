@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
 
 import {
+  ActualizacionDisciplinarDto,
   CapacitacionDocenteDto,
   CreateUserDto,
   FormacionAcademicaDto,
@@ -10,6 +11,7 @@ import {
 
 import {
   addAcademicTrainingUseCase,
+  addDisciplinaryUpdateUseCase,
   addTeachingTrainingUseCase,
   changePasswordUseCase,
   createUserUseCase,
@@ -59,6 +61,12 @@ export class UsersService {
 
   addTeachingTrainingFunction(capacitacionDocente: CapacitacionDocenteDto) {
     return from(addTeachingTrainingUseCase(capacitacionDocente));
+  }
+
+  addDisciplinaryUpdateFunction(
+    actualizacionDisciplinar: ActualizacionDisciplinarDto
+  ) {
+    return from(addDisciplinaryUpdateUseCase(actualizacionDisciplinar));
   }
 
   updateAcademicTrainingFunction(

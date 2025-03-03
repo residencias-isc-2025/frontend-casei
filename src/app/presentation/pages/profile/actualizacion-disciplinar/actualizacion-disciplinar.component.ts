@@ -8,11 +8,14 @@ import {
   ActualizacionDisciplonarResponse,
   InstitucionesResponse,
 } from '@interfaces/index';
+
+import { AddActualizacionDisciplinarComponent } from '@modals/index';
+
 import { ToastService, ProfileService, CommonService } from '@services/index';
 
 @Component({
   selector: 'app-actualizacion-disciplinar',
-  imports: [],
+  imports: [AddActualizacionDisciplinarComponent],
   templateUrl: './actualizacion-disciplinar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -49,3 +49,12 @@
     </table>
   </div>
 </div>
+
+@if (showAddModal()) {
+<app-add-actualizacion-disciplinar
+  (onCancel)="showAddModal.set(false)"
+  (onSave)="onSaveEmit()"
+  [listaInstituciones]="institucionesList()"
+  title="Agregar actualización disciplinar"
+/>
+}
