@@ -6,4 +6,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './formats-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class FormatsPageComponent {}
+export default class FormatsPageComponent {
+
+
+
+  downloadCurricumVitae() {
+    console.log('Hola mundo');
+  }
+}
