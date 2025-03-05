@@ -9,6 +9,7 @@
       "@guards/*": ["src/app/guards/*"],
       "@interfaces/*": ["src/app/interfaces/*"],
       "@presentation/*": ["src/app/presentation/*"],
+      "@helpers/*": ["src/app/helpers/*"],
       "@components/*": ["src/app/presentation/components/*"],
       "@layouts/*": ["src/app/presentation/layouts/*"],
       "@services/*": ["src/app/presentation/services/*"],
