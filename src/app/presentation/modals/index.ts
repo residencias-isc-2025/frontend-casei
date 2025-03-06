@@ -36,3 +36,4 @@ export * from './11-aportaciones/add-aportacion/add-aportacion.component';
 export * from './11-aportaciones/update-aportacion/update-aportacion.component';
 
 export * from './instituciones/add-institucion/add-institucion.component';
+export * from './instituciones/update-institucion/update-institucion.component';

@@ -9,11 +9,11 @@ import {
 import { CountriesResponse, InstitucionesResponse } from '@interfaces/index';
 import { ToastService, CommonService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
-import { AddInstitucionComponent } from '@presentation/modals';
+import { AddInstitucionComponent, UpdateInstitucionComponent } from '@presentation/modals';
 
 @Component({
   selector: 'app-schools-page',
-  imports: [CommonModule, PaginationComponent, AddInstitucionComponent],
+  imports: [CommonModule, PaginationComponent, AddInstitucionComponent, UpdateInstitucionComponent],
   templateUrl: './schools-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -22,12 +22,14 @@ export default class SchoolsPageComponent implements OnInit {
   public commonService = inject(CommonService);
 
   public showAddModal = signal(false);
+  public showUpdateModal = signal(false);
 
   public totalItems = signal(0);
   public schools = signal<InstitucionesResponse[]>([]);
   public countries = signal<CountriesResponse[]>([]);
 
   public currentPage = signal(1);
+  public schoolSelected = signal<InstitucionesResponse | null>(null);
 
   ngOnInit(): void {
     //this.loadCountries();
@@ -78,9 +80,23 @@ export default class SchoolsPageComponent implements OnInit {
     this.loadSchools();
   }
 
+  onShowUpdateModel(idFormacion: number) {
+    const formacion = this.schools().find(
+      (formacion) => formacion.id === idFormacion
+    );
+
+    this.schoolSelected.set(formacion !== undefined ? formacion : null);
+
+    this.showUpdateModal.set(true);
+  }
+
   onSaveEmit(): void {
     this.showAddModal.set(false);
-    this.toastService.showInfo('Cargando instituciones', 'Por favor espere');
+    this.loadSchools();
+  }
+
+  onEditEmit(): void {
+    this.showUpdateModal.set(false);
     this.loadSchools();
   }
 }
