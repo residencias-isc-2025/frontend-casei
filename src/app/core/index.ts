@@ -43,6 +43,7 @@ export * from './use-cases/profile/update/update-awards.use-case';
 export * from './use-cases/profile/update/update-contributions.use-case';
 
 export * from './use-cases/users/reset-password.use-case';
+export * from './use-cases/users/create-users-by-csv.use-case';
 
 export * from './use-cases/common/get-schools.use-case';
 

@@ -1,31 +1,38 @@
 import { environment } from '@environments/environment';
+import { CreateUsersByCSVResponse } from '@interfaces/index';
 
-export const resetPasswordUseCase = async (
+export const createUsersByCsvUseCase = async (
   accessToken: string,
-  userId: number
+  formData: FormData
 ) => {
+  const url = `${environment.api_url}/registration/create-users-by-csv/`;
+
+  console.log(formData);
+
   try {
     const resp = await fetch(
-      `${environment.api_url}/registration/reset-password/${userId}/`,
+      `${environment.api_url}/registration/create-users-by-csv/`,
       {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
         },
+        body: formData,
       }
     );
+
+    const data = (await resp.json()) as CreateUsersByCSVResponse;
 
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'No se pudo re-establecer la contraseña',
+        mensaje: 'Error al crear usuarios',
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Contraseña re-establecida correctamente',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);
