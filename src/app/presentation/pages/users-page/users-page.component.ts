@@ -9,7 +9,7 @@ import {
 import { CreateUserComponent } from '@modals/index';
 import { ToastService, UsersService } from '@services/index';
 import { UserResponse } from '@interfaces/index';
-import { PaginationComponent } from '../../components/pagination/pagination.component';
+import { PaginationComponent } from '@components/pagination/pagination.component';
 import { CommonModule } from '@angular/common';
 
 @Component({

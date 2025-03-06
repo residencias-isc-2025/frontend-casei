@@ -2,6 +2,7 @@ import { calculateAge } from '@helpers/calculate-age.helper';
 import { calculateSeniority } from '@helpers/calculate-seniority.helper';
 import { createTable } from '@helpers/create-table.helper';
 import { formatedBirthdate } from '@helpers/formated-birthdate.helper';
+import { getLastNomination } from '@helpers/get-last-nomination.helper';
 import {
   ActualizacionDisciplinarResponse,
   AportacionesResponse,
@@ -198,7 +199,7 @@ export const curriculumVitaeReport = (
         [
           calculateAge(data.usuario.fecha_nacimiento!),
           formatedBirthdate(data.usuario.fecha_nacimiento!),
-          '',
+          getLastNomination(data.gestion_academica),
           calculateSeniority(payrollNumber.substring(0, 2)),
         ],
       ],

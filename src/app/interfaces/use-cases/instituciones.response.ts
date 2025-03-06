@@ -1,5 +1,6 @@
 export interface InstitucionesResponse {
-  id:                 number;
+  id: number;
   nombre_institucion: string;
-  pais:               string;
+  pais: string;
+  estado: string;
 }

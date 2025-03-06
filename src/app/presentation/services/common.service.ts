@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { loadInstitucionesUseCase } from '@core/index';
+import {
+  addSchoolUseCase,
+  getCountriesListUseCase,
+  loadInstitucionesUseCase,
+} from '@core/index';
+import { InstitucionDto } from '@interfaces/index';
 import { from } from 'rxjs';
 
 @Injectable({
@@ -8,5 +13,13 @@ import { from } from 'rxjs';
 export class CommonService {
   loadInstituciones(accessToken: string) {
     return from(loadInstitucionesUseCase(accessToken));
+  }
+
+  loadCountries() {
+    return from(getCountriesListUseCase());
+  }
+
+  addSchool(institucionDto: InstitucionDto) {
+    return from(addSchoolUseCase(institucionDto));
   }
 }
