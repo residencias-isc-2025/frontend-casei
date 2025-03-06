@@ -33,3 +33,5 @@ export * from './use-cases/aportaciones.response';
 export * from './use-cases/create-users-by-csv.response';
 
 export * from './use-cases/reports/curriculum-vitae.response';
+
+export * from './use-cases/pagination/pagination.interface';

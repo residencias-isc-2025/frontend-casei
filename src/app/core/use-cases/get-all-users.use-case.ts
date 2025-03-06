@@ -1,9 +1,14 @@
 import { environment } from '@environments/environment';
-import { UserResponse } from '@interfaces/index';
+import { PaginationInterface, UserResponse } from '@interfaces/index';
+
+interface UsersListInterface {
+  pagination: PaginationInterface;
+  results: UserResponse[];
+}
 
 export const getAllUsersUseCase = async (accessToken: string) => {
   try {
-    const resp = await fetch(`${environment.api_url}/api/registration/users/`, {
+    const resp = await fetch(`${environment.api_url}/registration/users/`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -11,19 +16,20 @@ export const getAllUsersUseCase = async (accessToken: string) => {
       },
     });
 
-    const data = (await resp.json()) as UserResponse[];
+    const data = (await resp.json()) as UsersListInterface;
+
+    console.log(data);
 
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: data,
         usuarios: [],
       };
     }
 
     return {
       ok: true,
-      usuarios: data,
+      usuarios: data.results,
     };
   } catch (error) {
     console.error(error);
