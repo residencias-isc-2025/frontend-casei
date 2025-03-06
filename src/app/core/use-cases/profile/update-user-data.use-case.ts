@@ -6,8 +6,6 @@ export const updateUserUseCase = async (
   user: UpdateUserDto
 ) => {
   try {
-    console.log({ user });
-
     const resp = await fetch(
       `${environment.api_url}/api/registration/register/${user.id}/`,
       {

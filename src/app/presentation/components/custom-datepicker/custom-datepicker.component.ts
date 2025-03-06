@@ -70,7 +70,6 @@ export class CustomDatepickerComponent implements OnInit {
   }
 
   selectDate(date: string) {
-    console.log({date});
     this.selectedDate.set(date);
     this.dateSelected.emit(date);
     this.toggleDatePicker();

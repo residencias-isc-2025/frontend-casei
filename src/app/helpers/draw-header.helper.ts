@@ -13,8 +13,6 @@ let lastPageNumber = -1;
 export const drawHeader = (doc: jsPDF, pageNumber: number) => {
   if (lastPageNumber === pageNumber) return;
 
-  console.log('CAMBIO DE PÁGINA');
-
   const pageWidth = doc.internal.pageSize.getWidth();
   const date = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
 

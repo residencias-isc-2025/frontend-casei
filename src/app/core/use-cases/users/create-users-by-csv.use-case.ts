@@ -5,10 +5,6 @@ export const createUsersByCsvUseCase = async (
   accessToken: string,
   formData: FormData
 ) => {
-  const url = `${environment.api_url}/registration/create-users-by-csv/`;
-
-  console.log(formData);
-
   try {
     const resp = await fetch(
       `${environment.api_url}/registration/create-users-by-csv/`,
