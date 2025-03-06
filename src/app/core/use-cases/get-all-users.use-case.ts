@@ -1,5 +1,5 @@
 import { environment } from '@environments/environment';
-import { PaginationInterface, UserResponse } from '@interfaces/index';
+import { UserResponse } from '@interfaces/index';
 
 interface UsersListInterface {
   count: number;

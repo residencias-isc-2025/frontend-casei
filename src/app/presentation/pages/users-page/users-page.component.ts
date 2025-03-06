@@ -8,12 +8,13 @@ import {
 } from '@angular/core';
 import { CreateUserComponent } from '@modals/index';
 import { ToastService, UsersService } from '@services/index';
-import { PaginationInterface, UserResponse } from '@interfaces/index';
+import { UserResponse } from '@interfaces/index';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-users-page',
-  imports: [CreateUserComponent, PaginationComponent],
+  imports: [CommonModule, CreateUserComponent, PaginationComponent],
   templateUrl: './users-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -100,6 +101,8 @@ export default class UsersPageComponent implements OnInit {
 
     const formData = new FormData();
     formData.append('archivo_csv', file);
+
+    this.toastService.showInfo('Por favor espere...', 'Creando usuarios');
 
     this.usersService.createUsersByCsv(token, formData).subscribe({
       error: (res) => {
