@@ -2,23 +2,26 @@ import { environment } from '@environments/environment';
 import { PaginationInterface, UserResponse } from '@interfaces/index';
 
 interface UsersListInterface {
-  pagination: PaginationInterface;
+  count: number;
+  next: string | null;
+  previous: string | null;
   results: UserResponse[];
 }
 
-export const getAllUsersUseCase = async (accessToken: string) => {
+export const getAllUsersUseCase = async (accessToken: string, page: number) => {
   try {
-    const resp = await fetch(`${environment.api_url}/registration/users/`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-    });
+    const resp = await fetch(
+      `${environment.api_url}/registration/users/?page=${page}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
 
     const data = (await resp.json()) as UsersListInterface;
-
-    console.log(data);
 
     if (!resp.ok) {
       return {
@@ -29,6 +32,7 @@ export const getAllUsersUseCase = async (accessToken: string) => {
 
     return {
       ok: true,
+      items: data.count,
       usuarios: data.results,
     };
   } catch (error) {

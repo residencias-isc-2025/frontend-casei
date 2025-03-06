@@ -1,0 +1,37 @@
+<div class="flex items-center space-x-2 justify-center py-4">
+  <button
+    (click)="firstPage()"
+    [disabled]="isFirstPage"
+    class="px-3 py-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded disabled:opacity-50"
+  >
+    << Primera
+  </button>
+
+  <button
+    (click)="prevPage()"
+    [disabled]="isFirstPage"
+    class="px-3 py-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded disabled:opacity-50"
+  >
+    < Anterior
+  </button>
+
+  <span class="px-4 py-2 bg-blue-100 text-blue-700 font-semibold rounded">
+    Página {{ currentPage() }} de {{ totalPages }}
+  </span>
+
+  <button
+    (click)="nextPage()"
+    [disabled]="isLastPage"
+    class="px-3 py-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded disabled:opacity-50"
+  >
+    Siguiente >
+  </button>
+
+  <button
+    (click)="lastPage()"
+    [disabled]="isLastPage"
+    class="px-3 py-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded disabled:opacity-50"
+  >
+    Última >>
+  </button>
+</div>

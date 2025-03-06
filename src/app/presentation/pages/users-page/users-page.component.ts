@@ -8,11 +8,12 @@ import {
 } from '@angular/core';
 import { CreateUserComponent } from '@modals/index';
 import { ToastService, UsersService } from '@services/index';
-import { UserResponse } from '@interfaces/index';
+import { PaginationInterface, UserResponse } from '@interfaces/index';
+import { PaginationComponent } from '../../components/pagination/pagination.component';
 
 @Component({
   selector: 'app-users-page',
-  imports: [CreateUserComponent],
+  imports: [CreateUserComponent, PaginationComponent],
   templateUrl: './users-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -22,7 +23,10 @@ export default class UsersPageComponent implements OnInit {
 
   public showModal = signal(false);
 
+  public totalItems = signal(0);
   public users = signal<UserResponse[]>([]);
+
+  public currentPage = signal(1);
 
   ngOnInit(): void {
     this.loadUsers();
@@ -31,12 +35,13 @@ export default class UsersPageComponent implements OnInit {
   private loadUsers(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.usersService.getAllUsers(token).subscribe({
+    this.usersService.getAllUsers(token, this.currentPage()).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
         if (res.ok) {
+          this.totalItems.set(res.items!);
           this.users.set(res.usuarios || []);
         } else {
           this.toastService.showWarning(
@@ -109,5 +114,10 @@ export default class UsersPageComponent implements OnInit {
         }
       },
     });
+  }
+
+  onPageChanged(page: number): void {
+    this.currentPage.set(page);
+    this.loadUsers();
   }
 }

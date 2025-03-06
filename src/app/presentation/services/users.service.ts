@@ -61,8 +61,8 @@ export class UsersService {
     return from(createUserUseCase(user));
   }
 
-  getAllUsers(accessToken: string) {
-    return from(getAllUsersUseCase(accessToken));
+  getAllUsers(accessToken: string, page: number) {
+    return from(getAllUsersUseCase(accessToken, page));
   }
 
   getLoggedUser(accessToken: string) {
