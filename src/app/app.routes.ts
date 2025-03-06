@@ -30,6 +30,12 @@ export const routes: Routes = [
         canMatch: [userRoleGuard],
       },
       {
+        path: 'schools',
+        loadComponent: () =>
+          import('@presentation/pages/schools-page/schools-page.component'),
+        canMatch: [userRoleGuard],
+      },
+      {
         path: 'profile',
         loadComponent: () =>
           import('@presentation/pages/profile-page/profile-page.component'),
