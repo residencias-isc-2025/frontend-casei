@@ -46,17 +46,9 @@ export default class SchoolsPageComponent implements OnInit {
 
   private loadCountries(): void {
     this.commonService.loadCountries().subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
       next: (res) => {
         if (res.ok) {
           this.countries.set(res.data || []);
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener los países.',
-            'Hubo un problema'
-          );
         }
       },
     });
@@ -106,5 +98,45 @@ export default class SchoolsPageComponent implements OnInit {
   onEditEmit(): void {
     this.showUpdateModal.set(false);
     this.loadSchools();
+  }
+
+  onDisableSchool(schoolId: number) {
+    const token = localStorage.getItem('casei_residencias_access_token') || '';
+
+    this.toastService.showInfo('Por favor espere...', 'Actualizando');
+
+    this.commonService.disableSchool(schoolId, token).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        if (res.ok) {
+          this.toastService.showSuccess(res.mensaje!, 'Éxito');
+          this.loadSchools();
+        } else {
+          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
+        }
+      },
+    });
+  }
+
+  onEnableSchool(schoolId: number) {
+    const token = localStorage.getItem('casei_residencias_access_token') || '';
+
+    this.toastService.showInfo('Por favor espere...', 'Actualizando');
+
+    this.commonService.enableSchool(schoolId, token).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        if (res.ok) {
+          this.toastService.showSuccess(res.mensaje!, 'Éxito');
+          this.loadSchools();
+        } else {
+          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
+        }
+      },
+    });
   }
 }

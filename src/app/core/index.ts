@@ -52,5 +52,7 @@ export * from './use-cases/common/get-countries.use-case';
 
 export * from './use-cases/common/add-school.use-case';
 export * from './use-cases/common/update-school.use-case';
+export * from './use-cases/common/enable-school.use-case';
+export * from './use-cases/common/disable-school.use-case';
 
 export * from './use-cases/reports/get-curriculum-vitae.use-case';

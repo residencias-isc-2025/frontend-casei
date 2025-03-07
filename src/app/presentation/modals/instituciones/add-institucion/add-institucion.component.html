@@ -29,7 +29,7 @@
         />
       </div>
 
-      @if (countriesList() === []) {
+      @if (countriesList().length === 0) {
       <div class="mb-4">
         <label for="pais" class="block text-gray-700 font-medium mb-2"
           >País</label
@@ -42,7 +42,6 @@
         />
       </div>
       } @else {
-
       <div class="mb-4">
         <label for="pais" class="block text-gray-700 font-medium mb-2"
           >País</label

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
   addSchoolUseCase,
+  disableSchoolUseCase,
+  enableSchoolUseCase,
   getCountriesListUseCase,
   loadInstitucionesUseCase,
   updateSchoolUseCase,
@@ -26,5 +28,13 @@ export class CommonService {
 
   updateSchool(idInstitucion: number, institucionDto: InstitucionDto) {
     return from(updateSchoolUseCase(idInstitucion, institucionDto));
+  }
+
+  enableSchool(idInstitucion: number, accessToken: string) {
+    return from(enableSchoolUseCase(idInstitucion, accessToken));
+  }
+
+  disableSchool(idInstitucion: number, accessToken: string) {
+    return from(disableSchoolUseCase(idInstitucion, accessToken));
   }
 }
