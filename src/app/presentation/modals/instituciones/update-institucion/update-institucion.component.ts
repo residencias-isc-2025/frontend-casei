@@ -6,6 +6,7 @@ import {
   input,
   OnInit,
   output,
+  signal,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -13,7 +14,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { InstitucionesResponse } from '@interfaces/index';
+import { CountriesResponse, InstitucionesResponse } from '@interfaces/index';
 import { CommonService, ToastService } from '@presentation/services';
 
 @Component({
@@ -24,6 +25,7 @@ import { CommonService, ToastService } from '@presentation/services';
 })
 export class UpdateInstitucionComponent implements OnInit {
   school = input.required<InstitucionesResponse>();
+  countriesList = input<CountriesResponse[]>([]);
 
   onCancel = output();
   onSave = output();

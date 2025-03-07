@@ -90,11 +90,13 @@
 <app-add-institucion
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
+  [countriesList]="countries()"
 />
 } @if(showUpdateModal()) {
 <app-update-institucion
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
   [school]="schoolSelected()!"
+  [countriesList]="countries()"
 />
 }

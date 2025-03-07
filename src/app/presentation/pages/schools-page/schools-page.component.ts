@@ -9,11 +9,19 @@ import {
 import { CountriesResponse, InstitucionesResponse } from '@interfaces/index';
 import { ToastService, CommonService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
-import { AddInstitucionComponent, UpdateInstitucionComponent } from '@presentation/modals';
+import {
+  AddInstitucionComponent,
+  UpdateInstitucionComponent,
+} from '@presentation/modals';
 
 @Component({
   selector: 'app-schools-page',
-  imports: [CommonModule, PaginationComponent, AddInstitucionComponent, UpdateInstitucionComponent],
+  imports: [
+    CommonModule,
+    PaginationComponent,
+    AddInstitucionComponent,
+    UpdateInstitucionComponent,
+  ],
   templateUrl: './schools-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -32,7 +40,7 @@ export default class SchoolsPageComponent implements OnInit {
   public schoolSelected = signal<InstitucionesResponse | null>(null);
 
   ngOnInit(): void {
-    //this.loadCountries();
+    this.loadCountries();
     this.loadSchools();
   }
 

@@ -3,7 +3,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  input,
   output,
+  signal,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -11,6 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { CountriesResponse } from '@interfaces/index';
 import { CommonService, ToastService } from '@presentation/services';
 
 @Component({
@@ -25,6 +28,8 @@ export class AddInstitucionComponent {
 
   public toastService = inject(ToastService);
   public commonService = inject(CommonService);
+
+  countriesList = input<CountriesResponse[]>([]);
 
   addSchoolForm: FormGroup;
 

@@ -29,6 +29,7 @@
         />
       </div>
 
+      @if (countriesList() === []) {
       <div class="mb-4">
         <label for="pais" class="block text-gray-700 font-medium mb-2"
           >País</label
@@ -40,6 +41,23 @@
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
+      } @else {
+
+      <div class="mb-4">
+        <label for="pais" class="block text-gray-700 font-medium mb-2"
+          >País</label
+        >
+        <select
+          formControlName="pais"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="" disabled selected>Selecciona un país</option>
+          @for (pais of countriesList(); track $index) {
+          <option [value]="pais.name.common">{{ pais.name.common }}</option>
+          }
+        </select>
+      </div>
+      }
 
       <div class="flex justify-end gap-3 mt-4">
         <button

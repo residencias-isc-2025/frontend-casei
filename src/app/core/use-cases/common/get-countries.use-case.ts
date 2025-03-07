@@ -1,3 +1,4 @@
+import { sortCountriesAlphabetically } from '@helpers/sort-alphabetically.helper';
 import { CountriesResponse } from '@interfaces/index';
 
 export const getCountriesListUseCase = async () => {
@@ -20,7 +21,9 @@ export const getCountriesListUseCase = async () => {
       };
     }
 
-    const data = (await resp.json()) as CountriesResponse[];
+    let data = (await resp.json()) as CountriesResponse[];
+
+    data = sortCountriesAlphabetically(data);
 
     return {
       ok: true,
