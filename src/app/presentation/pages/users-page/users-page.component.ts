@@ -123,4 +123,48 @@ export default class UsersPageComponent implements OnInit {
     this.currentPage.set(page);
     this.loadUsers();
   }
+
+  onDisableUser(userId: number) {
+    const token = localStorage.getItem('casei_residencias_access_token') || '';
+
+    this.toastService.showInfo('Por favor espere...', 'Actualizando');
+
+    this.usersService
+      .enableOrDisableUserFunction('DELETE', userId, token)
+      .subscribe({
+        error: (res) => {
+          this.toastService.showError(res.mensaje!, 'Malas noticias');
+        },
+        next: (res) => {
+          if (res.ok) {
+            this.toastService.showSuccess(res.mensaje!, 'Éxito');
+            this.loadUsers();
+          } else {
+            this.toastService.showWarning(res.mensaje!, 'Malas noticias');
+          }
+        },
+      });
+  }
+
+  onEnableUser(userId: number) {
+    const token = localStorage.getItem('casei_residencias_access_token') || '';
+
+    this.toastService.showInfo('Por favor espere...', 'Actualizando');
+
+    this.usersService
+      .enableOrDisableUserFunction('PUT', userId, token)
+      .subscribe({
+        error: (res) => {
+          this.toastService.showError(res.mensaje!, 'Malas noticias');
+        },
+        next: (res) => {
+          if (res.ok) {
+            this.toastService.showSuccess(res.mensaje!, 'Éxito');
+            this.loadUsers();
+          } else {
+            this.toastService.showWarning(res.mensaje!, 'Malas noticias');
+          }
+        },
+      });
+  }
 }
