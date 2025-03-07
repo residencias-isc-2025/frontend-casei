@@ -5,7 +5,8 @@ export * from './use-cases/get-user.use-case';
 
 export * from './use-cases/profile/update-user-data.use-case';
 export * from './use-cases/profile/change-password.use-case';
-export * from './use-cases/profile/enable-disable-user.use-case';
+export * from './use-cases/profile/enable-user.user.use-case';
+export * from './use-cases/profile/disable-user.user.use-case';
 
 export * from './use-cases/profile/load/load-academic-training.use-case';
 export * from './use-cases/profile/load/load-teaching-training.use-case';

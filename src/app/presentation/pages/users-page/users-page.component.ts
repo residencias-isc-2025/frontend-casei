@@ -129,21 +129,19 @@ export default class UsersPageComponent implements OnInit {
 
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.usersService
-      .enableOrDisableUserFunction('DELETE', userId, token)
-      .subscribe({
-        error: (res) => {
-          this.toastService.showError(res.mensaje!, 'Malas noticias');
-        },
-        next: (res) => {
-          if (res.ok) {
-            this.toastService.showSuccess(res.mensaje!, 'Éxito');
-            this.loadUsers();
-          } else {
-            this.toastService.showWarning(res.mensaje!, 'Malas noticias');
-          }
-        },
-      });
+    this.usersService.disableUserFunction(userId, token).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        if (res.ok) {
+          this.toastService.showSuccess(res.mensaje!, 'Éxito');
+          this.loadUsers();
+        } else {
+          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
+        }
+      },
+    });
   }
 
   onEnableUser(userId: number) {
@@ -151,20 +149,18 @@ export default class UsersPageComponent implements OnInit {
 
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.usersService
-      .enableOrDisableUserFunction('PUT', userId, token)
-      .subscribe({
-        error: (res) => {
-          this.toastService.showError(res.mensaje!, 'Malas noticias');
-        },
-        next: (res) => {
-          if (res.ok) {
-            this.toastService.showSuccess(res.mensaje!, 'Éxito');
-            this.loadUsers();
-          } else {
-            this.toastService.showWarning(res.mensaje!, 'Malas noticias');
-          }
-        },
-      });
+    this.usersService.enableUserFunction(userId, token).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        if (res.ok) {
+          this.toastService.showSuccess(res.mensaje!, 'Éxito');
+          this.loadUsers();
+        } else {
+          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
+        }
+      },
+    });
   }
 }

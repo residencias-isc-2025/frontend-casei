@@ -32,7 +32,8 @@ import {
   changePasswordUseCase,
   createUsersByCsvUseCase,
   createUserUseCase,
-  enableOrDisableUserUseCase,
+  disableUserUseCase,
+  enableUserUseCase,
   getAllUsersUseCase,
   getUserUseCase,
   resetPasswordUseCase,
@@ -86,12 +87,12 @@ export class UsersService {
     return from(createUsersByCsvUseCase(accessToken, formData));
   }
 
-  enableOrDisableUserFunction(
-    method: string,
-    userId: number,
-    accessToken: string
-  ) {
-    return from(enableOrDisableUserUseCase(method, userId, accessToken));
+  enableUserFunction(userId: number, accessToken: string) {
+    return from(enableUserUseCase(userId, accessToken));
+  }
+
+  disableUserFunction(userId: number, accessToken: string) {
+    return from(disableUserUseCase(userId, accessToken));
   }
 
   //#region Formación académica

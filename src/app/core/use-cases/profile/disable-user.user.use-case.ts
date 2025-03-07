@@ -1,15 +1,14 @@
 import { environment } from '@environments/environment';
 
-export const enableOrDisableUserUseCase = async (
-  method: string,
+export const disableUserUseCase = async (
   userId: number,
   accessToken: string
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/habilitar-usuario/${userId}/`,
+      `${environment.api_url}/api/registration/register/${userId}/`,
       {
-        method,
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
