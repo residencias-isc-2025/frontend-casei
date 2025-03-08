@@ -4,26 +4,26 @@ import { createTable } from '@helpers/create-table.helper';
 import { formatedBirthdate } from '@helpers/formated-birthdate.helper';
 import { getLastNomination } from '@helpers/get-last-nomination.helper';
 import {
-  ActualizacionDisciplinarResponse,
-  AportacionesResponse,
-  CapacitacionDocenteResponse,
+  ActualizacionDisciplinarData,
+  AportacionData,
+  CapacitacionDocenteData,
   CurriculumVitaeResponse,
-  DisenoIngenierilResponse,
-  ExperienciaProfesionalResponse,
-  FormacionAcademicaResponse,
-  GestionAcademicaResponse,
-  InstitucionResponse,
-  LogrosPrefesionalesResponse,
-  ParticipacionResponse,
-  PremiosResponse,
-  ProductosAcademicosResponse,
+  DisenoIngenierilData,
+  ExperienciaProfesionalData,
+  FormacionAcademicaData,
+  GestionAcademicaData,
+  InstitucionData,
+  LogroProfesionalData,
+  ParticipacionData,
+  PremioData,
+  ProductoAcademicoData,
 } from '@interfaces/index';
 import jsPDF from 'jspdf';
 
 export const curriculumVitaeReport = (
   doc: jsPDF,
   data: CurriculumVitaeResponse,
-  schools: InstitucionResponse[]
+  schools: InstitucionData[]
 ): jsPDF => {
   const payrollNumber = !isNaN(Number(data.usuario.username))
     ? data.usuario.username
@@ -267,7 +267,7 @@ export const curriculumVitaeReport = (
           },
         ],
       ],
-      body: data.formacion_academica.map((item: FormacionAcademicaResponse) => [
+      body: data.formacion_academica.map((item: FormacionAcademicaData) => [
         item.nivel,
         item.nombre,
         schools.find((i) => i.id === item.institucion_pais)
@@ -332,7 +332,7 @@ export const curriculumVitaeReport = (
         ],
       ],
       body: data.capacitacion_docente.map(
-        (item: CapacitacionDocenteResponse) => [
+        (item: CapacitacionDocenteData) => [
           item.tipo_capacitacion,
           schools.find((i) => i.id === item.institucion_pais)
             ?.nombre_institucion!,
@@ -397,7 +397,7 @@ export const curriculumVitaeReport = (
         ],
       ],
       body: data.actualizacion_disciplinaria.map(
-        (item: ActualizacionDisciplinarResponse) => [
+        (item: ActualizacionDisciplinarData) => [
           item.tipo_actualizacion,
           schools.find((i) => i.id === item.institucion_pais)
             ?.nombre_institucion!,
@@ -461,7 +461,7 @@ export const curriculumVitaeReport = (
           },
         ],
       ],
-      body: data.gestion_academica.map((item: GestionAcademicaResponse) => [
+      body: data.gestion_academica.map((item: GestionAcademicaData) => [
         item.actividad_puesto,
         schools.find((i) => i.id === item.institucion_pais)
           ?.nombre_institucion!,
@@ -510,7 +510,7 @@ export const curriculumVitaeReport = (
         ],
       ],
       body: data.productos_academicos_relevantes.map(
-        (item: ProductosAcademicosResponse, index) => [
+        (item: ProductoAcademicoData, index) => [
           index + 1,
           item.descripcion_producto_academico,
         ]
@@ -572,7 +572,7 @@ export const curriculumVitaeReport = (
         ],
       ],
       body: data.experiencia_no_academica.map(
-        (item: ExperienciaProfesionalResponse) => [
+        (item: ExperienciaProfesionalData) => [
           item.actividad_puesto,
           item.organizacion_empresa,
           String(item.d_mes_anio),
@@ -628,7 +628,7 @@ export const curriculumVitaeReport = (
         ],
       ],
       body: data.experiencia_diseno_ingenieril.map(
-        (item: DisenoIngenierilResponse) => [
+        (item: DisenoIngenierilData) => [
           item.organismo,
           item.periodo,
           item.nivel_experiencia,
@@ -667,7 +667,7 @@ export const curriculumVitaeReport = (
         ],
       ],
       body: data.logros_profesionales.map(
-        (item: LogrosPrefesionalesResponse) => [item.descripcion]
+        (item: LogroProfesionalData) => [item.descripcion]
       ),
       theme: 'grid',
     },
@@ -718,7 +718,7 @@ export const curriculumVitaeReport = (
           },
         ],
       ],
-      body: data.participacion.map((item: ParticipacionResponse) => [
+      body: data.participacion.map((item: ParticipacionData) => [
         item.organismo,
         item.periodo,
         item.nivel_p,
@@ -754,7 +754,7 @@ export const curriculumVitaeReport = (
           },
         ],
       ],
-      body: data.premios.map((item: PremiosResponse) => [item.descripcion]),
+      body: data.premios.map((item: PremioData) => [item.descripcion]),
       theme: 'grid',
     },
     docStartY
@@ -776,7 +776,7 @@ export const curriculumVitaeReport = (
           },
         ],
       ],
-      body: data.aportaciones.map((item: AportacionesResponse) => [
+      body: data.aportaciones.map((item: AportacionData) => [
         item.descripcion,
       ]),
       theme: 'grid',

@@ -1,11 +1,11 @@
 import { environment } from '@environments/environment';
-import { GestionAcademicaResponse } from '@interfaces/index';
+import { GestionAcademicaData } from '@interfaces/index';
 
-interface GestionAcademiaInterface {
+interface GestionAcademicaPagination {
   count: number;
   next: string | null;
   previous: string | null;
-  results: GestionAcademicaResponse[];
+  results: GestionAcademicaData[];
 }
 
 export const loadAcademicManagmentUseCase = async (
@@ -25,7 +25,7 @@ export const loadAcademicManagmentUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as GestionAcademiaInterface;
+    const data = (await resp.json()) as GestionAcademicaPagination;
 
     if (!resp.ok) {
       return {

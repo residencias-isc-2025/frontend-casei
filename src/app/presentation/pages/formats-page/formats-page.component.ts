@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {
   CurriculumVitaeResponse,
-  InstitucionResponse,
+  InstitucionData,
 } from '@interfaces/index';
 import {
   CommonService,
@@ -29,7 +29,7 @@ export default class FormatsPageComponent implements OnInit {
   commonService = inject(CommonService);
 
   curriculumVitaeData = signal<CurriculumVitaeResponse | null>(null);
-  institucionesList = signal<InstitucionResponse[]>([]);
+  institucionesList = signal<InstitucionData[]>([]);
 
   ngOnInit(): void {
     this.cargarInstituciones();

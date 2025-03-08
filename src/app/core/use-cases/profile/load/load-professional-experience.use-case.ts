@@ -1,11 +1,11 @@
 import { environment } from '@environments/environment';
-import { ExperienciaProfesionalResponse } from '@interfaces/index';
+import { ExperienciaProfesionalData } from '@interfaces/index';
 
-interface ExperienciaProfesionalInterface {
+interface ExperienciaProfesionalPagination {
   count: number;
   next: string | null;
   previous: string | null;
-  results: ExperienciaProfesionalResponse[];
+  results: ExperienciaProfesionalData[];
 }
 
 export const loadProfessionalExperienceUseCase = async (
@@ -25,7 +25,7 @@ export const loadProfessionalExperienceUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as ExperienciaProfesionalInterface;
+    const data = (await resp.json()) as ExperienciaProfesionalPagination;
 
     if (!resp.ok) {
       return {

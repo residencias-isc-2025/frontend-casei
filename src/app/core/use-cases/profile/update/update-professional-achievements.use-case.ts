@@ -1,8 +1,7 @@
 import { environment } from '@environments/environment';
 
 import {
-
-  LogrosPrefesionalesResponse,
+  LogroPrefesionalResponse,
   LogrosPrefesionalesDto,
 } from '@interfaces/index';
 
@@ -25,18 +24,18 @@ export const updateProfessionalAchievementsUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as LogrosPrefesionalesResponse;
+    const data = (await resp.json()) as LogroPrefesionalResponse;
 
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Logro profesional actualizado.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

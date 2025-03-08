@@ -1,7 +1,7 @@
-import { GestionAcademicaResponse } from '@interfaces/index';
+import { GestionAcademicaData } from '@interfaces/index';
 
 export const getLastNomination = (
-  gestionAcademica: GestionAcademicaResponse[]
+  gestionAcademica: GestionAcademicaData[]
 ): string => {
   // Ordenar por la fecha 'd_mes_anio' de más reciente a más antiguo
   const sortedGestionAcademica = gestionAcademica.sort((a, b) => {

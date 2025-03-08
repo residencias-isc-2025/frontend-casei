@@ -6,8 +6,8 @@ import {
   signal,
 } from '@angular/core';
 import {
-  GestionAcademicaResponse,
-  InstitucionResponse,
+  GestionAcademicaData,
+  InstitucionData,
 } from '@interfaces/index';
 import {
   CommonService,
@@ -40,10 +40,10 @@ export default class GestionAcademicaComponent implements OnInit {
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
 
-  public gestionAcademicaList = signal<GestionAcademicaResponse[]>([]);
-  public institucionesList = signal<InstitucionResponse[]>([]);
+  public gestionAcademicaList = signal<GestionAcademicaData[]>([]);
+  public institucionesList = signal<InstitucionData[]>([]);
 
-  public gestionAcademicaSelected = signal<GestionAcademicaResponse | null>(
+  public gestionAcademicaSelected = signal<GestionAcademicaData | null>(
     null
   );
 

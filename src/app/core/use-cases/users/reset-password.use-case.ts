@@ -16,16 +16,18 @@ export const resetPasswordUseCase = async (
       }
     );
 
+    const data = await resp.json();
+
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'No se pudo re-establecer la contraseña',
+        mensaje: data.error,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Contraseña re-establecida correctamente',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

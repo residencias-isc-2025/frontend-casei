@@ -1,4 +1,5 @@
 import { environment } from '@environments/environment';
+import { LogroPrefesionalResponse } from '@interfaces/index';
 
 export const deleteProfessionalAchievementsUseCase = async (
   idLogro: number,
@@ -16,16 +17,18 @@ export const deleteProfessionalAchievementsUseCase = async (
       }
     );
 
+    const data = (await resp.json()) as LogroPrefesionalResponse;
+
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Logro profesional borrada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

@@ -1,4 +1,9 @@
 export interface FormacionAcademicaResponse {
+  mensaje: string;
+  data?: FormacionAcademicaData;
+}
+
+export interface FormacionAcademicaData {
   id: number;
   nivel: string;
   nombre: string;

@@ -1,4 +1,9 @@
 export interface ExperienciaProfesionalResponse {
+  mensaje: string;
+  data?: ExperienciaProfesionalData;
+}
+
+export interface ExperienciaProfesionalData {
   id: number;
   usuario: number;
   actividad_puesto: string;

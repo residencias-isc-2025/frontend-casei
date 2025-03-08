@@ -24,13 +24,13 @@ export const addSchoolUseCase = async (institucionDto: InstitucionDto) => {
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al obtener datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Institución guardada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

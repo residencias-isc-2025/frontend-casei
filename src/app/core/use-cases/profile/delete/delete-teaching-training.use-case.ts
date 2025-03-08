@@ -1,4 +1,5 @@
 import { environment } from '@environments/environment';
+import { CapacitacionDocenteResponse } from '@interfaces/index';
 
 export const deleteTeachingTrainingUseCase = async (
   idCapacitacion: number,
@@ -16,16 +17,18 @@ export const deleteTeachingTrainingUseCase = async (
       }
     );
 
+    const data = (await resp.json()) as CapacitacionDocenteResponse;
+
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos. Verifique la información ingresada.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Capacitación docente borrada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

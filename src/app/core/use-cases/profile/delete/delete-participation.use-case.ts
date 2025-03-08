@@ -1,4 +1,5 @@
 import { environment } from '@environments/environment';
+import { ParticipacionResponse } from '@interfaces/index';
 
 export const deleteParticipationUseCase = async (
   idParticipacion: number,
@@ -16,16 +17,18 @@ export const deleteParticipationUseCase = async (
       }
     );
 
+    const data = (await resp.json()) as ParticipacionResponse;
+
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Participación borrada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

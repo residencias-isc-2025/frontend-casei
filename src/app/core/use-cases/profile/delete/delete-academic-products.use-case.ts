@@ -1,4 +1,5 @@
 import { environment } from '@environments/environment';
+import { ProductoAcademicoResponse } from '@interfaces/index';
 
 export const deleteAcademicProductsUseCase = async (
   productoId: number,
@@ -16,16 +17,18 @@ export const deleteAcademicProductsUseCase = async (
       }
     );
 
+    const data = (await resp.json()) as ProductoAcademicoResponse;
+
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al actualizar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Producto académico borrado.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

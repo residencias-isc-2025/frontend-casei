@@ -31,13 +31,13 @@ export const addTeachingTrainingUseCase = async (
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos. Verifique la información ingresada.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Capacitación docente guardada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

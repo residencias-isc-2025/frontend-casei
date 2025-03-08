@@ -1,11 +1,11 @@
 import { environment } from '@environments/environment';
-import { LogrosPrefesionalesResponse } from '@interfaces/index';
+import { LogroProfesionalData } from '@interfaces/index';
 
-interface LogrosProfesionalesInterface {
+interface LogrosProfesionalesPagination {
   count: number;
   next: string | null;
   previous: string | null;
-  results: LogrosPrefesionalesResponse[];
+  results: LogroProfesionalData[];
 }
 
 export const loadProfessionalAchievementsUseCase = async (
@@ -25,7 +25,7 @@ export const loadProfessionalAchievementsUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as LogrosProfesionalesInterface;
+    const data = (await resp.json()) as LogrosProfesionalesPagination;
 
     if (!resp.ok) {
       return {

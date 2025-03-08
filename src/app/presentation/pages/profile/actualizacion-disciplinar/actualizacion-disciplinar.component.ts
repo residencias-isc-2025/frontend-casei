@@ -5,8 +5,8 @@ import {
   signal,
 } from '@angular/core';
 import {
-  ActualizacionDisciplinarResponse,
-  InstitucionResponse,
+  ActualizacionDisciplinarData,
+  InstitucionData,
 } from '@interfaces/index';
 
 import {
@@ -43,13 +43,13 @@ export default class ActualizacionDisciplinarComponent {
 
   public totalItems = signal(0);
   public actualizacionDisciplinarList = signal<
-    ActualizacionDisciplinarResponse[]
+    ActualizacionDisciplinarData[]
   >([]);
-  public institucionesList = signal<InstitucionResponse[]>([]);
+  public institucionesList = signal<InstitucionData[]>([]);
 
   public currentPage = signal(1);
   public actualizacionDisciplinarSelected =
-    signal<ActualizacionDisciplinarResponse | null>(null);
+    signal<ActualizacionDisciplinarData | null>(null);
 
   ngOnInit(): void {
     this.loadInstituciones();

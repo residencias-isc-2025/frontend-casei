@@ -1,6 +1,6 @@
 import { environment } from '@environments/environment';
 
-import { PremiosResponse, PremiosDto } from '@interfaces/index';
+import { PremioResponse, PremiosDto } from '@interfaces/index';
 
 export const updateAwardsUseCase = async (
   idPremio: number,
@@ -21,18 +21,18 @@ export const updateAwardsUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as PremiosResponse;
+    const data = (await resp.json()) as PremioResponse;
 
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Premio actualizado.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

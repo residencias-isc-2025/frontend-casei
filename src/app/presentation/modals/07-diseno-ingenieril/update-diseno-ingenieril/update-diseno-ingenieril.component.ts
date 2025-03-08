@@ -13,7 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { DisenoIngenierilResponse } from '@interfaces/index';
+import { DisenoIngenierilData } from '@interfaces/index';
 import { ToastService, UsersService } from '@presentation/services';
 
 @Component({
@@ -24,7 +24,7 @@ import { ToastService, UsersService } from '@presentation/services';
 })
 export class UpdateDisenoIngenierilComponent implements OnInit {
   title = input('');
-  disenoIngenieril = input.required<DisenoIngenierilResponse>();
+  disenoIngenieril = input.required<DisenoIngenierilData>();
 
   onCancel = output();
   onSave = output();

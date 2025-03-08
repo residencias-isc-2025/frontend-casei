@@ -1,11 +1,11 @@
 import { environment } from '@environments/environment';
-import { DisenoIngenierilResponse } from '@interfaces/index';
+import { DisenoIngenierilData } from '@interfaces/index';
 
-interface DisenoIngenierilInterface {
+interface DisenoIngenierilPagination {
   count: number;
   next: string | null;
   previous: string | null;
-  results: DisenoIngenierilResponse[];
+  results: DisenoIngenierilData[];
 }
 
 export const loadEngineeringDesignUseCase = async (
@@ -25,7 +25,7 @@ export const loadEngineeringDesignUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as DisenoIngenierilInterface;
+    const data = (await resp.json()) as DisenoIngenierilPagination;
 
     if (!resp.ok) {
       return {

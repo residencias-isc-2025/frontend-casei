@@ -1,4 +1,5 @@
 import { environment } from '@environments/environment';
+import { AportacionResponse } from '@interfaces/index';
 
 export const deleteContributionUseCase = async (
   idAportacion: number,
@@ -16,16 +17,18 @@ export const deleteContributionUseCase = async (
       }
     );
 
+    const data = (await resp.json()) as AportacionResponse;
+
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Aportación borrada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

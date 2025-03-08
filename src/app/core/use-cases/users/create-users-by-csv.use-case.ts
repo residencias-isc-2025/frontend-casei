@@ -22,7 +22,7 @@ export const createUsersByCsvUseCase = async (
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al crear usuarios',
+        mensaje: data.mensaje,
       };
     }
 

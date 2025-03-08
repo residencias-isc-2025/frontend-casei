@@ -1,4 +1,5 @@
 import { environment } from '@environments/environment';
+import { ActualizacionDisciplinarResponse } from '@interfaces/index';
 
 export const deleteDisciplinaryUpdateUseCase = async (
   idActualizacion: number,
@@ -16,16 +17,18 @@ export const deleteDisciplinaryUpdateUseCase = async (
       }
     );
 
+    const data = (await resp.json()) as ActualizacionDisciplinarResponse;
+
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos. Verifique la información ingresada.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Actualización disciplinar borrada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

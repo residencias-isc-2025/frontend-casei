@@ -1,11 +1,11 @@
 import { environment } from '@environments/environment';
-import { ParticipacionResponse } from '@interfaces/index';
+import { ParticipacionData } from '@interfaces/index';
 
-interface ParticipacionInterface {
+interface ParticipacionesPagination {
   count: number;
   next: string | null;
   previous: string | null;
-  results: ParticipacionResponse[];
+  results: ParticipacionData[];
 }
 
 export const loadParticipationUseCase = async (
@@ -25,7 +25,7 @@ export const loadParticipationUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as ParticipacionInterface;
+    const data = (await resp.json()) as ParticipacionesPagination;
 
     if (!resp.ok) {
       return {

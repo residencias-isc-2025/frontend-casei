@@ -5,7 +5,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { ParticipacionResponse } from '@interfaces/index';
+import { ParticipacionData } from '@interfaces/index';
 import {
   AddParticipacionComponent,
   UpdateParticipacionComponent,
@@ -37,9 +37,9 @@ export default class ParticipacionComponent implements OnInit {
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
 
-  public participacionList = signal<ParticipacionResponse[]>([]);
+  public participacionList = signal<ParticipacionData[]>([]);
 
-  public participacionSelected = signal<ParticipacionResponse | null>(null);
+  public participacionSelected = signal<ParticipacionData | null>(null);
 
   public totalItems = signal(0);
   public currentPage = signal(1);

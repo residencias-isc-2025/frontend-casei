@@ -1,8 +1,8 @@
 import { environment } from '@environments/environment';
 
 import {
-  DisenoIngenierilResponse,
   DisenoIngenierilDto,
+  DisenoIngenierilResponse,
 } from '@interfaces/index';
 
 export const addEngineeringDesignUseCase = async (
@@ -30,13 +30,13 @@ export const addEngineeringDesignUseCase = async (
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: "Experiencia en diseño ingenieril guardada.",
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

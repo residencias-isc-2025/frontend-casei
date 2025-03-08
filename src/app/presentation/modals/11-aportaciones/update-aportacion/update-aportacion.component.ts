@@ -13,7 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AportacionesResponse } from '@interfaces/index';
+import { AportacionData } from '@interfaces/index';
 import { ToastService, UsersService } from '@presentation/services';
 
 @Component({
@@ -24,7 +24,7 @@ import { ToastService, UsersService } from '@presentation/services';
 })
 export class UpdateAportacionComponent implements OnInit {
   title = input('');
-  aportacion = input.required<AportacionesResponse>();
+  aportacion = input.required<AportacionData>();
 
   onCancel = output();
   onSave = output();

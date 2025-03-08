@@ -1,11 +1,11 @@
 import { environment } from '@environments/environment';
-import { CapacitacionDocenteResponse } from '@interfaces/index';
+import { CapacitacionDocenteData } from '@interfaces/index';
 
-interface CapacitacionDocenteInterface {
+interface CapacitacionDocentePagination {
   count: number;
   next: string | null;
   previous: string | null;
-  results: CapacitacionDocenteResponse[];
+  results: CapacitacionDocenteData[];
 }
 
 export const loadTeachingTrainingUseCase = async (
@@ -25,7 +25,7 @@ export const loadTeachingTrainingUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as CapacitacionDocenteInterface;
+    const data = (await resp.json()) as CapacitacionDocentePagination;
 
     if (!resp.ok) {
       return {

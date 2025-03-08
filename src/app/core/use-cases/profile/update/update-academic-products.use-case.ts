@@ -2,7 +2,7 @@ import { environment } from '@environments/environment';
 
 import {
   ProductosAcademicosDto,
-  ProductosAcademicosResponse,
+  ProductoAcademicoResponse,
 } from '@interfaces/index';
 
 export const updateAcademicProductsUseCase = async (
@@ -24,18 +24,18 @@ export const updateAcademicProductsUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as ProductosAcademicosResponse;
+    const data = (await resp.json()) as ProductoAcademicoResponse;
 
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al actualizar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Producto académico actualizado.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

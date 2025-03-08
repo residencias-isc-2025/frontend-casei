@@ -28,6 +28,7 @@ export const updateUserUseCase = async (
     if (!resp.ok) {
       return {
         ok: false,
+        mensaje: data.mensaje,
         usuario: null,
       };
     }

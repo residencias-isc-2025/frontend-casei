@@ -1,5 +1,5 @@
 import { environment } from '@environments/environment';
-
+import { GestionAcademicaResponse } from '@interfaces/index';
 
 export const deleteAcademicManagmentUseCase = async (
   gestionId: number,
@@ -17,16 +17,18 @@ export const deleteAcademicManagmentUseCase = async (
       }
     );
 
+    const data = (await resp.json()) as GestionAcademicaResponse;
+
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al obtener datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Gestión académica borrada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

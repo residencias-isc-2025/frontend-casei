@@ -1,11 +1,12 @@
 import { environment } from '@environments/environment';
 
 import {
-  DisenoIngenierilResponse,
   DisenoIngenierilDto,
+  DisenoIngenierilResponse,
 } from '@interfaces/index';
 
-export const updateEngineeringDesignUseCase = async (idDiseno: number,
+export const updateEngineeringDesignUseCase = async (
+  idDiseno: number,
   disenoIngenierilDto: DisenoIngenierilDto
 ) => {
   try {
@@ -30,13 +31,13 @@ export const updateEngineeringDesignUseCase = async (idDiseno: number,
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      data: "Experiencia en diseño ingenieril actualizada.",
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

@@ -13,7 +13,7 @@ import {
   FormBuilder,
   Validators,
 } from '@angular/forms';
-import { PremiosResponse } from '@interfaces/index';
+import { PremioData } from '@interfaces/index';
 import { ToastService, UsersService } from '@presentation/services';
 
 @Component({
@@ -24,7 +24,7 @@ import { ToastService, UsersService } from '@presentation/services';
 })
 export class UpdatePremiosComponent implements OnInit {
   title = input('');
-  premio = input.required<PremiosResponse>();
+  premio = input.required<PremioData>();
 
   onCancel = output();
   onSave = output();

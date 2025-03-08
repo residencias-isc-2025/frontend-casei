@@ -1,10 +1,9 @@
 import { environment } from '@environments/environment';
 
-import { AportacionesResponse, AportacionesDto } from '@interfaces/index';
+import { AportacionesDto, AportacionResponse } from '@interfaces/index';
 
 export const updateContributionUseCase = async (
   idAportacion: number,
-
   aportacionDto: AportacionesDto
 ) => {
   try {
@@ -22,18 +21,18 @@ export const updateContributionUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as AportacionesResponse;
+    const data = (await resp.json()) as AportacionResponse;
 
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Aportación actualizada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

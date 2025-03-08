@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
 
 import { ToastService, UsersService } from '@services/index';
 import { validYearValidator } from '@validators/index';
-import { InstitucionResponse } from '@interfaces/index';
+import { InstitucionData } from '@interfaces/index';
 
 @Component({
   selector: 'app-add-academic-training',
@@ -26,7 +26,7 @@ import { InstitucionResponse } from '@interfaces/index';
 })
 export class AddAcademicTrainingComponent {
   title = input('');
-  listaInstituciones = input.required<InstitucionResponse[]>();
+  listaInstituciones = input.required<InstitucionData[]>();
 
   onCancel = output();
   onSave = output();

@@ -1,4 +1,5 @@
 import { environment } from '@environments/environment';
+import { DisenoIngenierilResponse } from '@interfaces/index';
 
 export const deleteEngineeringDesignUseCase = async (
   idDiseno: number,
@@ -16,16 +17,18 @@ export const deleteEngineeringDesignUseCase = async (
       }
     );
 
+    const data = (await resp.json()) as DisenoIngenierilResponse;
+
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      data: 'Experiencia en diseño ingenieril borrada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

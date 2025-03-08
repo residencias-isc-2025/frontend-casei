@@ -2,7 +2,7 @@ import { environment } from '@environments/environment';
 
 import {
   ProductosAcademicosDto,
-  ProductosAcademicosResponse,
+  ProductoAcademicoResponse,
 } from '@interfaces/index';
 
 export const addAcademicProductsUseCase = async (
@@ -23,18 +23,18 @@ export const addAcademicProductsUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as ProductosAcademicosResponse;
+    const data = (await resp.json()) as ProductoAcademicoResponse;
 
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Producto académico guardado.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

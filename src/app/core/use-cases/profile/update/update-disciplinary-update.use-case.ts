@@ -32,13 +32,13 @@ export const updateDisciplinaryUpdateUseCase = async (
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos. Verifique la información ingresada.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Actualización disciplinar actualizada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

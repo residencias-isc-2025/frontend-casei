@@ -1,6 +1,6 @@
 import { environment } from '@environments/environment';
 
-import { ParticipacionResponse, ParticipacionDto } from '@interfaces/index';
+import { ParticipacionDto, ParticipacionResponse } from '@interfaces/index';
 
 export const updateParticipationUseCase = async (
   idParticipacion: number,
@@ -28,13 +28,13 @@ export const updateParticipationUseCase = async (
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Participación actualizada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

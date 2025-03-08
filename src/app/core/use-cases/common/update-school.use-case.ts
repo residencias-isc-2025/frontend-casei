@@ -27,13 +27,13 @@ export const updateSchoolUseCase = async (
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al obtener datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Institución actualizada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

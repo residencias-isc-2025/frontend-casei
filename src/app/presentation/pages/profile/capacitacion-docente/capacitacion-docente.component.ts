@@ -6,8 +6,8 @@ import {
   signal,
 } from '@angular/core';
 import {
-  CapacitacionDocenteResponse,
-  InstitucionResponse,
+  CapacitacionDocenteData,
+  InstitucionData,
 } from '@interfaces/index';
 
 import {
@@ -42,11 +42,11 @@ export default class CapitacionDocenteComponent implements OnInit {
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
 
-  public capacitacionDocenteList = signal<CapacitacionDocenteResponse[]>([]);
-  public institucionesList = signal<InstitucionResponse[]>([]);
+  public capacitacionDocenteList = signal<CapacitacionDocenteData[]>([]);
+  public institucionesList = signal<InstitucionData[]>([]);
 
   public formacionAcademicaSelected =
-    signal<CapacitacionDocenteResponse | null>(null);
+    signal<CapacitacionDocenteData | null>(null);
 
   public totalItems = signal(0);
   public currentPage = signal(1);

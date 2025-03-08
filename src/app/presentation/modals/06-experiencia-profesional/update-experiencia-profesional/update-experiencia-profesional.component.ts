@@ -13,7 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ExperienciaProfesionalResponse } from '@interfaces/index';
+import { ExperienciaProfesionalData } from '@interfaces/index';
 import { CustomDatepickerComponent } from '@presentation/components/custom-datepicker/custom-datepicker.component';
 import { ToastService, UsersService } from '@services/index';
 
@@ -25,7 +25,7 @@ import { ToastService, UsersService } from '@services/index';
 })
 export class UpdateExperienciaProfesionalComponent implements OnInit {
   title = input('');
-  experienciaProfesional = input.required<ExperienciaProfesionalResponse>();
+  experienciaProfesional = input.required<ExperienciaProfesionalData>();
 
   onCancel = output();
   onSave = output();

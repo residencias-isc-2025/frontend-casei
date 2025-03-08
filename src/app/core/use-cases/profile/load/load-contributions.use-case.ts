@@ -1,12 +1,12 @@
 import { environment } from '@environments/environment';
 
-import { AportacionesResponse } from '@interfaces/index';
+import { AportacionData } from '@interfaces/index';
 
-interface AportacionesInterface {
+interface AportacionesPagination {
   count: number;
   next: string | null;
   previous: string | null;
-  results: AportacionesResponse[];
+  results: AportacionData[];
 }
 
 export const loadContributionsUseCase = async (
@@ -26,7 +26,7 @@ export const loadContributionsUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as AportacionesInterface;
+    const data = (await resp.json()) as AportacionesPagination;
 
     if (!resp.ok) {
       return {

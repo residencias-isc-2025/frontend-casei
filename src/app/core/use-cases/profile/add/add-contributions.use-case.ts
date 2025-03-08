@@ -1,8 +1,10 @@
 import { environment } from '@environments/environment';
 
-import { AportacionesResponse, AportacionesDto } from '@interfaces/index';
+import { AportacionesDto, AportacionResponse } from '@interfaces/index';
 
-export const addContributionsUseCase = async (aportacionDto: AportacionesDto) => {
+export const addContributionsUseCase = async (
+  aportacionDto: AportacionesDto
+) => {
   try {
     const resp = await fetch(
       `${environment.api_url}/api/registration/aportaciones/`,
@@ -18,18 +20,18 @@ export const addContributionsUseCase = async (aportacionDto: AportacionesDto) =>
       }
     );
 
-    const data = (await resp.json()) as AportacionesResponse;
+    const data = (await resp.json()) as AportacionResponse;
 
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Aportación guardada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

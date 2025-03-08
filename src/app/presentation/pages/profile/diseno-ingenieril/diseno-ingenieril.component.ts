@@ -5,7 +5,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { DisenoIngenierilResponse } from '@interfaces/index';
+import { DisenoIngenierilData } from '@interfaces/index';
 import {
   AddDisenoIngenierilComponent,
   UpdateDisenoIngenierilComponent,
@@ -37,9 +37,9 @@ export default class DisenoIngenierilComponent implements OnInit {
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
 
-  public disenoIngenierilList = signal<DisenoIngenierilResponse[]>([]);
+  public disenoIngenierilList = signal<DisenoIngenierilData[]>([]);
 
-  public disenoIngenierilSelected = signal<DisenoIngenierilResponse | null>(
+  public disenoIngenierilSelected = signal<DisenoIngenierilData | null>(
     null
   );
 

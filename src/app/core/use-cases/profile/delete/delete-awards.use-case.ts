@@ -1,4 +1,5 @@
 import { environment } from '@environments/environment';
+import { PremioResponse } from '@interfaces/index';
 
 export const deleteAwardsUseCase = async (
   idPremio: number,
@@ -16,16 +17,18 @@ export const deleteAwardsUseCase = async (
       }
     );
 
+    const data = (await resp.json()) as PremioResponse;
+
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Premio borrado.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

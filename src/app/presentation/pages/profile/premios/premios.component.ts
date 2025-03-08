@@ -5,7 +5,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { PremiosResponse } from '@interfaces/index';
+import { PremioData } from '@interfaces/index';
 import {
   AddPremiosComponent,
   UpdatePremiosComponent,
@@ -33,8 +33,8 @@ export default class PremiosComponent implements OnInit {
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
 
-  public premiosList = signal<PremiosResponse[]>([]);
-  public premioSelected = signal<PremiosResponse | null>(null);
+  public premiosList = signal<PremioData[]>([]);
+  public premioSelected = signal<PremioData | null>(null);
 
   public totalItems = signal(0);
   public currentPage = signal(1);

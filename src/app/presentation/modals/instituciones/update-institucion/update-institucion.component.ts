@@ -14,7 +14,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CountriesResponse, InstitucionResponse } from '@interfaces/index';
+import { CountriesResponse, InstitucionData } from '@interfaces/index';
 import { CommonService, ToastService } from '@presentation/services';
 
 @Component({
@@ -24,7 +24,7 @@ import { CommonService, ToastService } from '@presentation/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdateInstitucionComponent implements OnInit {
-  school = input.required<InstitucionResponse>();
+  school = input.required<InstitucionData>();
   countriesList = input<CountriesResponse[]>([]);
 
   onCancel = output();

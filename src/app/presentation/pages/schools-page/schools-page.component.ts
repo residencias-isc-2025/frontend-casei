@@ -6,7 +6,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { CountriesResponse, InstitucionResponse } from '@interfaces/index';
+import { CountriesResponse, InstitucionData } from '@interfaces/index';
 import { ToastService, CommonService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import {
@@ -33,11 +33,11 @@ export default class SchoolsPageComponent implements OnInit {
   public showUpdateModal = signal(false);
 
   public totalItems = signal(0);
-  public schools = signal<InstitucionResponse[]>([]);
+  public schools = signal<InstitucionData[]>([]);
   public countries = signal<CountriesResponse[]>([]);
 
   public currentPage = signal(1);
-  public schoolSelected = signal<InstitucionResponse | null>(null);
+  public schoolSelected = signal<InstitucionData | null>(null);
 
   ngOnInit(): void {
     this.cargarPaises();

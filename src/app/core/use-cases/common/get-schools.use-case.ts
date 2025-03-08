@@ -1,11 +1,11 @@
 import { environment } from '@environments/environment';
-import { InstitucionResponse } from '@interfaces/index';
+import { InstitucionData } from '@interfaces/index';
 
-interface SchoolsInterface {
+interface InstitucionInterface {
   count: number;
   next: string | null;
   previous: string | null;
-  results: InstitucionResponse[];
+  results: InstitucionData[];
 }
 
 export const loadInstitucionesUseCase = async (
@@ -25,7 +25,7 @@ export const loadInstitucionesUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as SchoolsInterface;
+    const data = (await resp.json()) as InstitucionInterface;
 
     if (!resp.ok) {
       return {

@@ -1,4 +1,5 @@
 import { environment } from '@environments/environment';
+import { ExperienciaProfesionalResponse } from '@interfaces/index';
 
 export const deleteProfessionalExperienceUseCase = async (
   idExperiencia: number,
@@ -16,16 +17,18 @@ export const deleteProfessionalExperienceUseCase = async (
       }
     );
 
+    const data = (await resp.json()) as ExperienciaProfesionalResponse;
+
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al actualizar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Experiencia profesional borrada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

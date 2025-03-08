@@ -14,8 +14,8 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  CapacitacionDocenteResponse,
-  InstitucionResponse,
+  CapacitacionDocenteData,
+  InstitucionData,
 } from '@interfaces/index';
 import { ToastService, UsersService } from '@services/index';
 import { validYearValidator } from '@validators/index';
@@ -28,8 +28,8 @@ import { validYearValidator } from '@validators/index';
 })
 export class UpdateTeachingTrainingComponent implements OnInit {
   title = input('');
-  listaInstituciones = input.required<InstitucionResponse[]>();
-  capacitacionDocente = input.required<CapacitacionDocenteResponse>();
+  listaInstituciones = input.required<InstitucionData[]>();
+  capacitacionDocente = input.required<CapacitacionDocenteData>();
 
   onCancel = output();
   onSave = output();

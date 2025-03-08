@@ -1,11 +1,11 @@
 import { environment } from '@environments/environment';
-import { ActualizacionDisciplinarResponse } from '@interfaces/index';
+import { ActualizacionDisciplinarData } from '@interfaces/index';
 
-interface ActualizacionDisciplinarInterface {
+interface ActualizacionDisciplinarPagination {
   count: number;
   next: string | null;
   previous: string | null;
-  results: ActualizacionDisciplinarResponse[];
+  results: ActualizacionDisciplinarData[];
 }
 
 export const loadDisciplinaryUpdateUseCase = async (
@@ -25,7 +25,7 @@ export const loadDisciplinaryUpdateUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as ActualizacionDisciplinarInterface;
+    const data = (await resp.json()) as ActualizacionDisciplinarPagination;
 
     if (!resp.ok) {
       return {

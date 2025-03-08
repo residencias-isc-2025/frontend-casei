@@ -1,11 +1,11 @@
 import { environment } from '@environments/environment';
-import { ProductosAcademicosResponse } from '@interfaces/index';
+import { ProductoAcademicoData } from '@interfaces/index';
 
-interface ProductosAcademicosInterface {
+interface ProductosAcademicosPagination {
   count: number;
   next: string | null;
   previous: string | null;
-  results: ProductosAcademicosResponse[];
+  results: ProductoAcademicoData[];
 }
 
 export const loadAcademicProductsUseCase = async (
@@ -25,7 +25,7 @@ export const loadAcademicProductsUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as ProductosAcademicosInterface;
+    const data = (await resp.json()) as ProductosAcademicosPagination;
 
     if (!resp.ok) {
       return {

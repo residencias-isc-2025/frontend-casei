@@ -5,7 +5,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { AportacionesResponse } from '@interfaces/index';
+import { AportacionData } from '@interfaces/index';
 import {
   AddAportacionComponent,
   UpdateAportacionComponent,
@@ -37,8 +37,8 @@ export default class AportacionesComponent implements OnInit {
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
 
-  public aportacionesList = signal<AportacionesResponse[]>([]);
-  public aportacionSelected = signal<AportacionesResponse | null>(null);
+  public aportacionesList = signal<AportacionData[]>([]);
+  public aportacionSelected = signal<AportacionData | null>(null);
 
   public totalItems = signal(0);
   public currentPage = signal(1);

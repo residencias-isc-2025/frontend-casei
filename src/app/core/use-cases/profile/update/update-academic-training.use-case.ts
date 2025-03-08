@@ -31,16 +31,18 @@ export const updateAcademicTrainingUseCase = async (
 
     const data = (await resp.json()) as FormacionAcademicaResponse;
 
+    console.log(data);
+
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al guardar datos. Verifique la información ingresada.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Formación académica actualizada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

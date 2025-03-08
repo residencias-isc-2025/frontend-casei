@@ -32,13 +32,13 @@ export const updateProfessionalExperienceUseCase = async (
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al actualizar datos.',
+        mensaje: data.mensaje,
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Experiencia profesional actualizada.',
+      mensaje: data.mensaje,
     };
   } catch (error) {
     console.error(error);

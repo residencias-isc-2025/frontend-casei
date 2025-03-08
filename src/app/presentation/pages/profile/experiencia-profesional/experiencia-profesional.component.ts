@@ -4,7 +4,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { ExperienciaProfesionalResponse } from '@interfaces/index';
+import { ExperienciaProfesionalData } from '@interfaces/index';
 import {
   AddExperienciaProfesionalComponent,
   UpdateExperienciaProfesionalComponent,
@@ -36,12 +36,12 @@ export default class ExperienciaProfesionalComponent {
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
 
-  public experienciaProfesionalList = signal<ExperienciaProfesionalResponse[]>(
+  public experienciaProfesionalList = signal<ExperienciaProfesionalData[]>(
     []
   );
 
   public experienciaProfesionalSelected =
-    signal<ExperienciaProfesionalResponse | null>(null);
+    signal<ExperienciaProfesionalData | null>(null);
 
   public totalItems = signal(0);
   public currentPage = signal(1);

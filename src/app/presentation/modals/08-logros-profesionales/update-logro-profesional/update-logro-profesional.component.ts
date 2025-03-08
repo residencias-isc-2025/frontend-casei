@@ -13,7 +13,7 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { LogrosPrefesionalesResponse } from '@interfaces/index';
+import { LogroProfesionalData } from '@interfaces/index';
 import { ToastService, UsersService } from '@presentation/services';
 
 @Component({
@@ -24,7 +24,7 @@ import { ToastService, UsersService } from '@presentation/services';
 })
 export class UpdateLogroProfesionalComponent implements OnInit {
   title = input('');
-  logroProfesional = input.required<LogrosPrefesionalesResponse>();
+  logroProfesional = input.required<LogroProfesionalData>();
 
   onCancel = output();
   onSave = output();

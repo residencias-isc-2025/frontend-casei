@@ -5,7 +5,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { ProductosAcademicosResponse } from '@interfaces/index';
+import { ProductoAcademicoData } from '@interfaces/index';
 import {
   AddProductoAcademicoComponent,
   UpdateProductoAcademicoComponent,
@@ -37,9 +37,9 @@ export default class ProductosAcademicosComponent implements OnInit {
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
 
-  public productosAcademicosList = signal<ProductosAcademicosResponse[]>([]);
+  public productosAcademicosList = signal<ProductoAcademicoData[]>([]);
 
-  public productoAcademicoSelected = signal<ProductosAcademicosResponse | null>(
+  public productoAcademicoSelected = signal<ProductoAcademicoData | null>(
     null
   );
 

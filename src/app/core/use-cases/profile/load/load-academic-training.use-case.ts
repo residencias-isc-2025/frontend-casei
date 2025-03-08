@@ -1,11 +1,11 @@
 import { environment } from '@environments/environment';
-import { FormacionAcademicaResponse } from '@interfaces/index';
+import { FormacionAcademicaData } from '@interfaces/index';
 
-interface FormacionAcademicaInterface {
+interface FormacionAcademicaPagination {
   count: number;
   next: string | null;
   previous: string | null;
-  results: FormacionAcademicaResponse[];
+  results: FormacionAcademicaData[];
 }
 
 export const loadAcademicTrainingUseCase = async (
@@ -25,7 +25,7 @@ export const loadAcademicTrainingUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as FormacionAcademicaInterface;
+    const data = (await resp.json()) as FormacionAcademicaPagination;
 
     if (!resp.ok) {
       return {

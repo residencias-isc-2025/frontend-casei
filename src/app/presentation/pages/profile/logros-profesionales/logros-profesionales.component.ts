@@ -5,7 +5,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { LogrosPrefesionalesResponse } from '@interfaces/index';
+import { LogroProfesionalData } from '@interfaces/index';
 import {
   AddLogroProfesionalComponent,
   UpdateLogroProfesionalComponent,
@@ -37,8 +37,8 @@ export default class LogrosProfesionalesComponent implements OnInit {
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
 
-  public logrosProfesionalesList = signal<LogrosPrefesionalesResponse[]>([]);
-  public logroProfesionalSelected = signal<LogrosPrefesionalesResponse | null>(
+  public logrosProfesionalesList = signal<LogroProfesionalData[]>([]);
+  public logroProfesionalSelected = signal<LogroProfesionalData | null>(
     null
   );
 

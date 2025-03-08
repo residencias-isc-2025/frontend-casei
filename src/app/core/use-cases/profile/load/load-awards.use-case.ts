@@ -1,11 +1,11 @@
 import { environment } from '@environments/environment';
-import { PremiosResponse } from '@interfaces/index';
+import { PremioData } from '@interfaces/index';
 
-interface PremiosInterface {
+interface PremiosPagination {
   count: number;
   next: string | null;
   previous: string | null;
-  results: PremiosResponse[];
+  results: PremioData[];
 }
 
 export const loadAwardsUseCase = async (
@@ -25,7 +25,7 @@ export const loadAwardsUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as PremiosInterface;
+    const data = (await resp.json()) as PremiosPagination;
 
     if (!resp.ok) {
       return {

@@ -14,8 +14,8 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  GestionAcademicaResponse,
-  InstitucionResponse,
+  GestionAcademicaData,
+  InstitucionData,
 } from '@interfaces/index';
 import { CustomDatepickerComponent } from '@presentation/components/custom-datepicker/custom-datepicker.component';
 import { ToastService, UsersService } from '@services/index';
@@ -28,8 +28,8 @@ import { ToastService, UsersService } from '@services/index';
 })
 export class UpdateGestionAcademicaComponent implements OnInit {
   title = input('');
-  listaInstituciones = input.required<InstitucionResponse[]>();
-  gestionAcademica = input.required<GestionAcademicaResponse>();
+  listaInstituciones = input.required<InstitucionData[]>();
+  gestionAcademica = input.required<GestionAcademicaData>();
 
   onCancel = output();
   onSave = output();
