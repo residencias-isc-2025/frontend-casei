@@ -1,11 +1,21 @@
 import { environment } from '@environments/environment';
-
 import { GestionAcademicaResponse } from '@interfaces/index';
 
-export const loadAcademicManagmentUseCase = async (accessToken: string) => {
+interface GestionAcademiaInterface {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: GestionAcademicaResponse[];
+}
+
+export const loadAcademicManagmentUseCase = async (
+  accessToken: string,
+  page: number,
+  pageSize: number
+) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/gestion-academica/`,
+      `${environment.api_url}/api/registration/gestion-academica/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {
@@ -15,7 +25,7 @@ export const loadAcademicManagmentUseCase = async (accessToken: string) => {
       }
     );
 
-    const data = (await resp.json()) as GestionAcademicaResponse[];
+    const data = (await resp.json()) as GestionAcademiaInterface;
 
     if (!resp.ok) {
       return {
@@ -27,7 +37,8 @@ export const loadAcademicManagmentUseCase = async (accessToken: string) => {
 
     return {
       ok: true,
-      data: data,
+      items: data.count,
+      data: data.results,
     };
   } catch (error) {
     console.error(error);

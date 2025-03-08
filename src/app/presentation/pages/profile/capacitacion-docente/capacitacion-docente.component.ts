@@ -16,10 +16,15 @@ import {
 } from '@modals/index';
 
 import { CommonService, ProfileService, ToastService } from '@services/index';
+import { PaginationComponent } from '@components/pagination/pagination.component';
 
 @Component({
   selector: 'app-capcitacion-docente',
-  imports: [AddTeachingTrainingComponent, UpdateTeachingTrainingComponent],
+  imports: [
+    AddTeachingTrainingComponent,
+    UpdateTeachingTrainingComponent,
+    PaginationComponent,
+  ],
   templateUrl: './capacitacion-docente.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -37,6 +42,9 @@ export default class CapitacionDocenteComponent implements OnInit {
   public formacionAcademicaSelected =
     signal<CapacitacionDocenteResponse | null>(null);
 
+  public totalItems = signal(0);
+  public currentPage = signal(1);
+
   ngOnInit(): void {
     this.loadInstituciones();
     this.loadCapacitacionDocente();
@@ -45,13 +53,13 @@ export default class CapitacionDocenteComponent implements OnInit {
   private loadInstituciones(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.commonService.loadInstituciones(token).subscribe({
+    this.commonService.loadInstituciones(token, 1, 100).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
         if (res.ok) {
-          this.institucionesList.set(res.data || []);
+          this.institucionesList.set(res.schools || []);
         } else {
           this.toastService.showWarning(
             'No se pudo obtener la formación académica.',
@@ -65,21 +73,24 @@ export default class CapitacionDocenteComponent implements OnInit {
   private loadCapacitacionDocente(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.profileService.loadCapacitacionDocente(token).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.capacitacionDocenteList.set(res.data || []);
-        } else {
-          this.toastService.showWarning(
-            'No se pudo obtener la formación académica.',
-            'Hubo un problema'
-          );
-        }
-      },
-    });
+    this.profileService
+      .loadCapacitacionDocente(token, this.currentPage())
+      .subscribe({
+        error: (res) => {
+          this.toastService.showError(res.mensaje!, 'Malas noticias');
+        },
+        next: (res) => {
+          if (res.ok) {
+            this.totalItems.set(res.items!);
+            this.capacitacionDocenteList.set(res.data || []);
+          } else {
+            this.toastService.showWarning(
+              'No se pudo obtener la formación académica.',
+              'Hubo un problema'
+            );
+          }
+        },
+      });
   }
 
   getInstitucion(idInstitucion: number): string {
@@ -110,5 +121,10 @@ export default class CapitacionDocenteComponent implements OnInit {
   onEditEmit() {
     this.loadCapacitacionDocente();
     this.showUpdateModal.set(false);
+  }
+
+  onPageChanged(page: number): void {
+    this.currentPage.set(page);
+    this.loadCapacitacionDocente();
   }
 }

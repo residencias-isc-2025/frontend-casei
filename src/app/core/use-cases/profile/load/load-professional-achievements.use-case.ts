@@ -1,13 +1,21 @@
 import { environment } from '@environments/environment';
-
 import { LogrosPrefesionalesResponse } from '@interfaces/index';
 
+interface LogrosProfesionalesInterface {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: LogrosPrefesionalesResponse[];
+}
+
 export const loadProfessionalAchievementsUseCase = async (
-  accessToken: string
+  accessToken: string,
+  page: number,
+  pageSize: number
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/logros-profesionales/`,
+      `${environment.api_url}/api/registration/logros-profesionales/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {
@@ -17,7 +25,7 @@ export const loadProfessionalAchievementsUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as LogrosPrefesionalesResponse[];
+    const data = (await resp.json()) as LogrosProfesionalesInterface;
 
     if (!resp.ok) {
       return {
@@ -29,7 +37,8 @@ export const loadProfessionalAchievementsUseCase = async (
 
     return {
       ok: true,
-      data: data,
+      items: data.count,
+      data: data.results,
     };
   } catch (error) {
     console.error(error);

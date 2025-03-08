@@ -1,10 +1,21 @@
 import { environment } from '@environments/environment';
 import { InstitucionesResponse } from '@interfaces/index';
 
-export const loadInstitucionesUseCase = async (accessToken: string) => {
+interface SchoolsInterface {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: InstitucionesResponse[];
+}
+
+export const loadInstitucionesUseCase = async (
+  accessToken: string,
+  page: number,
+  pageSize: number
+) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/institucion-pais/`,
+      `${environment.api_url}/api/registration/institucion-pais/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {
@@ -14,19 +25,19 @@ export const loadInstitucionesUseCase = async (accessToken: string) => {
       }
     );
 
-    const data = (await resp.json()) as InstitucionesResponse[];
+    const data = (await resp.json()) as SchoolsInterface;
 
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al obtener datos.',
-        data: [],
+        schools: [],
       };
     }
 
     return {
       ok: true,
-      data: data,
+      items: data.count,
+      schools: data.results,
     };
   } catch (error) {
     console.error(error);

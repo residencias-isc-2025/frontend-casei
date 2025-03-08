@@ -1,11 +1,21 @@
 import { environment } from '@environments/environment';
+import { FormacionAcademicaResponse } from '@interfaces/index';
 
-import { FormacionAcademicaData } from '@interfaces/index';
+interface FormacionAcademicaInterface {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: FormacionAcademicaResponse[];
+}
 
-export const loadAcademicTrainingUseCase = async (accessToken: string) => {
+export const loadAcademicTrainingUseCase = async (
+  accessToken: string,
+  page: number,
+  pageSize: number
+) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/formacion-academica/`,
+      `${environment.api_url}/api/registration/formacion-academica/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {
@@ -15,7 +25,7 @@ export const loadAcademicTrainingUseCase = async (accessToken: string) => {
       }
     );
 
-    const data = (await resp.json()) as FormacionAcademicaData[];
+    const data = (await resp.json()) as FormacionAcademicaInterface;
 
     if (!resp.ok) {
       return {
@@ -27,7 +37,8 @@ export const loadAcademicTrainingUseCase = async (accessToken: string) => {
 
     return {
       ok: true,
-      data: data,
+      items: data.count,
+      data: data.results,
     };
   } catch (error) {
     console.error(error);

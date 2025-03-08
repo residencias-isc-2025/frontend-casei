@@ -57,14 +57,14 @@ export default class SchoolsPageComponent implements OnInit {
   private loadSchools(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.commonService.loadInstituciones(token).subscribe({
+    this.commonService.loadInstituciones(token, this.currentPage()).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
         if (res.ok) {
-          this.totalItems.set(res.data?.length!);
-          this.schools.set(res.data || []);
+          this.totalItems.set(res.items!);
+          this.schools.set(res.schools || []);
         } else {
           this.toastService.showWarning(
             'No se pudieron obtener los usuarios.',

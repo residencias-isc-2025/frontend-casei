@@ -14,8 +14,8 @@ import { from } from 'rxjs';
   providedIn: 'root',
 })
 export class CommonService {
-  loadInstituciones(accessToken: string) {
-    return from(loadInstitucionesUseCase(accessToken));
+  loadInstituciones(accessToken: string, page: number, pageSize: number = 10) {
+    return from(loadInstitucionesUseCase(accessToken, page, pageSize));
   }
 
   loadCountries() {

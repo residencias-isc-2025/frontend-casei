@@ -15,12 +15,14 @@ import {
 } from '@modals/index';
 
 import { ToastService, ProfileService, CommonService } from '@services/index';
+import { PaginationComponent } from '@components/pagination/pagination.component';
 
 @Component({
   selector: 'app-actualizacion-disciplinar',
   imports: [
     AddActualizacionDisciplinarComponent,
     UpdateActualizacionDisciplinarComponent,
+    PaginationComponent,
   ],
   templateUrl: './actualizacion-disciplinar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,11 +35,13 @@ export default class ActualizacionDisciplinarComponent {
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
 
+  public totalItems = signal(0);
   public actualizacionDisciplinarList = signal<
     ActualizacionDisciplinarResponse[]
   >([]);
   public institucionesList = signal<InstitucionesResponse[]>([]);
 
+  public currentPage = signal(1);
   public actualizacionDisciplinarSelected =
     signal<ActualizacionDisciplinarResponse | null>(null);
 
@@ -49,13 +53,13 @@ export default class ActualizacionDisciplinarComponent {
   private loadInstituciones(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.commonService.loadInstituciones(token).subscribe({
+    this.commonService.loadInstituciones(token, 1, 100).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
         if (res.ok) {
-          this.institucionesList.set(res.data || []);
+          this.institucionesList.set(res.schools || []);
         } else {
           this.toastService.showWarning(
             'No se pudo obtener la formación académica.',
@@ -69,21 +73,24 @@ export default class ActualizacionDisciplinarComponent {
   private loadActualizacionDisciplinarList(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.profileService.loadActualizacionDisciplinar(token).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.actualizacionDisciplinarList.set(res.data || []);
-        } else {
-          this.toastService.showWarning(
-            'No se pudo obtener la actualización disciplinar.',
-            'Hubo un problema'
-          );
-        }
-      },
-    });
+    this.profileService
+      .loadActualizacionDisciplinar(token, this.currentPage())
+      .subscribe({
+        error: (res) => {
+          this.toastService.showError(res.mensaje!, 'Malas noticias');
+        },
+        next: (res) => {
+          if (res.ok) {
+            this.totalItems.set(res.items!);
+            this.actualizacionDisciplinarList.set(res.data || []);
+          } else {
+            this.toastService.showWarning(
+              'No se pudo obtener la actualización disciplinar.',
+              'Hubo un problema'
+            );
+          }
+        },
+      });
   }
 
   getInstitucion(idInstitucion: number): string {
@@ -92,6 +99,11 @@ export default class ActualizacionDisciplinarComponent {
     );
 
     return institucion ? institucion.nombre_institucion : '';
+  }
+
+  onPageChanged(page: number): void {
+    this.currentPage.set(page);
+    this.loadActualizacionDisciplinarList();
   }
 
   onShowUpdateModel(idFormacion: number) {

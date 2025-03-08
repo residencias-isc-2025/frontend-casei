@@ -19,47 +19,85 @@ import { from } from 'rxjs';
   providedIn: 'root',
 })
 export class ProfileService {
-  loadFormacionAcademica(accessToken: string) {
-    return from(loadAcademicTrainingUseCase(accessToken));
+  loadFormacionAcademica(
+    accessToken: string,
+    page: number,
+    pageSize: number = 10
+  ) {
+    return from(loadAcademicTrainingUseCase(accessToken, page, pageSize));
   }
 
-  loadCapacitacionDocente(accessToken: string) {
-    return from(loadTeachingTrainingUseCase(accessToken));
+  loadCapacitacionDocente(
+    accessToken: string,
+    page: number,
+    pageSize: number = 10
+  ) {
+    return from(loadTeachingTrainingUseCase(accessToken, page, pageSize));
   }
 
-  loadActualizacionDisciplinar(accessToken: string) {
-    return from(loadDisciplinaryUpdateUseCase(accessToken));
+  loadActualizacionDisciplinar(
+    accessToken: string,
+    page: number,
+    pageSize: number = 10
+  ) {
+    return from(loadDisciplinaryUpdateUseCase(accessToken, page, pageSize));
   }
 
-  loadGestionAcademica(accessToken: string) {
-    return from(loadAcademicManagmentUseCase(accessToken));
+  loadGestionAcademica(
+    accessToken: string,
+    page: number,
+    pageSize: number = 10
+  ) {
+    return from(loadAcademicManagmentUseCase(accessToken, page, pageSize));
   }
 
-  loadProductosAcademicos(accessToken: string) {
-    return from(loadAcademicProductsUseCase(accessToken));
+  loadProductosAcademicos(
+    accessToken: string,
+    page: number,
+    pageSize: number = 10
+  ) {
+    return from(loadAcademicProductsUseCase(accessToken, page, pageSize));
   }
 
-  loadExperienciaProfesional(accessToken: string) {
-    return from(loadProfessionalExperienceUseCase(accessToken));
+  loadExperienciaProfesional(
+    accessToken: string,
+    page: number,
+    pageSize: number = 10
+  ) {
+    return from(loadProfessionalExperienceUseCase(accessToken, page, pageSize));
   }
 
-  loadDisenoIngenieril(accessToken: string) {
-    return from(loadEngineeringDesignUseCase(accessToken));
+  loadDisenoIngenieril(
+    accessToken: string,
+    page: number,
+    pageSize: number = 10
+  ) {
+    return from(loadEngineeringDesignUseCase(accessToken, page, pageSize));
   }
 
-  loadLogrosProfesionales(accessToken: string) {
-    return from(loadProfessionalAchievementsUseCase(accessToken));
+  loadLogrosProfesionales(
+    accessToken: string,
+    page: number,
+    pageSize: number = 10
+  ) {
+    return from(
+      loadProfessionalAchievementsUseCase(accessToken, page, pageSize)
+    );
   }
 
-  loadParticipaciones(accessToken: string) {
-    return from(loadParticipationUseCase(accessToken));
+  loadParticipaciones(
+    accessToken: string,
+    page: number,
+    pageSize: number = 10
+  ) {
+    return from(loadParticipationUseCase(accessToken, page, pageSize));
   }
 
-  loadPremios(accessToken: string) {
-    return from(loadAwardsUseCase(accessToken));
+  loadPremios(accessToken: string, page: number, pageSize: number = 10) {
+    return from(loadAwardsUseCase(accessToken, page, pageSize));
   }
 
-  loadAportaciones(accessToken: string) {
-    return from(loadContributionsUseCase(accessToken));
+  loadAportaciones(accessToken: string, page: number, pageSize: number = 10) {
+    return from(loadContributionsUseCase(accessToken, page, pageSize));
   }
 }

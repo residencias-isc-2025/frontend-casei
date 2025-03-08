@@ -1,11 +1,29 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { DisenoIngenierilResponse } from '@interfaces/index';
-import { AddDisenoIngenierilComponent, UpdateDisenoIngenierilComponent } from '@presentation/modals';
-import { CommonService, ProfileService, ToastService } from '@presentation/services';
+import {
+  AddDisenoIngenierilComponent,
+  UpdateDisenoIngenierilComponent,
+} from '@presentation/modals';
+import {
+  CommonService,
+  ProfileService,
+  ToastService,
+} from '@presentation/services';
+import { PaginationComponent } from '@components/pagination/pagination.component';
 
 @Component({
   selector: 'app-diseno-ingenieril',
-  imports: [AddDisenoIngenierilComponent, UpdateDisenoIngenierilComponent],
+  imports: [
+    AddDisenoIngenierilComponent,
+    UpdateDisenoIngenierilComponent,
+    PaginationComponent,
+  ],
   templateUrl: './diseno-ingenieril.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -23,6 +41,9 @@ export default class DisenoIngenierilComponent implements OnInit {
     null
   );
 
+  public totalItems = signal(0);
+  public currentPage = signal(1);
+
   ngOnInit(): void {
     this.loadDisenoIngenierilList();
   }
@@ -30,21 +51,24 @@ export default class DisenoIngenierilComponent implements OnInit {
   private loadDisenoIngenierilList(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.profileService.loadDisenoIngenieril(token).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.disenoIngenierilList.set(res.data || []);
-        } else {
-          this.toastService.showWarning(
-            'No se pudo obtener la actualización disciplinar.',
-            'Hubo un problema'
-          );
-        }
-      },
-    });
+    this.profileService
+      .loadDisenoIngenieril(token, this.currentPage())
+      .subscribe({
+        error: (res) => {
+          this.toastService.showError(res.mensaje!, 'Malas noticias');
+        },
+        next: (res) => {
+          if (res.ok) {
+            this.totalItems.set(res.items!);
+            this.disenoIngenierilList.set(res.data || []);
+          } else {
+            this.toastService.showWarning(
+              'No se pudo obtener la actualización disciplinar.',
+              'Hubo un problema'
+            );
+          }
+        },
+      });
   }
 
   onShowUpdateModel(idFormacion: number) {
@@ -67,5 +91,10 @@ export default class DisenoIngenierilComponent implements OnInit {
   onEditEmit() {
     this.loadDisenoIngenierilList();
     this.showUpdateModal.set(false);
+  }
+
+  onPageChanged(page: number): void {
+    this.currentPage.set(page);
+    this.loadDisenoIngenierilList();
   }
 }

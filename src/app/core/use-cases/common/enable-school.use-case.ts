@@ -6,7 +6,7 @@ export const enableSchoolUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/institucion-pais/${schoolId}/`,
+      `${environment.api_url}/api/registration/habilitar-institucion/${schoolId}/`,
       {
         method: 'PUT',
         headers: {

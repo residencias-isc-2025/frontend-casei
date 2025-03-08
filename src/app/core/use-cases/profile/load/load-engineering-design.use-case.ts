@@ -1,11 +1,21 @@
 import { environment } from '@environments/environment';
-
 import { DisenoIngenierilResponse } from '@interfaces/index';
 
-export const loadEngineeringDesignUseCase = async (accessToken: string) => {
+interface DisenoIngenierilInterface {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: DisenoIngenierilResponse[];
+}
+
+export const loadEngineeringDesignUseCase = async (
+  accessToken: string,
+  page: number,
+  pageSize: number
+) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/experiencia-diseno-ingenieril/`,
+      `${environment.api_url}/api/registration/experiencia-diseno-ingenieril/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {
@@ -15,7 +25,7 @@ export const loadEngineeringDesignUseCase = async (accessToken: string) => {
       }
     );
 
-    const data = (await resp.json()) as DisenoIngenierilResponse[];
+    const data = (await resp.json()) as DisenoIngenierilInterface;
 
     if (!resp.ok) {
       return {
@@ -27,7 +37,8 @@ export const loadEngineeringDesignUseCase = async (accessToken: string) => {
 
     return {
       ok: true,
-      data: data,
+      items: data.count,
+      data: data.results,
     };
   } catch (error) {
     console.error(error);

@@ -1,11 +1,21 @@
 import { environment } from '@environments/environment';
-
 import { CapacitacionDocenteResponse } from '@interfaces/index';
 
-export const loadTeachingTrainingUseCase = async (accessToken: string) => {
+interface CapacitacionDocenteInterface {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: CapacitacionDocenteResponse[];
+}
+
+export const loadTeachingTrainingUseCase = async (
+  accessToken: string,
+  page: number,
+  pageSize: number
+) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/capacitacion-docente/`,
+      `${environment.api_url}/api/registration/capacitacion-docente/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {
@@ -15,7 +25,7 @@ export const loadTeachingTrainingUseCase = async (accessToken: string) => {
       }
     );
 
-    const data = (await resp.json()) as CapacitacionDocenteResponse[];
+    const data = (await resp.json()) as CapacitacionDocenteInterface;
 
     if (!resp.ok) {
       return {
@@ -27,7 +37,8 @@ export const loadTeachingTrainingUseCase = async (accessToken: string) => {
 
     return {
       ok: true,
-      data: data,
+      items: data.count,
+      data: data.results,
     };
   } catch (error) {
     console.error(error);

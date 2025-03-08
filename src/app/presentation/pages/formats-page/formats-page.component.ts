@@ -6,7 +6,7 @@ import {
   signal,
 } from '@angular/core';
 import {
-  CurriculumVitaeReponse,
+  CurriculumVitaeResponse,
   InstitucionesResponse,
 } from '@interfaces/index';
 import {
@@ -28,7 +28,7 @@ export default class FormatsPageComponent implements OnInit {
   toastService = inject(ToastService);
   commonService = inject(CommonService);
 
-  curriculumVitaeData = signal<CurriculumVitaeReponse | null>(null);
+  curriculumVitaeData = signal<CurriculumVitaeResponse | null>(null);
   institucionesList = signal<InstitucionesResponse[]>([]);
 
   ngOnInit(): void {
@@ -38,13 +38,13 @@ export default class FormatsPageComponent implements OnInit {
   private loadInstituciones(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.commonService.loadInstituciones(token).subscribe({
+    this.commonService.loadInstituciones(token, 1, 100).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
         if (res.ok) {
-          this.institucionesList.set(res.data || []);
+          this.institucionesList.set(res.schools || []);
         } else {
           this.toastService.showWarning(
             'No se pudieron obtener las instituciones.',
@@ -64,7 +64,10 @@ export default class FormatsPageComponent implements OnInit {
       },
       next: (res) => {
         if (res.ok) {
-          this.pdfService.generateCurriculumVitae(res.informacion!, this.institucionesList());
+          this.pdfService.generateCurriculumVitae(
+            res.informacion!,
+            this.institucionesList()
+          );
         } else {
           this.toastService.showWarning(res.mensaje!, 'Malas noticias');
         }

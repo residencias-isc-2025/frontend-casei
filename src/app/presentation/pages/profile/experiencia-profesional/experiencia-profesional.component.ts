@@ -14,12 +14,14 @@ import {
   ProfileService,
   CommonService,
 } from '@presentation/services';
+import { PaginationComponent } from '@components/pagination/pagination.component';
 
 @Component({
   selector: 'app-experiencia-profesional',
   imports: [
     AddExperienciaProfesionalComponent,
     UpdateExperienciaProfesionalComponent,
+    PaginationComponent,
   ],
   templateUrl: './experiencia-profesional.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,6 +41,9 @@ export default class ExperienciaProfesionalComponent {
   public experienciaProfesionalSelected =
     signal<ExperienciaProfesionalResponse | null>(null);
 
+  public totalItems = signal(0);
+  public currentPage = signal(1);
+
   ngOnInit(): void {
     this.loadExperienciaProfesionalList();
   }
@@ -46,21 +51,24 @@ export default class ExperienciaProfesionalComponent {
   private loadExperienciaProfesionalList(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.profileService.loadExperienciaProfesional(token).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.experienciaProfesionalList.set(res.data || []);
-        } else {
-          this.toastService.showWarning(
-            'No se pudo obtener la actualización disciplinar.',
-            'Hubo un problema'
-          );
-        }
-      },
-    });
+    this.profileService
+      .loadExperienciaProfesional(token, this.currentPage())
+      .subscribe({
+        error: (res) => {
+          this.toastService.showError(res.mensaje!, 'Malas noticias');
+        },
+        next: (res) => {
+          if (res.ok) {
+            this.totalItems.set(res.items!);
+            this.experienciaProfesionalList.set(res.data || []);
+          } else {
+            this.toastService.showWarning(
+              'No se pudo obtener la actualización disciplinar.',
+              'Hubo un problema'
+            );
+          }
+        },
+      });
   }
 
   onShowUpdateModel(idFormacion: number) {
@@ -83,5 +91,10 @@ export default class ExperienciaProfesionalComponent {
   onEditEmit() {
     this.loadExperienciaProfesionalList();
     this.showUpdateModal.set(false);
+  }
+
+  onPageChanged(page: number): void {
+    this.currentPage.set(page);
+    this.loadExperienciaProfesionalList();
   }
 }

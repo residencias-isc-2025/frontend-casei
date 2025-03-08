@@ -40,7 +40,7 @@ export const updateAcademicTrainingUseCase = async (
 
     return {
       ok: true,
-      mensaje: data.message,
+      mensaje: 'Formación académica actualizada.',
     };
   } catch (error) {
     console.error(error);

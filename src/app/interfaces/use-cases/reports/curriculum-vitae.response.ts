@@ -3,7 +3,7 @@ import { AportacionesResponse } from '../aportaciones.response';
 import { CapacitacionDocenteResponse } from '../capacitacion-docente.response';
 import { DisenoIngenierilResponse } from '../diseno-ingenieril.response';
 import { ExperienciaProfesionalResponse } from '../experiencia-profesional.response';
-import { FormacionAcademicaData } from '../formacion-academica.response';
+import { FormacionAcademicaResponse } from '../formacion-academica.response';
 import { GestionAcademicaResponse } from '../gestion-academica.response';
 import { LogrosPrefesionalesResponse } from '../logros-profesionales.response';
 import { ParticipacionResponse } from '../participacion.response';
@@ -11,9 +11,9 @@ import { PremiosResponse } from '../premios.response';
 import { ProductosAcademicosResponse } from '../productos-academicos.response';
 import { UserResponse } from '../user.response';
 
-export interface CurriculumVitaeReponse {
+export interface CurriculumVitaeResponse {
   usuario: UserResponse;
-  formacion_academica: FormacionAcademicaData[];
+  formacion_academica: FormacionAcademicaResponse[];
   capacitacion_docente: CapacitacionDocenteResponse[];
   actualizacion_disciplinaria: ActualizacionDisciplinarResponse[];
   gestion_academica: GestionAcademicaResponse[];

@@ -1,11 +1,21 @@
 import { environment } from '@environments/environment';
-
 import { ActualizacionDisciplinarResponse } from '@interfaces/index';
 
-export const loadDisciplinaryUpdateUseCase = async (accessToken: string) => {
+interface ActualizacionDisciplinarInterface {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: ActualizacionDisciplinarResponse[];
+}
+
+export const loadDisciplinaryUpdateUseCase = async (
+  accessToken: string,
+  page: number,
+  pageSize: number
+) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/actualizacion-disciplinar/`,
+      `${environment.api_url}/api/registration/actualizacion-disciplinar/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {
@@ -15,7 +25,7 @@ export const loadDisciplinaryUpdateUseCase = async (accessToken: string) => {
       }
     );
 
-    const data = (await resp.json()) as ActualizacionDisciplinarResponse[];
+    const data = (await resp.json()) as ActualizacionDisciplinarInterface;
 
     if (!resp.ok) {
       return {
@@ -27,7 +37,8 @@ export const loadDisciplinaryUpdateUseCase = async (accessToken: string) => {
 
     return {
       ok: true,
-      data: data,
+      items: data.count,
+      data: data.results,
     };
   } catch (error) {
     console.error(error);

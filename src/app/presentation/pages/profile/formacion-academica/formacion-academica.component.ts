@@ -6,7 +6,7 @@ import {
   signal,
 } from '@angular/core';
 import {
-  FormacionAcademicaData,
+  FormacionAcademicaResponse,
   InstitucionesResponse,
 } from '@interfaces/index';
 
@@ -16,10 +16,15 @@ import {
 } from '@modals/index';
 
 import { CommonService, ProfileService, ToastService } from '@services/index';
+import { PaginationComponent } from '@components/pagination/pagination.component';
 
 @Component({
   selector: 'app-formacion-academica',
-  imports: [AddAcademicTrainingComponent, UpdateAcademicTrainingComponent],
+  imports: [
+    AddAcademicTrainingComponent,
+    UpdateAcademicTrainingComponent,
+    PaginationComponent,
+  ],
   templateUrl: './formacion-academica.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -31,12 +36,15 @@ export default class FormacionAcademicaComponent implements OnInit {
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
 
-  public formacionAcademicaList = signal<FormacionAcademicaData[]>([]);
+  public formacionAcademicaList = signal<FormacionAcademicaResponse[]>([]);
   public institucionesList = signal<InstitucionesResponse[]>([]);
 
-  public formacionAcademicaSelected = signal<FormacionAcademicaData | null>(
+  public formacionAcademicaSelected = signal<FormacionAcademicaResponse | null>(
     null
   );
+
+  public totalItems = signal(0);
+  public currentPage = signal(1);
 
   ngOnInit(): void {
     this.loadInstituciones();
@@ -46,13 +54,13 @@ export default class FormacionAcademicaComponent implements OnInit {
   private loadInstituciones(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.commonService.loadInstituciones(token).subscribe({
+    this.commonService.loadInstituciones(token, 1, 100).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
         if (res.ok) {
-          this.institucionesList.set(res.data || []);
+          this.institucionesList.set(res.schools || []);
         } else {
           this.toastService.showWarning(
             'No se pudo obtener la formación académica.',
@@ -66,21 +74,24 @@ export default class FormacionAcademicaComponent implements OnInit {
   private loadFormacionAcademica(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.profileService.loadFormacionAcademica(token).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.formacionAcademicaList.set(res.data || []);
-        } else {
-          this.toastService.showWarning(
-            'No se pudo obtener la formación académica.',
-            'Hubo un problema'
-          );
-        }
-      },
-    });
+    this.profileService
+      .loadFormacionAcademica(token, this.currentPage())
+      .subscribe({
+        error: (res) => {
+          this.toastService.showError(res.mensaje!, 'Malas noticias');
+        },
+        next: (res) => {
+          if (res.ok) {
+            this.totalItems.set(res.items!);
+            this.formacionAcademicaList.set(res.data || []);
+          } else {
+            this.toastService.showWarning(
+              'No se pudo obtener la formación académica.',
+              'Hubo un problema'
+            );
+          }
+        },
+      });
   }
 
   getInstitucion(idInstitucion: number): string {
@@ -111,5 +122,10 @@ export default class FormacionAcademicaComponent implements OnInit {
   onEditEmit() {
     this.loadFormacionAcademica();
     this.showUpdateModal.set(false);
+  }
+
+  onPageChanged(page: number): void {
+    this.currentPage.set(page);
+    this.loadFormacionAcademica();
   }
 }

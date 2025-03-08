@@ -6,16 +6,24 @@ import {
   signal,
 } from '@angular/core';
 import { ParticipacionResponse } from '@interfaces/index';
-import { AddParticipacionComponent, UpdateParticipacionComponent } from '@presentation/modals';
+import {
+  AddParticipacionComponent,
+  UpdateParticipacionComponent,
+} from '@presentation/modals';
 import {
   ToastService,
   ProfileService,
   CommonService,
 } from '@presentation/services';
+import { PaginationComponent } from '@components/pagination/pagination.component';
 
 @Component({
   selector: 'app-participacion',
-  imports: [AddParticipacionComponent, UpdateParticipacionComponent],
+  imports: [
+    AddParticipacionComponent,
+    UpdateParticipacionComponent,
+    PaginationComponent,
+  ],
   templateUrl: './participacion.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -31,6 +39,9 @@ export default class ParticipacionComponent implements OnInit {
 
   public participacionSelected = signal<ParticipacionResponse | null>(null);
 
+  public totalItems = signal(0);
+  public currentPage = signal(1);
+
   ngOnInit(): void {
     this.loadParticipacionList();
   }
@@ -38,21 +49,24 @@ export default class ParticipacionComponent implements OnInit {
   private loadParticipacionList(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.profileService.loadParticipaciones(token).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.participacionList.set(res.data || []);
-        } else {
-          this.toastService.showWarning(
-            'No se pudo obtener la actualización disciplinar.',
-            'Hubo un problema'
-          );
-        }
-      },
-    });
+    this.profileService
+      .loadParticipaciones(token, this.currentPage())
+      .subscribe({
+        error: (res) => {
+          this.toastService.showError(res.mensaje!, 'Malas noticias');
+        },
+        next: (res) => {
+          if (res.ok) {
+            this.totalItems.set(res.items!);
+            this.participacionList.set(res.data || []);
+          } else {
+            this.toastService.showWarning(
+              'No se pudo obtener la actualización disciplinar.',
+              'Hubo un problema'
+            );
+          }
+        },
+      });
   }
 
   onShowUpdateModel(idFormacion: number) {
@@ -73,5 +87,10 @@ export default class ParticipacionComponent implements OnInit {
   onEditEmit() {
     this.loadParticipacionList();
     this.showUpdateModal.set(false);
+  }
+
+  onPageChanged(page: number): void {
+    this.currentPage.set(page);
+    this.loadParticipacionList();
   }
 }

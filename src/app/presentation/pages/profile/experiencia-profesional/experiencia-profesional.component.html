@@ -47,6 +47,12 @@
         }
       </tbody>
     </table>
+    <app-pagination
+      [totalItems]="totalItems()"
+      [itemsPerPage]="10"
+      [currentPage]="currentPage()"
+      (pageChanged)="onPageChanged($event)"
+    />
   </div>
 </div>
 
@@ -56,9 +62,7 @@
   (onSave)="onSaveEmit()"
   title="Agregar experiencia profesional"
 />
-}
-
-@if (showUpdateModal()) {
+} @if (showUpdateModal()) {
 <app-update-experiencia-profesional
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"

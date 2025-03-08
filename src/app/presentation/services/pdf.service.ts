@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import jsPDF from 'jspdf';
 
 import {
-  CurriculumVitaeReponse,
+  CurriculumVitaeResponse,
   InstitucionesResponse,
 } from '@interfaces/index';
 import { curriculumVitaeReport } from '@presentation/reports/curriculum-vitae.report';
@@ -15,7 +15,7 @@ export class PdfService {
   toastService = inject(ToastService);
 
   generateCurriculumVitae(
-    data: CurriculumVitaeReponse,
+    data: CurriculumVitaeResponse,
     schools: InstitucionesResponse[]
   ) {
     const { apellido_materno, apellido_paterno, nombre, fecha_nacimiento } =

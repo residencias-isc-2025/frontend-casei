@@ -15,10 +15,11 @@ import {
   ProfileService,
   CommonService,
 } from '@presentation/services';
+import { PaginationComponent } from '@components/pagination/pagination.component';
 
 @Component({
   selector: 'app-premios',
-  imports: [AddPremiosComponent, UpdatePremiosComponent],
+  imports: [AddPremiosComponent, UpdatePremiosComponent, PaginationComponent],
   templateUrl: './premios.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -33,6 +34,9 @@ export default class PremiosComponent implements OnInit {
   public premiosList = signal<PremiosResponse[]>([]);
   public premioSelected = signal<PremiosResponse | null>(null);
 
+  public totalItems = signal(0);
+  public currentPage = signal(1);
+
   ngOnInit(): void {
     this.loadPremiosList();
   }
@@ -40,12 +44,13 @@ export default class PremiosComponent implements OnInit {
   private loadPremiosList(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.profileService.loadPremios(token).subscribe({
+    this.profileService.loadPremios(token, this.currentPage()).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
         if (res.ok) {
+          this.totalItems.set(res.items!);
           this.premiosList.set(res.data || []);
         } else {
           this.toastService.showWarning(
@@ -75,5 +80,10 @@ export default class PremiosComponent implements OnInit {
   onEditEmit() {
     this.loadPremiosList();
     this.showUpdateModal.set(false);
+  }
+
+  onPageChanged(page: number): void {
+    this.currentPage.set(page);
+    this.loadPremiosList();
   }
 }

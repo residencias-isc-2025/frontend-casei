@@ -2,10 +2,21 @@ import { environment } from '@environments/environment';
 
 import { AportacionesResponse } from '@interfaces/index';
 
-export const loadContributionsUseCase = async (accessToken: string) => {
+interface AportacionesInterface {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: AportacionesResponse[];
+}
+
+export const loadContributionsUseCase = async (
+  accessToken: string,
+  page: number,
+  pageSize: number
+) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/aportaciones/`,
+      `${environment.api_url}/api/registration/aportaciones/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {
@@ -15,7 +26,7 @@ export const loadContributionsUseCase = async (accessToken: string) => {
       }
     );
 
-    const data = (await resp.json()) as AportacionesResponse[];
+    const data = (await resp.json()) as AportacionesInterface;
 
     if (!resp.ok) {
       return {
@@ -27,7 +38,8 @@ export const loadContributionsUseCase = async (accessToken: string) => {
 
     return {
       ok: true,
-      data: data,
+      items: data.count,
+      data: data.results,
     };
   } catch (error) {
     console.error(error);

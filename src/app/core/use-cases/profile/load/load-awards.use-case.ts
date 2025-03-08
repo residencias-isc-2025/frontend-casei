@@ -1,11 +1,21 @@
 import { environment } from '@environments/environment';
-
 import { PremiosResponse } from '@interfaces/index';
 
-export const loadAwardsUseCase = async (accessToken: string) => {
+interface PremiosInterface {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: PremiosResponse[];
+}
+
+export const loadAwardsUseCase = async (
+  accessToken: string,
+  page: number,
+  pageSize: number
+) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/premios/`,
+      `${environment.api_url}/api/registration/premios/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {
@@ -15,7 +25,7 @@ export const loadAwardsUseCase = async (accessToken: string) => {
       }
     );
 
-    const data = (await resp.json()) as PremiosResponse[];
+    const data = (await resp.json()) as PremiosInterface;
 
     if (!resp.ok) {
       return {
@@ -27,7 +37,8 @@ export const loadAwardsUseCase = async (accessToken: string) => {
 
     return {
       ok: true,
-      data: data,
+      items: data.count,
+      data: data.results,
     };
   } catch (error) {
     console.error(error);

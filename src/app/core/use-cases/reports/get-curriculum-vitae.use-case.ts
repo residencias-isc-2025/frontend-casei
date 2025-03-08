@@ -1,5 +1,5 @@
 import { environment } from '@environments/environment';
-import { CurriculumVitaeReponse } from '@interfaces/index';
+import { CurriculumVitaeResponse } from '@interfaces/index';
 
 export const getCurriculumVitaeUseCase = async (accessToken: string) => {
   try {
@@ -11,7 +11,7 @@ export const getCurriculumVitaeUseCase = async (accessToken: string) => {
       },
     });
 
-    const data = (await resp.json()) as CurriculumVitaeReponse;
+    const data = (await resp.json()) as CurriculumVitaeResponse;
 
     if (!resp.ok) {
       return {

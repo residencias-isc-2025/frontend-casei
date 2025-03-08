@@ -38,7 +38,7 @@ export const addAcademicTrainingUseCase = async (
 
     return {
       ok: true,
-      mensaje: data.message,
+      mensaje: 'Formación académica guardada.',
     };
   } catch (error) {
     console.error(error);

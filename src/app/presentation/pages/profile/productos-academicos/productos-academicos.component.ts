@@ -6,12 +6,20 @@ import {
   signal,
 } from '@angular/core';
 import { ProductosAcademicosResponse } from '@interfaces/index';
-import { AddProductoAcademicoComponent, UpdateProductoAcademicoComponent} from '@presentation/modals';
+import {
+  AddProductoAcademicoComponent,
+  UpdateProductoAcademicoComponent,
+} from '@presentation/modals';
 import { CommonService, ProfileService, ToastService } from '@services/index';
+import { PaginationComponent } from '@components/pagination/pagination.component';
 
 @Component({
   selector: 'app-productos-academicos',
-  imports: [AddProductoAcademicoComponent, UpdateProductoAcademicoComponent],
+  imports: [
+    AddProductoAcademicoComponent,
+    UpdateProductoAcademicoComponent,
+    PaginationComponent,
+  ],
   templateUrl: './productos-academicos.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -29,6 +37,9 @@ export default class ProductosAcademicosComponent implements OnInit {
     null
   );
 
+  public totalItems = signal(0);
+  public currentPage = signal(1);
+
   ngOnInit(): void {
     this.loadGestionAcademicaList();
   }
@@ -36,21 +47,24 @@ export default class ProductosAcademicosComponent implements OnInit {
   private loadGestionAcademicaList(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.profileService.loadProductosAcademicos(token).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.productosAcademicosList.set(res.data || []);
-        } else {
-          this.toastService.showWarning(
-            'No se pudo obtener la actualización disciplinar.',
-            'Hubo un problema'
-          );
-        }
-      },
-    });
+    this.profileService
+      .loadProductosAcademicos(token, this.currentPage())
+      .subscribe({
+        error: (res) => {
+          this.toastService.showError(res.mensaje!, 'Malas noticias');
+        },
+        next: (res) => {
+          if (res.ok) {
+            this.totalItems.set(res.items!);
+            this.productosAcademicosList.set(res.data || []);
+          } else {
+            this.toastService.showWarning(
+              'No se pudo obtener la actualización disciplinar.',
+              'Hubo un problema'
+            );
+          }
+        },
+      });
   }
 
   onShowUpdateModel(idFormacion: number) {
@@ -73,5 +87,10 @@ export default class ProductosAcademicosComponent implements OnInit {
   onEditEmit() {
     this.loadGestionAcademicaList();
     this.showUpdateModal.set(false);
+  }
+
+  onPageChanged(page: number): void {
+    this.currentPage.set(page);
+    this.loadGestionAcademicaList();
   }
 }

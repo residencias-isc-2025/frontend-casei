@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { ToastService, UsersService } from '@services/index';
 import { validYearValidator } from '@validators/index';
 import {
-  FormacionAcademicaData,
+  FormacionAcademicaResponse,
   InstitucionesResponse,
 } from '@interfaces/index';
 
@@ -31,7 +31,7 @@ import {
 export class UpdateAcademicTrainingComponent implements OnInit {
   title = input('');
   listaInstituciones = input.required<InstitucionesResponse[]>();
-  formacionAcademica = input.required<FormacionAcademicaData>();
+  formacionAcademica = input.required<FormacionAcademicaResponse>();
 
   onCancel = output();
   onSave = output();

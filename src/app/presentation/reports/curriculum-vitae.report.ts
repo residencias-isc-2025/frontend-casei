@@ -7,10 +7,10 @@ import {
   ActualizacionDisciplinarResponse,
   AportacionesResponse,
   CapacitacionDocenteResponse,
-  CurriculumVitaeReponse,
+  CurriculumVitaeResponse,
   DisenoIngenierilResponse,
   ExperienciaProfesionalResponse,
-  FormacionAcademicaData,
+  FormacionAcademicaResponse,
   GestionAcademicaResponse,
   InstitucionesResponse,
   LogrosPrefesionalesResponse,
@@ -22,7 +22,7 @@ import jsPDF from 'jspdf';
 
 export const curriculumVitaeReport = (
   doc: jsPDF,
-  data: CurriculumVitaeReponse,
+  data: CurriculumVitaeResponse,
   schools: InstitucionesResponse[]
 ): jsPDF => {
   const payrollNumber = !isNaN(Number(data.usuario.username))
@@ -267,7 +267,7 @@ export const curriculumVitaeReport = (
           },
         ],
       ],
-      body: data.formacion_academica.map((item: FormacionAcademicaData) => [
+      body: data.formacion_academica.map((item: FormacionAcademicaResponse) => [
         item.nivel,
         item.nombre,
         schools.find((i) => i.id === item.institucion_pais)
