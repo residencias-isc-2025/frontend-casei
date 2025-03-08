@@ -24,19 +24,25 @@ export const routes: Routes = [
       ),
     children: [
       {
-        path: 'users',
+        path: 'usuarios',
         loadComponent: () =>
           import('@presentation/pages/users-page/users-page.component'),
         canMatch: [userRoleGuard],
       },
       {
-        path: 'schools',
+        path: 'instituciones',
         loadComponent: () =>
           import('@presentation/pages/schools-page/schools-page.component'),
         canMatch: [userRoleGuard],
       },
       {
-        path: 'profile',
+        path: 'adscripciones',
+        loadComponent: () =>
+          import('@presentation/pages/enrolled-page/enrolled-page.component'),
+        canMatch: [userRoleGuard],
+      },
+      {
+        path: 'perfil',
         loadComponent: () =>
           import('@presentation/pages/profile-page/profile-page.component'),
       },
@@ -116,13 +122,13 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'formats',
+        path: 'formatos',
         loadComponent: () =>
           import('@presentation/pages/formats-page/formats-page.component'),
       },
       {
         path: '**',
-        redirectTo: 'profile',
+        redirectTo: 'perfil',
         pathMatch: 'full',
       },
     ],

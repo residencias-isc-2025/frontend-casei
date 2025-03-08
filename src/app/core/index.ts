@@ -61,6 +61,7 @@ export * from './use-cases/users/create-users-by-csv.use-case';
 
 export * from './use-cases/common/get-schools.use-case';
 export * from './use-cases/common/get-countries.use-case';
+export * from './use-cases/common/get-adscripciones.use-case';
 
 export * from './use-cases/common/add-school.use-case';
 export * from './use-cases/common/update-school.use-case';

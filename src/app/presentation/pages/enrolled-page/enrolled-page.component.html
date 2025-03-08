@@ -1,0 +1,106 @@
+<div class="container mx-auto p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Adscripciones</h1>
+    <div class="space-x-1">
+      <button
+        (click)="this.showAddModal.set(true)"
+        class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+      >
+        Agregar
+      </button>
+
+      <!-- <label
+        class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+      >
+        Cargar CSV
+        <input
+          type="file"
+          accept=".csv"
+          class="hidden"
+        />
+      </label> -->
+    </div>
+  </div>
+
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+    <table class="w-full border-collapse">
+      <thead class="bg-gray-200 text-gray-700">
+        <tr>
+          <th class="py-3 px-4 text-center">Estado</th>
+          <th class="py-3 px-4 text-left">Nombre</th>
+          <th class="py-3 px-4 text-left">Siglas</th>
+          <th class="py-3 px-4 text-left">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-600">
+        @for (adscripcion of adscripciones(); track $index) {
+        <tr class="border-b hover:bg-gray-100 transition">
+          <td class="py-3 px-4">
+            <div class="flex items-center justify-center">
+              <span
+                class="inline-block w-3 h-3 rounded-full"
+                [ngClass]="{
+                  'bg-green-500': adscripcion.estado === 'activo',
+                  'bg-red-500': adscripcion.estado !== 'activo'
+                }"
+              ></span>
+            </div>
+          </td>
+          <td class="py-3 px-4">{{ adscripcion.nombre }}</td>
+          <td class="py-3 px-4">{{ adscripcion.siglas }}</td>
+          <td class="py-3 px-4">
+            <div class="flex flex-row space-x-2">
+              <button
+                (click)="onShowUpdateModal(adscripcion.id)"
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-blue-500 hover:bg-blue-700"
+              >
+                Editar
+              </button>
+
+              @if(adscripcion.estado === 'activo') {
+              <button
+                (click)="onDisableAdscripcion(adscripcion.id)"
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
+              >
+                Desactivar
+              </button>
+              }@else {
+              <button
+                (click)="onEnableAdscripcion(adscripcion.id)"
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-green-500 hover:bg-green-700"
+              >
+                Activar
+              </button>
+              }
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+
+    <app-pagination
+      [totalItems]="totalItems()"
+      [itemsPerPage]="10"
+      [currentPage]="currentPage()"
+      (pageChanged)="onPageChanged($event)"
+    />
+  </div>
+</div>
+
+<!-- @if (showAddModal()) {
+<app-add-institucion
+  (onCancel)="showAddModal.set(false)"
+  (onSave)="onSaveEmit()"
+  [countriesList]="countries()"
+/>
+}  -->
+
+<!-- @if(showUpdateModal()) {
+<app-update-institucion
+  (onCancel)="showUpdateModal.set(false)"
+  (onSave)="onEditEmit()"
+  [school]="schoolSelected()!"
+  [countriesList]="countries()"
+/>
+} -->

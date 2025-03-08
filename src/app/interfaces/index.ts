@@ -19,6 +19,7 @@ export * from './use-cases/update-user.reponse';
 export * from './use-cases/login.response';
 export * from './use-cases/user.response';
 export * from './use-cases/instituciones.response';
+export * from './use-cases/adscripciones.response';
 
 export * from './use-cases/formacion-academica.response';
 export * from './use-cases/capacitacion-docente.response';

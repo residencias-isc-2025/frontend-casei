@@ -17,6 +17,6 @@ export const userRoleGuard: CanMatchFn = () => {
     return true;
   }
 
-  router.navigate(['/dashboard/profile']);
+  router.navigate(['/dashboard/perfil']);
   return false;
 };

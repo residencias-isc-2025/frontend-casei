@@ -4,6 +4,7 @@ import {
   disableSchoolUseCase,
   enableSchoolUseCase,
   getCountriesListUseCase,
+  loadAdscripcionesUseCase,
   loadInstitucionesUseCase,
   updateSchoolUseCase,
 } from '@core/index';
@@ -24,6 +25,14 @@ export class CommonService {
 
   getPaisesList() {
     return from(getCountriesListUseCase());
+  }
+
+  getAdscripcionesList(
+    accessToken: string,
+    page: number,
+    pageSize: number = 10
+  ) {
+    return from(loadAdscripcionesUseCase(accessToken, page, pageSize));
   }
 
   agregarInstitucion(institucionDto: InstitucionDto) {
