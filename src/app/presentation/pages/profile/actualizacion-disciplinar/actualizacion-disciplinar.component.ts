@@ -11,6 +11,7 @@ import {
 
 import {
   AddActualizacionDisciplinarComponent,
+  ConfirmationModalComponent,
   UpdateActualizacionDisciplinarComponent,
 } from '@modals/index';
 
@@ -27,6 +28,7 @@ import { PaginationComponent } from '@components/pagination/pagination.component
   imports: [
     AddActualizacionDisciplinarComponent,
     UpdateActualizacionDisciplinarComponent,
+    ConfirmationModalComponent,
     PaginationComponent,
   ],
   templateUrl: './actualizacion-disciplinar.component.html',
@@ -40,6 +42,7 @@ export default class ActualizacionDisciplinarComponent {
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
+  public showDeleteModal = signal(false);
 
   public totalItems = signal(0);
   public actualizacionDisciplinarList = signal<ActualizacionDisciplinarData[]>(
@@ -117,6 +120,11 @@ export default class ActualizacionDisciplinarComponent {
     this.showUpdateModal.set(true);
   }
 
+  onShowDeleteModal(actualizacionDisciplinar: ActualizacionDisciplinarData) {
+    this.actualizacionDisciplinarSelected.set(actualizacionDisciplinar);
+    this.showDeleteModal.set(true);
+  }
+
   onSaveEmit() {
     this.loadActualizacionDisciplinarList();
     this.showAddModal.set(false);
@@ -128,6 +136,8 @@ export default class ActualizacionDisciplinarComponent {
   }
 
   onDelete(itemId: number) {
+    this.showDeleteModal.set(false);
+
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService.borrarActualizacionDisciplinar(itemId, token).subscribe({

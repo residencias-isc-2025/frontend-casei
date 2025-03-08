@@ -37,7 +37,7 @@
                 Editar
               </button>
               <button
-                (click)="onDelete(actualizacionD.id)"
+                (click)="onShowDeleteModal(actualizacionD)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
               >
                 Eliminar
@@ -71,5 +71,17 @@
   [listaInstituciones]="institucionesList()"
   [actualizacionDisciplinar]="actualizacionDisciplinarSelected()!"
   title="Agregar actualización disciplinar"
+/>
+} @if (showDeleteModal()){
+
+<app-confirmation-modal
+  title="Eliminar: Actualización Disciplinar"
+  [message]="
+    '¿Esta seguro de querer eliminar la actualización disciplinar correspondinete a ' +
+    actualizacionDisciplinarSelected()?.tipo_actualizacion +
+    '?'
+  "
+  (onConfirm)="onDelete(actualizacionDisciplinarSelected()?.id!)"
+  (onCancel)="showDeleteModal.set(false)"
 />
 }
