@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   addAdscripcionUseCase,
   addSchoolUseCase,
+  disableAdscripcionUseCase,
   disableSchoolUseCase,
   enableSchoolUseCase,
   getCountriesListUseCase,
@@ -62,5 +63,9 @@ export class CommonService {
 
   desactivarInstitucion(idInstitucion: number, accessToken: string) {
     return from(disableSchoolUseCase(idInstitucion, accessToken));
+  }
+
+  desactivarAreaAdscripcion(idAdscripcion: number, accessToken: string) {
+    return from(disableAdscripcionUseCase(idAdscripcion, accessToken));
   }
 }
