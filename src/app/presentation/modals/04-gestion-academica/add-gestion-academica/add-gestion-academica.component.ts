@@ -13,7 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { InstitucionesResponse } from '@interfaces/index';
+import { InstitucionResponse } from '@interfaces/index';
 import { CustomDatepickerComponent } from '@presentation/components/custom-datepicker/custom-datepicker.component';
 import { ToastService, UsersService } from '@services/index';
 
@@ -25,7 +25,7 @@ import { ToastService, UsersService } from '@services/index';
 })
 export class AddGestionAcademicaComponent implements OnInit {
   title = input('');
-  listaInstituciones = input.required<InstitucionesResponse[]>();
+  listaInstituciones = input.required<InstitucionResponse[]>();
 
   onCancel = output();
   onSave = output();
@@ -72,7 +72,7 @@ export class AddGestionAcademicaComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .addAcademicManagmentFunction({
+      .agregarGestionAcademica({
         accessToken: token,
         a_mes_anio: gestion_f,
         d_mes_anio: gestion_i,

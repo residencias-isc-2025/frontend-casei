@@ -19,7 +19,7 @@ import { ToastService, UsersService } from '@services/index';
 import { validYearValidator } from '@validators/index';
 import {
   FormacionAcademicaResponse,
-  InstitucionesResponse,
+  InstitucionResponse,
 } from '@interfaces/index';
 
 @Component({
@@ -30,7 +30,7 @@ import {
 })
 export class UpdateAcademicTrainingComponent implements OnInit {
   title = input('');
-  listaInstituciones = input.required<InstitucionesResponse[]>();
+  listaInstituciones = input.required<InstitucionResponse[]>();
   formacionAcademica = input.required<FormacionAcademicaResponse>();
 
   onCancel = output();
@@ -74,7 +74,7 @@ export class UpdateAcademicTrainingComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .updateAcademicTrainingFunction(this.formacionAcademica().id, {
+      .actualizarFormacionAcademica(this.formacionAcademica().id, {
         accessToken: token,
         code: cedula,
         institution: institucion,

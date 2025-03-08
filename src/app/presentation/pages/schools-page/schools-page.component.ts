@@ -6,7 +6,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { CountriesResponse, InstitucionesResponse } from '@interfaces/index';
+import { CountriesResponse, InstitucionResponse } from '@interfaces/index';
 import { ToastService, CommonService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import {
@@ -33,19 +33,19 @@ export default class SchoolsPageComponent implements OnInit {
   public showUpdateModal = signal(false);
 
   public totalItems = signal(0);
-  public schools = signal<InstitucionesResponse[]>([]);
+  public schools = signal<InstitucionResponse[]>([]);
   public countries = signal<CountriesResponse[]>([]);
 
   public currentPage = signal(1);
-  public schoolSelected = signal<InstitucionesResponse | null>(null);
+  public schoolSelected = signal<InstitucionResponse | null>(null);
 
   ngOnInit(): void {
-    this.loadCountries();
-    this.loadSchools();
+    this.cargarPaises();
+    this.cargarInstituciones();
   }
 
-  private loadCountries(): void {
-    this.commonService.loadCountries().subscribe({
+  private cargarPaises(): void {
+    this.commonService.getPaisesList().subscribe({
       next: (res) => {
         if (res.ok) {
           this.countries.set(res.data || []);
@@ -54,10 +54,10 @@ export default class SchoolsPageComponent implements OnInit {
     });
   }
 
-  private loadSchools(): void {
+  private cargarInstituciones(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.commonService.loadInstituciones(token, this.currentPage()).subscribe({
+    this.commonService.getInstitucionesList(token, this.currentPage()).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
@@ -77,7 +77,7 @@ export default class SchoolsPageComponent implements OnInit {
 
   onPageChanged(page: number): void {
     this.currentPage.set(page);
-    this.loadSchools();
+    this.cargarInstituciones();
   }
 
   onShowUpdateModel(idFormacion: number) {
@@ -92,12 +92,12 @@ export default class SchoolsPageComponent implements OnInit {
 
   onSaveEmit(): void {
     this.showAddModal.set(false);
-    this.loadSchools();
+    this.cargarInstituciones();
   }
 
   onEditEmit(): void {
     this.showUpdateModal.set(false);
-    this.loadSchools();
+    this.cargarInstituciones();
   }
 
   onDisableSchool(schoolId: number) {
@@ -105,14 +105,14 @@ export default class SchoolsPageComponent implements OnInit {
 
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.commonService.disableSchool(schoolId, token).subscribe({
+    this.commonService.desactivarInstitucion(schoolId, token).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
         if (res.ok) {
           this.toastService.showSuccess(res.mensaje!, 'Éxito');
-          this.loadSchools();
+          this.cargarInstituciones();
         } else {
           this.toastService.showWarning(res.mensaje!, 'Malas noticias');
         }
@@ -125,14 +125,14 @@ export default class SchoolsPageComponent implements OnInit {
 
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.commonService.enableSchool(schoolId, token).subscribe({
+    this.commonService.activarInstitucion(schoolId, token).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
         if (res.ok) {
           this.toastService.showSuccess(res.mensaje!, 'Éxito');
-          this.loadSchools();
+          this.cargarInstituciones();
         } else {
           this.toastService.showWarning(res.mensaje!, 'Malas noticias');
         }

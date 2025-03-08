@@ -10,7 +10,12 @@ import {
   AddProductoAcademicoComponent,
   UpdateProductoAcademicoComponent,
 } from '@presentation/modals';
-import { CommonService, ProfileService, ToastService } from '@services/index';
+import {
+  CommonService,
+  ProfileService,
+  ToastService,
+  UsersService,
+} from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 
 @Component({
@@ -27,6 +32,7 @@ export default class ProductosAcademicosComponent implements OnInit {
   public toastService = inject(ToastService);
   public profileService = inject(ProfileService);
   public commonService = inject(CommonService);
+  public usersService = inject(UsersService);
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
@@ -41,14 +47,14 @@ export default class ProductosAcademicosComponent implements OnInit {
   public currentPage = signal(1);
 
   ngOnInit(): void {
-    this.loadGestionAcademicaList();
+    this.loadProductosAcademicosList();
   }
 
-  private loadGestionAcademicaList(): void {
+  private loadProductosAcademicosList(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.profileService
-      .loadProductosAcademicos(token, this.currentPage())
+      .loadProductosAcademicosFunction(token, this.currentPage())
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
@@ -80,17 +86,37 @@ export default class ProductosAcademicosComponent implements OnInit {
   }
 
   onSaveEmit() {
-    this.loadGestionAcademicaList();
+    this.loadProductosAcademicosList();
     this.showAddModal.set(false);
   }
 
   onEditEmit() {
-    this.loadGestionAcademicaList();
+    this.loadProductosAcademicosList();
     this.showUpdateModal.set(false);
   }
 
   onPageChanged(page: number): void {
     this.currentPage.set(page);
-    this.loadGestionAcademicaList();
+    this.loadProductosAcademicosList();
+  }
+
+  onDelete(itemId: number) {
+    const token = localStorage.getItem('casei_residencias_access_token') || '';
+
+    this.usersService.borrarProductosAcademicos(itemId, token).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        if (res.ok) {
+          this.loadProductosAcademicosList();
+        } else {
+          this.toastService.showWarning(
+            'No se pudieron obtener las actualizaciones discilpinares.',
+            'Hubo un problema'
+          );
+        }
+      },
+    });
   }
 }

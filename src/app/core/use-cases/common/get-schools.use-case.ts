@@ -1,11 +1,11 @@
 import { environment } from '@environments/environment';
-import { InstitucionesResponse } from '@interfaces/index';
+import { InstitucionResponse } from '@interfaces/index';
 
 interface SchoolsInterface {
   count: number;
   next: string | null;
   previous: string | null;
-  results: InstitucionesResponse[];
+  results: InstitucionResponse[];
 }
 
 export const loadInstitucionesUseCase = async (

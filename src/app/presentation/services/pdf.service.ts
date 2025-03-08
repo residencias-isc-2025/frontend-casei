@@ -3,7 +3,7 @@ import jsPDF from 'jspdf';
 
 import {
   CurriculumVitaeResponse,
-  InstitucionesResponse,
+  InstitucionResponse,
 } from '@interfaces/index';
 import { curriculumVitaeReport } from '@presentation/reports/curriculum-vitae.report';
 import { ToastService } from './toast.service';
@@ -14,9 +14,9 @@ import { ToastService } from './toast.service';
 export class PdfService {
   toastService = inject(ToastService);
 
-  generateCurriculumVitae(
+  generarCurriculumVitae(
     data: CurriculumVitaeResponse,
-    schools: InstitucionesResponse[]
+    schools: InstitucionResponse[]
   ) {
     const { apellido_materno, apellido_paterno, nombre, fecha_nacimiento } =
       data.usuario;

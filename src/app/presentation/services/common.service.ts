@@ -14,27 +14,31 @@ import { from } from 'rxjs';
   providedIn: 'root',
 })
 export class CommonService {
-  loadInstituciones(accessToken: string, page: number, pageSize: number = 10) {
+  getInstitucionesList(
+    accessToken: string,
+    page: number,
+    pageSize: number = 10
+  ) {
     return from(loadInstitucionesUseCase(accessToken, page, pageSize));
   }
 
-  loadCountries() {
+  getPaisesList() {
     return from(getCountriesListUseCase());
   }
 
-  addSchool(institucionDto: InstitucionDto) {
+  agregarInstitucion(institucionDto: InstitucionDto) {
     return from(addSchoolUseCase(institucionDto));
   }
 
-  updateSchool(idInstitucion: number, institucionDto: InstitucionDto) {
+  actualizarInstitucion(idInstitucion: number, institucionDto: InstitucionDto) {
     return from(updateSchoolUseCase(idInstitucion, institucionDto));
   }
 
-  enableSchool(idInstitucion: number, accessToken: string) {
+  activarInstitucion(idInstitucion: number, accessToken: string) {
     return from(enableSchoolUseCase(idInstitucion, accessToken));
   }
 
-  disableSchool(idInstitucion: number, accessToken: string) {
+  desactivarInstitucion(idInstitucion: number, accessToken: string) {
     return from(disableSchoolUseCase(idInstitucion, accessToken));
   }
 }

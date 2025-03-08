@@ -14,7 +14,7 @@ import {
 } from '@angular/forms';
 import {
   ActualizacionDisciplinarResponse,
-  InstitucionesResponse,
+  InstitucionResponse,
 } from '@interfaces/index';
 import { ToastService, UsersService } from '@services/index';
 import { validYearValidator } from '@validators/index';
@@ -27,7 +27,7 @@ import { validYearValidator } from '@validators/index';
 })
 export class UpdateActualizacionDisciplinarComponent {
   title = input('');
-  listaInstituciones = input.required<InstitucionesResponse[]>();
+  listaInstituciones = input.required<InstitucionResponse[]>();
   actualizacionDisciplinar = input.required<ActualizacionDisciplinarResponse>();
 
   onCancel = output();
@@ -67,7 +67,7 @@ export class UpdateActualizacionDisciplinarComponent {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .updateDisciplinaryUpdateFunction(
+      .actualizarActualizacionDisciplinar(
         this.actualizacionDisciplinar().id,
 
         {

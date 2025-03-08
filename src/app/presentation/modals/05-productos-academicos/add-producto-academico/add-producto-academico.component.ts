@@ -43,7 +43,7 @@ export class AddProductoAcademicoComponent {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .addAcademicProductFunction({
+      .agregarProductosAcademicos({
         accessToken: token,
         descripcion,
       })

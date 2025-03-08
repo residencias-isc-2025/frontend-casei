@@ -37,7 +37,7 @@ export const addDisciplinaryUpdateUseCase = async (
 
     return {
       ok: true,
-      mensaje: 'Capacitación guardada con éxito.',
+      mensaje: 'Actualización discilpinar guardada.',
     };
   } catch (error) {
     console.error(error);

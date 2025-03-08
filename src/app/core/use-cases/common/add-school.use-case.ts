@@ -1,10 +1,8 @@
 import { environment } from '@environments/environment';
 
-import { InstitucionDto, InstitucionesResponse } from '@interfaces/index';
+import { InstitucionDto, InstitucionResponse } from '@interfaces/index';
 
-export const addSchoolUseCase = async (
-  institucionDto: InstitucionDto
-) => {
+export const addSchoolUseCase = async (institucionDto: InstitucionDto) => {
   try {
     const resp = await fetch(
       `${environment.api_url}/api/registration/institucion-pais/`,
@@ -21,7 +19,7 @@ export const addSchoolUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as InstitucionesResponse;
+    const data = (await resp.json()) as InstitucionResponse;
 
     if (!resp.ok) {
       return {

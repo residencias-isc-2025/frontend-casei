@@ -37,7 +37,7 @@ export const addTeachingTrainingUseCase = async (
 
     return {
       ok: true,
-      mensaje: 'Capacitación guardada con éxito.',
+      mensaje: 'Capacitación docente guardada.',
     };
   } catch (error) {
     console.error(error);

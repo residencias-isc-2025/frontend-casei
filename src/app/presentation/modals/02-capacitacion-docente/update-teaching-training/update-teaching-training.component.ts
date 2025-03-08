@@ -15,7 +15,7 @@ import {
 } from '@angular/forms';
 import {
   CapacitacionDocenteResponse,
-  InstitucionesResponse,
+  InstitucionResponse,
 } from '@interfaces/index';
 import { ToastService, UsersService } from '@services/index';
 import { validYearValidator } from '@validators/index';
@@ -28,7 +28,7 @@ import { validYearValidator } from '@validators/index';
 })
 export class UpdateTeachingTrainingComponent implements OnInit {
   title = input('');
-  listaInstituciones = input.required<InstitucionesResponse[]>();
+  listaInstituciones = input.required<InstitucionResponse[]>();
   capacitacionDocente = input.required<CapacitacionDocenteResponse>();
 
   onCancel = output();
@@ -68,7 +68,7 @@ export class UpdateTeachingTrainingComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .updateTeachingTrainingFunction(
+      .actualizarCapacitacionDocente(
         this.capacitacionDocente().id,
 
         {

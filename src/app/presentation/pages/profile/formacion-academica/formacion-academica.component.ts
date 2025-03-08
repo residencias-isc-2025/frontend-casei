@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {
   FormacionAcademicaResponse,
-  InstitucionesResponse,
+  InstitucionResponse,
 } from '@interfaces/index';
 
 import {
@@ -15,7 +15,12 @@ import {
   UpdateAcademicTrainingComponent,
 } from '@modals/index';
 
-import { CommonService, ProfileService, ToastService } from '@services/index';
+import {
+  CommonService,
+  ProfileService,
+  ToastService,
+  UsersService,
+} from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 
 @Component({
@@ -32,12 +37,13 @@ export default class FormacionAcademicaComponent implements OnInit {
   public toastService = inject(ToastService);
   public profileService = inject(ProfileService);
   public commonService = inject(CommonService);
+  public usersService = inject(UsersService);
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
 
   public formacionAcademicaList = signal<FormacionAcademicaResponse[]>([]);
-  public institucionesList = signal<InstitucionesResponse[]>([]);
+  public institucionesList = signal<InstitucionResponse[]>([]);
 
   public formacionAcademicaSelected = signal<FormacionAcademicaResponse | null>(
     null
@@ -54,7 +60,7 @@ export default class FormacionAcademicaComponent implements OnInit {
   private loadInstituciones(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.commonService.loadInstituciones(token, 1, 100).subscribe({
+    this.commonService.getInstitucionesList(token, 1, 100).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
@@ -75,7 +81,7 @@ export default class FormacionAcademicaComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.profileService
-      .loadFormacionAcademica(token, this.currentPage())
+      .loadFormacionAcademicaFunction(token, this.currentPage())
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
@@ -127,5 +133,25 @@ export default class FormacionAcademicaComponent implements OnInit {
   onPageChanged(page: number): void {
     this.currentPage.set(page);
     this.loadFormacionAcademica();
+  }
+
+  onDelete(itemId: number) {
+    const token = localStorage.getItem('casei_residencias_access_token') || '';
+
+    this.usersService.borrarFormacionAcademica(itemId, token).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        if (res.ok) {
+          this.loadFormacionAcademica();
+        } else {
+          this.toastService.showWarning(
+            'No se pudo obtener la formación académica.',
+            'Hubo un problema'
+          );
+        }
+      },
+    });
   }
 }

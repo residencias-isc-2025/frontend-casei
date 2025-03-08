@@ -70,7 +70,7 @@ export class AddExperienciaProfesionalComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .addProfessionalExperienceFunction({
+      .agregarExperienciaProfesional({
         accessToken: token,
         a_mes_anio: gestion_f,
         d_mes_anio: gestion_i,

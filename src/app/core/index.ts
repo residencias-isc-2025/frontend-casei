@@ -44,6 +44,18 @@ export * from './use-cases/profile/update/update-participation.use-case';
 export * from './use-cases/profile/update/update-awards.use-case';
 export * from './use-cases/profile/update/update-contributions.use-case';
 
+export * from './use-cases/profile/delete/delete-academic-training.use-case';
+export * from './use-cases/profile/delete/delete-teaching-training.use-case';
+export * from './use-cases/profile/delete/delete-disciplinary-update.use-case';
+export * from './use-cases/profile/delete/delete-academic-management.use-case';
+export * from './use-cases/profile/delete/delete-academic-products.use-case';
+export * from './use-cases/profile/delete/delete-professional-experience.use-case';
+export * from './use-cases/profile/delete/delete-engineering-design.use-case';
+export * from './use-cases/profile/delete/delete-professional-achievements.use-case';
+export * from './use-cases/profile/delete/delete-participation.use-case';
+export * from './use-cases/profile/delete/delete-awards.use-case';
+export * from './use-cases/profile/delete/delete-contributions.use-case';
+
 export * from './use-cases/users/reset-password.use-case';
 export * from './use-cases/users/create-users-by-csv.use-case';
 

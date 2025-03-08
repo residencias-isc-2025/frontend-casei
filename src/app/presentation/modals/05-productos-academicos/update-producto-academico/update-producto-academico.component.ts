@@ -56,7 +56,7 @@ export class UpdateProductoAcademicoComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .updateAcademicProductFunction(this.productoAcademico().id, {
+      .actualizarProductosAcademicos(this.productoAcademico().id, {
         accessToken: token,
         descripcion,
       })

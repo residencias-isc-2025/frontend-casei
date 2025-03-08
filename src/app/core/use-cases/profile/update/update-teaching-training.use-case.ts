@@ -38,7 +38,7 @@ export const updateTeachingTrainingUseCase = async (
 
     return {
       ok: true,
-      mensaje: 'Capacitación actualizada correctamente.',
+      mensaje: 'Capacitación docente actualizada.',
     };
   } catch (error) {
     console.error(error);

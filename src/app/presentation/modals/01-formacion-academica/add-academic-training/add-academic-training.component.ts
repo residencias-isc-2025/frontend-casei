@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
 
 import { ToastService, UsersService } from '@services/index';
 import { validYearValidator } from '@validators/index';
-import { InstitucionesResponse } from '@interfaces/index';
+import { InstitucionResponse } from '@interfaces/index';
 
 @Component({
   selector: 'app-add-academic-training',
@@ -26,7 +26,7 @@ import { InstitucionesResponse } from '@interfaces/index';
 })
 export class AddAcademicTrainingComponent {
   title = input('');
-  listaInstituciones = input.required<InstitucionesResponse[]>();
+  listaInstituciones = input.required<InstitucionResponse[]>();
 
   onCancel = output();
   onSave = output();
@@ -55,7 +55,7 @@ export class AddAcademicTrainingComponent {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .addAcademicTrainingFunction({
+      .agregarFormacionAcademica({
         accessToken: token,
         code: cedula,
         institution: institucion,

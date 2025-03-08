@@ -14,6 +14,7 @@ import {
   CommonService,
   ProfileService,
   ToastService,
+  UsersService,
 } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 
@@ -31,6 +32,7 @@ export default class DisenoIngenierilComponent implements OnInit {
   public toastService = inject(ToastService);
   public profileService = inject(ProfileService);
   public commonService = inject(CommonService);
+  public usersService = inject(UsersService);
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
@@ -52,7 +54,7 @@ export default class DisenoIngenierilComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.profileService
-      .loadDisenoIngenieril(token, this.currentPage())
+      .loadDisenoIngenierilFunction(token, this.currentPage())
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
@@ -96,5 +98,25 @@ export default class DisenoIngenierilComponent implements OnInit {
   onPageChanged(page: number): void {
     this.currentPage.set(page);
     this.loadDisenoIngenierilList();
+  }
+
+  onDelete(itemId: number) {
+    const token = localStorage.getItem('casei_residencias_access_token') || '';
+
+    this.usersService.borrarDisenoIngenieril(itemId, token).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        if (res.ok) {
+          this.loadDisenoIngenierilList();
+        } else {
+          this.toastService.showWarning(
+            'No se pudieron obtener las actualizaciones discilpinares.',
+            'Hubo un problema'
+          );
+        }
+      },
+    });
   }
 }

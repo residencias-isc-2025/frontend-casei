@@ -72,7 +72,7 @@ export class UpdateExperienciaProfesionalComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .updateProfessionalExperienceFunction(this.experienciaProfesional().id, {
+      .actualizarExperienciaProfesional(this.experienciaProfesional().id, {
         accessToken: token,
         a_mes_anio: gestion_f,
         d_mes_anio: gestion_i,

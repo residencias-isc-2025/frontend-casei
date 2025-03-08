@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {
   CurriculumVitaeResponse,
-  InstitucionesResponse,
+  InstitucionResponse,
 } from '@interfaces/index';
 import {
   CommonService,
@@ -29,16 +29,16 @@ export default class FormatsPageComponent implements OnInit {
   commonService = inject(CommonService);
 
   curriculumVitaeData = signal<CurriculumVitaeResponse | null>(null);
-  institucionesList = signal<InstitucionesResponse[]>([]);
+  institucionesList = signal<InstitucionResponse[]>([]);
 
   ngOnInit(): void {
-    this.loadInstituciones();
+    this.cargarInstituciones();
   }
 
-  private loadInstituciones(): void {
+  private cargarInstituciones(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.commonService.loadInstituciones(token, 1, 100).subscribe({
+    this.commonService.getInstitucionesList(token, 1, 100).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
@@ -64,7 +64,7 @@ export default class FormatsPageComponent implements OnInit {
       },
       next: (res) => {
         if (res.ok) {
-          this.pdfService.generateCurriculumVitae(
+          this.pdfService.generarCurriculumVitae(
             res.informacion!,
             this.institucionesList()
           );

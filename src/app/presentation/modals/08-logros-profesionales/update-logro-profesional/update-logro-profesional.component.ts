@@ -56,7 +56,7 @@ export class UpdateLogroProfesionalComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .updateProfessionalAchievementsFunction(this.logroProfesional().id, {
+      .actualizarLogroProfesional(this.logroProfesional().id, {
         accessToken: token,
         descripcion,
       })

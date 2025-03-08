@@ -12,7 +12,7 @@ import {
   ExperienciaProfesionalResponse,
   FormacionAcademicaResponse,
   GestionAcademicaResponse,
-  InstitucionesResponse,
+  InstitucionResponse,
   LogrosPrefesionalesResponse,
   ParticipacionResponse,
   PremiosResponse,
@@ -23,7 +23,7 @@ import jsPDF from 'jspdf';
 export const curriculumVitaeReport = (
   doc: jsPDF,
   data: CurriculumVitaeResponse,
-  schools: InstitucionesResponse[]
+  schools: InstitucionResponse[]
 ): jsPDF => {
   const payrollNumber = !isNaN(Number(data.usuario.username))
     ? data.usuario.username

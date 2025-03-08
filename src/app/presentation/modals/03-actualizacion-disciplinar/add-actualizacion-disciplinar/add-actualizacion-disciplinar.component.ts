@@ -12,7 +12,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { InstitucionesResponse } from '@interfaces/index';
+import { InstitucionResponse } from '@interfaces/index';
 import { ToastService, UsersService } from '@services/index';
 import { validYearValidator } from '@validators/index';
 
@@ -24,7 +24,7 @@ import { validYearValidator } from '@validators/index';
 })
 export class AddActualizacionDisciplinarComponent {
   title = input('');
-  listaInstituciones = input.required<InstitucionesResponse[]>();
+  listaInstituciones = input.required<InstitucionResponse[]>();
 
   onCancel = output();
   onSave = output();
@@ -50,7 +50,7 @@ export class AddActualizacionDisciplinarComponent {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .addDisciplinaryUpdateFunction({
+      .agregarActualizacionDisciplinar({
         accessToken: token,
         anio_obtencion: obtencion,
         horas: horas,

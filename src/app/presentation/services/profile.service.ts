@@ -19,7 +19,7 @@ import { from } from 'rxjs';
   providedIn: 'root',
 })
 export class ProfileService {
-  loadFormacionAcademica(
+  loadFormacionAcademicaFunction(
     accessToken: string,
     page: number,
     pageSize: number = 10
@@ -27,7 +27,7 @@ export class ProfileService {
     return from(loadAcademicTrainingUseCase(accessToken, page, pageSize));
   }
 
-  loadCapacitacionDocente(
+  loadCapacitacionDocenteFunction(
     accessToken: string,
     page: number,
     pageSize: number = 10
@@ -35,7 +35,7 @@ export class ProfileService {
     return from(loadTeachingTrainingUseCase(accessToken, page, pageSize));
   }
 
-  loadActualizacionDisciplinar(
+  loadActualizacionDisciplinarFunction(
     accessToken: string,
     page: number,
     pageSize: number = 10
@@ -43,7 +43,7 @@ export class ProfileService {
     return from(loadDisciplinaryUpdateUseCase(accessToken, page, pageSize));
   }
 
-  loadGestionAcademica(
+  loadGestionAcademicaFunction(
     accessToken: string,
     page: number,
     pageSize: number = 10
@@ -51,7 +51,7 @@ export class ProfileService {
     return from(loadAcademicManagmentUseCase(accessToken, page, pageSize));
   }
 
-  loadProductosAcademicos(
+  loadProductosAcademicosFunction(
     accessToken: string,
     page: number,
     pageSize: number = 10
@@ -59,7 +59,7 @@ export class ProfileService {
     return from(loadAcademicProductsUseCase(accessToken, page, pageSize));
   }
 
-  loadExperienciaProfesional(
+  loadExperienciaProfesionalFunction(
     accessToken: string,
     page: number,
     pageSize: number = 10
@@ -67,7 +67,7 @@ export class ProfileService {
     return from(loadProfessionalExperienceUseCase(accessToken, page, pageSize));
   }
 
-  loadDisenoIngenieril(
+  loadDisenoIngenierilFunction(
     accessToken: string,
     page: number,
     pageSize: number = 10
@@ -75,7 +75,7 @@ export class ProfileService {
     return from(loadEngineeringDesignUseCase(accessToken, page, pageSize));
   }
 
-  loadLogrosProfesionales(
+  loadLogrosProfesionalesFunction(
     accessToken: string,
     page: number,
     pageSize: number = 10
@@ -85,7 +85,7 @@ export class ProfileService {
     );
   }
 
-  loadParticipaciones(
+  loadParticipacionesFunction(
     accessToken: string,
     page: number,
     pageSize: number = 10
@@ -93,11 +93,11 @@ export class ProfileService {
     return from(loadParticipationUseCase(accessToken, page, pageSize));
   }
 
-  loadPremios(accessToken: string, page: number, pageSize: number = 10) {
+  loadPremiosFunction(accessToken: string, page: number, pageSize: number = 10) {
     return from(loadAwardsUseCase(accessToken, page, pageSize));
   }
 
-  loadAportaciones(accessToken: string, page: number, pageSize: number = 10) {
+  loadAportacionesFunction(accessToken: string, page: number, pageSize: number = 10) {
     return from(loadContributionsUseCase(accessToken, page, pageSize));
   }
 }

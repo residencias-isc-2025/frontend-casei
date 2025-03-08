@@ -7,9 +7,14 @@ import {
 } from '@angular/core';
 import {
   GestionAcademicaResponse,
-  InstitucionesResponse,
+  InstitucionResponse,
 } from '@interfaces/index';
-import { CommonService, ProfileService, ToastService } from '@services/index';
+import {
+  CommonService,
+  ProfileService,
+  ToastService,
+  UsersService,
+} from '@services/index';
 import {
   AddGestionAcademicaComponent,
   UpdateGestionAcademicaComponent,
@@ -30,12 +35,13 @@ export default class GestionAcademicaComponent implements OnInit {
   public toastService = inject(ToastService);
   public profileService = inject(ProfileService);
   public commonService = inject(CommonService);
+  public usersService = inject(UsersService);
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
 
   public gestionAcademicaList = signal<GestionAcademicaResponse[]>([]);
-  public institucionesList = signal<InstitucionesResponse[]>([]);
+  public institucionesList = signal<InstitucionResponse[]>([]);
 
   public gestionAcademicaSelected = signal<GestionAcademicaResponse | null>(
     null
@@ -52,7 +58,7 @@ export default class GestionAcademicaComponent implements OnInit {
   private loadInstituciones(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.commonService.loadInstituciones(token, 1, 100).subscribe({
+    this.commonService.getInstitucionesList(token, 1, 100).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
@@ -73,7 +79,7 @@ export default class GestionAcademicaComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.profileService
-      .loadGestionAcademica(token, this.currentPage())
+      .loadGestionAcademicaFunction(token, this.currentPage())
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
@@ -125,5 +131,25 @@ export default class GestionAcademicaComponent implements OnInit {
   onPageChanged(page: number): void {
     this.currentPage.set(page);
     this.loadGestionAcademicaList();
+  }
+
+  onDelete(itemId: number) {
+    const token = localStorage.getItem('casei_residencias_access_token') || '';
+
+    this.usersService.borrarGestionAcademica(itemId, token).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        if (res.ok) {
+          this.loadGestionAcademicaList();
+        } else {
+          this.toastService.showWarning(
+            'No se pudieron obtener las actualizaciones discilpinares.',
+            'Hubo un problema'
+          );
+        }
+      },
+    });
   }
 }

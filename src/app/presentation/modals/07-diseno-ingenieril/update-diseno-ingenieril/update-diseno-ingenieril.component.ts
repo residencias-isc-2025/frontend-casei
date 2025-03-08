@@ -69,7 +69,7 @@ export class UpdateDisenoIngenierilComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .updateEngineeringDesignFunction(this.disenoIngenieril().id, {
+      .actualizarDisenoIngenieril(this.disenoIngenieril().id, {
         accessToken: token,
         nivel_experiencia: experiencia,
         organismo,

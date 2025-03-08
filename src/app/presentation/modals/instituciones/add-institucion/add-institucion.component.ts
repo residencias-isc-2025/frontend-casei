@@ -5,7 +5,6 @@ import {
   inject,
   input,
   output,
-  signal,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -46,7 +45,7 @@ export class AddInstitucionComponent {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.commonService
-      .addSchool({
+      .agregarInstitucion({
         accessToken: token,
         nombre_institucion: nombre,
         pais,

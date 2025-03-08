@@ -15,7 +15,7 @@ import {
 } from '@angular/forms';
 import {
   GestionAcademicaResponse,
-  InstitucionesResponse,
+  InstitucionResponse,
 } from '@interfaces/index';
 import { CustomDatepickerComponent } from '@presentation/components/custom-datepicker/custom-datepicker.component';
 import { ToastService, UsersService } from '@services/index';
@@ -28,7 +28,7 @@ import { ToastService, UsersService } from '@services/index';
 })
 export class UpdateGestionAcademicaComponent implements OnInit {
   title = input('');
-  listaInstituciones = input.required<InstitucionesResponse[]>();
+  listaInstituciones = input.required<InstitucionResponse[]>();
   gestionAcademica = input.required<GestionAcademicaResponse>();
 
   onCancel = output();
@@ -76,7 +76,7 @@ export class UpdateGestionAcademicaComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .updateAcademicManagmentFunction(this.gestionAcademica().id, {
+      .actualizarGestionAcademica(this.gestionAcademica().id, {
         accessToken: token,
         a_mes_anio: gestion_f,
         d_mes_anio: gestion_i,

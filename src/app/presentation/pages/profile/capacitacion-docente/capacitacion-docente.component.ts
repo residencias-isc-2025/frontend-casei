@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {
   CapacitacionDocenteResponse,
-  InstitucionesResponse,
+  InstitucionResponse,
 } from '@interfaces/index';
 
 import {
@@ -15,7 +15,12 @@ import {
   UpdateTeachingTrainingComponent,
 } from '@modals/index';
 
-import { CommonService, ProfileService, ToastService } from '@services/index';
+import {
+  CommonService,
+  ProfileService,
+  ToastService,
+  UsersService,
+} from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 
 @Component({
@@ -32,12 +37,13 @@ export default class CapitacionDocenteComponent implements OnInit {
   public toastService = inject(ToastService);
   public profileService = inject(ProfileService);
   public commonService = inject(CommonService);
+  public usersService = inject(UsersService);
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
 
   public capacitacionDocenteList = signal<CapacitacionDocenteResponse[]>([]);
-  public institucionesList = signal<InstitucionesResponse[]>([]);
+  public institucionesList = signal<InstitucionResponse[]>([]);
 
   public formacionAcademicaSelected =
     signal<CapacitacionDocenteResponse | null>(null);
@@ -53,7 +59,7 @@ export default class CapitacionDocenteComponent implements OnInit {
   private loadInstituciones(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.commonService.loadInstituciones(token, 1, 100).subscribe({
+    this.commonService.getInstitucionesList(token, 1, 100).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
@@ -74,7 +80,7 @@ export default class CapitacionDocenteComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.profileService
-      .loadCapacitacionDocente(token, this.currentPage())
+      .loadCapacitacionDocenteFunction(token, this.currentPage())
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
@@ -126,5 +132,25 @@ export default class CapitacionDocenteComponent implements OnInit {
   onPageChanged(page: number): void {
     this.currentPage.set(page);
     this.loadCapacitacionDocente();
+  }
+
+  onDelete(itemId: number) {
+    const token = localStorage.getItem('casei_residencias_access_token') || '';
+
+    this.usersService.borrarCapacitacionDocente(itemId, token).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        if (res.ok) {
+          this.loadCapacitacionDocente();
+        } else {
+          this.toastService.showWarning(
+            'No se pudieron obtener las actualizaciones discilpinares.',
+            'Hubo un problema'
+          );
+        }
+      },
+    });
   }
 }

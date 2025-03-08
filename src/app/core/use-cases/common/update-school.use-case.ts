@@ -1,6 +1,6 @@
 import { environment } from '@environments/environment';
 
-import { InstitucionDto, InstitucionesResponse } from '@interfaces/index';
+import { InstitucionDto, InstitucionResponse } from '@interfaces/index';
 
 export const updateSchoolUseCase = async (
   idInstitucion: number,
@@ -22,7 +22,7 @@ export const updateSchoolUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as InstitucionesResponse;
+    const data = (await resp.json()) as InstitucionResponse;
 
     if (!resp.ok) {
       return {

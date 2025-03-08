@@ -1,4 +1,4 @@
-export interface InstitucionesResponse {
+export interface InstitucionResponse {
   id: number;
   nombre_institucion: string;
   pais: string;

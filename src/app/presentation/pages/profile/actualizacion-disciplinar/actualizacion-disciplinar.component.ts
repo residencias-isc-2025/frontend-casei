@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import {
   ActualizacionDisciplinarResponse,
-  InstitucionesResponse,
+  InstitucionResponse,
 } from '@interfaces/index';
 
 import {
@@ -14,7 +14,12 @@ import {
   UpdateActualizacionDisciplinarComponent,
 } from '@modals/index';
 
-import { ToastService, ProfileService, CommonService } from '@services/index';
+import {
+  ToastService,
+  ProfileService,
+  CommonService,
+  UsersService,
+} from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 
 @Component({
@@ -31,6 +36,7 @@ export default class ActualizacionDisciplinarComponent {
   public toastService = inject(ToastService);
   public profileService = inject(ProfileService);
   public commonService = inject(CommonService);
+  public usersService = inject(UsersService);
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
@@ -39,7 +45,7 @@ export default class ActualizacionDisciplinarComponent {
   public actualizacionDisciplinarList = signal<
     ActualizacionDisciplinarResponse[]
   >([]);
-  public institucionesList = signal<InstitucionesResponse[]>([]);
+  public institucionesList = signal<InstitucionResponse[]>([]);
 
   public currentPage = signal(1);
   public actualizacionDisciplinarSelected =
@@ -53,7 +59,7 @@ export default class ActualizacionDisciplinarComponent {
   private loadInstituciones(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.commonService.loadInstituciones(token, 1, 100).subscribe({
+    this.commonService.getInstitucionesList(token, 1, 100).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
@@ -74,7 +80,7 @@ export default class ActualizacionDisciplinarComponent {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.profileService
-      .loadActualizacionDisciplinar(token, this.currentPage())
+      .loadActualizacionDisciplinarFunction(token, this.currentPage())
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
@@ -126,5 +132,25 @@ export default class ActualizacionDisciplinarComponent {
   onEditEmit() {
     this.loadActualizacionDisciplinarList();
     this.showUpdateModal.set(false);
+  }
+
+  onDelete(itemId: number) {
+    const token = localStorage.getItem('casei_residencias_access_token') || '';
+
+    this.usersService.borrarActualizacionDisciplinar(itemId, token).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        if (res.ok) {
+          this.loadActualizacionDisciplinarList();
+        } else {
+          this.toastService.showWarning(
+            'No se pudieron obtener las actualizaciones discilpinares.',
+            'Hubo un problema'
+          );
+        }
+      },
+    });
   }
 }

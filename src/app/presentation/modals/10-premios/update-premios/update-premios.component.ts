@@ -56,7 +56,7 @@ export class UpdatePremiosComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .updatePremioFunction(this.premio().id, {
+      .actualizarPremio(this.premio().id, {
         accessToken: token,
         descripcion,
       })

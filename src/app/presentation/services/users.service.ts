@@ -32,6 +32,17 @@ import {
   changePasswordUseCase,
   createUsersByCsvUseCase,
   createUserUseCase,
+  deleteAcademicManagmentUseCase,
+  deleteAcademicProductsUseCase,
+  deleteAcademicTrainingUseCase,
+  deleteAwardsUseCase,
+  deleteContributionUseCase,
+  deleteDisciplinaryUpdateUseCase,
+  deleteEngineeringDesignUseCase,
+  deleteParticipationUseCase,
+  deleteProfessionalAchievementsUseCase,
+  deleteProfessionalExperienceUseCase,
+  deleteTeachingTrainingUseCase,
   disableUserUseCase,
   enableUserUseCase,
   getAllUsersUseCase,
@@ -96,24 +107,29 @@ export class UsersService {
   }
 
   //#region Formación académica
-  addAcademicTrainingFunction(formacionAcademica: FormacionAcademicaDto) {
+  agregarFormacionAcademica(formacionAcademica: FormacionAcademicaDto) {
     return from(addAcademicTrainingUseCase(formacionAcademica));
   }
 
-  updateAcademicTrainingFunction(
+  actualizarFormacionAcademica(
     idFormacion: number,
     formacionAcademica: FormacionAcademicaDto
   ) {
     return from(updateAcademicTrainingUseCase(idFormacion, formacionAcademica));
   }
+
+  borrarFormacionAcademica(idFormacion: number, accessToken: string) {
+    return from(deleteAcademicTrainingUseCase(idFormacion, accessToken));
+  }
+
   //#endregion
 
   //#region Capacitación docente
-  addTeachingTrainingFunction(capacitacionDocente: CapacitacionDocenteDto) {
+  agregarCapacitacionDocente(capacitacionDocente: CapacitacionDocenteDto) {
     return from(addTeachingTrainingUseCase(capacitacionDocente));
   }
 
-  updateTeachingTrainingFunction(
+  actualizarCapacitacionDocente(
     idCapacitacion: number,
     capacitacionDocente: CapacitacionDocenteDto
   ) {
@@ -121,16 +137,20 @@ export class UsersService {
       updateTeachingTrainingUseCase(idCapacitacion, capacitacionDocente)
     );
   }
+
+  borrarCapacitacionDocente(idCapacitacion: number, accessToken: string) {
+    return from(deleteTeachingTrainingUseCase(idCapacitacion, accessToken));
+  }
   //#endregion
 
   //#region Actualización disciplinar
-  addDisciplinaryUpdateFunction(
+  agregarActualizacionDisciplinar(
     actualizacionDisciplinar: ActualizacionDisciplinarDto
   ) {
     return from(addDisciplinaryUpdateUseCase(actualizacionDisciplinar));
   }
 
-  updateDisciplinaryUpdateFunction(
+  actualizarActualizacionDisciplinar(
     idActualizacion: number,
     actualizacionDisciplinar: ActualizacionDisciplinarDto
   ) {
@@ -138,27 +158,35 @@ export class UsersService {
       updateDisciplinaryUpdateUseCase(idActualizacion, actualizacionDisciplinar)
     );
   }
+
+  borrarActualizacionDisciplinar(idActualizacion: number, accessToken: string) {
+    return from(deleteDisciplinaryUpdateUseCase(idActualizacion, accessToken));
+  }
   //#endregion
 
   //#region Gestión académica
-  addAcademicManagmentFunction(gestionAcademicaDto: GestionAcademicaDto) {
+  agregarGestionAcademica(gestionAcademicaDto: GestionAcademicaDto) {
     return from(addAcademicManagmentUseCase(gestionAcademicaDto));
   }
 
-  updateAcademicManagmentFunction(
+  actualizarGestionAcademica(
     idGestion: number,
     gestionAcademicaDto: GestionAcademicaDto
   ) {
     return from(updateAcademicManagmentUseCase(idGestion, gestionAcademicaDto));
   }
+
+  borrarGestionAcademica(idGestion: number, accessToken: string) {
+    return from(deleteAcademicManagmentUseCase(idGestion, accessToken));
+  }
   //#endregion
 
   //#region Productos académicos
-  addAcademicProductFunction(productosAcademicosDto: ProductosAcademicosDto) {
+  agregarProductosAcademicos(productosAcademicosDto: ProductosAcademicosDto) {
     return from(addAcademicProductsUseCase(productosAcademicosDto));
   }
 
-  updateAcademicProductFunction(
+  actualizarProductosAcademicos(
     idProducto: number,
     productosAcademicosDto: ProductosAcademicosDto
   ) {
@@ -166,16 +194,20 @@ export class UsersService {
       updateAcademicProductsUseCase(idProducto, productosAcademicosDto)
     );
   }
+
+  borrarProductosAcademicos(idProducto: number, accessToken: string) {
+    return from(deleteAcademicProductsUseCase(idProducto, accessToken));
+  }
   //#endregion
 
   //#region Experiencia profesional
-  addProfessionalExperienceFunction(
+  agregarExperienciaProfesional(
     experienciaProfesionalDto: ExperienciaProfesionalDto
   ) {
     return from(addProfessionalExperienceUseCase(experienciaProfesionalDto));
   }
 
-  updateProfessionalExperienceFunction(
+  actualizarExperienciaProfesional(
     idExperiencia: number,
     experienciaProfesionalDto: ExperienciaProfesionalDto
   ) {
@@ -186,29 +218,37 @@ export class UsersService {
       )
     );
   }
+
+  borrarExperienciaProfesional(idExperiencia: number, accessToken: string) {
+    return from(
+      deleteProfessionalExperienceUseCase(idExperiencia, accessToken)
+    );
+  }
   //#endregion
 
   //#region Diseño ingenieril
-  addEngineeringDesignFunction(disenoIngenierilDto: DisenoIngenierilDto) {
+  agregarDisenoIngenieril(disenoIngenierilDto: DisenoIngenierilDto) {
     return from(addEngineeringDesignUseCase(disenoIngenierilDto));
   }
 
-  updateEngineeringDesignFunction(
+  actualizarDisenoIngenieril(
     idDiseno: number,
     disenoIngenierilDto: DisenoIngenierilDto
   ) {
     return from(updateEngineeringDesignUseCase(idDiseno, disenoIngenierilDto));
   }
+
+  borrarDisenoIngenieril(idDiseno: number, accessToken: string) {
+    return from(deleteEngineeringDesignUseCase(idDiseno, accessToken));
+  }
   //#endregion
 
   //#region Logros profesionales
-  addProfessionalAchievementsFunction(
-    logroProfesionalDto: LogrosPrefesionalesDto
-  ) {
+  agregarLogroProfesional(logroProfesionalDto: LogrosPrefesionalesDto) {
     return from(addProfessionalAchievementsUseCase(logroProfesionalDto));
   }
 
-  updateProfessionalAchievementsFunction(
+  actualizarLogroProfesional(
     idLogro: number,
     logroProfesionalDto: LogrosPrefesionalesDto
   ) {
@@ -216,41 +256,55 @@ export class UsersService {
       updateProfessionalAchievementsUseCase(idLogro, logroProfesionalDto)
     );
   }
+
+  borrarLogroProfesional(idLogro: number, accessToken: string) {
+    return from(deleteProfessionalAchievementsUseCase(idLogro, accessToken));
+  }
+
   //#endregion
 
   //#region Participación
-  addParticipationFunction(participacionDto: ParticipacionDto) {
+  agregarParticipacion(participacionDto: ParticipacionDto) {
     return from(addParticipationUseCase(participacionDto));
   }
 
-  updateParticipationFunction(
+  actualizarParticipacion(
     idParticipacion: number,
     participacionDto: ParticipacionDto
   ) {
     return from(updateParticipationUseCase(idParticipacion, participacionDto));
   }
+
+  borrarParticipacion(idParticipacion: number, accessToken: string) {
+    return from(deleteParticipationUseCase(idParticipacion, accessToken));
+  }
   //#endregion
 
   //#region Premios
-  addPremioFunction(premioDto: PremiosDto) {
+  agregarPremio(premioDto: PremiosDto) {
     return from(addAwardsUseCase(premioDto));
   }
 
-  updatePremioFunction(idPremio: number, premioDto: PremiosDto) {
+  actualizarPremio(idPremio: number, premioDto: PremiosDto) {
     return from(updateAwardsUseCase(idPremio, premioDto));
+  }
+
+  borrarPremio(idPremio: number, accessToken: string) {
+    return from(deleteAwardsUseCase(idPremio, accessToken));
   }
   //#endregion
 
   //#region Aportaciones
-  addAportacionesFunction(aportacionDto: AportacionesDto) {
+  agregarAportacion(aportacionDto: AportacionesDto) {
     return from(addContributionsUseCase(aportacionDto));
   }
 
-  updateAportacionesFunction(
-    idAportacion: number,
-    aportacionDto: AportacionesDto
-  ) {
+  actualizarAportacion(idAportacion: number, aportacionDto: AportacionesDto) {
     return from(updateContributionUseCase(idAportacion, aportacionDto));
+  }
+
+  borrarAportacion(idAportacion: number, accessToken: string) {
+    return from(deleteContributionUseCase(idAportacion, accessToken));
   }
   //#endregion
 }

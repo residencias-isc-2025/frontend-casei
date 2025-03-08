@@ -69,7 +69,7 @@ export class UpdateParticipacionComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .updateParticipationFunction(this.participacion().id, {
+      .actualizarParticipacion(this.participacion().id, {
         accessToken: token,
         nivel_p: participacion,
         organismo,

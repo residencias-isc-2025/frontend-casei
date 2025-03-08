@@ -32,13 +32,13 @@ export const updateAcademicManagmentUseCase = async (
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al obtener datos.',
+        mensaje: 'Error al actualizar datos.',
       };
     }
 
     return {
       ok: true,
-      mensaje: 'Gestión académica guardada.',
+      mensaje: 'Gestión académica actualizada.',
     };
   } catch (error) {
     console.error(error);

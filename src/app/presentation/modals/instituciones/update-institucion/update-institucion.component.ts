@@ -14,7 +14,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CountriesResponse, InstitucionesResponse } from '@interfaces/index';
+import { CountriesResponse, InstitucionResponse } from '@interfaces/index';
 import { CommonService, ToastService } from '@presentation/services';
 
 @Component({
@@ -24,7 +24,7 @@ import { CommonService, ToastService } from '@presentation/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdateInstitucionComponent implements OnInit {
-  school = input.required<InstitucionesResponse>();
+  school = input.required<InstitucionResponse>();
   countriesList = input<CountriesResponse[]>([]);
 
   onCancel = output();
@@ -59,7 +59,7 @@ export class UpdateInstitucionComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.commonService
-      .updateSchool(this.school().id, {
+      .actualizarInstitucion(this.school().id, {
         accessToken: token,
         nombre_institucion: nombre,
         pais,

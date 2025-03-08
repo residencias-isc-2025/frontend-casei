@@ -41,7 +41,7 @@ export class AddDisenoIngenierilComponent {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .addEngineeringDesignFunction({
+      .agregarDisenoIngenieril({
         accessToken: token,
         nivel_experiencia: experiencia,
         organismo: organismo,

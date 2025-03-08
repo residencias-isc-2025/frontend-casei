@@ -43,7 +43,7 @@ export class AddLogroProfesionalComponent {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .addProfessionalAchievementsFunction({
+      .agregarLogroProfesional({
         accessToken: token,
         descripcion,
       })

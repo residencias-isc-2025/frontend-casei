@@ -56,7 +56,7 @@ export class UpdateAportacionComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
-      .updateAportacionesFunction(this.aportacion().id, {
+      .actualizarAportacion(this.aportacion().id, {
         accessToken: token,
         descripcion,
       })
