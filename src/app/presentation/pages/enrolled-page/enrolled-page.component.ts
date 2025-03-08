@@ -8,11 +8,12 @@ import {
 } from '@angular/core';
 import { AdscripcionData } from '@interfaces/index';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
+import { AddAreaAdscripcionComponent } from '@presentation/modals';
 import { CommonService, ToastService } from '@presentation/services';
 
 @Component({
   selector: 'app-enrolled-page',
-  imports: [CommonModule, PaginationComponent],
+  imports: [CommonModule, PaginationComponent, AddAreaAdscripcionComponent],
   templateUrl: './enrolled-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -48,7 +49,7 @@ export default class EnrolledPageComponent implements OnInit {
             this.adscripciones.set(res.adscripciones || []);
           } else {
             this.toastService.showWarning(
-              'No se pudieron obtener los usuarios.',
+              'No se pudieron obtener las adscripciones.',
               'Hubo un problema'
             );
           }
@@ -58,16 +59,19 @@ export default class EnrolledPageComponent implements OnInit {
 
   onPageChanged(page: number): void {
     this.currentPage.set(page);
+    this.cargarAdscripciones();
   }
 
   onShowUpdateModal(idAdscripcion: number) {}
 
   onSaveEmit(): void {
     this.showAddModal.set(false);
+    this.cargarAdscripciones();
   }
 
   onEditEmit(): void {
     this.showUpdateModal.set(false);
+    this.cargarAdscripciones();
   }
 
   onDisableAdscripcion(idAdscripcion: number) {}

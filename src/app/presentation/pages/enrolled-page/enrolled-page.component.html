@@ -88,13 +88,12 @@
   </div>
 </div>
 
-<!-- @if (showAddModal()) {
-<app-add-institucion
+@if (showAddModal()) {
+<app-add-area-adscripcion
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
-  [countriesList]="countries()"
 />
-}  -->
+}
 
 <!-- @if(showUpdateModal()) {
 <app-update-institucion

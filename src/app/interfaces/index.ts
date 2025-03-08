@@ -13,6 +13,7 @@ export * from './dtos/participacion.dto';
 export * from './dtos/premios.dto';
 export * from './dtos/aportaciones.dto';
 export * from './dtos/institucion.dto';
+export * from './dtos/area-adscripcion.dto';
 
 export * from './use-cases/create-user.response';
 export * from './use-cases/update-user.reponse';

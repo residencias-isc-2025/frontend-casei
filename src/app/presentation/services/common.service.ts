@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  addAdscripcionUseCase,
   addSchoolUseCase,
   disableSchoolUseCase,
   enableSchoolUseCase,
@@ -8,7 +9,7 @@ import {
   loadInstitucionesUseCase,
   updateSchoolUseCase,
 } from '@core/index';
-import { InstitucionDto } from '@interfaces/index';
+import { AreaAdscripcionDto, InstitucionDto } from '@interfaces/index';
 import { from } from 'rxjs';
 
 @Injectable({
@@ -37,6 +38,10 @@ export class CommonService {
 
   agregarInstitucion(institucionDto: InstitucionDto) {
     return from(addSchoolUseCase(institucionDto));
+  }
+
+  agrearAreaAdscripcion(areaAdscripcionDto: AreaAdscripcionDto) {
+    return from(addAdscripcionUseCase(areaAdscripcionDto));
   }
 
   actualizarInstitucion(idInstitucion: number, institucionDto: InstitucionDto) {
