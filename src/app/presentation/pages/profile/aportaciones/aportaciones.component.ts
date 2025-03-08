@@ -8,6 +8,7 @@ import {
 import { AportacionData } from '@interfaces/index';
 import {
   AddAportacionComponent,
+  ConfirmationModalComponent,
   UpdateAportacionComponent,
 } from '@presentation/modals';
 import {
@@ -24,6 +25,7 @@ import { PaginationComponent } from '@components/pagination/pagination.component
     AddAportacionComponent,
     UpdateAportacionComponent,
     PaginationComponent,
+    ConfirmationModalComponent,
   ],
   templateUrl: './aportaciones.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,6 +38,7 @@ export default class AportacionesComponent implements OnInit {
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
+  public showDeleteModal = signal(false);
 
   public aportacionesList = signal<AportacionData[]>([]);
   public aportacionSelected = signal<AportacionData | null>(null);
@@ -75,6 +78,11 @@ export default class AportacionesComponent implements OnInit {
     this.showUpdateModal.set(true);
   }
 
+  onShowDeleteModal(aportacion: AportacionData) {
+    this.aportacionSelected.set(aportacion);
+    this.showDeleteModal.set(true);
+  }
+
   onSaveEmit() {
     this.loadAportacionesList();
     this.showAddModal.set(false);
@@ -91,6 +99,8 @@ export default class AportacionesComponent implements OnInit {
   }
 
   onDelete(itemId: number) {
+    this.showDeleteModal.set(false);
+
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService.borrarAportacion(itemId, token).subscribe({

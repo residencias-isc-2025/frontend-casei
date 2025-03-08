@@ -33,7 +33,7 @@
                 Editar
               </button>
               <button
-                (click)="onDelete(disenoIngenieril.id)"
+                (click)="onShowDeleteModal(disenoIngenieril)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
               >
                 Eliminar
@@ -65,5 +65,16 @@
   (onSave)="onEditEmit()"
   [disenoIngenieril]="disenoIngenierilSelected()!"
   title="Editar diseño ingenieril"
+/>
+} @if (showDeleteModal()){
+<app-confirmation-modal
+  title="Eliminar: Diseño Ingenieril"
+  [message]="
+    '¿Esta seguro de querer eliminar el diseño ingenieril correspondinete a ' +
+    disenoIngenierilSelected()?.organismo +
+    '?'
+  "
+  (onConfirm)="onDelete(disenoIngenierilSelected()?.id!)"
+  (onCancel)="showDeleteModal.set(false)"
 />
 }

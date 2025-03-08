@@ -14,6 +14,7 @@ import {
 } from '@services/index';
 import {
   AddGestionAcademicaComponent,
+  ConfirmationModalComponent,
   UpdateGestionAcademicaComponent,
 } from '@modals/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
@@ -24,6 +25,7 @@ import { PaginationComponent } from '@components/pagination/pagination.component
     AddGestionAcademicaComponent,
     UpdateGestionAcademicaComponent,
     PaginationComponent,
+    ConfirmationModalComponent
   ],
   templateUrl: './gestion-academica.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,6 +38,7 @@ export default class GestionAcademicaComponent implements OnInit {
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
+  public showDeleteModal = signal(false);
 
   public gestionAcademicaList = signal<GestionAcademicaData[]>([]);
   public institucionesList = signal<InstitucionData[]>([]);
@@ -106,6 +109,11 @@ export default class GestionAcademicaComponent implements OnInit {
     this.showUpdateModal.set(true);
   }
 
+  onShowDeleteModal(gestionAcademica: GestionAcademicaData) {
+    this.gestionAcademicaSelected.set(gestionAcademica);
+    this.showDeleteModal.set(true);
+  }
+
   onSaveEmit() {
     this.loadGestionAcademicaList();
     this.showAddModal.set(false);
@@ -122,6 +130,8 @@ export default class GestionAcademicaComponent implements OnInit {
   }
 
   onDelete(itemId: number) {
+    this.showDeleteModal.set(false);
+
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService.borrarGestionAcademica(itemId, token).subscribe({

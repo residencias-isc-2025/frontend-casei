@@ -9,6 +9,7 @@ import { CapacitacionDocenteData, InstitucionData } from '@interfaces/index';
 
 import {
   AddTeachingTrainingComponent,
+  ConfirmationModalComponent,
   UpdateTeachingTrainingComponent,
 } from '@modals/index';
 
@@ -26,6 +27,7 @@ import { PaginationComponent } from '@components/pagination/pagination.component
     AddTeachingTrainingComponent,
     UpdateTeachingTrainingComponent,
     PaginationComponent,
+    ConfirmationModalComponent,
   ],
   templateUrl: './capacitacion-docente.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,6 +40,7 @@ export default class CapitacionDocenteComponent implements OnInit {
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
+  public showDeleteModal = signal(false);
 
   public capacitacionDocenteList = signal<CapacitacionDocenteData[]>([]);
   public institucionesList = signal<InstitucionData[]>([]);
@@ -110,6 +113,11 @@ export default class CapitacionDocenteComponent implements OnInit {
     this.showUpdateModal.set(true);
   }
 
+  onShowDeleteModal(capacitacionDocente: CapacitacionDocenteData) {
+    this.formacionAcademicaSelected.set(capacitacionDocente);
+    this.showDeleteModal.set(true);
+  }
+
   onSaveEmit() {
     this.loadCapacitacionDocente();
     this.showAddModal.set(false);
@@ -126,6 +134,8 @@ export default class CapitacionDocenteComponent implements OnInit {
   }
 
   onDelete(itemId: number) {
+    this.showDeleteModal.set(false);
+
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService.borrarCapacitacionDocente(itemId, token).subscribe({

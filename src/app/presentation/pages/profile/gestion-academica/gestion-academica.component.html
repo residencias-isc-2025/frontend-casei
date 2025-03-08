@@ -37,7 +37,7 @@
                 Editar
               </button>
               <button
-                (click)="onDelete(gestionAcademica.id)"
+                (click)="onShowDeleteModal(gestionAcademica)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
               >
                 Eliminar
@@ -71,5 +71,16 @@
   [listaInstituciones]="institucionesList()"
   [gestionAcademica]="gestionAcademicaSelected()!"
   title="Agregar gestión académica"
+/>
+}@if (showDeleteModal()){
+<app-confirmation-modal
+  title="Eliminar: Gestión Académica"
+  [message]="
+    '¿Esta seguro de querer eliminar la gestión académica correspondinete a ' +
+    gestionAcademicaSelected()?.actividad_puesto +
+    '?'
+  "
+  (onConfirm)="onDelete(gestionAcademicaSelected()?.id!)"
+  (onCancel)="showDeleteModal.set(false)"
 />
 }

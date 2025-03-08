@@ -8,6 +8,7 @@ import {
 import { DisenoIngenierilData } from '@interfaces/index';
 import {
   AddDisenoIngenierilComponent,
+  ConfirmationModalComponent,
   UpdateDisenoIngenierilComponent,
 } from '@presentation/modals';
 import {
@@ -24,6 +25,7 @@ import { PaginationComponent } from '@components/pagination/pagination.component
     AddDisenoIngenierilComponent,
     UpdateDisenoIngenierilComponent,
     PaginationComponent,
+    ConfirmationModalComponent,
   ],
   templateUrl: './diseno-ingenieril.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,6 +38,7 @@ export default class DisenoIngenierilComponent implements OnInit {
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
+  public showDeleteModal = signal(false);
 
   public disenoIngenierilList = signal<DisenoIngenierilData[]>([]);
 
@@ -76,6 +79,11 @@ export default class DisenoIngenierilComponent implements OnInit {
     this.showUpdateModal.set(true);
   }
 
+  onShowDeleteModal(disenoIngenieril: DisenoIngenierilData) {
+    this.disenoIngenierilSelected.set(disenoIngenieril);
+    this.showDeleteModal.set(true);
+  }
+
   onSaveEmit() {
     this.loadDisenoIngenierilList();
     this.showAddModal.set(false);
@@ -92,6 +100,8 @@ export default class DisenoIngenierilComponent implements OnInit {
   }
 
   onDelete(itemId: number) {
+    this.showDeleteModal.set(false);
+
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService.borrarDisenoIngenieril(itemId, token).subscribe({

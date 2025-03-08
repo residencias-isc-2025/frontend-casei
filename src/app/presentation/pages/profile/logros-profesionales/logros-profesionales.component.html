@@ -31,7 +31,7 @@
                 Editar
               </button>
               <button
-                (click)="onDelete(logroProfesional.id)"
+                (click)="onShowDeleteModal(logroProfesional)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
               >
                 Eliminar
@@ -63,5 +63,16 @@
   (onSave)="onEditEmit()"
   [logroProfesional]="logroProfesionalSelected()!"
   title="Editar logro profesional"
+/>
+} @if (showDeleteModal()){
+<app-confirmation-modal
+  title="Eliminar: Logro Profesional"
+  [message]="
+    '¿Esta seguro de querer eliminar el logro profesional correspondinete a ' +
+    logroProfesionalSelected()?.descripcion +
+    '?'
+  "
+  (onConfirm)="onDelete(logroProfesionalSelected()?.id!)"
+  (onCancel)="showDeleteModal.set(false)"
 />
 }

@@ -37,7 +37,7 @@
                 Editar
               </button>
               <button
-                (click)="onDelete(capacitacionDocente.id)"
+                (click)="onShowDeleteModal(capacitacionDocente)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
               >
                 Eliminar
@@ -72,5 +72,16 @@
   [listaInstituciones]="institucionesList()"
   [capacitacionDocente]="formacionAcademicaSelected()!"
   title="Editar capacitación docente"
+/>
+}@if (showDeleteModal()){
+<app-confirmation-modal
+  title="Eliminar: Capacitación Docente"
+  [message]="
+    '¿Esta seguro de querer eliminar la capacitación docente correspondinete a ' +
+    formacionAcademicaSelected()?.tipo_capacitacion +
+    '?'
+  "
+  (onConfirm)="onDelete(formacionAcademicaSelected()?.id!)"
+  (onCancel)="showDeleteModal.set(false)"
 />
 }

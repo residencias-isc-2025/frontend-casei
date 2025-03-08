@@ -39,7 +39,7 @@
                 Editar
               </button>
               <button
-                (click)="onDelete(formacionAcademica.id)"
+                (click)="onShowDeleteModal(formacionAcademica)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
               >
                 Eliminar
@@ -74,5 +74,16 @@
   [listaInstituciones]="institucionesList()"
   [formacionAcademica]="formacionAcademicaSelected()!"
   title="Editar formación académica"
+/>
+} @if (showDeleteModal()){
+<app-confirmation-modal
+  title="Eliminar: Formación Académica"
+  [message]="
+    '¿Esta seguro de querer eliminar la formación académica correspondinete a ' +
+    formacionAcademicaSelected()?.nombre +
+    '?'
+  "
+  (onConfirm)="onDelete(formacionAcademicaSelected()?.id!)"
+  (onCancel)="showDeleteModal.set(false)"
 />
 }

@@ -8,6 +8,7 @@ import {
 import { ProductoAcademicoData } from '@interfaces/index';
 import {
   AddProductoAcademicoComponent,
+  ConfirmationModalComponent,
   UpdateProductoAcademicoComponent,
 } from '@presentation/modals';
 import {
@@ -24,6 +25,7 @@ import { PaginationComponent } from '@components/pagination/pagination.component
     AddProductoAcademicoComponent,
     UpdateProductoAcademicoComponent,
     PaginationComponent,
+    ConfirmationModalComponent,
   ],
   templateUrl: './productos-academicos.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,9 +38,9 @@ export default class ProductosAcademicosComponent implements OnInit {
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
+  public showDeleteModal = signal(false);
 
   public productosAcademicosList = signal<ProductoAcademicoData[]>([]);
-
   public productoAcademicoSelected = signal<ProductoAcademicoData | null>(null);
 
   public totalItems = signal(0);
@@ -76,6 +78,11 @@ export default class ProductosAcademicosComponent implements OnInit {
     this.showUpdateModal.set(true);
   }
 
+  onShowDeleteModal(productoAcademico: ProductoAcademicoData) {
+    this.productoAcademicoSelected.set(productoAcademico);
+    this.showDeleteModal.set(true);
+  }
+
   onSaveEmit() {
     this.loadProductosAcademicosList();
     this.showAddModal.set(false);
@@ -92,6 +99,7 @@ export default class ProductosAcademicosComponent implements OnInit {
   }
 
   onDelete(itemId: number) {
+    this.showDeleteModal.set(false);
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService.borrarProductosAcademicos(itemId, token).subscribe({

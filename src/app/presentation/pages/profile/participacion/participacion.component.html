@@ -35,7 +35,7 @@
                 Editar
               </button>
               <button
-                (click)="onDelete(participacion.id)"
+                (click)="onShowDeleteModal(participacion)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
               >
                 Eliminar
@@ -67,5 +67,16 @@
   (onSave)="onEditEmit()"
   [participacion]="participacionSelected()!"
   title="Editar participación"
+/>
+} @if (showDeleteModal()){
+<app-confirmation-modal
+  title="Eliminar: Participación"
+  [message]="
+    '¿Esta seguro de querer eliminar la participación correspondinete a ' +
+    participacionSelected()?.organismo +
+    '?'
+  "
+  (onConfirm)="onDelete(participacionSelected()?.id!)"
+  (onCancel)="showDeleteModal.set(false)"
 />
 }

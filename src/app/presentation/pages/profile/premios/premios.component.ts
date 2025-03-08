@@ -8,6 +8,7 @@ import {
 import { PremioData } from '@interfaces/index';
 import {
   AddPremiosComponent,
+  ConfirmationModalComponent,
   UpdatePremiosComponent,
 } from '@presentation/modals';
 import {
@@ -20,7 +21,12 @@ import { PaginationComponent } from '@components/pagination/pagination.component
 
 @Component({
   selector: 'app-premios',
-  imports: [AddPremiosComponent, UpdatePremiosComponent, PaginationComponent],
+  imports: [
+    AddPremiosComponent,
+    UpdatePremiosComponent,
+    PaginationComponent,
+    ConfirmationModalComponent,
+  ],
   templateUrl: './premios.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -32,6 +38,7 @@ export default class PremiosComponent implements OnInit {
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
+  public showDeleteModal = signal(false);
 
   public premiosList = signal<PremioData[]>([]);
   public premioSelected = signal<PremioData | null>(null);
@@ -71,6 +78,11 @@ export default class PremiosComponent implements OnInit {
     this.showUpdateModal.set(true);
   }
 
+  onShowDeleteModal(premio: PremioData) {
+    this.premioSelected.set(premio);
+    this.showDeleteModal.set(true);
+  }
+
   onSaveEmit() {
     this.loadPremiosList();
     this.showAddModal.set(false);
@@ -87,6 +99,8 @@ export default class PremiosComponent implements OnInit {
   }
 
   onDelete(itemId: number) {
+    this.showDeleteModal.set(false);
+
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService.borrarPremio(itemId, token).subscribe({

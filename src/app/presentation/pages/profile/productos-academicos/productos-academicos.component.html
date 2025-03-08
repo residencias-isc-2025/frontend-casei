@@ -20,7 +20,9 @@
         @for(productoAcademico of productosAcademicosList(); track $index) {
         <tr class="border-b hover:bg-gray-100 transition">
           <td class="py-3 px-4">{{ $index + 1 }}</td>
-          <td class="py-3 px-4">{{ productoAcademico.descripcion_producto_academico }}</td>
+          <td class="py-3 px-4">
+            {{ productoAcademico.descripcion_producto_academico }}
+          </td>
 
           <td class="py-3 px-4">
             <div class="flex flex-row space-x-2">
@@ -31,7 +33,7 @@
                 Editar
               </button>
               <button
-                (click)="onDelete(productoAcademico.id)"
+                (click)="onShowDeleteModal(productoAcademico)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
               >
                 Eliminar
@@ -63,5 +65,16 @@
   (onSave)="onEditEmit()"
   [productoAcademico]="productoAcademicoSelected()!"
   title="Editar producto académico"
+/>
+}@if (showDeleteModal()){
+<app-confirmation-modal
+  title="Eliminar: Producto Académico"
+  [message]="
+    '¿Esta seguro de querer eliminar el producto académico correspondinete a ' +
+    productoAcademicoSelected()?.descripcion_producto_academico +
+    '?'
+  "
+  (onConfirm)="onDelete(productoAcademicoSelected()?.id!)"
+  (onCancel)="showDeleteModal.set(false)"
 />
 }

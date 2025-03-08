@@ -8,6 +8,7 @@ import {
 import { ParticipacionData } from '@interfaces/index';
 import {
   AddParticipacionComponent,
+  ConfirmationModalComponent,
   UpdateParticipacionComponent,
 } from '@presentation/modals';
 import {
@@ -24,6 +25,7 @@ import { PaginationComponent } from '@components/pagination/pagination.component
     AddParticipacionComponent,
     UpdateParticipacionComponent,
     PaginationComponent,
+    ConfirmationModalComponent,
   ],
   templateUrl: './participacion.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,9 +38,9 @@ export default class ParticipacionComponent implements OnInit {
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
+  public showDeleteModal = signal(false);
 
   public participacionList = signal<ParticipacionData[]>([]);
-
   public participacionSelected = signal<ParticipacionData | null>(null);
 
   public totalItems = signal(0);
@@ -76,6 +78,11 @@ export default class ParticipacionComponent implements OnInit {
     this.showUpdateModal.set(true);
   }
 
+  onShowDeleteModal(participacion: ParticipacionData) {
+    this.participacionSelected.set(participacion);
+    this.showDeleteModal.set(true);
+  }
+
   onSaveEmit() {
     this.loadParticipacionList();
     this.showAddModal.set(false);
@@ -92,6 +99,8 @@ export default class ParticipacionComponent implements OnInit {
   }
 
   onDelete(itemId: number) {
+    this.showDeleteModal.set(false);
+
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService.borrarParticipacion(itemId, token).subscribe({

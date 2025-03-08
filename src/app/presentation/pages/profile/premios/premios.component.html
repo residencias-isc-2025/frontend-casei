@@ -31,7 +31,7 @@
                 Editar
               </button>
               <button
-                (click)="onDelete(premio.id)"
+                (click)="onShowDeleteModal(premio)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
               >
                 Eliminar
@@ -63,5 +63,16 @@
   (onSave)="onEditEmit()"
   [premio]="premioSelected()!"
   title="Editar logro profesional"
+/>
+}@if (showDeleteModal()){
+<app-confirmation-modal
+  title="Eliminar: Premio"
+  [message]="
+    '¿Esta seguro de querer eliminar el premio correspondinete a ' +
+    premioSelected()?.descripcion +
+    '?'
+  "
+  (onConfirm)="onDelete(premioSelected()?.id!)"
+  (onCancel)="showDeleteModal.set(false)"
 />
 }

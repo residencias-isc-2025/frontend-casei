@@ -8,6 +8,7 @@ import {
 import { LogroProfesionalData } from '@interfaces/index';
 import {
   AddLogroProfesionalComponent,
+  ConfirmationModalComponent,
   UpdateLogroProfesionalComponent,
 } from '@presentation/modals';
 import {
@@ -24,6 +25,7 @@ import { PaginationComponent } from '@components/pagination/pagination.component
     AddLogroProfesionalComponent,
     UpdateLogroProfesionalComponent,
     PaginationComponent,
+    ConfirmationModalComponent,
   ],
   templateUrl: './logros-profesionales.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,6 +38,7 @@ export default class LogrosProfesionalesComponent implements OnInit {
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
+  public showDeleteModal = signal(false);
 
   public logrosProfesionalesList = signal<LogroProfesionalData[]>([]);
   public logroProfesionalSelected = signal<LogroProfesionalData | null>(null);
@@ -75,6 +78,11 @@ export default class LogrosProfesionalesComponent implements OnInit {
     this.showUpdateModal.set(true);
   }
 
+  onShowDeleteModal(logroProfesional: LogroProfesionalData) {
+    this.logroProfesionalSelected.set(logroProfesional);
+    this.showDeleteModal.set(true);
+  }
+
   onSaveEmit() {
     this.loadLogrosProfesionalesList();
     this.showAddModal.set(false);
@@ -91,6 +99,8 @@ export default class LogrosProfesionalesComponent implements OnInit {
   }
 
   onDelete(itemId: number) {
+    this.showDeleteModal.set(false);
+
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService.borrarLogroProfesional(itemId, token).subscribe({

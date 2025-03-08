@@ -7,6 +7,7 @@ import {
 import { ExperienciaProfesionalData } from '@interfaces/index';
 import {
   AddExperienciaProfesionalComponent,
+  ConfirmationModalComponent,
   UpdateExperienciaProfesionalComponent,
 } from '@presentation/modals';
 import {
@@ -23,6 +24,7 @@ import { PaginationComponent } from '@components/pagination/pagination.component
     AddExperienciaProfesionalComponent,
     UpdateExperienciaProfesionalComponent,
     PaginationComponent,
+    ConfirmationModalComponent,
   ],
   templateUrl: './experiencia-profesional.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,6 +37,7 @@ export default class ExperienciaProfesionalComponent {
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
+  public showDeleteModal = signal(false);
 
   public experienciaProfesionalList = signal<ExperienciaProfesionalData[]>([]);
 
@@ -76,6 +79,11 @@ export default class ExperienciaProfesionalComponent {
     this.showUpdateModal.set(true);
   }
 
+  onShowDeleteModal(experienciaProfesional: ExperienciaProfesionalData) {
+    this.experienciaProfesionalSelected.set(experienciaProfesional);
+    this.showDeleteModal.set(true);
+  }
+
   onSaveEmit() {
     this.loadExperienciaProfesionalList();
     this.showAddModal.set(false);
@@ -92,6 +100,8 @@ export default class ExperienciaProfesionalComponent {
   }
 
   onDelete(itemId: number) {
+    this.showDeleteModal.set(false);
+
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService.borrarExperienciaProfesional(itemId, token).subscribe({

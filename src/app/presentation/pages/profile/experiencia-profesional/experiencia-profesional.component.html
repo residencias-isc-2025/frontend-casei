@@ -19,9 +19,12 @@
         <th class="py-3 px-4 text-left">Acciones</th>
       </thead>
       <tbody class="text-gray-600">
-        @for(experienciaProfesional of experienciaProfesionalList(); track $index) {
+        @for(experienciaProfesional of experienciaProfesionalList(); track
+        $index) {
         <tr class="border-b hover:bg-gray-100 transition">
-          <td class="py-3 px-4">{{ experienciaProfesional.actividad_puesto }}</td>
+          <td class="py-3 px-4">
+            {{ experienciaProfesional.actividad_puesto }}
+          </td>
           <td class="py-3 px-4">
             {{ experienciaProfesional.organizacion_empresa }}
           </td>
@@ -37,7 +40,7 @@
                 Editar
               </button>
               <button
-                (click)="onDelete(experienciaProfesional.id)"
+                (click)="onShowDeleteModal(experienciaProfesional)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
               >
                 Eliminar
@@ -69,5 +72,16 @@
   (onSave)="onEditEmit()"
   [experienciaProfesional]="experienciaProfesionalSelected()!"
   title="Editar experiencia profesional"
+/>
+} @if (showDeleteModal()){
+<app-confirmation-modal
+  title="Eliminar: Experiencia Profesional"
+  [message]="
+    '¿Esta seguro de querer eliminar la experiencia profesional correspondinete a ' +
+    experienciaProfesionalSelected()?.actividad_puesto +
+    '?'
+  "
+  (onConfirm)="onDelete(experienciaProfesionalSelected()?.id!)"
+  (onCancel)="showDeleteModal.set(false)"
 />
 }

@@ -9,6 +9,7 @@ import { FormacionAcademicaData, InstitucionData } from '@interfaces/index';
 
 import {
   AddAcademicTrainingComponent,
+  ConfirmationModalComponent,
   UpdateAcademicTrainingComponent,
 } from '@modals/index';
 
@@ -26,6 +27,7 @@ import { PaginationComponent } from '@components/pagination/pagination.component
     AddAcademicTrainingComponent,
     UpdateAcademicTrainingComponent,
     PaginationComponent,
+    ConfirmationModalComponent,
   ],
   templateUrl: './formacion-academica.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,6 +40,7 @@ export default class FormacionAcademicaComponent implements OnInit {
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
+  public showDeleteModal = signal(false);
 
   public formacionAcademicaList = signal<FormacionAcademicaData[]>([]);
   public institucionesList = signal<InstitucionData[]>([]);
@@ -110,6 +113,11 @@ export default class FormacionAcademicaComponent implements OnInit {
     this.showUpdateModal.set(true);
   }
 
+  onShowDeleteModal(formacionAcademica: FormacionAcademicaData) {
+    this.formacionAcademicaSelected.set(formacionAcademica);
+    this.showDeleteModal.set(true);
+  }
+
   onSaveEmit() {
     this.loadFormacionAcademica();
     this.showAddModal.set(false);
@@ -126,6 +134,8 @@ export default class FormacionAcademicaComponent implements OnInit {
   }
 
   onDelete(itemId: number) {
+    this.showDeleteModal.set(false);
+
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService.borrarFormacionAcademica(itemId, token).subscribe({
