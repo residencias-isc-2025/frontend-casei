@@ -107,5 +107,23 @@ export default class EnrolledPageComponent implements OnInit {
       });
   }
 
-  onEnableAdscripcion(idAdscripcion: number) {}
+  onEnableAdscripcion(idAdscripcion: number) {
+    const token = localStorage.getItem('casei_residencias_access_token') || '';
+
+    this.toastService.showInfo('Por favor espere...', 'Actualizando');
+
+    this.commonService.activarAreaAdscripcion(idAdscripcion, token).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        if (res.ok) {
+          this.toastService.showSuccess(res.mensaje!, 'Éxito');
+          this.cargarAdscripciones();
+        } else {
+          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
+        }
+      },
+    });
+  }
 }

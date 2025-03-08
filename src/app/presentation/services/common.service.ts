@@ -4,6 +4,7 @@ import {
   addSchoolUseCase,
   disableAdscripcionUseCase,
   disableSchoolUseCase,
+  enableAdscripcionUseCase,
   enableSchoolUseCase,
   getCountriesListUseCase,
   loadAdscripcionesUseCase,
@@ -59,6 +60,10 @@ export class CommonService {
 
   activarInstitucion(idInstitucion: number, accessToken: string) {
     return from(enableSchoolUseCase(idInstitucion, accessToken));
+  }
+
+  activarAreaAdscripcion(idAdscripcion: number, accessToken: string) {
+    return from(enableAdscripcionUseCase(idAdscripcion, accessToken));
   }
 
   desactivarInstitucion(idInstitucion: number, accessToken: string) {
