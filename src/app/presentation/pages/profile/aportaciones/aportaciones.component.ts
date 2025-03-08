@@ -62,7 +62,7 @@ export default class AportacionesComponent implements OnInit {
             this.aportacionesList.set(res.data || []);
           } else {
             this.toastService.showWarning(
-              'No se pudo obtener la actualización disciplinar.',
+              'No se pudo obtener las aportaciones.',
               'Hubo un problema'
             );
           }
@@ -70,13 +70,8 @@ export default class AportacionesComponent implements OnInit {
       });
   }
 
-  onShowUpdateModel(idFormacion: number) {
-    const formacion = this.aportacionesList().find(
-      (formacion) => formacion.id === idFormacion
-    );
-
-    this.aportacionSelected.set(formacion !== undefined ? formacion : null);
-
+  onShowUpdateModal(aportacion: AportacionData) {
+    this.aportacionSelected.set(aportacion);
     this.showUpdateModal.set(true);
   }
 
@@ -107,7 +102,7 @@ export default class AportacionesComponent implements OnInit {
           this.loadAportacionesList();
         } else {
           this.toastService.showWarning(
-            'No se pudieron obtener las actualizaciones discilpinares.',
+            'No se pudieron obtener las aportaciones.',
             'Hubo un problema'
           );
         }

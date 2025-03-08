@@ -5,10 +5,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import {
-  FormacionAcademicaData,
-  InstitucionData,
-} from '@interfaces/index';
+import { FormacionAcademicaData, InstitucionData } from '@interfaces/index';
 
 import {
   AddAcademicTrainingComponent,
@@ -69,7 +66,7 @@ export default class FormacionAcademicaComponent implements OnInit {
           this.institucionesList.set(res.schools || []);
         } else {
           this.toastService.showWarning(
-            'No se pudo obtener la formación académica.',
+            'No se pudieron obtener las instituciones.',
             'Hubo un problema'
           );
         }
@@ -92,7 +89,7 @@ export default class FormacionAcademicaComponent implements OnInit {
             this.formacionAcademicaList.set(res.data || []);
           } else {
             this.toastService.showWarning(
-              'No se pudo obtener la formación académica.',
+              'No se pudieron obtener las formaciones académicas.',
               'Hubo un problema'
             );
           }
@@ -108,15 +105,8 @@ export default class FormacionAcademicaComponent implements OnInit {
     return institucion ? institucion.nombre_institucion : '';
   }
 
-  onShowUpdateModel(idFormacion: number) {
-    const formacion = this.formacionAcademicaList().find(
-      (formacion) => formacion.id === idFormacion
-    );
-
-    this.formacionAcademicaSelected.set(
-      formacion !== undefined ? formacion : null
-    );
-
+  onShowUpdateModal(formacionAcademica: FormacionAcademicaData) {
+    this.formacionAcademicaSelected.set(formacionAcademica);
     this.showUpdateModal.set(true);
   }
 
@@ -147,7 +137,7 @@ export default class FormacionAcademicaComponent implements OnInit {
           this.loadFormacionAcademica();
         } else {
           this.toastService.showWarning(
-            'No se pudo obtener la formación académica.',
+            'No se pudieron obtener las formaciones académicas.',
             'Hubo un problema'
           );
         }

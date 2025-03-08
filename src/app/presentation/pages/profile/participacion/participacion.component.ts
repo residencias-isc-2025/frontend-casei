@@ -63,7 +63,7 @@ export default class ParticipacionComponent implements OnInit {
             this.participacionList.set(res.data || []);
           } else {
             this.toastService.showWarning(
-              'No se pudo obtener la actualización disciplinar.',
+              'No se pudo obtener las participaciones.',
               'Hubo un problema'
             );
           }
@@ -71,13 +71,8 @@ export default class ParticipacionComponent implements OnInit {
       });
   }
 
-  onShowUpdateModel(idFormacion: number) {
-    const formacion = this.participacionList().find(
-      (formacion) => formacion.id === idFormacion
-    );
-
-    this.participacionSelected.set(formacion !== undefined ? formacion : null);
-
+  onShowUpdateModal(participacion: ParticipacionData) {
+    this.participacionSelected.set(participacion);
     this.showUpdateModal.set(true);
   }
 
@@ -108,7 +103,7 @@ export default class ParticipacionComponent implements OnInit {
           this.loadParticipacionList();
         } else {
           this.toastService.showWarning(
-            'No se pudieron obtener las actualizaciones discilpinares.',
+            'No se pudieron obtener las participaciones.',
             'Hubo un problema'
           );
         }

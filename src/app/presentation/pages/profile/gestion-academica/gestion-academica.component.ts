@@ -5,10 +5,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import {
-  GestionAcademicaData,
-  InstitucionData,
-} from '@interfaces/index';
+import { GestionAcademicaData, InstitucionData } from '@interfaces/index';
 import {
   CommonService,
   ProfileService,
@@ -43,9 +40,7 @@ export default class GestionAcademicaComponent implements OnInit {
   public gestionAcademicaList = signal<GestionAcademicaData[]>([]);
   public institucionesList = signal<InstitucionData[]>([]);
 
-  public gestionAcademicaSelected = signal<GestionAcademicaData | null>(
-    null
-  );
+  public gestionAcademicaSelected = signal<GestionAcademicaData | null>(null);
 
   public totalItems = signal(0);
   public currentPage = signal(1);
@@ -67,7 +62,7 @@ export default class GestionAcademicaComponent implements OnInit {
           this.institucionesList.set(res.schools || []);
         } else {
           this.toastService.showWarning(
-            'No se pudo obtener la formación académica.',
+            'No se pudieron obtener las instituciones.',
             'Hubo un problema'
           );
         }
@@ -90,7 +85,7 @@ export default class GestionAcademicaComponent implements OnInit {
             this.gestionAcademicaList.set(res.data || []);
           } else {
             this.toastService.showWarning(
-              'No se pudo obtener la actualización disciplinar.',
+              'No se pudieron obtener las gestiones académicas.',
               'Hubo un problema'
             );
           }
@@ -106,15 +101,8 @@ export default class GestionAcademicaComponent implements OnInit {
     return institucion ? institucion.nombre_institucion : '';
   }
 
-  onShowUpdateModel(idFormacion: number) {
-    const formacion = this.gestionAcademicaList().find(
-      (formacion) => formacion.id === idFormacion
-    );
-
-    this.gestionAcademicaSelected.set(
-      formacion !== undefined ? formacion : null
-    );
-
+  onShowUpdateModal(gestionAcademica: GestionAcademicaData) {
+    this.gestionAcademicaSelected.set(gestionAcademica);
     this.showUpdateModal.set(true);
   }
 
@@ -145,7 +133,7 @@ export default class GestionAcademicaComponent implements OnInit {
           this.loadGestionAcademicaList();
         } else {
           this.toastService.showWarning(
-            'No se pudieron obtener las actualizaciones discilpinares.',
+            'No se pudieron obtener las gestiones académicas.',
             'Hubo un problema'
           );
         }

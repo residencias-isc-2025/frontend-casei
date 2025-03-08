@@ -5,10 +5,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import {
-  CapacitacionDocenteData,
-  InstitucionData,
-} from '@interfaces/index';
+import { CapacitacionDocenteData, InstitucionData } from '@interfaces/index';
 
 import {
   AddTeachingTrainingComponent,
@@ -45,8 +42,9 @@ export default class CapitacionDocenteComponent implements OnInit {
   public capacitacionDocenteList = signal<CapacitacionDocenteData[]>([]);
   public institucionesList = signal<InstitucionData[]>([]);
 
-  public formacionAcademicaSelected =
-    signal<CapacitacionDocenteData | null>(null);
+  public formacionAcademicaSelected = signal<CapacitacionDocenteData | null>(
+    null
+  );
 
   public totalItems = signal(0);
   public currentPage = signal(1);
@@ -68,7 +66,7 @@ export default class CapitacionDocenteComponent implements OnInit {
           this.institucionesList.set(res.schools || []);
         } else {
           this.toastService.showWarning(
-            'No se pudo obtener la formación académica.',
+            'No se pudieron obtener las instituciones.',
             'Hubo un problema'
           );
         }
@@ -91,7 +89,7 @@ export default class CapitacionDocenteComponent implements OnInit {
             this.capacitacionDocenteList.set(res.data || []);
           } else {
             this.toastService.showWarning(
-              'No se pudo obtener la formación académica.',
+              'No se pudieron obtener las capacitaciones docentes.',
               'Hubo un problema'
             );
           }
@@ -107,15 +105,8 @@ export default class CapitacionDocenteComponent implements OnInit {
     return institucion ? institucion.nombre_institucion : '';
   }
 
-  onShowUpdateModel(idFormacion: number) {
-    const formacion = this.capacitacionDocenteList().find(
-      (formacion) => formacion.id === idFormacion
-    );
-
-    this.formacionAcademicaSelected.set(
-      formacion !== undefined ? formacion : null
-    );
-
+  onShowUpdateModal(capacitacionDocente: CapacitacionDocenteData) {
+    this.formacionAcademicaSelected.set(capacitacionDocente);
     this.showUpdateModal.set(true);
   }
 
@@ -146,7 +137,7 @@ export default class CapitacionDocenteComponent implements OnInit {
           this.loadCapacitacionDocente();
         } else {
           this.toastService.showWarning(
-            'No se pudieron obtener las actualizaciones discilpinares.',
+            'No se pudieron obtener las capacitaciones docentes.',
             'Hubo un problema'
           );
         }

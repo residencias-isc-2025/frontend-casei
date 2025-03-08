@@ -39,9 +39,7 @@ export default class ProductosAcademicosComponent implements OnInit {
 
   public productosAcademicosList = signal<ProductoAcademicoData[]>([]);
 
-  public productoAcademicoSelected = signal<ProductoAcademicoData | null>(
-    null
-  );
+  public productoAcademicoSelected = signal<ProductoAcademicoData | null>(null);
 
   public totalItems = signal(0);
   public currentPage = signal(1);
@@ -65,7 +63,7 @@ export default class ProductosAcademicosComponent implements OnInit {
             this.productosAcademicosList.set(res.data || []);
           } else {
             this.toastService.showWarning(
-              'No se pudo obtener la actualización disciplinar.',
+              'No se pudieron obtener los productos académicos.',
               'Hubo un problema'
             );
           }
@@ -73,15 +71,8 @@ export default class ProductosAcademicosComponent implements OnInit {
       });
   }
 
-  onShowUpdateModel(idFormacion: number) {
-    const formacion = this.productosAcademicosList().find(
-      (formacion) => formacion.id === idFormacion
-    );
-
-    this.productoAcademicoSelected.set(
-      formacion !== undefined ? formacion : null
-    );
-
+  onShowUpdateModel(productoAcademico: ProductoAcademicoData) {
+    this.productoAcademicoSelected.set(productoAcademico);
     this.showUpdateModal.set(true);
   }
 
@@ -112,7 +103,7 @@ export default class ProductosAcademicosComponent implements OnInit {
           this.loadProductosAcademicosList();
         } else {
           this.toastService.showWarning(
-            'No se pudieron obtener las actualizaciones discilpinares.',
+            'No se pudieron obtener los productos académicos.',
             'Hubo un problema'
           );
         }

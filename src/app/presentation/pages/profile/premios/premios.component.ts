@@ -58,7 +58,7 @@ export default class PremiosComponent implements OnInit {
             this.premiosList.set(res.data || []);
           } else {
             this.toastService.showWarning(
-              'No se pudo obtener la actualización disciplinar.',
+              'No se pudo obtener los premios.',
               'Hubo un problema'
             );
           }
@@ -66,13 +66,8 @@ export default class PremiosComponent implements OnInit {
       });
   }
 
-  onShowUpdateModel(idFormacion: number) {
-    const formacion = this.premiosList().find(
-      (formacion) => formacion.id === idFormacion
-    );
-
-    this.premioSelected.set(formacion !== undefined ? formacion : null);
-
+  onShowUpdateModal(premio: PremioData) {
+    this.premioSelected.set(premio);
     this.showUpdateModal.set(true);
   }
 
@@ -103,7 +98,7 @@ export default class PremiosComponent implements OnInit {
           this.loadPremiosList();
         } else {
           this.toastService.showWarning(
-            'No se pudieron obtener las actualizaciones discilpinares.',
+            'No se pudieron obtener los premios.',
             'Hubo un problema'
           );
         }

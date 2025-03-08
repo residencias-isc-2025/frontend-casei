@@ -38,9 +38,7 @@ export default class LogrosProfesionalesComponent implements OnInit {
   public showUpdateModal = signal(false);
 
   public logrosProfesionalesList = signal<LogroProfesionalData[]>([]);
-  public logroProfesionalSelected = signal<LogroProfesionalData | null>(
-    null
-  );
+  public logroProfesionalSelected = signal<LogroProfesionalData | null>(null);
 
   public totalItems = signal(0);
   public currentPage = signal(1);
@@ -64,7 +62,7 @@ export default class LogrosProfesionalesComponent implements OnInit {
             this.logrosProfesionalesList.set(res.data || []);
           } else {
             this.toastService.showWarning(
-              'No se pudo obtener la actualización disciplinar.',
+              'No se pudieron obtener los logros profesionales.',
               'Hubo un problema'
             );
           }
@@ -72,15 +70,8 @@ export default class LogrosProfesionalesComponent implements OnInit {
       });
   }
 
-  onShowUpdateModel(idFormacion: number) {
-    const formacion = this.logrosProfesionalesList().find(
-      (formacion) => formacion.id === idFormacion
-    );
-
-    this.logroProfesionalSelected.set(
-      formacion !== undefined ? formacion : null
-    );
-
+  onShowUpdateModal(logroProfesional: LogroProfesionalData) {
+    this.logroProfesionalSelected.set(logroProfesional);
     this.showUpdateModal.set(true);
   }
 
@@ -111,7 +102,7 @@ export default class LogrosProfesionalesComponent implements OnInit {
           this.loadLogrosProfesionalesList();
         } else {
           this.toastService.showWarning(
-            'No se pudieron obtener las actualizaciones discilpinares.',
+            'No se pudieron obtener los logros profesionales.',
             'Hubo un problema'
           );
         }

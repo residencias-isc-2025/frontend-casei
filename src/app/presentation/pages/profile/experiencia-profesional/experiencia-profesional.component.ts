@@ -36,9 +36,7 @@ export default class ExperienciaProfesionalComponent {
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
 
-  public experienciaProfesionalList = signal<ExperienciaProfesionalData[]>(
-    []
-  );
+  public experienciaProfesionalList = signal<ExperienciaProfesionalData[]>([]);
 
   public experienciaProfesionalSelected =
     signal<ExperienciaProfesionalData | null>(null);
@@ -65,7 +63,7 @@ export default class ExperienciaProfesionalComponent {
             this.experienciaProfesionalList.set(res.data || []);
           } else {
             this.toastService.showWarning(
-              'No se pudo obtener la actualización disciplinar.',
+              'No se pudieron obtener las experiencias profesionales.',
               'Hubo un problema'
             );
           }
@@ -73,15 +71,8 @@ export default class ExperienciaProfesionalComponent {
       });
   }
 
-  onShowUpdateModel(idFormacion: number) {
-    const formacion = this.experienciaProfesionalList().find(
-      (formacion) => formacion.id === idFormacion
-    );
-
-    this.experienciaProfesionalSelected.set(
-      formacion !== undefined ? formacion : null
-    );
-
+  onShowUpdateModal(experienciaProfesional: ExperienciaProfesionalData) {
+    this.experienciaProfesionalSelected.set(experienciaProfesional);
     this.showUpdateModal.set(true);
   }
 
@@ -103,22 +94,20 @@ export default class ExperienciaProfesionalComponent {
   onDelete(itemId: number) {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.usersService
-      .borrarExperienciaProfesional(itemId, token)
-      .subscribe({
-        error: (res) => {
-          this.toastService.showError(res.mensaje!, 'Malas noticias');
-        },
-        next: (res) => {
-          if (res.ok) {
-            this.loadExperienciaProfesionalList();
-          } else {
-            this.toastService.showWarning(
-              'No se pudieron obtener las actualizaciones discilpinares.',
-              'Hubo un problema'
-            );
-          }
-        },
-      });
+    this.usersService.borrarExperienciaProfesional(itemId, token).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        if (res.ok) {
+          this.loadExperienciaProfesionalList();
+        } else {
+          this.toastService.showWarning(
+            'No se pudieron obtener las experiencias profesionales.',
+            'Hubo un problema'
+          );
+        }
+      },
+    });
   }
 }

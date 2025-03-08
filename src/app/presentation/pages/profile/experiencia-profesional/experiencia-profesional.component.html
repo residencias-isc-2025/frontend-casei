@@ -19,25 +19,25 @@
         <th class="py-3 px-4 text-left">Acciones</th>
       </thead>
       <tbody class="text-gray-600">
-        @for(lista of experienciaProfesionalList(); track $index) {
+        @for(experienciaProfesional of experienciaProfesionalList(); track $index) {
         <tr class="border-b hover:bg-gray-100 transition">
-          <td class="py-3 px-4">{{ lista.actividad_puesto }}</td>
+          <td class="py-3 px-4">{{ experienciaProfesional.actividad_puesto }}</td>
           <td class="py-3 px-4">
-            {{ lista.organizacion_empresa }}
+            {{ experienciaProfesional.organizacion_empresa }}
           </td>
-          <td class="py-3 px-4">{{ lista.d_mes_anio }}</td>
-          <td class="py-3 px-4">{{ lista.a_mes_anio }}</td>
+          <td class="py-3 px-4">{{ experienciaProfesional.d_mes_anio }}</td>
+          <td class="py-3 px-4">{{ experienciaProfesional.a_mes_anio }}</td>
 
           <td class="py-3 px-4">
             <div class="flex flex-row space-x-2">
               <button
-                (click)="onShowUpdateModel(lista.id)"
+                (click)="onShowUpdateModal(experienciaProfesional)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-blue-500 hover:bg-blue-700"
               >
                 Editar
               </button>
               <button
-                (click)="onDelete(lista.id)"
+                (click)="onDelete(experienciaProfesional.id)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
               >
                 Eliminar

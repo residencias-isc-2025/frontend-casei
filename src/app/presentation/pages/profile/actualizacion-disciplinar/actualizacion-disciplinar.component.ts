@@ -42,9 +42,9 @@ export default class ActualizacionDisciplinarComponent {
   public showUpdateModal = signal(false);
 
   public totalItems = signal(0);
-  public actualizacionDisciplinarList = signal<
-    ActualizacionDisciplinarData[]
-  >([]);
+  public actualizacionDisciplinarList = signal<ActualizacionDisciplinarData[]>(
+    []
+  );
   public institucionesList = signal<InstitucionData[]>([]);
 
   public currentPage = signal(1);
@@ -68,7 +68,7 @@ export default class ActualizacionDisciplinarComponent {
           this.institucionesList.set(res.schools || []);
         } else {
           this.toastService.showWarning(
-            'No se pudo obtener la formación académica.',
+            'No se pudieron obtener las instituciones.',
             'Hubo un problema'
           );
         }
@@ -91,7 +91,7 @@ export default class ActualizacionDisciplinarComponent {
             this.actualizacionDisciplinarList.set(res.data || []);
           } else {
             this.toastService.showWarning(
-              'No se pudo obtener la actualización disciplinar.',
+              'No se pudieron obtener las actualizaciones disciplinares.',
               'Hubo un problema'
             );
           }
@@ -112,15 +112,8 @@ export default class ActualizacionDisciplinarComponent {
     this.loadActualizacionDisciplinarList();
   }
 
-  onShowUpdateModel(idFormacion: number) {
-    const formacion = this.actualizacionDisciplinarList().find(
-      (formacion) => formacion.id === idFormacion
-    );
-
-    this.actualizacionDisciplinarSelected.set(
-      formacion !== undefined ? formacion : null
-    );
-
+  onShowUpdateModal(actualizacionDisciplinar: ActualizacionDisciplinarData) {
+    this.actualizacionDisciplinarSelected.set(actualizacionDisciplinar);
     this.showUpdateModal.set(true);
   }
 

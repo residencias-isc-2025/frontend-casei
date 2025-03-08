@@ -39,9 +39,7 @@ export default class DisenoIngenierilComponent implements OnInit {
 
   public disenoIngenierilList = signal<DisenoIngenierilData[]>([]);
 
-  public disenoIngenierilSelected = signal<DisenoIngenierilData | null>(
-    null
-  );
+  public disenoIngenierilSelected = signal<DisenoIngenierilData | null>(null);
 
   public totalItems = signal(0);
   public currentPage = signal(1);
@@ -65,7 +63,7 @@ export default class DisenoIngenierilComponent implements OnInit {
             this.disenoIngenierilList.set(res.data || []);
           } else {
             this.toastService.showWarning(
-              'No se pudo obtener la actualización disciplinar.',
+              'No se pudieron obtener los diseños ingenieriles.',
               'Hubo un problema'
             );
           }
@@ -73,15 +71,8 @@ export default class DisenoIngenierilComponent implements OnInit {
       });
   }
 
-  onShowUpdateModel(idFormacion: number) {
-    const formacion = this.disenoIngenierilList().find(
-      (formacion) => formacion.id === idFormacion
-    );
-
-    this.disenoIngenierilSelected.set(
-      formacion !== undefined ? formacion : null
-    );
-
+  onShowUpdateModal(disenoIngenieril: DisenoIngenierilData) {
+    this.disenoIngenierilSelected.set(disenoIngenieril);
     this.showUpdateModal.set(true);
   }
 
@@ -112,7 +103,7 @@ export default class DisenoIngenierilComponent implements OnInit {
           this.loadDisenoIngenierilList();
         } else {
           this.toastService.showWarning(
-            'No se pudieron obtener las actualizaciones discilpinares.',
+            'No se pudieron obtener los diseños ingenieriles.',
             'Hubo un problema'
           );
         }
