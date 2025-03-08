@@ -39,3 +39,4 @@ export * from './instituciones/add-institucion/add-institucion.component';
 export * from './instituciones/update-institucion/update-institucion.component';
 
 export * from './area-adscripcion/add-area-adscripcion/add-area-adscripcion.component';
+export * from './area-adscripcion/update-area-adscripcion/update-area-adscripcion.component';

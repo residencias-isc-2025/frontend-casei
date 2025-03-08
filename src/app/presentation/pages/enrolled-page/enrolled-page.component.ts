@@ -8,12 +8,20 @@ import {
 } from '@angular/core';
 import { AdscripcionData } from '@interfaces/index';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
-import { AddAreaAdscripcionComponent } from '@presentation/modals';
+import {
+  AddAreaAdscripcionComponent,
+  UpdateAreaAdscripcionComponent,
+} from '@presentation/modals';
 import { CommonService, ToastService } from '@presentation/services';
 
 @Component({
   selector: 'app-enrolled-page',
-  imports: [CommonModule, PaginationComponent, AddAreaAdscripcionComponent],
+  imports: [
+    CommonModule,
+    PaginationComponent,
+    AddAreaAdscripcionComponent,
+    UpdateAreaAdscripcionComponent,
+  ],
   templateUrl: './enrolled-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -62,7 +70,10 @@ export default class EnrolledPageComponent implements OnInit {
     this.cargarAdscripciones();
   }
 
-  onShowUpdateModal(idAdscripcion: number) {}
+  onShowUpdateModal(adscripcion: AdscripcionData) {
+    this.adscripcionSelected.set(adscripcion);
+    this.showUpdateModal.set(true);
+  }
 
   onSaveEmit(): void {
     this.showAddModal.set(false);

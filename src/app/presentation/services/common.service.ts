@@ -7,6 +7,7 @@ import {
   getCountriesListUseCase,
   loadAdscripcionesUseCase,
   loadInstitucionesUseCase,
+  updateAdscripcionUseCase,
   updateSchoolUseCase,
 } from '@core/index';
 import { AreaAdscripcionDto, InstitucionDto } from '@interfaces/index';
@@ -46,6 +47,13 @@ export class CommonService {
 
   actualizarInstitucion(idInstitucion: number, institucionDto: InstitucionDto) {
     return from(updateSchoolUseCase(idInstitucion, institucionDto));
+  }
+
+  actualizarAreaAdscripcion(
+    idAdscripcion: number,
+    areaAdscripcionDto: AreaAdscripcionDto
+  ) {
+    return from(updateAdscripcionUseCase(idAdscripcion, areaAdscripcionDto));
   }
 
   activarInstitucion(idInstitucion: number, accessToken: string) {

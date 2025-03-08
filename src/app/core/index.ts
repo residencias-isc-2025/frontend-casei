@@ -66,6 +66,7 @@ export * from './use-cases/common/get-adscripciones.use-case';
 export * from './use-cases/common/add-school.use-case';
 export * from './use-cases/common/add-adscripcion.use-case';
 export * from './use-cases/common/update-school.use-case';
+export * from './use-cases/common/update-adscripcion.use-case';
 export * from './use-cases/common/enable-school.use-case';
 export * from './use-cases/common/disable-school.use-case';
 
