@@ -1,4 +1,4 @@
-import { sortCountriesAlphabetically } from '@helpers/sort-alphabetically.helper';
+import { sortCountriesAlphabetically } from '@helpers/sort-countries-alphabetically.helper';
 import { CountriesResponse } from '@interfaces/index';
 
 export const obtenerListaPaisesUseCase = async () => {

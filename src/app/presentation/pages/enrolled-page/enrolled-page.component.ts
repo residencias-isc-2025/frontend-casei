@@ -91,7 +91,7 @@ export default class EnrolledPageComponent implements OnInit {
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
     this.commonService
-      .desactivarAreaAdscripcion(idAdscripcion, token)
+      .desactivarAdscripcion(idAdscripcion, token)
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
@@ -112,7 +112,7 @@ export default class EnrolledPageComponent implements OnInit {
 
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.commonService.activarAreaAdscripcion(idAdscripcion, token).subscribe({
+    this.commonService.activarAdscripcion(idAdscripcion, token).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },

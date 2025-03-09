@@ -1,10 +1,8 @@
 import { environment } from '@environments/environment';
 import { ProductoAcademicoData } from '@interfaces/index';
+import { PaginationResponse } from '@interfaces/use-cases/pagination.response';
 
-interface ProductosAcademicosPagination {
-  count: number;
-  next: string | null;
-  previous: string | null;
+interface ProductosAcademicosPagination extends PaginationResponse {
   results: ProductoAcademicoData[];
 }
 

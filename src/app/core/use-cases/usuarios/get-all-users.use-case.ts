@@ -1,19 +1,15 @@
 import { environment } from '@environments/environment';
-import { FormacionAcademicaData } from '@interfaces/index';
+import { UserResponse } from '@interfaces/index';
 import { PaginationResponse } from '@interfaces/use-cases/pagination.response';
 
-interface FormacionAcademicaPagination extends PaginationResponse {
-  results: FormacionAcademicaData[];
+interface UsersListInterface extends PaginationResponse {
+  results: UserResponse[];
 }
 
-export const obtenerListaFormacionAcademicaUseCase = async (
-  accessToken: string,
-  page: number,
-  pageSize: number
-) => {
+export const getAllUsersUseCase = async (accessToken: string, page: number) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/formacion-academica/?page=${page}&page_size=${pageSize}`,
+      `${environment.api_url}/registration/users/?page=${page}`,
       {
         method: 'GET',
         headers: {
@@ -23,20 +19,19 @@ export const obtenerListaFormacionAcademicaUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as FormacionAcademicaPagination;
+    const data = (await resp.json()) as UsersListInterface;
 
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al obtener datos.',
-        data: [],
+        usuarios: [],
       };
     }
 
     return {
       ok: true,
       items: data.count,
-      data: data.results,
+      usuarios: data.results,
     };
   } catch (error) {
     console.error(error);

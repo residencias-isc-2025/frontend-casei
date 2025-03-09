@@ -1,19 +1,19 @@
 import { environment } from '@environments/environment';
-import { FormacionAcademicaData } from '@interfaces/index';
+import { ParticipacionData } from '@interfaces/index';
 import { PaginationResponse } from '@interfaces/use-cases/pagination.response';
 
-interface FormacionAcademicaPagination extends PaginationResponse {
-  results: FormacionAcademicaData[];
+interface ParticipacionesPagination extends PaginationResponse {
+  results: ParticipacionData[];
 }
 
-export const obtenerListaFormacionAcademicaUseCase = async (
+export const obtenerListaParticipacionUseCase = async (
   accessToken: string,
   page: number,
   pageSize: number
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/formacion-academica/?page=${page}&page_size=${pageSize}`,
+      `${environment.api_url}/api/registration/participacion/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {
@@ -23,7 +23,7 @@ export const obtenerListaFormacionAcademicaUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as FormacionAcademicaPagination;
+    const data = (await resp.json()) as ParticipacionesPagination;
 
     if (!resp.ok) {
       return {

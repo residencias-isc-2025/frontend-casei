@@ -57,7 +57,7 @@ export class UpdateAreaAdscripcionComponent implements OnInit {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.commonService
-      .actualizarAreaAdscripcion(this.adscripcion().id, {
+      .actualizarAdscripcion(this.adscripcion().id, {
         accessToken: token,
         nombre,
         siglas,

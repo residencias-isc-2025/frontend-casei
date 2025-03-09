@@ -1,30 +1,27 @@
 import { environment } from '@environments/environment';
 
-import {
-  ProductoAcademicoDto,
-  ProductoAcademicoResponse,
-} from '@interfaces/index';
+import { AportacionDto, AportacionResponse } from '@interfaces/index';
 
-export const updateAcademicProductsUseCase = async (
-  productoId: number,
-  productoAcademicoDto: ProductoAcademicoDto
+export const actualizarAportacionUseCase = async (
+  idAportacion: number,
+  aportacionDto: AportacionDto
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/productos-academicos/${productoId}/`,
+      `${environment.api_url}/api/registration/aportaciones/${idAportacion}/`,
       {
         method: 'PUT',
         headers: {
-          Authorization: `Bearer ${productoAcademicoDto.accessToken}`,
+          Authorization: `Bearer ${aportacionDto.accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          descripcion_producto_academico: productoAcademicoDto.descripcion,
+          descripcion: aportacionDto.descripcion,
         }),
       }
     );
 
-    const data = (await resp.json()) as ProductoAcademicoResponse;
+    const data = (await resp.json()) as AportacionResponse;
 
     if (!resp.ok) {
       return {

@@ -51,18 +51,18 @@ export class CommonService {
     return from(actualizarInstitucionUseCase(idInstitucion, institucionDto));
   }
 
-  actualizarAreaAdscripcion(
+  actualizarAdscripcion(
     idAdscripcion: number,
-    areaAdscripcionDto: AdscripcionDto
+    adscripcionDto: AdscripcionDto
   ) {
-    return from(actualizarAdscripcionUseCase(idAdscripcion, areaAdscripcionDto));
+    return from(actualizarAdscripcionUseCase(idAdscripcion, adscripcionDto));
   }
 
   activarInstitucion(idInstitucion: number, accessToken: string) {
     return from(habilitarInstitucionUseCase(idInstitucion, accessToken));
   }
 
-  activarAreaAdscripcion(idAdscripcion: number, accessToken: string) {
+  activarAdscripcion(idAdscripcion: number, accessToken: string) {
     return from(habilitarAdscripcionUseCase(idAdscripcion, accessToken));
   }
 
@@ -70,7 +70,7 @@ export class CommonService {
     return from(deshabilitarInstitucionUseCase(idInstitucion, accessToken));
   }
 
-  desactivarAreaAdscripcion(idAdscripcion: number, accessToken: string) {
+  desactivarAdscripcion(idAdscripcion: number, accessToken: string) {
     return from(deshabilitarAdscripcionUseCase(idAdscripcion, accessToken));
   }
 }

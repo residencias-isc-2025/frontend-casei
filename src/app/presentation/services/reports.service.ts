@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getCurriculumVitaeUseCase } from '@core/index';
+import { obtenerCurriculumVitaeUseCase } from '@core/index';
 import { from } from 'rxjs';
 
 @Injectable({
@@ -7,6 +7,6 @@ import { from } from 'rxjs';
 })
 export class ReportsService {
   getCurriculumVitaeFuncition(accessToken: string) {
-    return from(getCurriculumVitaeUseCase(accessToken));
+    return from(obtenerCurriculumVitaeUseCase(accessToken));
   }
 }

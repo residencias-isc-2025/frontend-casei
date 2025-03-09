@@ -1,10 +1,8 @@
 import { environment } from '@environments/environment';
 import { PremioData } from '@interfaces/index';
+import { PaginationResponse } from '@interfaces/use-cases/pagination.response';
 
-interface PremiosPagination {
-  count: number;
-  next: string | null;
-  previous: string | null;
+interface PremiosPagination extends PaginationResponse {
   results: PremioData[];
 }
 

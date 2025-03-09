@@ -1,4 +1,4 @@
-export interface ProductosAcademicosDto {
+export interface ProductoAcademicoDto {
   accessToken: string;
   descripcion: string;
 }

@@ -1,10 +1,8 @@
 import { environment } from '@environments/environment';
 import { InstitucionData } from '@interfaces/index';
+import { PaginationResponse } from '@interfaces/use-cases/pagination.response';
 
-interface InstitucionPagination {
-  count: number;
-  next: string | null;
-  previous: string | null;
+interface InstitucionPagination extends PaginationResponse {
   results: InstitucionData[];
 }
 

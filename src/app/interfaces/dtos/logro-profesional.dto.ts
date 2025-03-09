@@ -1,4 +1,4 @@
-export interface LogrosPrefesionalesDto {
+export interface LogroPrefesionalDto {
   accessToken: string;
   descripcion: string;
 }

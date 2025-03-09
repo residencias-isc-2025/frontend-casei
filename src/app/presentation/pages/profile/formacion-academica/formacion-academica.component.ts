@@ -144,6 +144,7 @@ export default class FormacionAcademicaComponent implements OnInit {
       },
       next: (res) => {
         if (res.ok) {
+          this.toastService.showSuccess(res.mensaje!, 'Éxito');
           this.loadFormacionAcademica();
         } else {
           this.toastService.showWarning(

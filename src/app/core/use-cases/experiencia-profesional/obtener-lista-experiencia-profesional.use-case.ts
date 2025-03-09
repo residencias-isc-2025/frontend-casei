@@ -1,19 +1,19 @@
 import { environment } from '@environments/environment';
-import { FormacionAcademicaData } from '@interfaces/index';
+import { ExperienciaProfesionalData } from '@interfaces/index';
 import { PaginationResponse } from '@interfaces/use-cases/pagination.response';
 
-interface FormacionAcademicaPagination extends PaginationResponse {
-  results: FormacionAcademicaData[];
+interface ExperienciaProfesionalPagination extends PaginationResponse {
+  results: ExperienciaProfesionalData[];
 }
 
-export const obtenerListaFormacionAcademicaUseCase = async (
+export const obtenerListaExperienciaProfesionalUseCase = async (
   accessToken: string,
   page: number,
   pageSize: number
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/formacion-academica/?page=${page}&page_size=${pageSize}`,
+      `${environment.api_url}/api/registration/experiencia-profesional-no-academica/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {
@@ -23,7 +23,7 @@ export const obtenerListaFormacionAcademicaUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as FormacionAcademicaPagination;
+    const data = (await resp.json()) as ExperienciaProfesionalPagination;
 
     if (!resp.ok) {
       return {

@@ -1,10 +1,8 @@
 import { environment } from '@environments/environment';
 import { GestionAcademicaData } from '@interfaces/index';
+import { PaginationResponse } from '@interfaces/use-cases/pagination.response';
 
-interface GestionAcademicaPagination {
-  count: number;
-  next: string | null;
-  previous: string | null;
+interface GestionAcademicaPagination extends PaginationResponse {
   results: GestionAcademicaData[];
 }
 

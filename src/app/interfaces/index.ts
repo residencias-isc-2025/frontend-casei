@@ -13,7 +13,7 @@ export * from './dtos/participacion.dto';
 export * from './dtos/premios.dto';
 export * from './dtos/aportaciones.dto';
 export * from './dtos/institucion.dto';
-export * from './dtos/area-adscripcion.dto';
+export * from './dtos/adscripcion.dto';
 
 export * from './use-cases/create-user.response';
 export * from './use-cases/update-user.reponse';
@@ -35,6 +35,6 @@ export * from './use-cases/premios.response';
 export * from './use-cases/aportaciones.response';
 export * from './use-cases/create-users-by-csv.response';
 
-export * from './use-cases/reports/curriculum-vitae.response';
+export * from './use-cases/reportes/curriculum-vitae.response';
 
-export * from './use-cases/external/countries.response';
+export * from './use-cases/countries.response';
