@@ -20,6 +20,7 @@ import {
   ProfileService,
   CommonService,
   UsersService,
+  InstitucionesService,
 } from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 
@@ -39,6 +40,7 @@ export default class ActualizacionDisciplinarComponent {
   public profileService = inject(ProfileService);
   public commonService = inject(CommonService);
   public usersService = inject(UsersService);
+  public institucionesService = inject(InstitucionesService);
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
@@ -55,28 +57,11 @@ export default class ActualizacionDisciplinarComponent {
     signal<ActualizacionDisciplinarData | null>(null);
 
   ngOnInit(): void {
-    this.loadInstituciones();
-    this.loadActualizacionDisciplinarList();
-  }
-
-  private loadInstituciones(): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.commonService.getInstitucionesList(token, 1, 100).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.institucionesList.set(res.schools || []);
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener las instituciones.',
-            'Hubo un problema'
-          );
-        }
-      },
+    this.institucionesService.loadInstituciones();
+    this.institucionesService.getInstituciones().subscribe((lista) => {
+      this.institucionesList.set(lista);
     });
+    this.loadActualizacionDisciplinarList();
   }
 
   private loadActualizacionDisciplinarList(): void {
@@ -100,14 +85,6 @@ export default class ActualizacionDisciplinarComponent {
           }
         },
       });
-  }
-
-  getInstitucion(idInstitucion: number): string {
-    const institucion = this.institucionesList().find(
-      (institucion) => institucion.id === idInstitucion
-    );
-
-    return institucion ? institucion.nombre_institucion : '';
   }
 
   onPageChanged(page: number): void {

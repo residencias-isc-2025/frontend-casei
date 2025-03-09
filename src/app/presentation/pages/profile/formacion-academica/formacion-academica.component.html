@@ -25,7 +25,11 @@
           <td class="py-3 px-4">{{ formacionAcademica.nivel }}</td>
           <td class="py-3 px-4">{{ formacionAcademica.nombre }}</td>
           <td class="py-3 px-4">
-            {{ getInstitucion(formacionAcademica.institucion_pais) }}
+            {{
+              this.institucionesService.getInstitucion(
+                formacionAcademica.institucion_pais
+              )
+            }}
           </td>
           <td class="py-3 px-4">{{ formacionAcademica.anio_obtencion }}</td>
           <td class="py-3 px-4">{{ formacionAcademica.cedula_profesional }}</td>

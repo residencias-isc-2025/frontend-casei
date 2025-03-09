@@ -15,6 +15,7 @@ import {
 
 import {
   CommonService,
+  InstitucionesService,
   ProfileService,
   ToastService,
   UsersService,
@@ -37,6 +38,7 @@ export default class FormacionAcademicaComponent implements OnInit {
   public profileService = inject(ProfileService);
   public commonService = inject(CommonService);
   public usersService = inject(UsersService);
+  public institucionesService = inject(InstitucionesService);
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
@@ -53,28 +55,11 @@ export default class FormacionAcademicaComponent implements OnInit {
   public currentPage = signal(1);
 
   ngOnInit(): void {
-    this.loadInstituciones();
-    this.loadFormacionAcademica();
-  }
-
-  private loadInstituciones(): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.commonService.getInstitucionesList(token, 1, 100).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.institucionesList.set(res.schools || []);
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener las instituciones.',
-            'Hubo un problema'
-          );
-        }
-      },
+    this.institucionesService.loadInstituciones();
+    this.institucionesService.getInstituciones().subscribe((lista) => {
+      this.institucionesList.set(lista);
     });
+    this.loadFormacionAcademica();
   }
 
   private loadFormacionAcademica(): void {
@@ -98,14 +83,6 @@ export default class FormacionAcademicaComponent implements OnInit {
           }
         },
       });
-  }
-
-  getInstitucion(idInstitucion: number): string {
-    const institucion = this.institucionesList().find(
-      (institucion) => institucion.id === idInstitucion
-    );
-
-    return institucion ? institucion.nombre_institucion : '';
   }
 
   onShowUpdateModal(formacionAcademica: FormacionAcademicaData) {

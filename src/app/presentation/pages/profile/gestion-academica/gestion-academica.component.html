@@ -23,7 +23,11 @@
         <tr class="border-b hover:bg-gray-100 transition">
           <td class="py-3 px-4">{{ gestionAcademica.actividad_puesto }}</td>
           <td class="py-3 px-4">
-            {{ getInstitucion(gestionAcademica.institucion_pais) }}
+            {{
+              this.institucionesService.getInstitucion(
+                gestionAcademica.institucion_pais
+              )
+            }}
           </td>
           <td class="py-3 px-4">{{ gestionAcademica.d_mes_anio }}</td>
           <td class="py-3 px-4">{{ gestionAcademica.a_mes_anio }}</td>
