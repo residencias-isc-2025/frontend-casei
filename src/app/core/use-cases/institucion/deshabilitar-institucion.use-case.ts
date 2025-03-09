@@ -1,13 +1,12 @@
 import { environment } from '@environments/environment';
-import { PremioResponse } from '@interfaces/index';
 
-export const deleteAwardsUseCase = async (
-  idPremio: number,
+export const deshabilitarInstitucionUseCase = async (
+  schoolId: number,
   accessToken: string
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/premios/${idPremio}/`,
+      `${environment.api_url}/api/registration/institucion-pais/${schoolId}/`,
       {
         method: 'DELETE',
         headers: {
@@ -17,7 +16,7 @@ export const deleteAwardsUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as PremioResponse;
+    const data = await resp.json();
 
     if (!resp.ok) {
       return {

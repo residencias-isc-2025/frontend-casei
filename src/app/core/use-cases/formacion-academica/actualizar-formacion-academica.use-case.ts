@@ -5,7 +5,7 @@ import {
   FormacionAcademicaResponse,
 } from '@interfaces/index';
 
-export const updateAcademicTrainingUseCase = async (
+export const actualizarFormacionAcademicaUseCase = async (
   idFormacion: number,
   academicTraining: FormacionAcademicaDto
 ) => {

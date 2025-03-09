@@ -1,14 +1,15 @@
 import { environment } from '@environments/environment';
+import { PremioResponse } from '@interfaces/index';
 
-export const enableAdscripcionUseCase = async (
-  idAdscripcion: number,
+export const eliminarPremioUseCase = async (
+  idPremio: number,
   accessToken: string
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/habilitar-area-adscripcion/${idAdscripcion}/`,
+      `${environment.api_url}/api/registration/premios/${idPremio}/`,
       {
-        method: 'PUT',
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
@@ -16,7 +17,7 @@ export const enableAdscripcionUseCase = async (
       }
     );
 
-    const data = await resp.json();
+    const data = (await resp.json()) as PremioResponse;
 
     if (!resp.ok) {
       return {

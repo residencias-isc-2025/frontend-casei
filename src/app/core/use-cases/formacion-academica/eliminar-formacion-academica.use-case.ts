@@ -1,12 +1,13 @@
 import { environment } from '@environments/environment';
+import { FormacionAcademicaResponse } from '@interfaces/index';
 
-export const disableAdscripcionUseCase = async (
-  idAdscripcion: number,
+export const eliminarFormacionAcademica = async (
+  idFormacion: number,
   accessToken: string
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/area-adscripcion/${idAdscripcion}/`,
+      `${environment.api_url}/api/registration/formacion-academica/${idFormacion}/`,
       {
         method: 'DELETE',
         headers: {
@@ -16,7 +17,7 @@ export const disableAdscripcionUseCase = async (
       }
     );
 
-    const data = await resp.json();
+    const data = (await resp.json()) as FormacionAcademicaResponse;
 
     if (!resp.ok) {
       return {

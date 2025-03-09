@@ -18,10 +18,10 @@ import {
 } from '@interfaces/index';
 
 import {
-  addAcademicManagmentUseCase,
-  addAcademicProductsUseCase,
-  addAcademicTrainingUseCase,
-  addAwardsUseCase,
+  agregarGestionAcademicaUseCase,
+  agregarProductoAcademicoUseCase,
+  agregarFormacionAcademicaUseCase,
+  agregarPremioUseCase,
   addContributionsUseCase,
   addDisciplinaryUpdateUseCase,
   addEngineeringDesignUseCase,
@@ -32,10 +32,10 @@ import {
   changePasswordUseCase,
   createUsersByCsvUseCase,
   createUserUseCase,
-  deleteAcademicManagmentUseCase,
-  deleteAcademicProductsUseCase,
-  deleteAcademicTrainingUseCase,
-  deleteAwardsUseCase,
+  eliminarGestionAcademicaUseCase,
+  eliminarProductoAcademicoUseCase,
+  eliminarFormacionAcademica,
+  eliminarPremioUseCase,
   deleteContributionUseCase,
   deleteDisciplinaryUpdateUseCase,
   deleteEngineeringDesignUseCase,
@@ -48,10 +48,10 @@ import {
   getAllUsersUseCase,
   getUserUseCase,
   resetPasswordUseCase,
-  updateAcademicManagmentUseCase,
+  actualizarGestionAcademicaUseCase,
   updateAcademicProductsUseCase,
-  updateAcademicTrainingUseCase,
-  updateAwardsUseCase,
+  actualizarFormacionAcademicaUseCase,
+  actualizarPremioUseCase,
   updateContributionUseCase,
   updateDisciplinaryUpdateUseCase,
   updateEngineeringDesignUseCase,
@@ -108,18 +108,18 @@ export class UsersService {
 
   //#region Formación académica
   agregarFormacionAcademica(formacionAcademica: FormacionAcademicaDto) {
-    return from(addAcademicTrainingUseCase(formacionAcademica));
+    return from(agregarFormacionAcademicaUseCase(formacionAcademica));
   }
 
   actualizarFormacionAcademica(
     idFormacion: number,
     formacionAcademica: FormacionAcademicaDto
   ) {
-    return from(updateAcademicTrainingUseCase(idFormacion, formacionAcademica));
+    return from(actualizarFormacionAcademicaUseCase(idFormacion, formacionAcademica));
   }
 
   borrarFormacionAcademica(idFormacion: number, accessToken: string) {
-    return from(deleteAcademicTrainingUseCase(idFormacion, accessToken));
+    return from(eliminarFormacionAcademica(idFormacion, accessToken));
   }
 
   //#endregion
@@ -166,24 +166,24 @@ export class UsersService {
 
   //#region Gestión académica
   agregarGestionAcademica(gestionAcademicaDto: GestionAcademicaDto) {
-    return from(addAcademicManagmentUseCase(gestionAcademicaDto));
+    return from(agregarGestionAcademicaUseCase(gestionAcademicaDto));
   }
 
   actualizarGestionAcademica(
     idGestion: number,
     gestionAcademicaDto: GestionAcademicaDto
   ) {
-    return from(updateAcademicManagmentUseCase(idGestion, gestionAcademicaDto));
+    return from(actualizarGestionAcademicaUseCase(idGestion, gestionAcademicaDto));
   }
 
   borrarGestionAcademica(idGestion: number, accessToken: string) {
-    return from(deleteAcademicManagmentUseCase(idGestion, accessToken));
+    return from(eliminarGestionAcademicaUseCase(idGestion, accessToken));
   }
   //#endregion
 
   //#region Productos académicos
   agregarProductosAcademicos(productosAcademicosDto: ProductosAcademicosDto) {
-    return from(addAcademicProductsUseCase(productosAcademicosDto));
+    return from(agregarProductoAcademicoUseCase(productosAcademicosDto));
   }
 
   actualizarProductosAcademicos(
@@ -196,7 +196,7 @@ export class UsersService {
   }
 
   borrarProductosAcademicos(idProducto: number, accessToken: string) {
-    return from(deleteAcademicProductsUseCase(idProducto, accessToken));
+    return from(eliminarProductoAcademicoUseCase(idProducto, accessToken));
   }
   //#endregion
 
@@ -282,15 +282,15 @@ export class UsersService {
 
   //#region Premios
   agregarPremio(premioDto: PremiosDto) {
-    return from(addAwardsUseCase(premioDto));
+    return from(agregarPremioUseCase(premioDto));
   }
 
   actualizarPremio(idPremio: number, premioDto: PremiosDto) {
-    return from(updateAwardsUseCase(idPremio, premioDto));
+    return from(actualizarPremioUseCase(idPremio, premioDto));
   }
 
   borrarPremio(idPremio: number, accessToken: string) {
-    return from(deleteAwardsUseCase(idPremio, accessToken));
+    return from(eliminarPremioUseCase(idPremio, accessToken));
   }
   //#endregion
 

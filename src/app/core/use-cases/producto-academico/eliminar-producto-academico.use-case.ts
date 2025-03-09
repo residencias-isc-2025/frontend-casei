@@ -1,25 +1,19 @@
 import { environment } from '@environments/environment';
+import { ProductoAcademicoResponse } from '@interfaces/index';
 
-import {
-  ProductosAcademicosDto,
-  ProductoAcademicoResponse,
-} from '@interfaces/index';
-
-export const addAcademicProductsUseCase = async (
-  productoAcademicoDto: ProductosAcademicosDto
+export const eliminarProductoAcademicoUseCase = async (
+  productoId: number,
+  accessToken: string
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/productos-academicos/`,
+      `${environment.api_url}/api/registration/productos-academicos/${productoId}/`,
       {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${productoAcademicoDto.accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          descripcion_producto_academico: productoAcademicoDto.descripcion,
-        }),
       }
     );
 

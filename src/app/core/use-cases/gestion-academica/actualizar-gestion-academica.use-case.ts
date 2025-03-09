@@ -1,19 +1,29 @@
 import { environment } from '@environments/environment';
-import { GestionAcademicaResponse } from '@interfaces/index';
 
-export const deleteAcademicManagmentUseCase = async (
+import {
+  GestionAcademicaDto,
+  GestionAcademicaResponse,
+} from '@interfaces/index';
+
+export const actualizarGestionAcademicaUseCase = async (
   gestionId: number,
-  accessToken: string
+  gestionAcademicaDto: GestionAcademicaDto
 ) => {
   try {
     const resp = await fetch(
       `${environment.api_url}/api/registration/gestion-academica/${gestionId}/`,
       {
-        method: 'DELETE',
+        method: 'PUT',
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${gestionAcademicaDto.accessToken}`,
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          actividad_puesto: gestionAcademicaDto.actividad_puesto,
+          d_mes_anio: gestionAcademicaDto.d_mes_anio,
+          a_mes_anio: gestionAcademicaDto.a_mes_anio,
+          institucion_pais: gestionAcademicaDto.institucion_pais,
+        }),
       }
     );
 

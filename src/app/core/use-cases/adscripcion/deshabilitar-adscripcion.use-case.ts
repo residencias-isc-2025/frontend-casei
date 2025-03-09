@@ -1,12 +1,12 @@
 import { environment } from '@environments/environment';
 
-export const disableSchoolUseCase = async (
-  schoolId: number,
+export const deshabilitarAdscripcionUseCase = async (
+  idAdscripcion: number,
   accessToken: string
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/institucion-pais/${schoolId}/`,
+      `${environment.api_url}/api/registration/area-adscripcion/${idAdscripcion}/`,
       {
         method: 'DELETE',
         headers: {

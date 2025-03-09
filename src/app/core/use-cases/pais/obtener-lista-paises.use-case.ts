@@ -1,7 +1,7 @@
 import { sortCountriesAlphabetically } from '@helpers/sort-alphabetically.helper';
 import { CountriesResponse } from '@interfaces/index';
 
-export const getCountriesListUseCase = async () => {
+export const obtenerListaPaisesUseCase = async () => {
   try {
     const resp = await fetch(
       'https://restcountries.com/v3.1/all',

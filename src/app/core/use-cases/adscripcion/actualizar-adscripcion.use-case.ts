@@ -1,10 +1,10 @@
 import { environment } from '@environments/environment';
 
-import { AreaAdscripcionDto, AdscripcionResponse } from '@interfaces/index';
+import { AdscripcionDto, AdscripcionResponse } from '@interfaces/index';
 
-export const updateAdscripcionUseCase = async (
+export const actualizarAdscripcionUseCase = async (
   idAdscripcion: number,
-  areaAdscripcionDto: AreaAdscripcionDto
+  areaAdscripcionDto: AdscripcionDto
 ) => {
   try {
     const resp = await fetch(

@@ -8,7 +8,7 @@ interface GestionAcademicaPagination {
   results: GestionAcademicaData[];
 }
 
-export const loadAcademicManagmentUseCase = async (
+export const obtenerListaGestionAcademicaUseCase = async (
   accessToken: string,
   page: number,
   pageSize: number

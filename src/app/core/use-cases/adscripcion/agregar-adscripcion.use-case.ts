@@ -1,8 +1,8 @@
 import { environment } from '@environments/environment';
 
-import { AreaAdscripcionDto, AdscripcionResponse } from '@interfaces/index';
+import { AdscripcionDto, AdscripcionResponse } from '@interfaces/index';
 
-export const addAdscripcionUseCase = async (areaAdscripcionDto: AreaAdscripcionDto) => {
+export const agregarAdscripcionUseCase = async (areaAdscripcionDto: AdscripcionDto) => {
   try {
     const resp = await fetch(
       `${environment.api_url}/api/registration/area-adscripcion/`,

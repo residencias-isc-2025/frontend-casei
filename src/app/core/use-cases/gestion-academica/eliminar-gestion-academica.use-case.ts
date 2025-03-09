@@ -1,14 +1,15 @@
 import { environment } from '@environments/environment';
+import { GestionAcademicaResponse } from '@interfaces/index';
 
-export const enableSchoolUseCase = async (
-  schoolId: number,
+export const eliminarGestionAcademicaUseCase = async (
+  gestionId: number,
   accessToken: string
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/habilitar-institucion/${schoolId}/`,
+      `${environment.api_url}/api/registration/gestion-academica/${gestionId}/`,
       {
-        method: 'PUT',
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
@@ -16,7 +17,7 @@ export const enableSchoolUseCase = async (
       }
     );
 
-    const data = await resp.json();
+    const data = (await resp.json()) as GestionAcademicaResponse;
 
     if (!resp.ok) {
       return {

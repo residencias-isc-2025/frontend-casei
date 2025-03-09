@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import {
-  addAdscripcionUseCase,
-  addSchoolUseCase,
-  disableAdscripcionUseCase,
-  disableSchoolUseCase,
-  enableAdscripcionUseCase,
-  enableSchoolUseCase,
-  getCountriesListUseCase,
-  loadAdscripcionesUseCase,
-  loadInstitucionesUseCase,
-  updateAdscripcionUseCase,
-  updateSchoolUseCase,
+  agregarAdscripcionUseCase,
+  agregarInstitucionUseCase,
+  deshabilitarAdscripcionUseCase,
+  deshabilitarInstitucionUseCase,
+  habilitarAdscripcionUseCase,
+  habilitarInstitucionUseCase,
+  obtenerListaPaisesUseCase,
+  obtenerListaAdscripcionUseCase,
+  obtenerListaInstitucionUseCse,
+  actualizarAdscripcionUseCase,
+  actualizarInstitucionUseCase,
 } from '@core/index';
-import { AreaAdscripcionDto, InstitucionDto } from '@interfaces/index';
+import { AdscripcionDto, InstitucionDto } from '@interfaces/index';
 import { from } from 'rxjs';
 
 @Injectable({
@@ -24,11 +24,11 @@ export class CommonService {
     page: number,
     pageSize: number = 10
   ) {
-    return from(loadInstitucionesUseCase(accessToken, page, pageSize));
+    return from(obtenerListaInstitucionUseCse(accessToken, page, pageSize));
   }
 
   getPaisesList() {
-    return from(getCountriesListUseCase());
+    return from(obtenerListaPaisesUseCase());
   }
 
   getAdscripcionesList(
@@ -36,41 +36,41 @@ export class CommonService {
     page: number,
     pageSize: number = 10
   ) {
-    return from(loadAdscripcionesUseCase(accessToken, page, pageSize));
+    return from(obtenerListaAdscripcionUseCase(accessToken, page, pageSize));
   }
 
   agregarInstitucion(institucionDto: InstitucionDto) {
-    return from(addSchoolUseCase(institucionDto));
+    return from(agregarInstitucionUseCase(institucionDto));
   }
 
-  agrearAreaAdscripcion(areaAdscripcionDto: AreaAdscripcionDto) {
-    return from(addAdscripcionUseCase(areaAdscripcionDto));
+  agrearAreaAdscripcion(areaAdscripcionDto: AdscripcionDto) {
+    return from(agregarAdscripcionUseCase(areaAdscripcionDto));
   }
 
   actualizarInstitucion(idInstitucion: number, institucionDto: InstitucionDto) {
-    return from(updateSchoolUseCase(idInstitucion, institucionDto));
+    return from(actualizarInstitucionUseCase(idInstitucion, institucionDto));
   }
 
   actualizarAreaAdscripcion(
     idAdscripcion: number,
-    areaAdscripcionDto: AreaAdscripcionDto
+    areaAdscripcionDto: AdscripcionDto
   ) {
-    return from(updateAdscripcionUseCase(idAdscripcion, areaAdscripcionDto));
+    return from(actualizarAdscripcionUseCase(idAdscripcion, areaAdscripcionDto));
   }
 
   activarInstitucion(idInstitucion: number, accessToken: string) {
-    return from(enableSchoolUseCase(idInstitucion, accessToken));
+    return from(habilitarInstitucionUseCase(idInstitucion, accessToken));
   }
 
   activarAreaAdscripcion(idAdscripcion: number, accessToken: string) {
-    return from(enableAdscripcionUseCase(idAdscripcion, accessToken));
+    return from(habilitarAdscripcionUseCase(idAdscripcion, accessToken));
   }
 
   desactivarInstitucion(idInstitucion: number, accessToken: string) {
-    return from(disableSchoolUseCase(idInstitucion, accessToken));
+    return from(deshabilitarInstitucionUseCase(idInstitucion, accessToken));
   }
 
   desactivarAreaAdscripcion(idAdscripcion: number, accessToken: string) {
-    return from(disableAdscripcionUseCase(idAdscripcion, accessToken));
+    return from(deshabilitarAdscripcionUseCase(idAdscripcion, accessToken));
   }
 }

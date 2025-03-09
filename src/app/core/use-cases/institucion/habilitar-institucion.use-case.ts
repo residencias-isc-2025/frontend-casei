@@ -1,24 +1,22 @@
 import { environment } from '@environments/environment';
 
-import { PremioResponse, PremiosDto } from '@interfaces/index';
-
-export const addAwardsUseCase = async (premiosDto: PremiosDto) => {
+export const habilitarInstitucionUseCase = async (
+  schoolId: number,
+  accessToken: string
+) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/premios/`,
+      `${environment.api_url}/api/registration/habilitar-institucion/${schoolId}/`,
       {
-        method: 'POST',
+        method: 'PUT',
         headers: {
-          Authorization: `Bearer ${premiosDto.accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          descripcion: premiosDto.descripcion,
-        }),
       }
     );
 
-    const data = (await resp.json()) as PremioResponse;
+    const data = await resp.json();
 
     if (!resp.ok) {
       return {

@@ -5,7 +5,7 @@ import {
   FormacionAcademicaResponse,
 } from '@interfaces/index';
 
-export const addAcademicTrainingUseCase = async (
+export const agregarFormacionAcademicaUseCase = async (
   academicTraining: FormacionAcademicaDto
 ) => {
   try {

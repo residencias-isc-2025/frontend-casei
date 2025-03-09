@@ -8,7 +8,7 @@ interface AdscripcionesPagination {
   results: AdscripcionData[];
 }
 
-export const loadAdscripcionesUseCase = async (
+export const obtenerListaAdscripcionUseCase = async (
   accessToken: string,
   page: number,
   pageSize: number

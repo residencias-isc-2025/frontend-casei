@@ -1,21 +1,21 @@
 import { environment } from '@environments/environment';
-import { FormacionAcademicaData } from '@interfaces/index';
+import { InstitucionData } from '@interfaces/index';
 
-interface FormacionAcademicaPagination {
+interface InstitucionPagination {
   count: number;
   next: string | null;
   previous: string | null;
-  results: FormacionAcademicaData[];
+  results: InstitucionData[];
 }
 
-export const loadAcademicTrainingUseCase = async (
+export const obtenerListaInstitucionUseCse = async (
   accessToken: string,
   page: number,
   pageSize: number
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/formacion-academica/?page=${page}&page_size=${pageSize}`,
+      `${environment.api_url}/api/registration/institucion-pais/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {
@@ -25,20 +25,19 @@ export const loadAcademicTrainingUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as FormacionAcademicaPagination;
+    const data = (await resp.json()) as InstitucionPagination;
 
     if (!resp.ok) {
       return {
         ok: false,
-        mensaje: 'Error al obtener datos.',
-        data: [],
+        schools: [],
       };
     }
 
     return {
       ok: true,
       items: data.count,
-      data: data.results,
+      schools: data.results,
     };
   } catch (error) {
     console.error(error);

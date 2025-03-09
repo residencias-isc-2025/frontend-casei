@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
-  loadAcademicManagmentUseCase,
-  loadAcademicProductsUseCase,
-  loadAcademicTrainingUseCase,
-  loadAwardsUseCase,
+  obtenerListaGestionAcademicaUseCase,
+  obtenerListaProductoAcademicoUseCase,
+  obtenerListaFormacionAcademicaUseCase,
+  obtenerListaPremioUseCase,
   loadContributionsUseCase,
   loadDisciplinaryUpdateUseCase,
   loadEngineeringDesignUseCase,
@@ -24,7 +24,7 @@ export class ProfileService {
     page: number,
     pageSize: number = 10
   ) {
-    return from(loadAcademicTrainingUseCase(accessToken, page, pageSize));
+    return from(obtenerListaFormacionAcademicaUseCase(accessToken, page, pageSize));
   }
 
   loadCapacitacionDocenteFunction(
@@ -48,7 +48,7 @@ export class ProfileService {
     page: number,
     pageSize: number = 10
   ) {
-    return from(loadAcademicManagmentUseCase(accessToken, page, pageSize));
+    return from(obtenerListaGestionAcademicaUseCase(accessToken, page, pageSize));
   }
 
   loadProductosAcademicosFunction(
@@ -56,7 +56,7 @@ export class ProfileService {
     page: number,
     pageSize: number = 10
   ) {
-    return from(loadAcademicProductsUseCase(accessToken, page, pageSize));
+    return from(obtenerListaProductoAcademicoUseCase(accessToken, page, pageSize));
   }
 
   loadExperienciaProfesionalFunction(
@@ -94,7 +94,7 @@ export class ProfileService {
   }
 
   loadPremiosFunction(accessToken: string, page: number, pageSize: number = 10) {
-    return from(loadAwardsUseCase(accessToken, page, pageSize));
+    return from(obtenerListaPremioUseCase(accessToken, page, pageSize));
   }
 
   loadAportacionesFunction(accessToken: string, page: number, pageSize: number = 10) {

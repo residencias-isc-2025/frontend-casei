@@ -2,7 +2,7 @@ import { environment } from '@environments/environment';
 
 import { InstitucionDto, InstitucionResponse } from '@interfaces/index';
 
-export const updateSchoolUseCase = async (
+export const actualizarInstitucionUseCase = async (
   idInstitucion: number,
   institucionDto: InstitucionDto
 ) => {

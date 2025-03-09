@@ -1,23 +1,24 @@
 import { environment } from '@environments/environment';
-import { FormacionAcademicaResponse } from '@interfaces/index';
 
-export const deleteAcademicTrainingUseCase = async (
-  idFormacion: number,
-  accessToken: string
-) => {
+import { PremioResponse, PremiosDto } from '@interfaces/index';
+
+export const agregarPremioUseCase = async (premiosDto: PremiosDto) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/formacion-academica/${idFormacion}/`,
+      `${environment.api_url}/api/registration/premios/`,
       {
-        method: 'DELETE',
+        method: 'POST',
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${premiosDto.accessToken}`,
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          descripcion: premiosDto.descripcion,
+        }),
       }
     );
 
-    const data = (await resp.json()) as FormacionAcademicaResponse;
+    const data = (await resp.json()) as PremioResponse;
 
     if (!resp.ok) {
       return {

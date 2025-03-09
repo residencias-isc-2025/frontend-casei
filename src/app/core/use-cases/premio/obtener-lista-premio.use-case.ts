@@ -8,7 +8,7 @@ interface PremiosPagination {
   results: PremioData[];
 }
 
-export const loadAwardsUseCase = async (
+export const obtenerListaPremioUseCase = async (
   accessToken: string,
   page: number,
   pageSize: number

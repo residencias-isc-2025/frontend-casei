@@ -1,21 +1,21 @@
 import { environment } from '@environments/environment';
-import { ProductoAcademicoData } from '@interfaces/index';
+import { FormacionAcademicaData } from '@interfaces/index';
 
-interface ProductosAcademicosPagination {
+interface FormacionAcademicaPagination {
   count: number;
   next: string | null;
   previous: string | null;
-  results: ProductoAcademicoData[];
+  results: FormacionAcademicaData[];
 }
 
-export const loadAcademicProductsUseCase = async (
+export const obtenerListaFormacionAcademicaUseCase = async (
   accessToken: string,
   page: number,
   pageSize: number
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/productos-academicos/?page=${page}&page_size=${pageSize}`,
+      `${environment.api_url}/api/registration/formacion-academica/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {
@@ -25,7 +25,7 @@ export const loadAcademicProductsUseCase = async (
       }
     );
 
-    const data = (await resp.json()) as ProductosAcademicosPagination;
+    const data = (await resp.json()) as FormacionAcademicaPagination;
 
     if (!resp.ok) {
       return {

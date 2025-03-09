@@ -5,15 +5,14 @@ import {
   GestionAcademicaResponse,
 } from '@interfaces/index';
 
-export const updateAcademicManagmentUseCase = async (
-  gestionId: number,
+export const agregarGestionAcademicaUseCase = async (
   gestionAcademicaDto: GestionAcademicaDto
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/gestion-academica/${gestionId}/`,
+      `${environment.api_url}/api/registration/gestion-academica/`,
       {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${gestionAcademicaDto.accessToken}`,
           'Content-Type': 'application/json',
