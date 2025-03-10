@@ -196,8 +196,6 @@ export default class UsersPageComponent implements OnInit {
           localStorage.getItem('casei_residencias_access_token') || '',
       };
     });
-
-    this.loadUsers();
   }
 
   filterUsersByName(searchTerm: string) {
@@ -210,8 +208,6 @@ export default class UsersPageComponent implements OnInit {
           localStorage.getItem('casei_residencias_access_token') || '',
       };
     });
-
-    this.loadUsers();
   }
 
   handleSelectAreaChange(event: Event) {
@@ -234,8 +230,6 @@ export default class UsersPageComponent implements OnInit {
           localStorage.getItem('casei_residencias_access_token') || '',
       };
     });
-
-    this.loadUsers();
   }
 
   filterUsersByEstado(estado: string) {
@@ -248,7 +242,9 @@ export default class UsersPageComponent implements OnInit {
           localStorage.getItem('casei_residencias_access_token') || '',
       };
     });
+  }
 
+  searchWithFilters() {
     this.loadUsers();
   }
 
