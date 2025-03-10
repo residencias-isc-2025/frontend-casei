@@ -61,6 +61,7 @@ import {
   actualizarCapacitacionDocenteUseCase,
   updateUserUseCase,
 } from '@core/index';
+import { SearchParams } from '@interfaces/dtos/search-params.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -74,8 +75,8 @@ export class UsersService {
     return from(createUserUseCase(user));
   }
 
-  getAllUsers(accessToken: string, page: number) {
-    return from(getAllUsersUseCase(accessToken, page));
+  getAllUsers(searchParms: SearchParams) {
+    return from(getAllUsersUseCase(searchParms));
   }
 
   getLoggedUser(accessToken: string) {
@@ -115,7 +116,9 @@ export class UsersService {
     idFormacion: number,
     formacionAcademica: FormacionAcademicaDto
   ) {
-    return from(actualizarFormacionAcademicaUseCase(idFormacion, formacionAcademica));
+    return from(
+      actualizarFormacionAcademicaUseCase(idFormacion, formacionAcademica)
+    );
   }
 
   borrarFormacionAcademica(idFormacion: number, accessToken: string) {
@@ -139,7 +142,9 @@ export class UsersService {
   }
 
   borrarCapacitacionDocente(idCapacitacion: number, accessToken: string) {
-    return from(eliminarCapacitacionDocenteUseCase(idCapacitacion, accessToken));
+    return from(
+      eliminarCapacitacionDocenteUseCase(idCapacitacion, accessToken)
+    );
   }
   //#endregion
 
@@ -147,7 +152,9 @@ export class UsersService {
   agregarActualizacionDisciplinar(
     actualizacionDisciplinar: ActualizacionDisciplinarDto
   ) {
-    return from(agregarActualizacionDiscplinarUseCase(actualizacionDisciplinar));
+    return from(
+      agregarActualizacionDiscplinarUseCase(actualizacionDisciplinar)
+    );
   }
 
   actualizarActualizacionDisciplinar(
@@ -155,12 +162,17 @@ export class UsersService {
     actualizacionDisciplinar: ActualizacionDisciplinarDto
   ) {
     return from(
-      actualizarActualizacionDisciplinarUseCase(idActualizacion, actualizacionDisciplinar)
+      actualizarActualizacionDisciplinarUseCase(
+        idActualizacion,
+        actualizacionDisciplinar
+      )
     );
   }
 
   borrarActualizacionDisciplinar(idActualizacion: number, accessToken: string) {
-    return from(eliminarActualizacionDisciplinarUseCase(idActualizacion, accessToken));
+    return from(
+      eliminarActualizacionDisciplinarUseCase(idActualizacion, accessToken)
+    );
   }
   //#endregion
 
@@ -173,7 +185,9 @@ export class UsersService {
     idGestion: number,
     gestionAcademicaDto: GestionAcademicaDto
   ) {
-    return from(actualizarGestionAcademicaUseCase(idGestion, gestionAcademicaDto));
+    return from(
+      actualizarGestionAcademicaUseCase(idGestion, gestionAcademicaDto)
+    );
   }
 
   borrarGestionAcademica(idGestion: number, accessToken: string) {
@@ -204,7 +218,9 @@ export class UsersService {
   agregarExperienciaProfesional(
     experienciaProfesionalDto: ExperienciaProfesionalDto
   ) {
-    return from(agregarExperienciaProfesionalUseCase(experienciaProfesionalDto));
+    return from(
+      agregarExperienciaProfesionalUseCase(experienciaProfesionalDto)
+    );
   }
 
   actualizarExperienciaProfesional(
@@ -235,7 +251,9 @@ export class UsersService {
     idDiseno: number,
     disenoIngenierilDto: DisenoIngenierilDto
   ) {
-    return from(actualizarDisenoIngenierilUseCase(idDiseno, disenoIngenierilDto));
+    return from(
+      actualizarDisenoIngenierilUseCase(idDiseno, disenoIngenierilDto)
+    );
   }
 
   borrarDisenoIngenieril(idDiseno: number, accessToken: string) {
@@ -272,7 +290,9 @@ export class UsersService {
     idParticipacion: number,
     participacionDto: ParticipacionDto
   ) {
-    return from(actualizarParticipacionUseCase(idParticipacion, participacionDto));
+    return from(
+      actualizarParticipacionUseCase(idParticipacion, participacionDto)
+    );
   }
 
   borrarParticipacion(idParticipacion: number, accessToken: string) {

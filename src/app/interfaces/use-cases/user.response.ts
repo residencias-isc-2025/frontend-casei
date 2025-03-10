@@ -8,4 +8,5 @@ export interface UserResponse {
   nombre: null | string;
   fecha_nacimiento: null | string;
   tipo_docente: null | string;
+  area_adscripcion: null | number;
 }

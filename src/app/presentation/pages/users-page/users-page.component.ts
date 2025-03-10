@@ -3,40 +3,62 @@ import {
   Component,
   inject,
   OnInit,
-  output,
   signal,
 } from '@angular/core';
 import { CreateUserComponent } from '@modals/index';
-import { ToastService, UsersService } from '@services/index';
-import { UserResponse } from '@interfaces/index';
+import {
+  AdscripcionesService,
+  ToastService,
+  UsersService,
+} from '@services/index';
+import { AdscripcionData, UserResponse } from '@interfaces/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { CommonModule } from '@angular/common';
+import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
+import { SearchParams } from '@interfaces/dtos/search-params.dto';
 
 @Component({
   selector: 'app-users-page',
-  imports: [CommonModule, CreateUserComponent, PaginationComponent],
+  imports: [
+    CommonModule,
+    CreateUserComponent,
+    PaginationComponent,
+    SearchBarComponent,
+  ],
   templateUrl: './users-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class UsersPageComponent implements OnInit {
   public toastService = inject(ToastService);
   public usersService = inject(UsersService);
+  public adscripcionesService = inject(AdscripcionesService);
 
   public showModal = signal(false);
 
   public totalItems = signal(0);
   public users = signal<UserResponse[]>([]);
+  public adscripcionesList = signal<AdscripcionData[]>([]);
 
   public currentPage = signal(1);
 
+  public searchParams = signal<SearchParams | undefined>(undefined);
+
   ngOnInit(): void {
+    this.searchParams.set({
+      page: this.currentPage(),
+      accessToken: localStorage.getItem('casei_residencias_access_token') || '',
+    });
+
+    this.adscripcionesService.loadAdscripciones();
+    this.adscripcionesService.getAdscripcion().subscribe((lista) => {
+      this.adscripcionesList.set(lista);
+    });
+
     this.loadUsers();
   }
 
   private loadUsers(): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.usersService.getAllUsers(token, this.currentPage()).subscribe({
+    this.usersService.getAllUsers(this.searchParams()!).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
@@ -162,5 +184,97 @@ export default class UsersPageComponent implements OnInit {
         }
       },
     });
+  }
+
+  filterUsersByNomina(searchTerm: string) {
+    this.searchParams.update((params) => {
+      return {
+        ...(params || {}),
+        nomina: searchTerm,
+        page: this.currentPage(),
+        accessToken:
+          localStorage.getItem('casei_residencias_access_token') || '',
+      };
+    });
+
+    this.loadUsers();
+  }
+
+  filterUsersByName(searchTerm: string) {
+    this.searchParams.update((params) => {
+      return {
+        ...(params || {}),
+        nombre: searchTerm,
+        page: this.currentPage(),
+        accessToken:
+          localStorage.getItem('casei_residencias_access_token') || '',
+      };
+    });
+
+    this.loadUsers();
+  }
+
+  handleSelectAreaChange(event: Event) {
+    const select = event.target as HTMLSelectElement;
+    this.filterUsersByArea(select.value ?? '');
+  }
+
+  handleSelectEstadoChange(event: Event) {
+    const select = event.target as HTMLSelectElement;
+    this.filterUsersByEstado(select.value ?? '');
+  }
+
+  filterUsersByArea(areaId: string) {
+    this.searchParams.update((params) => {
+      return {
+        ...(params || {}),
+        area_adscripcion: areaId,
+        page: this.currentPage(),
+        accessToken:
+          localStorage.getItem('casei_residencias_access_token') || '',
+      };
+    });
+
+    this.loadUsers();
+  }
+
+  filterUsersByEstado(estado: string) {
+    this.searchParams.update((params) => {
+      return {
+        ...(params || {}),
+        estado: estado,
+        page: this.currentPage(),
+        accessToken:
+          localStorage.getItem('casei_residencias_access_token') || '',
+      };
+    });
+
+    this.loadUsers();
+  }
+
+  clearAllFilters(
+    searchByNomina: any,
+    searchByName: any,
+    selectArea: HTMLSelectElement,
+    selectEstado: HTMLSelectElement
+  ) {
+    searchByNomina.clearSearch();
+    searchByName.clearSearch();
+
+    selectArea.selectedIndex = 0;
+    selectEstado.selectedIndex = 0;
+
+    this.searchParams.set({
+      page: this.currentPage(), // Reiniciar la paginación a la primera página
+      accessToken: localStorage.getItem('casei_residencias_access_token') || '',
+      nomina: '',
+      nombre: '',
+      area_adscripcion: '',
+      estado: '',
+    });
+
+    setTimeout(() => {
+      this.loadUsers();
+    }, 100);
   }
 }
