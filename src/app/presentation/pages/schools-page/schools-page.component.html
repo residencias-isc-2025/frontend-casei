@@ -22,6 +22,44 @@
     </div>
   </div>
 
+  <div class="flex justify-start items-center mb-6 space-x-1">
+    <app-search-bar
+      #searchByName
+      placeholder="Buscar por nombre..."
+      (onSearch)="filterInstitucionByName($event)"
+    />
+    <app-search-bar
+      #searchByCountry
+      placeholder="Buscar por pais..."
+      (onSearch)="filterInstitucionByPais($event)"
+    />
+
+    <select
+      #selectEstado
+      (change)="handleSelectEstadoChange($event)"
+      class="w-64 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+      <option value="" selected>Seleccionar estado usuario</option>
+      <option value="activo">Activo</option>
+      <option value="inactivo">Inactivo</option>
+    </select>
+
+    <button
+      (click)="
+        clearAllFilters(searchByCountry, searchByName, selectEstado)
+      "
+      class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded transition"
+    >
+      Limpiar Filtros
+    </button>
+    <button
+      (click)="searchWithFilters()"
+      class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded transition"
+    >
+      Buscar
+    </button>
+  </div>
+
   <div class="bg-white shadow-lg rounded-lg overflow-hidden">
     <table class="w-full border-collapse">
       <thead class="bg-gray-200 text-gray-700">

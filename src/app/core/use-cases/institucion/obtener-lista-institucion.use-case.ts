@@ -21,9 +21,11 @@ export const obtenerListaInstitucionUseCase = async (
 
   let url = `${environment.api_url}/api/registration/institucion-pais/?page=${page}&page_size=${pageSize}`;
 
-  if (nombre !== '') url += `&nombre=${nombre}`;
+  if (nombre !== '') url += `&institucion=${nombre}`;
   if (pais !== '') url += `&pais=${pais}`;
   if (estado !== '') url += `&estado=${estado}`;
+
+  console.log(url);
 
   try {
     const resp = await fetch(url, {
