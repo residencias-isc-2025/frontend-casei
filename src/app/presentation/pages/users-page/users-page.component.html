@@ -107,11 +107,11 @@
           </td>
 
           <td class="py-3 px-4">
+            @if(user.area_adscripcion === null) { No seleccionada. } @else {
             {{
-              adscripcionesService.getAdscripcioSiglas(
-                user.area_adscripcion || 0
-              )
+              adscripcionesService.getAdscripcioSiglas(user.area_adscripcion)
             }}
+            }
           </td>
 
           <td class="py-3 px-4">
