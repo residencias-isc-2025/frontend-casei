@@ -21,9 +21,9 @@ export const obtenerListaAdscripcionUseCase = async (
 
   let url = `${environment.api_url}/api/registration/area-adscripcion/?page=${page}&page_size=${pageSize}`;
 
-  if (nombre !== '') url += `&institucion=${nombre}`;
+  if (nombre !== '') url += `&nombre=${nombre}`;
   if (estado !== '') url += `&estado=${estado}`;
-  if (siglas !== '') url += `&siglas${siglas}`;
+  if (siglas !== '') url += `&siglas=${siglas}`;
 
   try {
     const resp = await fetch(url, {

@@ -17,7 +17,12 @@ export class AdscripcionesService {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.commonService
-      .getAdscripcionesList({ accessToken: token, page: 1, pageSize: 100 })
+      .getAdscripcionesList({
+        accessToken: token,
+        page: 1,
+        pageSize: 100,
+        estado: 'activo',
+      })
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');

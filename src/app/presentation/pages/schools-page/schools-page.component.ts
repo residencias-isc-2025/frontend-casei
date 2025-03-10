@@ -84,6 +84,16 @@ export default class SchoolsPageComponent implements OnInit {
 
   onPageChanged(page: number): void {
     this.currentPage.set(page);
+
+    this.searchParams.update((params) => {
+      return {
+        ...(params || {}),
+        page: this.currentPage(),
+        accessToken:
+          localStorage.getItem('casei_residencias_access_token') || '',
+      };
+    });
+
     this.cargarInstituciones();
   }
 

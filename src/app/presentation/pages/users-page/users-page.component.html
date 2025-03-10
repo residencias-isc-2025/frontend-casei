@@ -79,11 +79,12 @@
       <thead class="bg-gray-200 text-gray-700">
         <tr>
           <th class="py-3 px-4 text-center">Estado</th>
-          <th class="py-3 px-4 text-center">Nómina</th>
-          <th class="py-3 px-4 text-center">Nombre</th>
-          <th class="py-3 px-4 text-center">Apellidos</th>
-          <th class="py-3 px-4 text-center">Área de Adscripción</th>
-          <th class="py-3 px-4 text-center">Acciones</th>
+          <th class="py-3 px-4 text-left">Nómina</th>
+          <th class="py-3 px-4 text-left">Nombre</th>
+          <th class="py-3 px-4 text-left">Apellidos</th>
+          <th class="py-3 px-4 text-left">Área de Adscripción</th>
+          <th class="py-3 px-4 text-left">Rol</th>
+          <th class="py-3 px-4 text-left">Acciones</th>
         </tr>
       </thead>
       <tbody class="text-gray-600">
@@ -112,6 +113,18 @@
               adscripcionesService.getAdscripcioSiglas(user.area_adscripcion)
             }}
             }
+          </td>
+          <td class="py-3 px-4">
+            <span
+              class="px-3 py-1 text-sm font-medium text-white rounded-full"
+              [ngClass]="{
+            'bg-red-500':   user.role === 'superuser',
+            'bg-green-500': user.role === 'admin',
+            'bg-blue-500':  user.role === 'user',
+          }"
+            >
+              {{ cleanRole(user) | uppercase }}
+            </span>
           </td>
 
           <td class="py-3 px-4">

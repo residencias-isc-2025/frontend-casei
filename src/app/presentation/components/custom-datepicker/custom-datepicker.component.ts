@@ -87,8 +87,8 @@ export class CustomDatepickerComponent implements OnInit {
 
   generateYearOptions(): number[] {
     const currentYear = new Date().getFullYear();
-    const startYear = currentYear - 50; // Últimos 100 años
-    return Array.from({ length: 50 }, (_, i) => startYear + i);
+    const startYear = currentYear - 100;
+    return Array.from({ length: 100 }, (_, i) => startYear + i);
   }
 
   generateDays() {

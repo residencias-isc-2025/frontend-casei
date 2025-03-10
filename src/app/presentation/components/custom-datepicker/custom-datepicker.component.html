@@ -16,21 +16,23 @@
     <div class="flex justify-between items-center mb-2 gap-2">
       <select
         class="px-2 py-1 border rounded-md bg-gray-100 focus:outline-none"
-        [value]="currentMonth()"
-        (change)="onMonthChange($event)"
+        [value]="currentYear()"
+        (change)="onYearChange($event)"
       >
-        @for (monthName of monthNames; track monthName.index) {
-        <option [value]="monthName.index">{{ monthName.name }}</option>
+        <option value="" selected disabled>Año</option>
+        @for (year of generateYearOptions(); track year) {
+        <option [value]="year">{{ year }}</option>
         }
       </select>
 
       <select
         class="px-2 py-1 border rounded-md bg-gray-100 focus:outline-none"
-        [value]="currentYear()"
-        (change)="onYearChange($event)"
+        [value]="currentMonth()"
+        (change)="onMonthChange($event)"
       >
-        @for (year of generateYearOptions(); track year) {
-        <option [value]="year">{{ year }}</option>
+        <option value="" selected disabled>Mes</option>
+        @for (monthName of monthNames; track monthName.index) {
+        <option [value]="monthName.index">{{ monthName.name }}</option>
         }
       </select>
     </div>
