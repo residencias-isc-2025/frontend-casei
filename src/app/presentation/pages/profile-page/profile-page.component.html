@@ -44,6 +44,24 @@
       </div>
 
       <div>
+        <p class="text-gray-500 font-medium">Área de adscripción</p>
+        <p class="text-lg font-semibold text-gray-800">
+          @if(user()?.area_adscripcion === null) { No asignada. } @else {
+
+          {{
+            adscripcionesService.getAdscripcioNombre(
+              user()?.area_adscripcion ?? 0
+            )
+          }}
+          - ({{
+            adscripcionesService.getAdscripcioSiglas(
+              user()?.area_adscripcion ?? 0
+            )
+          }}) }
+        </p>
+      </div>
+
+      <div>
         <p class="text-gray-500 font-medium">Rol</p>
         <span
           class="px-3 py-1 text-sm font-medium text-white rounded-full"
@@ -76,6 +94,7 @@
 <app-update-teacher-name
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onUpdateInfoEmit()"
+  [adscripcionesList]="adscripcionesList()"
   [userProfile]="user()!"
 />
 } @if (showPasswordModal()) {

@@ -19,6 +19,7 @@ export const updateUserUseCase = async (
           apellido_paterno: user.apellido_paterno,
           apellido_materno: user.apellido_materno,
           fecha_nacimiento: user.fecha_nacimiento,
+          area_adscripcion: user.area_adscripcion,
         }),
       }
     );

@@ -32,6 +32,27 @@
       </div>
 
       <div class="mb-4">
+        <label
+          for="area_adscripcion"
+          class="block text-gray-700 font-medium mb-2"
+          >Área de Adscripción</label
+        >
+        <select
+          formControlName="area_adscripcion"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="" selected disabled>
+            Seleccionar área de adscripción
+          </option>
+          @for(adscripcion of adscripcionesList(); track adscripcion.id) {
+          <option [value]="adscripcion.id">
+            {{ adscripcionesService.getAdscripcioNombre(adscripcion.id) }}
+          </option>
+          }
+        </select>
+      </div>
+
+      <div class="mb-4">
         <label for="nombre" class="block text-gray-700 font-medium mb-2"
           >Nombre</label
         >

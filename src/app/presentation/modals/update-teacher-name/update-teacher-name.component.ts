@@ -14,8 +14,12 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { UserResponse } from '@interfaces/index';
-import { ToastService, UsersService } from '@services/index';
+import { AdscripcionData, UserResponse } from '@interfaces/index';
+import {
+  AdscripcionesService,
+  ToastService,
+  UsersService,
+} from '@services/index';
 import { CustomDatepickerComponent } from '@components/custom-datepicker/custom-datepicker.component';
 
 @Component({
@@ -29,9 +33,11 @@ export class UpdateTeacherNameComponent implements OnInit {
   onSave = output();
 
   userProfile = input.required<UserResponse>();
+  adscripcionesList = input<AdscripcionData[]>([]);
 
   public toastService = inject(ToastService);
   public usersService = inject(UsersService);
+  public adscripcionesService = inject(AdscripcionesService);
 
   updateTeacherNameForm: FormGroup;
 
@@ -41,6 +47,7 @@ export class UpdateTeacherNameComponent implements OnInit {
       apellido_p: ['', Validators.required],
       apellido_m: ['', Validators.required],
       fecha_nacimiento: ['', Validators.required],
+      area_adscripcion: ['', Validators.required],
     });
   }
 
@@ -54,6 +61,7 @@ export class UpdateTeacherNameComponent implements OnInit {
       apellido_p: this.userProfile().apellido_paterno,
       apellido_m: this.userProfile().apellido_materno,
       fecha_nacimiento: this.userProfile().fecha_nacimiento,
+      area_adscripcion: this.userProfile().area_adscripcion,
     });
   }
 
@@ -62,7 +70,13 @@ export class UpdateTeacherNameComponent implements OnInit {
   }
 
   onSaveData() {
-    const { nombre, apellido_p, apellido_m, fecha_nacimiento} = this.updateTeacherNameForm.value;
+    const {
+      nombre,
+      apellido_p,
+      apellido_m,
+      fecha_nacimiento,
+      area_adscripcion,
+    } = this.updateTeacherNameForm.value;
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.usersService
@@ -71,7 +85,8 @@ export class UpdateTeacherNameComponent implements OnInit {
         nombre,
         apellido_paterno: apellido_p,
         apellido_materno: apellido_m,
-        fecha_nacimiento
+        fecha_nacimiento,
+        area_adscripcion,
       })
       .subscribe({
         error: (res) => {

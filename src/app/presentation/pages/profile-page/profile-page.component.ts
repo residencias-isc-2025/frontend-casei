@@ -14,8 +14,12 @@ import {
 } from '@modals/index';
 
 // Services
-import { ToastService, UsersService } from '@services/index';
-import { UserResponse } from '@interfaces/index';
+import {
+  AdscripcionesService,
+  ToastService,
+  UsersService,
+} from '@services/index';
+import { AdscripcionData, UserResponse } from '@interfaces/index';
 import { Router } from '@angular/router';
 
 interface ProfileButtons {
@@ -40,6 +44,9 @@ export default class ProfilePageComponent implements OnInit {
   router = inject(Router);
   toastService = inject(ToastService);
   usersService = inject(UsersService);
+  adscripcionesService = inject(AdscripcionesService);
+
+  adscripcionesList = signal<AdscripcionData[]>([]);
 
   titles = [
     'Formación académica',
@@ -62,6 +69,11 @@ export default class ProfilePageComponent implements OnInit {
   }));
 
   ngOnInit(): void {
+    this.adscripcionesService.loadAdscripciones();
+    this.adscripcionesService.getAdscripcion().subscribe((lista) => {
+      this.adscripcionesList.set(lista);
+    });
+
     this.loadUserInfo();
   }
 

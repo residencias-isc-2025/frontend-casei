@@ -4,4 +4,5 @@ export interface UpdateUserDto {
   apellido_materno: string;
   nombre: string;
   fecha_nacimiento: string;
+  area_adscripcion: string;
 }
