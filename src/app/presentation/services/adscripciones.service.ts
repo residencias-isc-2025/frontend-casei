@@ -16,21 +16,23 @@ export class AdscripcionesService {
   loadAdscripciones(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.commonService.getAdscripcionesList(token, 1, 100).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.adscripcionesList.next(res.adscripciones || []);
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener las adscripciones.',
-            'Hubo un problema'
-          );
-        }
-      },
-    });
+    this.commonService
+      .getAdscripcionesList({ accessToken: token, page: 1, pageSize: 100 })
+      .subscribe({
+        error: (res) => {
+          this.toastService.showError(res.mensaje!, 'Malas noticias');
+        },
+        next: (res) => {
+          if (res.ok) {
+            this.adscripcionesList.next(res.adscripciones || []);
+          } else {
+            this.toastService.showWarning(
+              'No se pudieron obtener las adscripciones.',
+              'Hubo un problema'
+            );
+          }
+        },
+      });
   }
 
   getAdscripcion(): Observable<AdscripcionData[]> {

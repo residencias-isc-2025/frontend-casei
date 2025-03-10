@@ -28,12 +28,8 @@ export class CommonService {
     return from(obtenerListaPaisesUseCase());
   }
 
-  getAdscripcionesList(
-    accessToken: string,
-    page: number,
-    pageSize: number = 10
-  ) {
-    return from(obtenerListaAdscripcionUseCase(accessToken, page, pageSize));
+  getAdscripcionesList(searchParams: SearchParams) {
+    return from(obtenerListaAdscripcionUseCase(searchParams));
   }
 
   agregarInstitucion(institucionDto: InstitucionDto) {

@@ -7,4 +7,5 @@ export interface SearchParams {
   area_adscripcion?: string;
   estado?: string;
   pais?: string;
+  siglas?: string;
 }
