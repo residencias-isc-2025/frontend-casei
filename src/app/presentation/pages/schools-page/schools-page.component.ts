@@ -13,6 +13,7 @@ import {
   AddInstitucionComponent,
   UpdateInstitucionComponent,
 } from '@presentation/modals';
+import { SearchParams } from '@interfaces/dtos/search-params.dto';
 
 @Component({
   selector: 'app-schools-page',
@@ -35,11 +36,17 @@ export default class SchoolsPageComponent implements OnInit {
   public totalItems = signal(0);
   public schools = signal<InstitucionData[]>([]);
   public countries = signal<CountriesResponse[]>([]);
+  public searchParams = signal<SearchParams | undefined>(undefined);
 
   public currentPage = signal(1);
   public schoolSelected = signal<InstitucionData | null>(null);
 
   ngOnInit(): void {
+    this.searchParams.set({
+      page: this.currentPage(),
+      accessToken: localStorage.getItem('casei_residencias_access_token') || '',
+    });
+
     this.cargarPaises();
     this.cargarInstituciones();
   }
@@ -55,9 +62,7 @@ export default class SchoolsPageComponent implements OnInit {
   }
 
   private cargarInstituciones(): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.commonService.getInstitucionesList(token, this.currentPage()).subscribe({
+    this.commonService.getInstitucionesList(this.searchParams()!).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },

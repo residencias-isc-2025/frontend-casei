@@ -8,10 +8,11 @@ import {
   habilitarInstitucionUseCase,
   obtenerListaPaisesUseCase,
   obtenerListaAdscripcionUseCase,
-  obtenerListaInstitucionUseCse,
+  obtenerListaInstitucionUseCase,
   actualizarAdscripcionUseCase,
   actualizarInstitucionUseCase,
 } from '@core/index';
+import { SearchParams } from '@interfaces/dtos/search-params.dto';
 import { AdscripcionDto, InstitucionDto } from '@interfaces/index';
 import { from } from 'rxjs';
 
@@ -19,12 +20,8 @@ import { from } from 'rxjs';
   providedIn: 'root',
 })
 export class CommonService {
-  getInstitucionesList(
-    accessToken: string,
-    page: number,
-    pageSize: number = 10
-  ) {
-    return from(obtenerListaInstitucionUseCse(accessToken, page, pageSize));
+  getInstitucionesList(searchParams: SearchParams) {
+    return from(obtenerListaInstitucionUseCase(searchParams));
   }
 
   getPaisesList() {
@@ -51,10 +48,7 @@ export class CommonService {
     return from(actualizarInstitucionUseCase(idInstitucion, institucionDto));
   }
 
-  actualizarAdscripcion(
-    idAdscripcion: number,
-    adscripcionDto: AdscripcionDto
-  ) {
+  actualizarAdscripcion(idAdscripcion: number, adscripcionDto: AdscripcionDto) {
     return from(actualizarAdscripcionUseCase(idAdscripcion, adscripcionDto));
   }
 

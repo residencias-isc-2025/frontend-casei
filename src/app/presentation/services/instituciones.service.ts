@@ -16,21 +16,23 @@ export class InstitucionesService {
   loadInstituciones(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.commonService.getInstitucionesList(token, 1, 100).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.institucionesList.next(res.schools || []);
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener las instituciones.',
-            'Hubo un problema'
-          );
-        }
-      },
-    });
+    this.commonService
+      .getInstitucionesList({ accessToken: token, page: 1, pageSize: 100 })
+      .subscribe({
+        error: (res) => {
+          this.toastService.showError(res.mensaje!, 'Malas noticias');
+        },
+        next: (res) => {
+          if (res.ok) {
+            this.institucionesList.next(res.schools || []);
+          } else {
+            this.toastService.showWarning(
+              'No se pudieron obtener las instituciones.',
+              'Hubo un problema'
+            );
+          }
+        },
+      });
   }
 
   getInstituciones(): Observable<InstitucionData[]> {
