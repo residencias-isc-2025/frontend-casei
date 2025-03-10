@@ -25,8 +25,6 @@ export const obtenerListaInstitucionUseCase = async (
   if (pais !== '') url += `&pais=${pais}`;
   if (estado !== '') url += `&estado=${estado}`;
 
-  console.log(url);
-
   try {
     const resp = await fetch(url, {
       method: 'GET',

@@ -24,8 +24,6 @@ export const getAllUsersUseCase = async (searchParams: SearchParams) => {
   if (area_adscripcion !== '') url += `&area_adscripcion=${area_adscripcion}`;
   if (estado !== '') url += `&estado=${estado}`;
 
-  console.log(url);
-
   try {
     const resp = await fetch(url, {
       method: 'GET',
