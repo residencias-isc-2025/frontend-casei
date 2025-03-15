@@ -56,4 +56,24 @@ export default class FormatsPageComponent implements OnInit {
       },
     });
   }
+
+  downloadCurricumSintetico() {
+    const token = localStorage.getItem('casei_residencias_access_token') || '';
+
+    this.reportsService.getCurriculumVitaeFuncition(token).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        if (res.ok) {
+          this.pdfService.generarCurriculumSintetico(
+            res.informacion!,
+            this.institucionesList()
+          );
+        } else {
+          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
+        }
+      },
+    });
+  }
 }
