@@ -42,6 +42,12 @@ export const routes: Routes = [
         canMatch: [userRoleGuard],
       },
       {
+        path: 'periodos',
+        loadComponent: () =>
+          import('@presentation/pages/periodos-page/periodos-page.component'),
+        canMatch: [userRoleGuard],
+      },
+      {
         path: 'perfil',
         loadComponent: () =>
           import('@presentation/pages/profile-page/profile-page.component'),

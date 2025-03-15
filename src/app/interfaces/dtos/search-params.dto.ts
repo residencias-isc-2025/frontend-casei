@@ -8,4 +8,5 @@ export interface SearchParams {
   estado?: string;
   pais?: string;
   siglas?: string;
+  activo?: number;
 }

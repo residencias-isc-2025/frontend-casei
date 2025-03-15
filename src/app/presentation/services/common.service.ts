@@ -1,3 +1,4 @@
+import { actualizarPeriodoUseCase } from './../../core/use-cases/periodos/actualizar-periodo.use-case';
 import { Injectable } from '@angular/core';
 import {
   agregarAdscripcionUseCase,
@@ -12,8 +13,12 @@ import {
   actualizarAdscripcionUseCase,
   actualizarInstitucionUseCase,
 } from '@core/index';
+import { activarPeriodoUseCase } from '@core/use-cases/periodos/activar-periodo.use-case';
+import { agregarPeriodoUseCase } from '@core/use-cases/periodos/agregar-periodo.use-case';
+import { desactivarPeriodoUseCase } from '@core/use-cases/periodos/desactivar-periodo.use-case';
+import { obtenerListaPeriodosUseCase } from '@core/use-cases/periodos/obtener-lista-periodos.use-case';
 import { SearchParams } from '@interfaces/dtos/search-params.dto';
-import { AdscripcionDto, InstitucionDto } from '@interfaces/index';
+import { AdscripcionDto, InstitucionDto, PeriodoDto } from '@interfaces/index';
 import { from } from 'rxjs';
 
 @Injectable({
@@ -32,12 +37,20 @@ export class CommonService {
     return from(obtenerListaAdscripcionUseCase(searchParams));
   }
 
+  getPeriodosList(searchParams: SearchParams) {
+    return from(obtenerListaPeriodosUseCase(searchParams));
+  }
+
   agregarInstitucion(institucionDto: InstitucionDto) {
     return from(agregarInstitucionUseCase(institucionDto));
   }
 
   agrearAreaAdscripcion(areaAdscripcionDto: AdscripcionDto) {
     return from(agregarAdscripcionUseCase(areaAdscripcionDto));
+  }
+
+  agregarPeriodo(periodoDto: PeriodoDto) {
+    return from(agregarPeriodoUseCase(periodoDto));
   }
 
   actualizarInstitucion(idInstitucion: number, institucionDto: InstitucionDto) {
@@ -48,6 +61,10 @@ export class CommonService {
     return from(actualizarAdscripcionUseCase(idAdscripcion, adscripcionDto));
   }
 
+  actualizarPeriodo(idPeriodo: number, periodoDto: PeriodoDto) {
+    return from(actualizarPeriodoUseCase(idPeriodo, periodoDto));
+  }
+
   activarInstitucion(idInstitucion: number, accessToken: string) {
     return from(habilitarInstitucionUseCase(idInstitucion, accessToken));
   }
@@ -56,11 +73,19 @@ export class CommonService {
     return from(habilitarAdscripcionUseCase(idAdscripcion, accessToken));
   }
 
+  activarPeriodo(idPeriodo: number, accessToken: string) {
+    return from(activarPeriodoUseCase(idPeriodo, accessToken));
+  }
+
   desactivarInstitucion(idInstitucion: number, accessToken: string) {
     return from(deshabilitarInstitucionUseCase(idInstitucion, accessToken));
   }
 
   desactivarAdscripcion(idAdscripcion: number, accessToken: string) {
     return from(deshabilitarAdscripcionUseCase(idAdscripcion, accessToken));
+  }
+
+  desactivarPeriodo(idPeriodo: number, accessToken: string) {
+    return from(desactivarPeriodoUseCase(idPeriodo, accessToken));
   }
 }
