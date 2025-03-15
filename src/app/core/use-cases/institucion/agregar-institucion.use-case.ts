@@ -5,7 +5,7 @@ import { InstitucionDto, InstitucionResponse } from '@interfaces/index';
 export const agregarInstitucionUseCase = async (institucionDto: InstitucionDto) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/institucion-pais/`,
+      `${environment.api_url}/api/institucion/institucion-pais/`,
       {
         method: 'POST',
         headers: {

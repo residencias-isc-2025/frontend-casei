@@ -11,7 +11,7 @@ export const actualizarCapacitacionDocenteUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/capacitacion-docente/${idCapacitacion}/`,
+      `${environment.api_url}/api/capacitacion_docente/capacitacion-docente/${idCapacitacion}/`,
       {
         method: 'PUT',
         headers: {

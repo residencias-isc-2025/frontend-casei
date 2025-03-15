@@ -19,7 +19,7 @@ export const obtenerListaAdscripcionUseCase = async (
     siglas = '',
   } = searchParams;
 
-  let url = `${environment.api_url}/api/registration/area-adscripcion/?page=${page}&page_size=${pageSize}`;
+  let url = `${environment.api_url}/api/adscripcion/area-adscripcion/?page=${page}&page_size=${pageSize}`;
 
   if (nombre !== '') url += `&nombre=${nombre}`;
   if (estado !== '') url += `&estado=${estado}`;

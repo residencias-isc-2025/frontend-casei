@@ -13,7 +13,7 @@ export const obtenerListaFormacionAcademicaUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/formacion-academica/?page=${page}&page_size=${pageSize}`,
+      `${environment.api_url}/api/formacion_academica/formacion-academica/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {

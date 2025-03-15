@@ -4,7 +4,7 @@ import { UserResponse } from '@interfaces/index';
 export const getUserUseCase = async (accessToken: string) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/profile/`,
+      `${environment.api_url}/api/usuarios/profile/`,
       {
         method: 'GET',
         headers: {

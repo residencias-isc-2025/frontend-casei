@@ -7,7 +7,7 @@ export const eliminarAportacionUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/aportaciones/${idAportacion}/`,
+      `${environment.api_url}/api/aportaciones/aportaciones/${idAportacion}/`,
       {
         method: 'DELETE',
         headers: {

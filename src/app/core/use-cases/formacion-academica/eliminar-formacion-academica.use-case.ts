@@ -7,7 +7,7 @@ export const eliminarFormacionAcademica = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/formacion-academica/${idFormacion}/`,
+      `${environment.api_url}/api/formacion_academica/formacion-academica/${idFormacion}/`,
       {
         method: 'DELETE',
         headers: {

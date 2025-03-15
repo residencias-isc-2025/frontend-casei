@@ -13,7 +13,7 @@ export const obtenerListaGestionAcademicaUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/gestion-academica/?page=${page}&page_size=${pageSize}`,
+      `${environment.api_url}/api/gestion-academica/gestion-academica/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {

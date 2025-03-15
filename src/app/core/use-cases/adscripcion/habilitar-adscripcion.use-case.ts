@@ -6,7 +6,7 @@ export const habilitarAdscripcionUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/habilitar-area-adscripcion/${idAdscripcion}/`,
+      `${environment.api_url}/api/adscripcion/habilitar-area-adscripcion/${idAdscripcion}/`,
       {
         method: 'PUT',
         headers: {

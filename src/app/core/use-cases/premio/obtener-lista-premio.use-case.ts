@@ -13,7 +13,7 @@ export const obtenerListaPremioUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/premios/?page=${page}&page_size=${pageSize}`,
+      `${environment.api_url}/api/premios/premios/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {

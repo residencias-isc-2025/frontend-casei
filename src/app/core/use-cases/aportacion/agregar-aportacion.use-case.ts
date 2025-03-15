@@ -7,7 +7,7 @@ export const agregarAportacionUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/aportaciones/`,
+      `${environment.api_url}/api/aportaciones/aportaciones/`,
       {
         method: 'POST',
         headers: {

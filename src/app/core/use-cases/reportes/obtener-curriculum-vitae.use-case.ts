@@ -3,7 +3,7 @@ import { CurriculumVitaeResponse } from '@interfaces/index';
 
 export const obtenerCurriculumVitaeUseCase = async (accessToken: string) => {
   try {
-    const resp = await fetch(`${environment.api_url}/api/registration/curriculum-vitae/`, {
+    const resp = await fetch(`${environment.api_url}/api/reportes/curriculum-vitae/`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,

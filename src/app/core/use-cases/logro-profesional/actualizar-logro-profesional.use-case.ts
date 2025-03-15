@@ -11,7 +11,7 @@ export const actualizarLogroProfesionalUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/logros-profesionales/${idLogro}/`,
+      `${environment.api_url}/api/logros_profesionales/logros-profesionales/${idLogro}/`,
       {
         method: 'PUT',
         headers: {

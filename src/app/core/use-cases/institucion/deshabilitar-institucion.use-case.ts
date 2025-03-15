@@ -6,7 +6,7 @@ export const deshabilitarInstitucionUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/institucion-pais/${schoolId}/`,
+      `${environment.api_url}/api/institucion/institucion-pais/${schoolId}/`,
       {
         method: 'DELETE',
         headers: {

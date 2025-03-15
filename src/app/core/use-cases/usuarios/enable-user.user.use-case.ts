@@ -6,7 +6,7 @@ export const enableUserUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/habilitar-usuario/${userId}/`,
+      `${environment.api_url}/api/usuarios/habilitar-usuario/${userId}/`,
       {
         method: 'PUT',
         headers: {

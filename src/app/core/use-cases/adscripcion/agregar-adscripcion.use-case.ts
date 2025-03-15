@@ -5,7 +5,7 @@ import { AdscripcionDto, AdscripcionResponse } from '@interfaces/index';
 export const agregarAdscripcionUseCase = async (areaAdscripcionDto: AdscripcionDto) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/area-adscripcion/`,
+      `${environment.api_url}/api/adscripcion/area-adscripcion/`,
       {
         method: 'POST',
         headers: {

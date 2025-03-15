@@ -10,7 +10,7 @@ export const agregarLogroProfesionalUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/logros-profesionales/`,
+      `${environment.api_url}/api/logros_profesionales/logros-profesionales/`,
       {
         method: 'POST',
         headers: {

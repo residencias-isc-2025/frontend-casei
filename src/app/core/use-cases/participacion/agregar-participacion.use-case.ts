@@ -7,7 +7,7 @@ export const agregarParticipacionUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/participacion/`,
+      `${environment.api_url}/api/participacion/participacion/`,
       {
         method: 'POST',
         headers: {

@@ -11,7 +11,7 @@ export const actualizarExperienciaProfesionalUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/experiencia-profesional-no-academica/${idExperiencia}/`,
+      `${environment.api_url}/api/experiencia_profesional/experiencia-profesional-no-academica/${idExperiencia}/`,
       {
         method: 'PUT',
         headers: {

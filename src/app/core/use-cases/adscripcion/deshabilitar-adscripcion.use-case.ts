@@ -6,7 +6,7 @@ export const deshabilitarAdscripcionUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/area-adscripcion/${idAdscripcion}/`,
+      `${environment.api_url}/api/adscripcion/area-adscripcion/${idAdscripcion}/`,
       {
         method: 'DELETE',
         headers: {

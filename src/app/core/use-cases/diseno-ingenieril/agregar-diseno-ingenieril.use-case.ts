@@ -10,7 +10,7 @@ export const agregarDisenoIngenierilUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/experiencia-diseno-ingenieril/`,
+      `${environment.api_url}/api/experiencia_diseno/experiencia-diseno-ingenieril/`,
       {
         method: 'POST',
         headers: {

@@ -6,7 +6,7 @@ export const habilitarInstitucionUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/habilitar-institucion/${schoolId}/`,
+      `${environment.api_url}/api/institucion/habilitar-institucion/${schoolId}/`,
       {
         method: 'PUT',
         headers: {

@@ -10,7 +10,7 @@ export const agregarActualizacionDiscplinarUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/actualizacion-disciplinar/`,
+      `${environment.api_url}/api/actualizacion_diciplinar/actualizacion-disciplinar/`,
       {
         method: 'POST',
         headers: {

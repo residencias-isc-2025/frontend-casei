@@ -8,7 +8,7 @@ export const actualizarAportacionUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/aportaciones/${idAportacion}/`,
+      `${environment.api_url}/api/aportaciones/aportaciones/${idAportacion}/`,
       {
         method: 'PUT',
         headers: {

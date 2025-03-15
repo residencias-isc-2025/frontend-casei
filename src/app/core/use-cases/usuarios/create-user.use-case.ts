@@ -4,7 +4,7 @@ import { CreateUserDto, CreateUserResponse } from '@interfaces/index';
 export const createUserUseCase = async (user: CreateUserDto) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/register/`,
+      `${environment.api_url}/api/usuarios/register/`,
       {
         method: 'POST',
         headers: {

@@ -7,7 +7,7 @@ export const updateUserUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/register/${user.id}/`,
+      `${environment.api_url}/api/usuarios/register/${user.id}/`,
       {
         method: 'PUT',
         headers: {

@@ -7,7 +7,7 @@ export const eliminarGestionAcademicaUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/gestion-academica/${gestionId}/`,
+      `${environment.api_url}/api/gestion-academica/gestion-academica/${gestionId}/`,
       {
         method: 'DELETE',
         headers: {

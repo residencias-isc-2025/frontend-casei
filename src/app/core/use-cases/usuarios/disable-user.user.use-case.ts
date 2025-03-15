@@ -6,7 +6,7 @@ export const disableUserUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/register/${userId}/`,
+      `${environment.api_url}/api/ususarios/register/${userId}/`,
       {
         method: 'DELETE',
         headers: {

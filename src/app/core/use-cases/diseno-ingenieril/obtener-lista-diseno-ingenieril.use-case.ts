@@ -13,7 +13,7 @@ export const obtenerListaDisenoIngenierilUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/experiencia-diseno-ingenieril/?page=${page}&page_size=${pageSize}`,
+      `${environment.api_url}/api/experiencia_diseno/experiencia-diseno-ingenieril/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {

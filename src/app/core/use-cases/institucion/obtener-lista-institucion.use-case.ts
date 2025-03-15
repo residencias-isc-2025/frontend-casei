@@ -19,7 +19,7 @@ export const obtenerListaInstitucionUseCase = async (
     estado = '',
   } = searchParams;
 
-  let url = `${environment.api_url}/api/registration/institucion-pais/?page=${page}&page_size=${pageSize}`;
+  let url = `${environment.api_url}/api/institucion/institucion-pais/?page=${page}&page_size=${pageSize}`;
 
   if (nombre !== '') url += `&institucion=${nombre}`;
   if (pais !== '') url += `&pais=${pais}`;

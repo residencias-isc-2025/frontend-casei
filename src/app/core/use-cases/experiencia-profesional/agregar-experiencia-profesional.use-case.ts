@@ -10,7 +10,7 @@ export const agregarExperienciaProfesionalUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/experiencia-profesional-no-academica/`,
+      `${environment.api_url}/api/experiencia_profesional/experiencia-profesional-no-academica/`,
       {
         method: 'POST',
         headers: {

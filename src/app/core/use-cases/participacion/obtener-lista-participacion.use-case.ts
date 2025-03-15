@@ -13,7 +13,7 @@ export const obtenerListaParticipacionUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/participacion/?page=${page}&page_size=${pageSize}`,
+      `${environment.api_url}/api/participacion/participacion/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {

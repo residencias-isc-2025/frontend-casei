@@ -5,7 +5,7 @@ import { PremioResponse, PremiosDto } from '@interfaces/index';
 export const agregarPremioUseCase = async (premiosDto: PremiosDto) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/premios/`,
+      `${environment.api_url}/api/premios/premios/`,
       {
         method: 'POST',
         headers: {

@@ -7,7 +7,7 @@ export const changePasswordUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/change-password/`,
+      `${environment.api_url}/api/usuarios/change-password/`,
       {
         method: 'PUT',
         headers: {

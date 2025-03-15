@@ -11,7 +11,7 @@ export const updateAcademicProductsUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/productos-academicos/${productoId}/`,
+      `${environment.api_url}/api/productos_academicos/productos-academicos/${productoId}/`,
       {
         method: 'PUT',
         headers: {

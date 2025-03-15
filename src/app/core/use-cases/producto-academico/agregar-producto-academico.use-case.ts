@@ -10,7 +10,7 @@ export const agregarProductoAcademicoUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/productos-academicos/`,
+      `${environment.api_url}/api/productos_academicos/productos-academicos/`,
       {
         method: 'POST',
         headers: {

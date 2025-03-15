@@ -14,7 +14,7 @@ export const obtenerListaAportacionUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/aportaciones/?page=${page}&page_size=${pageSize}`,
+      `${environment.api_url}/api/aportaciones/aportaciones/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {

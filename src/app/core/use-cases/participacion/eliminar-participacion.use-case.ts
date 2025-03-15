@@ -7,7 +7,7 @@ export const eliminarParticipacionUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/participacion/${idParticipacion}/`,
+      `${environment.api_url}/api/participacion/participacion/${idParticipacion}/`,
       {
         method: 'DELETE',
         headers: {

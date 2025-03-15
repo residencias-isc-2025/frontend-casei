@@ -7,7 +7,7 @@ export const eliminarDisenoIngenierilUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/experiencia-diseno-ingenieril/${idDiseno}/`,
+      `${environment.api_url}/api/experiencia_diseno/experiencia-diseno-ingenieril/${idDiseno}/`,
       {
         method: 'DELETE',
         headers: {

@@ -13,7 +13,7 @@ export const obtenerListaProductoAcademicoUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/productos-academicos/?page=${page}&page_size=${pageSize}`,
+      `${environment.api_url}/api/productos_academicos/productos-academicos/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {

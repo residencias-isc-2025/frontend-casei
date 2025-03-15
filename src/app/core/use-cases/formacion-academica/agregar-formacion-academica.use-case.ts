@@ -10,7 +10,7 @@ export const agregarFormacionAcademicaUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/formacion-academica/`,
+      `${environment.api_url}/api/formacion_academica/formacion-academica/`,
       {
         method: 'POST',
         headers: {

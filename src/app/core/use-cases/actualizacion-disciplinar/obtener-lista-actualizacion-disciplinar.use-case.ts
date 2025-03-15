@@ -13,7 +13,7 @@ export const obtenerListaActualizacionDisplinarUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/actualizacion-disciplinar/?page=${page}&page_size=${pageSize}`,
+      `${environment.api_url}/api/actualizacion_diciplinar/actualizacion-disciplinar/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {

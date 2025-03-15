@@ -13,7 +13,7 @@ export const obtenerListaLogroProfesionalUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/logros-profesionales/?page=${page}&page_size=${pageSize}`,
+      `${environment.api_url}/api/logros_profesionales/logros-profesionales/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {

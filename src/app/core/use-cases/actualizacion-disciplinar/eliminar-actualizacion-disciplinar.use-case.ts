@@ -7,7 +7,7 @@ export const eliminarActualizacionDisciplinarUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/actualizacion-disciplinar/${idActualizacion}/`,
+      `${environment.api_url}/api/actualizacion_diciplinar/actualizacion-disciplinar/${idActualizacion}/`,
       {
         method: 'DELETE',
         headers: {

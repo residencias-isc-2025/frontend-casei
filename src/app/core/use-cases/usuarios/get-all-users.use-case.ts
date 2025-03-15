@@ -17,7 +17,7 @@ export const getAllUsersUseCase = async (searchParams: SearchParams) => {
     area_adscripcion = '',
   } = searchParams;
 
-  let url = `${environment.api_url}/registration/users/?page=${page}`;
+  let url = `${environment.api_url}/api/usuarios/users/?page=${page}`;
 
   if (nomina !== '') url += `&username=${nomina}`;
   if (nombre !== '') url += `&nombre=${nombre}`;

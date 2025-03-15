@@ -13,7 +13,7 @@ export const obtenerListaCapacitacionDocenteUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/capacitacion-docente/?page=${page}&page_size=${pageSize}`,
+      `${environment.api_url}/api/capacitacion_docente/capacitacion-docente/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {

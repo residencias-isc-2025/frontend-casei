@@ -7,7 +7,7 @@ export const createUsersByCsvUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/registration/create-users-by-csv/`,
+      `${environment.api_url}/api/usuarios/create-users-by-csv/`,
       {
         method: 'POST',
         headers: {

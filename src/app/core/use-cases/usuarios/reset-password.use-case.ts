@@ -6,7 +6,7 @@ export const resetPasswordUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/registration/reset-password/${userId}/`,
+      `${environment.api_url}/api/usuarios/reset-password/${userId}/`,
       {
         method: 'POST',
         headers: {

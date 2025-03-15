@@ -13,7 +13,7 @@ export const obtenerListaExperienciaProfesionalUseCase = async (
 ) => {
   try {
     const resp = await fetch(
-      `${environment.api_url}/api/registration/experiencia-profesional-no-academica/?page=${page}&page_size=${pageSize}`,
+      `${environment.api_url}/api/experiencia_profesional/experiencia-profesional-no-academica/?page=${page}&page_size=${pageSize}`,
       {
         method: 'GET',
         headers: {
