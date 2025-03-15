@@ -1,6 +1,6 @@
-import { formatDate } from '@angular/common';
 import jsPDF from 'jspdf';
 import { formatedBirthdate } from './formated-birthdate.helper';
+import { DocHeaderData } from '@interfaces/reports/doc-header-data.interface';
 
 let lastPageNumber = -1;
 
@@ -10,20 +10,27 @@ let lastPageNumber = -1;
  * @param pageNumber El número de página
  */
 
-export const drawHeader = (doc: jsPDF, pageNumber: number) => {
+export const drawHeader = (
+  doc: jsPDF,
+  pageNumber: number,
+  headerData: DocHeaderData
+) => {
   if (lastPageNumber === pageNumber) return;
 
   const pageWidth = doc.internal.pageSize.getWidth();
-  const date = formatDate(new Date(), 'yyyy-MM-dd', 'en-US');
 
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(86, 86, 86);
-  doc.text('Revisión: 2', pageWidth - 10, 15, { align: 'right' });
+  doc.text(headerData.claveCacei, pageWidth - 10, 15, { align: 'right' });
+
+  doc.text(`Revisión: ${headerData.numRevision}`, pageWidth - 10, 20, {
+    align: 'right',
+  });
   doc.text(
-    `Vigente a partir del ${formatedBirthdate(date)}`,
+    `Vigente a partir del ${formatedBirthdate(headerData.fechaVigencia)}`,
     pageWidth - 10,
-    20,
+    25,
     {
       align: 'right',
     }

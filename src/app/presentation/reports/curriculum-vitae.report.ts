@@ -18,6 +18,7 @@ import {
   PremioData,
   ProductoAcademicoData,
 } from '@interfaces/index';
+import { DocHeaderData } from '@interfaces/reports/doc-header-data.interface';
 import jsPDF from 'jspdf';
 
 export const curriculumVitaeReport = (
@@ -29,7 +30,13 @@ export const curriculumVitaeReport = (
     ? data.usuario.username
     : '000102';
 
-  let docStartY = 25;
+  const headerData: DocHeaderData = {
+    claveCacei: 'P-CACEI-DAC-03-R05',
+    numRevision: 2,
+    fechaVigencia: '2020-06-22',
+  };
+
+  let docStartY = 30;
 
   // Título
   docStartY = createTable(
@@ -50,7 +57,8 @@ export const curriculumVitaeReport = (
       ],
       theme: 'plain',
     },
-    docStartY
+    docStartY,
+    headerData
   );
 
   // 1.- Número de profesor
@@ -86,7 +94,8 @@ export const curriculumVitaeReport = (
       ],
       theme: 'grid',
     },
-    docStartY
+    docStartY,
+    headerData
   );
 
   // 2.- Nombre del profesor
@@ -141,7 +150,8 @@ export const curriculumVitaeReport = (
       ],
       theme: 'grid',
     },
-    docStartY
+    docStartY,
+    headerData
   );
 
   // 3.- Datos básicos
@@ -205,7 +215,8 @@ export const curriculumVitaeReport = (
       ],
       theme: 'grid',
     },
-    docStartY
+    docStartY,
+    headerData
   );
 
   // 4.- Formación ácademica
@@ -277,7 +288,8 @@ export const curriculumVitaeReport = (
       ]),
       theme: 'grid',
     },
-    docStartY
+    docStartY,
+    headerData
   );
 
   // 5.- Capacitación docente
@@ -331,18 +343,17 @@ export const curriculumVitaeReport = (
           },
         ],
       ],
-      body: data.capacitacion_docente.map(
-        (item: CapacitacionDocenteData) => [
-          item.tipo_capacitacion,
-          schools.find((i) => i.id === item.institucion_pais)
-            ?.nombre_institucion!,
-          item.anio_obtencion,
-          item.horas,
-        ]
-      ),
+      body: data.capacitacion_docente.map((item: CapacitacionDocenteData) => [
+        item.tipo_capacitacion,
+        schools.find((i) => i.id === item.institucion_pais)
+          ?.nombre_institucion!,
+        item.anio_obtencion,
+        item.horas,
+      ]),
       theme: 'grid',
     },
-    docStartY
+    docStartY,
+    headerData
   );
 
   // 6.- Actualización disciplinar
@@ -407,7 +418,8 @@ export const curriculumVitaeReport = (
       ),
       theme: 'grid',
     },
-    docStartY
+    docStartY,
+    headerData
   );
 
   // 7.- Gestión académica
@@ -470,7 +482,8 @@ export const curriculumVitaeReport = (
       ]),
       theme: 'grid',
     },
-    docStartY
+    docStartY,
+    headerData
   );
 
   // 8. Productos académicos relevantes
@@ -517,7 +530,8 @@ export const curriculumVitaeReport = (
       ),
       theme: 'grid',
     },
-    docStartY
+    docStartY,
+    headerData
   );
 
   // 9.- Experiencia profesional no académica
@@ -581,7 +595,8 @@ export const curriculumVitaeReport = (
       ),
       theme: 'grid',
     },
-    docStartY
+    docStartY,
+    headerData
   );
 
   // 10.- Experiencia en diseño ingenieril
@@ -636,7 +651,8 @@ export const curriculumVitaeReport = (
       ),
       theme: 'grid',
     },
-    docStartY
+    docStartY,
+    headerData
   );
 
   // 11.- Logros profesionales
@@ -666,12 +682,13 @@ export const curriculumVitaeReport = (
           },
         ],
       ],
-      body: data.logros_profesionales.map(
-        (item: LogroProfesionalData) => [item.descripcion]
-      ),
+      body: data.logros_profesionales.map((item: LogroProfesionalData) => [
+        item.descripcion,
+      ]),
       theme: 'grid',
     },
-    docStartY
+    docStartY,
+    headerData
   );
 
   // 12.- Participación en asociaciones
@@ -725,7 +742,8 @@ export const curriculumVitaeReport = (
       ]),
       theme: 'grid',
     },
-    docStartY
+    docStartY,
+    headerData
   );
 
   // 13.- Premios
@@ -757,7 +775,8 @@ export const curriculumVitaeReport = (
       body: data.premios.map((item: PremioData) => [item.descripcion]),
       theme: 'grid',
     },
-    docStartY
+    docStartY,
+    headerData
   );
 
   // 14.- Aportaciones
@@ -776,12 +795,11 @@ export const curriculumVitaeReport = (
           },
         ],
       ],
-      body: data.aportaciones.map((item: AportacionData) => [
-        item.descripcion,
-      ]),
+      body: data.aportaciones.map((item: AportacionData) => [item.descripcion]),
       theme: 'grid',
     },
-    docStartY
+    docStartY,
+    headerData
   );
 
   return doc;

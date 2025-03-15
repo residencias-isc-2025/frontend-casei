@@ -1,11 +1,13 @@
 import jsPDF from 'jspdf';
 import autoTable, { UserOptions } from 'jspdf-autotable';
 import { drawHeader } from './draw-header.helper';
+import { DocHeaderData } from '@interfaces/reports/doc-header-data.interface';
 
 export const createTable = (
   doc: jsPDF,
   options: UserOptions,
-  docStartY: number
+  docStartY: number,
+  headerData: DocHeaderData
 ): number => {
   autoTable(doc, {
     ...options,
@@ -24,7 +26,7 @@ export const createTable = (
     tableLineWidth: 0.1,
     didDrawPage: () => {
       const pageNumber = doc.internal.pages.length - 1;
-      drawHeader(doc, pageNumber);
+      drawHeader(doc, pageNumber, headerData);
     },
   });
   return (doc as any).lastAutoTable.finalY + 3;
