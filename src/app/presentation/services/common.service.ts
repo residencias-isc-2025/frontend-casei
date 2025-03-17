@@ -13,6 +13,7 @@ import {
   actualizarAdscripcionUseCase,
   actualizarInstitucionUseCase,
 } from '@core/index';
+import { obtenerAdscripcionByIdUseCase } from '@core/use-cases/adscripcion/obtener-adscripcion-by-id.use-case';
 import { activarPeriodoUseCase } from '@core/use-cases/periodos/activar-periodo.use-case';
 import { agregarPeriodoUseCase } from '@core/use-cases/periodos/agregar-periodo.use-case';
 import { desactivarPeriodoUseCase } from '@core/use-cases/periodos/desactivar-periodo.use-case';
@@ -87,5 +88,9 @@ export class CommonService {
 
   desactivarPeriodo(idPeriodo: number, accessToken: string) {
     return from(desactivarPeriodoUseCase(idPeriodo, accessToken));
+  }
+
+  getAdscripcionById(idAdscripcion: number, accessToken: string) {
+    return from(obtenerAdscripcionByIdUseCase(idAdscripcion, accessToken));
   }
 }

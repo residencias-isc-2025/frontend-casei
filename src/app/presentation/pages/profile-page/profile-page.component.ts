@@ -16,6 +16,7 @@ import {
 // Services
 import {
   AdscripcionesService,
+  CommonService,
   ToastService,
   UsersService,
 } from '@services/index';
@@ -36,6 +37,7 @@ interface ProfileButtons {
 })
 export default class ProfilePageComponent implements OnInit {
   user = signal<UserResponse | null>(null);
+  adscripcion = signal<AdscripcionData | null>(null);
   selectedId = signal<number>(-1);
 
   showPasswordModal = signal(false);
@@ -44,6 +46,7 @@ export default class ProfilePageComponent implements OnInit {
   router = inject(Router);
   toastService = inject(ToastService);
   usersService = inject(UsersService);
+  commonService = inject(CommonService);
   adscripcionesService = inject(AdscripcionesService);
 
   adscripcionesList = signal<AdscripcionData[]>([]);
@@ -89,8 +92,32 @@ export default class ProfilePageComponent implements OnInit {
       },
       next: (resp) => {
         localStorage.setItem('user-role', resp.usuario!.role);
-
         this.user.set(resp.usuario!);
+
+        if (!resp.usuario?.area_adscripcion) return;
+
+        this.loadAdscripcion(token, resp.usuario.area_adscripcion);
+      },
+    });
+  }
+
+  loadAdscripcion(token: string, id: number): void {
+    this.commonService.getAdscripcionById(id, token).subscribe({
+      error: (err) => {
+        this.toastService.showError(
+          err.mensaje || 'Error al cargar datos',
+          'Malas noticias'
+        );
+      },
+      next: (resp) => {
+        if (resp.ok) {
+          this.adscripcion.set(resp.adscripcion!);
+        } else {
+          this.toastService.showWarning(
+            'Error al cargar datos',
+            'Malas noticias'
+          );
+        }
       },
     });
   }
