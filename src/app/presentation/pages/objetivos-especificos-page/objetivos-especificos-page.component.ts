@@ -88,5 +88,21 @@ export default class ObjetivosEspecificosPageComponent implements OnInit {
   onDelete(itemId: number) {
     this.showDeleteModal.set(false);
     const token = localStorage.getItem('casei_residencias_access_token') || '';
+
+    this.commonService.eliminarObjetivoEspecifico(itemId, token).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        if (res.ok) {
+          this.loadObjetivosEspecificos();
+        } else {
+          this.toastService.showWarning(
+            'No se pudieron obtener los objetivos específicos.',
+            'Hubo un problema'
+          );
+        }
+      },
+    });
   }
 }

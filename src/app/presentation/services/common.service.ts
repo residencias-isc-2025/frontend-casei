@@ -22,6 +22,7 @@ import { obtenerListaPeriodosUseCase } from '@core/use-cases/periodos/obtener-li
 import { SearchParams } from '@interfaces/dtos/search-params.dto';
 import { AdscripcionDto, InstitucionDto, PeriodoDto } from '@interfaces/index';
 import { from } from 'rxjs';
+import { eliminarObjetivoEspecificoUseCase } from '@core/use-cases/objetivos-especificos/eliminar-objetivo-especifico.use-case';
 
 @Injectable({
   providedIn: 'root',
@@ -93,6 +94,10 @@ export class CommonService {
 
   desactivarPeriodo(idPeriodo: number, accessToken: string) {
     return from(desactivarPeriodoUseCase(idPeriodo, accessToken));
+  }
+
+  eliminarObjetivoEspecifico(idObjetivo: number, accessToken: string) {
+    return from(eliminarObjetivoEspecificoUseCase(idObjetivo, accessToken));
   }
 
   getAdscripcionById(idAdscripcion: number, accessToken: string) {
