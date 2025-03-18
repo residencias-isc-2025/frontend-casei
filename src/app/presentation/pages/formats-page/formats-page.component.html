@@ -3,19 +3,16 @@
     <h1 class="text-2xl font-bold text-gray-800">Formatos</h1>
   </div>
 
-  <div class="shadow-lg rounded-xl overflow-hidden grid grid-cols-5 space-x-1">
-    <button
-      (click)="downloadCurricumVitae()"
-      class="bg-green-600 hover:bg-green-700 text-white border-1 border-black font-bold py-2 px-4 rounded-xl transition duration-300"
-    >
-      Formato CV0
-    </button>
+  <div class="shadow-lg rounded-xl overflow-hidden grid grid-cols-6 space-x-2">
+    <app-download-pdf-button
+      text="Formato CV0"
+      (buttonEmit)="downloadCurricumVitae()"
+    />
+    <app-download-pdf-button
+      text="Cédula 5.1.0 - CV Sintético"
+      (buttonEmit)="downloadCurricumSintetico()"
+    />
 
-    <button
-      (click)="downloadCurricumSintetico()"
-      class="bg-green-600 hover:bg-green-700 text-white border-1 border-black font-bold py-2 px-4 rounded-xl transition duration-300"
-    >
-      Cédula 5.1.0 - CV Sintético
-    </button>
+    <app-download-xls-button text="Ejemplo" />
   </div>
 </div>

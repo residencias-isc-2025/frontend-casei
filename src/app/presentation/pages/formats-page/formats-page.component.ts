@@ -6,6 +6,8 @@ import {
   signal,
 } from '@angular/core';
 import { CurriculumVitaeResponse, InstitucionData } from '@interfaces/index';
+import { DownloadPdfButtonComponent } from '@presentation/components/download-pdf-button/download-pdf-button.component';
+import { DownloadXlsButtonComponent } from '@presentation/components/download-xls-button/download-xls-button.component';
 import {
   CommonService,
   InstitucionesService,
@@ -16,7 +18,7 @@ import { ReportsService } from '@presentation/services/reports.service';
 
 @Component({
   selector: 'app-formats-page',
-  imports: [],
+  imports: [DownloadPdfButtonComponent, DownloadXlsButtonComponent],
   templateUrl: './formats-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
