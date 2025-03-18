@@ -23,6 +23,8 @@ import { SearchParams } from '@interfaces/dtos/search-params.dto';
 import { AdscripcionDto, InstitucionDto, PeriodoDto } from '@interfaces/index';
 import { from } from 'rxjs';
 import { eliminarObjetivoEspecificoUseCase } from '@core/use-cases/objetivos-especificos/eliminar-objetivo-especifico.use-case';
+import { ObjetivoEspecificoDto } from '@interfaces/dtos/objetivo-especifico.dto';
+import { agregarObjetivoEspecificoUseCase } from '../../core/use-cases/objetivos-especificos/agregar-objetivo-especifico.use-case';
 
 @Injectable({
   providedIn: 'root',
@@ -58,6 +60,10 @@ export class CommonService {
 
   agregarPeriodo(periodoDto: PeriodoDto) {
     return from(agregarPeriodoUseCase(periodoDto));
+  }
+
+  agregarObjetivoEspecifico(objetivoDto: ObjetivoEspecificoDto) {
+    return from(agregarObjetivoEspecificoUseCase(objetivoDto));
   }
 
   actualizarInstitucion(idInstitucion: number, institucionDto: InstitucionDto) {

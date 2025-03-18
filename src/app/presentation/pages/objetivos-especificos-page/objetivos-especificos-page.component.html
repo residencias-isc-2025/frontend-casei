@@ -51,13 +51,15 @@
   </div>
 </div>
 
-<!-- @if (showAddModal()) {
-<app-add-premios
+@if (showAddModal()) {
+<app-add-objetivo-especifico
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
-  title="Agregar premio"
+  title="Agregar objetivo específico"
 />
-} @if (showUpdateModal()) {
+}
+
+<!-- @if (showUpdateModal()) {
 <app-update-premios
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"

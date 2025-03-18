@@ -9,10 +9,11 @@ import { PaginationComponent } from '@presentation/components/pagination/paginat
 import { ConfirmationModalComponent } from '@presentation/modals/confirmation-modal/confirmation-modal.component';
 import { CommonService, ToastService } from '@presentation/services';
 import { ObjetivoEspecificoData } from '../../../interfaces/use-cases/objetivo-especifico.response';
+import { AddObjetivoEspecifico } from '@presentation/modals/objetivos-especificos/add-premios/add-objetivos-especificos.component';
 
 @Component({
   selector: 'app-objetivos-especificos-page',
-  imports: [PaginationComponent, ConfirmationModalComponent],
+  imports: [PaginationComponent, ConfirmationModalComponent, AddObjetivoEspecifico],
   templateUrl: './objetivos-especificos-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
