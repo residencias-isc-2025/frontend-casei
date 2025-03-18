@@ -128,6 +128,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'objetivos-especificos',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/objetivos-especificos-page/objetivos-especificos-page.component'
+          ),
+      },
+      {
         path: 'formatos',
         loadComponent: () =>
           import('@presentation/pages/formats-page/formats-page.component'),

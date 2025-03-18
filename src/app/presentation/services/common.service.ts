@@ -14,6 +14,7 @@ import {
   actualizarInstitucionUseCase,
 } from '@core/index';
 import { obtenerAdscripcionByIdUseCase } from '@core/use-cases/adscripcion/obtener-adscripcion-by-id.use-case';
+import { obtenerListaObjetivosEspecificosUseCase } from '@core/use-cases/objetivos-especificos/obtener-lista-objetivos-especificos.use-case';
 import { activarPeriodoUseCase } from '@core/use-cases/periodos/activar-periodo.use-case';
 import { agregarPeriodoUseCase } from '@core/use-cases/periodos/agregar-periodo.use-case';
 import { desactivarPeriodoUseCase } from '@core/use-cases/periodos/desactivar-periodo.use-case';
@@ -40,6 +41,10 @@ export class CommonService {
 
   getPeriodosList(searchParams: SearchParams) {
     return from(obtenerListaPeriodosUseCase(searchParams));
+  }
+
+  getObjetivosEspecificosList(searchParams: SearchParams) {
+    return from(obtenerListaObjetivosEspecificosUseCase(searchParams));
   }
 
   agregarInstitucion(institucionDto: InstitucionDto) {
