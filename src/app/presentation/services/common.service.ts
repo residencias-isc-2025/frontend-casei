@@ -25,6 +25,7 @@ import { from } from 'rxjs';
 import { eliminarObjetivoEspecificoUseCase } from '@core/use-cases/objetivos-especificos/eliminar-objetivo-especifico.use-case';
 import { ObjetivoEspecificoDto } from '@interfaces/dtos/objetivo-especifico.dto';
 import { agregarObjetivoEspecificoUseCase } from '../../core/use-cases/objetivos-especificos/agregar-objetivo-especifico.use-case';
+import { editarObjetivoEspecificoUseCase } from '@core/use-cases/objetivos-especificos/editar-objetivo-especifico.use-case';
 
 @Injectable({
   providedIn: 'root',
@@ -76,6 +77,13 @@ export class CommonService {
 
   actualizarPeriodo(idPeriodo: number, periodoDto: PeriodoDto) {
     return from(actualizarPeriodoUseCase(idPeriodo, periodoDto));
+  }
+
+  actualizarObjetivoEspecifico(
+    idObjetivo: number,
+    objetivoDto: ObjetivoEspecificoDto
+  ) {
+    return from(editarObjetivoEspecificoUseCase(idObjetivo, objetivoDto));
   }
 
   activarInstitucion(idInstitucion: number, accessToken: string) {

@@ -20,7 +20,7 @@ import { CommonService, ToastService } from '@presentation/services';
   templateUrl: './add-objetivos-especificos.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddObjetivoEspecifico {
+export class AddObjetivoEspecificoComponent {
   title = input('');
 
   onCancel = output();

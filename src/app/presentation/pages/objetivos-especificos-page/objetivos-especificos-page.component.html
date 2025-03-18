@@ -59,14 +59,14 @@
 />
 }
 
-<!-- @if (showUpdateModal()) {
-<app-update-premios
+@if (showUpdateModal()) {
+<app-update-objetivos-especificos
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
-  [premio]="premioSelected()!"
-  title="Editar logro profesional"
+  [objetivo]="objetivoSelected()!"
+  title="Editar objetivo específico"
 />
-} -->
+}
 
 
 @if (showDeleteModal()){
