@@ -135,6 +135,11 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'criterios',
+        loadComponent: () =>
+          import('@presentation/pages/criterios-page/criterios-page.component'),
+      },
+      {
         path: 'formatos',
         loadComponent: () =>
           import('@presentation/pages/formats-page/formats-page.component'),
