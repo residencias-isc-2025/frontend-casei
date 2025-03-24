@@ -1,9 +1,4 @@
-export interface PeriodoResponse {
-  mensaje: string;
-  data: PeriodoData;
-}
-
-export interface PeriodoData {
+export interface Periodo {
   id: number;
   descripcion: string;
   clave: string;

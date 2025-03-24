@@ -3,7 +3,9 @@
 >
   <div class="bg-white p-6 rounded-lg shadow-lg w-150">
     <div class="flex justify-between items-center border-b pb-2">
-      <h2 class="text-xl font-semibold text-gray-800">{{ title() }}</h2>
+      <h2 class="text-xl font-semibold text-gray-800">
+        {{ !editing() ? "Crear Periodo" : "Actualizar Periodo" }}
+      </h2>
       <button
         class="text-gray-500 hover:text-gray-700 text-xl"
         (click)="onCancel.emit()"
@@ -12,11 +14,7 @@
       </button>
     </div>
 
-    <form
-      [formGroup]="updatePeriodoForm"
-      (keydown.enter)="onSaveData()"
-      class="mt-4"
-    >
+    <form [formGroup]="form" (keydown.enter)="onSubmit()" class="mt-4">
       <div class="mb-4">
         <label for="descripcion" class="block text-gray-700 font-medium mb-2"
           >Descripción</label
@@ -45,7 +43,7 @@
             >Fecha de inicio</label
           >
           <app-custom-datepicker
-            [selected]="updatePeriodoForm.get('fecha_i')?.value"
+            [selected]="form.get('fecha_i')!.value"
             (dateSelected)="onStartDateSelected($event)"
           />
         </div>
@@ -55,7 +53,7 @@
             >Fecha de finalización</label
           >
           <app-custom-datepicker
-            [selected]="updatePeriodoForm.get('fecha_f')?.value"
+            [selected]="form.get('fecha_f')!.value"
             (dateSelected)="onEndDateSelected($event)"
           />
         </div>
@@ -70,8 +68,8 @@
         </button>
         <button
           class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg disabled:bg-gray-500"
-          [disabled]="updatePeriodoForm.invalid"
-          (click)="onSaveData()"
+          [disabled]="form.invalid"
+          (click)="onSubmit()"
         >
           Guardar
         </button>

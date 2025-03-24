@@ -30,7 +30,6 @@ export * from './use-cases/logros-profesionales.response';
 export * from './use-cases/participacion.response';
 export * from './use-cases/premios.response';
 export * from './use-cases/aportaciones.response';
-export * from './use-cases/periodo.response';
 export * from './use-cases/create-users-by-csv.response';
 
 export * from './use-cases/reportes/curriculum-vitae.response';

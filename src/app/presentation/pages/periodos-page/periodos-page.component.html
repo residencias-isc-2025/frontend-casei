@@ -19,7 +19,6 @@
       (onSearch)="filterPeriodosByClave($event)"
     />
 
-
     <select
       #selectEstado
       (change)="handleSelectEstadoChange($event)"
@@ -115,16 +114,16 @@
 </div>
 
 @if (showAddModal()) {
-<app-add-periodo
+<app-periodo-form
+  [editing]="false"
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
-  title="Agregar periodo"
 />
 } @if (showUpdateModal()) {
-<app-update-periodo
+<app-periodo-form
+  [editing]="true"
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
-  title="Editar periodo"
   [periodo]="periodoSelected()!"
 />
 }

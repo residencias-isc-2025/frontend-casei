@@ -6,84 +6,68 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { SearchParams } from '@interfaces/dtos/search-params.dto';
-import { PeriodoData } from '@interfaces/index';
+
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
-import { ToastService, CommonService } from '@presentation/services';
-import { AddPeriodoComponent } from '@modals/periodos/add-periodo/add-periodo.component';
-import { UpdatePeriodoComponent } from '@modals/periodos/update-periodo/update-periodo.component';
+import { ToastService } from '@presentation/services';
 import { SearchBarComponent } from '@presentation/components/search-bar/search-bar.component';
+import { PeriodoFormComponent } from '@presentation/forms/periodo-form/periodo-form.component';
+import { Periodo } from '@core/models/periodo.model';
+import { PeriodoService } from '@core/services/periodo.service';
 
 @Component({
   selector: 'app-periodos-page',
   imports: [
     CommonModule,
     PaginationComponent,
-    AddPeriodoComponent,
-    UpdatePeriodoComponent,
+    PeriodoFormComponent,
     SearchBarComponent,
   ],
   templateUrl: './periodos-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class PeriodosPageComponent implements OnInit {
-  public toastService = inject(ToastService);
-  public commonService = inject(CommonService);
+  toastService = inject(ToastService);
+  periodoService = inject(PeriodoService);
 
-  public showAddModal = signal(false);
-  public showUpdateModal = signal(false);
+  showAddModal = signal(false);
+  showUpdateModal = signal(false);
 
-  public totalItems = signal(0);
-  public currentPage = signal(1);
+  totalItems = signal(0);
+  currentPage = signal(1);
 
-  public periodos = signal<PeriodoData[]>([]);
-  public periodoSelected = signal<PeriodoData | null>(null);
-  public searchParams = signal<SearchParams | undefined>(undefined);
+  periodos = signal<Periodo[]>([]);
+  periodoSelected = signal<Periodo | null>(null);
+
+  filterActivo = signal<number | undefined>(undefined);
+  filterClave = signal<string>('');
 
   ngOnInit(): void {
-    this.searchParams.set({
-      page: this.currentPage(),
-      accessToken: localStorage.getItem('casei_residencias_access_token') || '',
-    });
-
     this.loadPeriodos();
   }
 
   private loadPeriodos(): void {
-    this.commonService.getPeriodosList(this.searchParams()!).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.totalItems.set(res.items!);
-          this.periodos.set(res.periodos || []);
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener los periodos.',
-            'Hubo un problema'
-          );
-        }
-      },
-    });
+    this.periodoService
+      .obtenerPeriodosPaginados(this.currentPage(), 10, {
+        activo: this.filterActivo(),
+        clave: this.filterClave(),
+      })
+      .subscribe({
+        error: (res) => {
+          this.toastService.showError(res.mensaje!, 'Malas noticias');
+        },
+        next: (res) => {
+          this.totalItems.set(res.count);
+          this.periodos.set(res.results);
+        },
+      });
   }
 
   onPageChanged(page: number): void {
     this.currentPage.set(page);
-
-    this.searchParams.update((params) => {
-      return {
-        ...(params || {}),
-        page: this.currentPage(),
-        accessToken:
-          localStorage.getItem('casei_residencias_access_token') || '',
-      };
-    });
-
     this.loadPeriodos();
   }
 
-  onShowUpdateModal(periodo: PeriodoData) {
+  onShowUpdateModal(periodo: Periodo) {
     this.periodoSelected.set(periodo);
     this.showUpdateModal.set(true);
   }
@@ -99,55 +83,35 @@ export default class PeriodosPageComponent implements OnInit {
   }
 
   onDisablePeriodo(idPeriodo: number) {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.commonService.desactivarPeriodo(idPeriodo, token).subscribe({
+    this.periodoService.deshabilitarPeriodo(idPeriodo).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.toastService.showSuccess(res.mensaje!, 'Éxito');
-          this.loadPeriodos();
-        } else {
-          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
-        }
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        this.loadPeriodos();
       },
     });
   }
 
   onEnablePeriodo(idPeriodo: number) {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.commonService.activarPeriodo(idPeriodo, token).subscribe({
+    this.periodoService.habilitarPeriodo(idPeriodo).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.toastService.showSuccess(res.mensaje!, 'Éxito');
-          this.loadPeriodos();
-        } else {
-          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
-        }
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        this.loadPeriodos();
       },
     });
   }
 
   filterPeriodosByClave(searchTerm: string) {
-    this.searchParams.update((params) => {
-      return {
-        ...(params || {}),
-        nombre: searchTerm,
-        page: this.currentPage(),
-        accessToken:
-          localStorage.getItem('casei_residencias_access_token') || '',
-      };
-    });
+    this.filterClave.set(searchTerm);
   }
 
   handleSelectEstadoChange(event: Event) {
@@ -157,16 +121,7 @@ export default class PeriodosPageComponent implements OnInit {
 
   filterPeriodosByStatus(estado: string) {
     const activo = estado === 'activo' ? 1 : 0;
-
-    this.searchParams.update((params) => {
-      return {
-        ...(params || {}),
-        activo,
-        page: this.currentPage(),
-        accessToken:
-          localStorage.getItem('casei_residencias_access_token') || '',
-      };
-    });
+    this.filterActivo.set(activo);
   }
 
   searchWithFilters() {
@@ -178,12 +133,8 @@ export default class PeriodosPageComponent implements OnInit {
 
     selectEstado.selectedIndex = 0;
 
-    this.searchParams.set({
-      page: this.currentPage(), // Reiniciar la paginación a la primera página
-      accessToken: localStorage.getItem('casei_residencias_access_token') || '',
-      nombre: '',
-      estado: undefined,
-    });
+    this.filterClave.set('');
+    this.filterActivo.set(undefined);
 
     setTimeout(() => {
       this.loadPeriodos();
