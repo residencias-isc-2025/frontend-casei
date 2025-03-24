@@ -55,7 +55,7 @@ export class InstitucionService {
   }
 
   // PUT
-  actulizarInstitucion(id: number, data: Partial<Institucion>) {
+  actualizarInstitucion(id: number, data: Partial<Institucion>) {
     return this.http.put<{ mensaje: string; data: Institucion }>(
       `${this.apiUrl}/institucion-pais/${id}/`,
       data

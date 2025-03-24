@@ -10,17 +10,14 @@ import {
 // Modals
 
 // Services
-import {
-  AdscripcionesService,
-  CommonService,
-  ToastService,
-} from '@services/index';
-import { AdscripcionData } from '@interfaces/index';
+import { CommonService, ToastService } from '@services/index';
 import { Router } from '@angular/router';
 import { User } from '@core/models/user.model';
 import { UserService } from '@core/services/user.service';
 import { UpdateProfileComponent } from '@presentation/forms/update-profile/update-profile.component';
 import { ChangePasswordComponent } from '@presentation/forms/change-password/change-password.component';
+import { Adscripcion } from '@core/models/adscripcion.model';
+import { AdscripcionService } from '@core/services/adscripcion.service';
 
 interface ProfileButtons {
   id: number;
@@ -36,19 +33,20 @@ interface ProfileButtons {
 })
 export default class ProfilePageComponent implements OnInit {
   user = signal<User | null>(null);
-  adscripcion = signal<AdscripcionData | null>(null);
+  adscripcion = signal<Adscripcion | null>(null);
   selectedId = signal<number>(-1);
 
   showPasswordModal = signal(false);
   showUpdateModal = signal(false);
 
-  router = inject(Router);
   toastService = inject(ToastService);
   userService = inject(UserService);
-  commonService = inject(CommonService);
-  adscripcionesService = inject(AdscripcionesService);
+  adscripcionService = inject(AdscripcionService);
 
-  adscripcionesList = signal<AdscripcionData[]>([]);
+  router = inject(Router);
+  commonService = inject(CommonService);
+
+  adscripcionesList = signal<Adscripcion[]>([]);
 
   titles = [
     'Formación académica',
@@ -71,18 +69,22 @@ export default class ProfilePageComponent implements OnInit {
   }));
 
   ngOnInit(): void {
-    this.adscripcionesService.loadAdscripciones();
-    this.adscripcionesService.getAdscripcion().subscribe((lista) => {
-      this.adscripcionesList.set(lista);
-    });
+    this.adscripcionService
+      .obtenerAdscripcionesPaginadas(1, 100, {
+        nombre: '',
+        siglas: '',
+        estado: 'activo',
+      })
+      .subscribe({
+        next: (response) => {
+          this.adscripcionesList.set(response.results);
+        },
+      });
 
     this.loadUserInfo();
   }
 
   loadUserInfo(): void {
-    // !TEMPORAL
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
     this.userService.obtenerPerfil().subscribe({
       error: (err) => {
         this.toastService.showError(
@@ -95,13 +97,13 @@ export default class ProfilePageComponent implements OnInit {
         this.user.set(resp);
         if (!resp.area_adscripcion) return;
 
-        this.loadAdscripcion(token, resp.area_adscripcion);
+        this.loadAdscripcion(resp.area_adscripcion);
       },
     });
   }
 
-  loadAdscripcion(token: string, id: number): void {
-    this.commonService.getAdscripcionById(id, token).subscribe({
+  loadAdscripcion(id: number): void {
+    this.adscripcionService.obtenerAdscripcionPorId(id).subscribe({
       error: (err) => {
         this.toastService.showError(
           err.mensaje || 'Error al cargar datos',
@@ -109,14 +111,7 @@ export default class ProfilePageComponent implements OnInit {
         );
       },
       next: (resp) => {
-        if (resp.ok) {
-          this.adscripcion.set(resp.adscripcion!);
-        } else {
-          this.toastService.showWarning(
-            'Error al cargar datos',
-            'Malas noticias'
-          );
-        }
+        this.adscripcion.set(resp);
       },
     });
   }

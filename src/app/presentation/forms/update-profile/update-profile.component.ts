@@ -8,12 +8,12 @@ import {
   output,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Adscripcion } from '@core/models/adscripcion.model';
 import { User } from '@core/models/user.model';
+import { AdscripcionService } from '@core/services/adscripcion.service';
 import { ToastService } from '@core/services/toast.service';
 import { UserService } from '@core/services/user.service';
-import { AdscripcionData } from '@interfaces/index';
 import { CustomDatepickerComponent } from '@presentation/components/custom-datepicker/custom-datepicker.component';
-import { AdscripcionesService } from '@presentation/services';
 
 @Component({
   selector: 'app-update-profile',
@@ -28,10 +28,10 @@ export class UpdateProfileComponent implements OnInit {
   fb = inject(FormBuilder);
   toastService = inject(ToastService);
   userService = inject(UserService);
-  adscripcionesService = inject(AdscripcionesService);
+  adscripcionService = inject(AdscripcionService);
 
   userProfile = input.required<User>();
-  adscripcionesList = input<AdscripcionData[]>([]);
+  adscripcionesList = input<Adscripcion[]>([]);
 
   form = this.fb.group({
     nombre: ['', Validators.required],

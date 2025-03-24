@@ -8,41 +8,39 @@ import {
   output,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Institucion } from '@core/models/institucion.model';
-import { InstitucionService } from '@core/services/institucion.service';
-import { ToastService } from '@core/services/toast.service';
-import { CountriesResponse } from '@interfaces/use-cases/countries.response';
+import { Adscripcion } from '@core/models/adscripcion.model';
+import { AdscripcionService } from '@core/services/adscripcion.service';
+import { ToastService } from '@presentation/services';
 
 @Component({
-  selector: 'app-institucion-form',
+  selector: 'app-adscripcion-form',
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './institucion-form.component.html',
+  templateUrl: './adscripcion-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InstitucionFormComponent implements OnInit {
+export class AdscripcionFormComponent implements OnInit {
   onCancel = output();
   onSave = output();
 
   fb = inject(FormBuilder);
   toastService = inject(ToastService);
-  institucionService = inject(InstitucionService);
+  adscripcionService = inject(AdscripcionService);
 
   editing = input.required<boolean>();
 
-  countriesList = input<CountriesResponse[]>([]);
-  institucion = input<Institucion>();
+  adscripcion = input<Adscripcion>();
 
   form = this.fb.group({
     nombre: ['', Validators.required],
-    pais: ['', Validators.required],
+    siglas: ['', Validators.required],
   });
 
   ngOnInit(): void {
     if (!this.editing()) return;
 
     this.form.patchValue({
-      nombre: this.institucion()?.nombre_institucion,
-      pais: this.institucion()?.pais,
+      nombre: this.adscripcion()?.nombre,
+      siglas: this.adscripcion()?.siglas,
     });
   }
 
@@ -50,17 +48,17 @@ export class InstitucionFormComponent implements OnInit {
     if (this.form.invalid) return;
 
     const formValue = this.form.value;
-    const payload: Partial<Institucion> = {
-      nombre_institucion: formValue.nombre ?? '',
-      pais: formValue.pais ?? '',
+    const payload: Partial<Adscripcion> = {
+      nombre: formValue.nombre ?? '',
+      siglas: formValue.siglas ?? '',
     };
 
     const action = this.editing()
-      ? this.institucionService.actualizarInstitucion(
-          this.institucion()!.id,
+      ? this.adscripcionService.actualizarAdscripcion(
+          this.adscripcion()!.id,
           payload
         )
-      : this.institucionService.crearInstitucion(payload);
+      : this.adscripcionService.crearAdscripcion(payload);
 
     action.subscribe({
       next: (response) => {

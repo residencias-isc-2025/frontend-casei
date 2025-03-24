@@ -18,7 +18,6 @@ export * from './dtos/periodo.dto';
 
 export * from './use-cases/create-user.response';
 export * from './use-cases/instituciones.response';
-export * from './use-cases/adscripciones.response';
 
 export * from './use-cases/formacion-academica.response';
 export * from './use-cases/capacitacion-docente.response';

@@ -44,7 +44,7 @@
       <option value="" selected>Seleccionar área de adscripción</option>
       @for(adscripcion of adscripcionesList(); track adscripcion.id) {
       <option [value]="adscripcion.id">
-        {{ adscripcionesService.getAdscripcioNombre(adscripcion.id) }}
+        {{ adscripcionService.getAdscripcioNombre(adscripcion.id) }}
       </option>
       }
     </select>
@@ -109,9 +109,7 @@
 
           <td class="py-3 px-4">
             @if(user.area_adscripcion === null) { No seleccionada. } @else {
-            {{
-              adscripcionesService.getAdscripcioSiglas(user.area_adscripcion)
-            }}
+            {{ adscripcionService.getAdscripcioSiglas(user.area_adscripcion) }}
             }
           </td>
           <td class="py-3 px-4">

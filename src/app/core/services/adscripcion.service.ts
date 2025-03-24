@@ -1,0 +1,94 @@
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Adscripcion } from '@core/models/adscripcion.model';
+import { environment } from '@environments/environment';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+export interface AdscripcionSearchParams {
+  nombre?: string;
+  estado?: string;
+  siglas?: string;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AdscripcionService {
+  private adscripcionesList = new BehaviorSubject<Adscripcion[]>([]);
+
+  private http = inject(HttpClient);
+  private apiUrl = `${environment.api_url}/adscripcion`;
+
+  // GET
+  obtenerAdscripcionesPaginadas(
+    page: number,
+    limit: number,
+    params: AdscripcionSearchParams
+  ) {
+    let url = `${this.apiUrl}/area-adscripcion/?page=${page}&page_size=${limit}`;
+
+    if (params.nombre !== '') url += `&nombre=${params.nombre}`;
+    if (params.estado !== '') url += `&estado=${params.estado}`;
+    if (params.siglas !== '') url += `&pais=${params.siglas}`;
+
+    return this.http.get<{
+      count: number;
+      next: string | null;
+      previous: string | null;
+      results: Adscripcion[];
+    }>(url);
+  }
+
+  obtenerAdscripcionPorId(id: number) {
+    return this.http.get<Adscripcion>(`${this.apiUrl}/area-adscripcion/${id}/`);
+  }
+
+  // POST
+  crearAdscripcion(data: Partial<Adscripcion>) {
+    return this.http.post<{ mensaje: string }>(
+      `${this.apiUrl}/area-adscripcion/`,
+      data
+    );
+  }
+
+  // DELETE
+  deshabilitarAdscripcion(id: number) {
+    return this.http.delete<{ mensaje: string }>(
+      `${this.apiUrl}/area-adscripcion/${id}/`
+    );
+  }
+
+  // PUT
+  actualizarAdscripcion(id: number, data: Partial<Adscripcion>) {
+    return this.http.put<{ mensaje: string; data: Adscripcion }>(
+      `${this.apiUrl}/area-adscripcion/${id}/`,
+      data
+    );
+  }
+
+  habilitarAdscripcion(id: number) {
+    return this.http.put<{ mensaje: string }>(
+      `${this.apiUrl}/habilitar-area-adscripcion/${id}/`,
+      {}
+    );
+  }
+
+  // OTROS
+  getAdscripcion(): Observable<Adscripcion[]> {
+    return this.adscripcionesList.asObservable();
+  }
+
+  getAdscripcioNombre(idAdscripcion: number): string {
+    const adscripcion = this.adscripcionesList
+      .getValue()
+      .find((inst) => inst.id === idAdscripcion);
+    return adscripcion ? adscripcion.nombre : '';
+  }
+
+  getAdscripcioSiglas(idAdscripcion: number): string {
+    const adscripcion = this.adscripcionesList
+      .getValue()
+      .find((inst) => inst.id === idAdscripcion);
+    return adscripcion ? adscripcion.siglas : '';
+  }
+}

@@ -47,11 +47,5 @@ export * from './use-cases/premio/eliminar-premio.use-case';
 export * from './use-cases/aportacion/eliminar-aportacion.use-case';
 
 export * from './use-cases/pais/obtener-lista-paises.use-case';
-export * from './use-cases/adscripcion/obtener-lista-adscripcion.use-case';
-
-export * from './use-cases/adscripcion/agregar-adscripcion.use-case';
-export * from './use-cases/adscripcion/actualizar-adscripcion.use-case';
-export * from './use-cases/adscripcion/habilitar-adscripcion.use-case';
-export * from './use-cases/adscripcion/deshabilitar-adscripcion.use-case';
 
 export * from './use-cases/reportes/obtener-curriculum-vitae.use-case';

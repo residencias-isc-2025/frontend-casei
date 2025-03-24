@@ -125,12 +125,14 @@
 </div>
 
 @if (showAddModal()) {
-<app-add-area-adscripcion
+<app-adscripcion-form
+  [editing]="false"
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
 />
 } @if(showUpdateModal()) {
-<app-update-area-adscripcion
+<app-adscripcion-form
+  [editing]="true"
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
   [adscripcion]="adscripcionSelected()!"

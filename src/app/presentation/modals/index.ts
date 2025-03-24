@@ -32,6 +32,3 @@ export * from './10-premios/update-premios/update-premios.component';
 
 export * from './11-aportaciones/add-aportacion/add-aportacion.component';
 export * from './11-aportaciones/update-aportacion/update-aportacion.component';
-
-export * from './area-adscripcion/add-area-adscripcion/add-area-adscripcion.component';
-export * from './area-adscripcion/update-area-adscripcion/update-area-adscripcion.component';

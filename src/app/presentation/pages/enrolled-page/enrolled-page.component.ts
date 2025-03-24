@@ -6,14 +6,11 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { SearchParams } from '@interfaces/dtos/search-params.dto';
-import { AdscripcionData } from '@interfaces/index';
+import { Adscripcion } from '@core/models/adscripcion.model';
+import { AdscripcionService } from '@core/services/adscripcion.service';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 import { SearchBarComponent } from '@presentation/components/search-bar/search-bar.component';
-import {
-  AddAreaAdscripcionComponent,
-  UpdateAreaAdscripcionComponent,
-} from '@presentation/modals';
+import { AdscripcionFormComponent } from '@presentation/forms/adscripcion-form/adscripcion-form.component';
 import { CommonService, ToastService } from '@presentation/services';
 
 @Component({
@@ -21,71 +18,59 @@ import { CommonService, ToastService } from '@presentation/services';
   imports: [
     CommonModule,
     PaginationComponent,
-    AddAreaAdscripcionComponent,
-    UpdateAreaAdscripcionComponent,
+    AdscripcionFormComponent,
     SearchBarComponent,
   ],
   templateUrl: './enrolled-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class EnrolledPageComponent implements OnInit {
-  public toastService = inject(ToastService);
+  toastService = inject(ToastService);
+  adscripcionService = inject(AdscripcionService);
+  adscripciones = signal<Adscripcion[]>([]);
+
+  showAddModal = signal(false);
+  showUpdateModal = signal(false);
+
+  totalItems = signal(0);
+  currentPage = signal(1);
+
+  adscripcionSelected = signal<Adscripcion | null>(null);
+
+  filterEstado = signal<string>('');
+  filterNombre = signal<string>('');
+  filterSiglas = signal<string>('');
+
   public commonService = inject(CommonService);
 
-  public showAddModal = signal(false);
-  public showUpdateModal = signal(false);
-
-  public totalItems = signal(0);
-  public currentPage = signal(1);
-
-  public adscripciones = signal<AdscripcionData[]>([]);
-  public adscripcionSelected = signal<AdscripcionData | null>(null);
-  public searchParams = signal<SearchParams | undefined>(undefined);
-
   ngOnInit(): void {
-    this.searchParams.set({
-      page: this.currentPage(),
-      accessToken: localStorage.getItem('casei_residencias_access_token') || '',
-    });
-
     this.cargarAdscripciones();
   }
 
   private cargarAdscripciones(): void {
-    this.commonService.getAdscripcionesList(this.searchParams()!).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.totalItems.set(res.items!);
-          this.adscripciones.set(res.adscripciones || []);
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener las adscripciones.',
-            'Hubo un problema'
-          );
-        }
-      },
-    });
+    this.adscripcionService
+      .obtenerAdscripcionesPaginadas(this.currentPage(), 10, {
+        estado: this.filterEstado(),
+        nombre: this.filterNombre(),
+        siglas: this.filterSiglas(),
+      })
+      .subscribe({
+        error: (res) => {
+          this.toastService.showError(res.mensaje!, 'Malas noticias');
+        },
+        next: (res) => {
+          this.totalItems.set(res.count);
+          this.adscripciones.set(res.results);
+        },
+      });
   }
 
   onPageChanged(page: number): void {
     this.currentPage.set(page);
-
-    this.searchParams.update((params) => {
-      return {
-        ...(params || {}),
-        page: this.currentPage(),
-        accessToken:
-          localStorage.getItem('casei_residencias_access_token') || '',
-      };
-    });
-
     this.cargarAdscripciones();
   }
 
-  onShowUpdateModal(adscripcion: AdscripcionData) {
+  onShowUpdateModal(adscripcion: Adscripcion) {
     this.adscripcionSelected.set(adscripcion);
     this.showUpdateModal.set(true);
   }
@@ -101,67 +86,39 @@ export default class EnrolledPageComponent implements OnInit {
   }
 
   onDisableAdscripcion(idAdscripcion: number) {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.commonService.desactivarAdscripcion(idAdscripcion, token).subscribe({
+    this.adscripcionService.deshabilitarAdscripcion(idAdscripcion).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.toastService.showSuccess(res.mensaje!, 'Éxito');
-          this.cargarAdscripciones();
-        } else {
-          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
-        }
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        this.cargarAdscripciones();
       },
     });
   }
 
   onEnableAdscripcion(idAdscripcion: number) {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.commonService.activarAdscripcion(idAdscripcion, token).subscribe({
+    this.adscripcionService.habilitarAdscripcion(idAdscripcion).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.toastService.showSuccess(res.mensaje!, 'Éxito');
-          this.cargarAdscripciones();
-        } else {
-          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
-        }
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        this.cargarAdscripciones();
       },
     });
   }
 
   filterAdscripcionByName(searchTerm: string) {
-    this.searchParams.update((params) => {
-      return {
-        ...(params || {}),
-        nombre: searchTerm,
-        page: this.currentPage(),
-        accessToken:
-          localStorage.getItem('casei_residencias_access_token') || '',
-      };
-    });
+    this.filterNombre.set(searchTerm);
   }
 
   filterAdscripcionBySiglas(searchTerm: string) {
-    this.searchParams.update((params) => {
-      return {
-        ...(params || {}),
-        siglas: searchTerm,
-        page: this.currentPage(),
-        accessToken:
-          localStorage.getItem('casei_residencias_access_token') || '',
-      };
-    });
+    this.filterSiglas.set(searchTerm);
   }
 
   handleSelectEstadoChange(event: Event) {
@@ -170,15 +127,7 @@ export default class EnrolledPageComponent implements OnInit {
   }
 
   filterAdscripcionByEstado(estado: string) {
-    this.searchParams.update((params) => {
-      return {
-        ...(params || {}),
-        estado: estado,
-        page: this.currentPage(),
-        accessToken:
-          localStorage.getItem('casei_residencias_access_token') || '',
-      };
-    });
+    this.filterEstado.set(estado);
   }
 
   searchWithFilters() {
@@ -195,13 +144,9 @@ export default class EnrolledPageComponent implements OnInit {
 
     selectEstado.selectedIndex = 0;
 
-    this.searchParams.set({
-      page: this.currentPage(), // Reiniciar la paginación a la primera página
-      accessToken: localStorage.getItem('casei_residencias_access_token') || '',
-      siglas: '',
-      nombre: '',
-      estado: '',
-    });
+    this.filterEstado.set('');
+    this.filterNombre.set('');
+    this.filterSiglas.set('');
 
     setTimeout(() => {
       this.cargarAdscripciones();

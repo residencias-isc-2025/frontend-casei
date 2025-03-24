@@ -6,14 +6,15 @@ import {
   signal,
 } from '@angular/core';
 
-import { AdscripcionesService, ToastService } from '@services/index';
-import { AdscripcionData } from '@interfaces/index';
+import { ToastService } from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { CommonModule } from '@angular/common';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { UserService } from '@core/services/user.service';
 import { User } from '@core/models/user.model';
 import { UserFormComponent } from '@presentation/forms/user-form/user-form.component';
+import { Adscripcion } from '@core/models/adscripcion.model';
+import { AdscripcionService } from '@core/services/adscripcion.service';
 
 @Component({
   selector: 'app-users-page',
@@ -29,12 +30,12 @@ import { UserFormComponent } from '@presentation/forms/user-form/user-form.compo
 export default class UsersPageComponent implements OnInit {
   toastService = inject(ToastService);
   userService = inject(UserService);
-  adscripcionesService = inject(AdscripcionesService);
+  adscripcionService = inject(AdscripcionService);
 
   showModal = signal(false);
   totalItems = signal(0);
   users = signal<User[]>([]);
-  adscripcionesList = signal<AdscripcionData[]>([]);
+  adscripcionesList = signal<Adscripcion[]>([]);
   currentPage = signal(1);
 
   filterNomina = signal<string>('');
@@ -43,10 +44,17 @@ export default class UsersPageComponent implements OnInit {
   filterEstado = signal<string>('');
 
   ngOnInit(): void {
-    this.adscripcionesService.loadAdscripciones();
-    this.adscripcionesService.getAdscripcion().subscribe((lista) => {
-      this.adscripcionesList.set(lista);
-    });
+    this.adscripcionService
+      .obtenerAdscripcionesPaginadas(1, 100, {
+        nombre: '',
+        siglas: '',
+        estado: 'activo',
+      })
+      .subscribe({
+        next: (response) => {
+          this.adscripcionesList.set(response.results);
+        },
+      });
 
     this.loadUsers();
   }

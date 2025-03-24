@@ -1,14 +1,6 @@
 import { actualizarPeriodoUseCase } from './../../core/use-cases/periodos/actualizar-periodo.use-case';
 import { Injectable } from '@angular/core';
-import {
-  agregarAdscripcionUseCase,
-  deshabilitarAdscripcionUseCase,
-  habilitarAdscripcionUseCase,
-  obtenerListaPaisesUseCase,
-  obtenerListaAdscripcionUseCase,
-  actualizarAdscripcionUseCase,
-} from '@core/index';
-import { obtenerAdscripcionByIdUseCase } from '@core/use-cases/adscripcion/obtener-adscripcion-by-id.use-case';
+import { obtenerListaPaisesUseCase } from '@core/index';
 import { obtenerListaObjetivosEspecificosUseCase } from '@core/use-cases/objetivos-especificos/obtener-lista-objetivos-especificos.use-case';
 import { activarPeriodoUseCase } from '@core/use-cases/periodos/activar-periodo.use-case';
 import { agregarPeriodoUseCase } from '@core/use-cases/periodos/agregar-periodo.use-case';
@@ -30,10 +22,6 @@ export class CommonService {
     return from(obtenerListaPaisesUseCase());
   }
 
-  getAdscripcionesList(searchParams: SearchParams) {
-    return from(obtenerListaAdscripcionUseCase(searchParams));
-  }
-
   getPeriodosList(searchParams: SearchParams) {
     return from(obtenerListaPeriodosUseCase(searchParams));
   }
@@ -42,20 +30,12 @@ export class CommonService {
     return from(obtenerListaObjetivosEspecificosUseCase(searchParams));
   }
 
-  agrearAreaAdscripcion(areaAdscripcionDto: AdscripcionDto) {
-    return from(agregarAdscripcionUseCase(areaAdscripcionDto));
-  }
-
   agregarPeriodo(periodoDto: PeriodoDto) {
     return from(agregarPeriodoUseCase(periodoDto));
   }
 
   agregarObjetivoEspecifico(objetivoDto: ObjetivoEspecificoDto) {
     return from(agregarObjetivoEspecificoUseCase(objetivoDto));
-  }
-
-  actualizarAdscripcion(idAdscripcion: number, adscripcionDto: AdscripcionDto) {
-    return from(actualizarAdscripcionUseCase(idAdscripcion, adscripcionDto));
   }
 
   actualizarPeriodo(idPeriodo: number, periodoDto: PeriodoDto) {
@@ -69,16 +49,8 @@ export class CommonService {
     return from(editarObjetivoEspecificoUseCase(idObjetivo, objetivoDto));
   }
 
-  activarAdscripcion(idAdscripcion: number, accessToken: string) {
-    return from(habilitarAdscripcionUseCase(idAdscripcion, accessToken));
-  }
-
   activarPeriodo(idPeriodo: number, accessToken: string) {
     return from(activarPeriodoUseCase(idPeriodo, accessToken));
-  }
-
-  desactivarAdscripcion(idAdscripcion: number, accessToken: string) {
-    return from(deshabilitarAdscripcionUseCase(idAdscripcion, accessToken));
   }
 
   desactivarPeriodo(idPeriodo: number, accessToken: string) {
@@ -87,9 +59,5 @@ export class CommonService {
 
   eliminarObjetivoEspecifico(idObjetivo: number, accessToken: string) {
     return from(eliminarObjetivoEspecificoUseCase(idObjetivo, accessToken));
-  }
-
-  getAdscripcionById(idAdscripcion: number, accessToken: string) {
-    return from(obtenerAdscripcionByIdUseCase(idAdscripcion, accessToken));
   }
 }

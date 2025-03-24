@@ -4,4 +4,3 @@ export * from './profile.service';
 export * from './common.service';
 export * from './pdf.service';
 export * from './reports.service';
-export * from './adscripciones.service';
