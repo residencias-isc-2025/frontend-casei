@@ -46,17 +46,12 @@ export * from './use-cases/participacion/eliminar-participacion.use-case';
 export * from './use-cases/premio/eliminar-premio.use-case';
 export * from './use-cases/aportacion/eliminar-aportacion.use-case';
 
-export * from './use-cases/institucion/obtener-lista-institucion.use-case';
 export * from './use-cases/pais/obtener-lista-paises.use-case';
 export * from './use-cases/adscripcion/obtener-lista-adscripcion.use-case';
 
-export * from './use-cases/institucion/agregar-institucion.use-case';
 export * from './use-cases/adscripcion/agregar-adscripcion.use-case';
-export * from './use-cases/institucion/actualizar-institucion.use-case';
 export * from './use-cases/adscripcion/actualizar-adscripcion.use-case';
-export * from './use-cases/institucion/habilitar-institucion.use-case';
 export * from './use-cases/adscripcion/habilitar-adscripcion.use-case';
-export * from './use-cases/institucion/deshabilitar-institucion.use-case';
 export * from './use-cases/adscripcion/deshabilitar-adscripcion.use-case';
 
 export * from './use-cases/reportes/obtener-curriculum-vitae.use-case';

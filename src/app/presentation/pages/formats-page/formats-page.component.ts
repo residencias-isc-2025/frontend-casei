@@ -5,16 +5,17 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
+import { InstitucionService } from '@core/services/institucion.service';
 import { CurriculumVitaeResponse, InstitucionData } from '@interfaces/index';
 import { DownloadPdfButtonComponent } from '@presentation/components/download-pdf-button/download-pdf-button.component';
 import { DownloadXlsButtonComponent } from '@presentation/components/download-xls-button/download-xls-button.component';
 import {
   CommonService,
-  InstitucionesService,
   PdfService,
   ToastService,
 } from '@presentation/services';
 import { ReportsService } from '@presentation/services/reports.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-formats-page',
@@ -23,20 +24,27 @@ import { ReportsService } from '@presentation/services/reports.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class FormatsPageComponent implements OnInit {
+  toastService = inject(ToastService);
+  institucionService = inject(InstitucionService);
+
   pdfService = inject(PdfService);
   reportsService = inject(ReportsService);
-  toastService = inject(ToastService);
   commonService = inject(CommonService);
-  institucionesService = inject(InstitucionesService);
 
   curriculumVitaeData = signal<CurriculumVitaeResponse | null>(null);
   institucionesList = signal<InstitucionData[]>([]);
 
   ngOnInit(): void {
-    this.institucionesService.loadInstituciones();
-    this.institucionesService.getInstituciones().subscribe((lista) => {
-      this.institucionesList.set(lista);
-    });
+    this.institucionService
+      .obtenerInstitucionesPaginadas(1, 100, {
+        estado: 'activo',
+      })
+      .pipe(
+        tap((res) => {
+          this.institucionesList.set(res.results);
+        })
+      )
+      .subscribe();
   }
 
   downloadCurricumVitae() {

@@ -13,7 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { UserService } from '@core/services/user.service';
-import { ToastService } from '@presentation/services';
+import { ToastService } from '@core/services/toast.service';
 import { passwordMatchValidator } from '@validators/index';
 
 @Component({

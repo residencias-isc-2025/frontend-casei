@@ -9,46 +9,42 @@ import {
 import { CountriesResponse, InstitucionData } from '@interfaces/index';
 import { ToastService, CommonService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
-import {
-  AddInstitucionComponent,
-  UpdateInstitucionComponent,
-} from '@presentation/modals';
-import { SearchParams } from '@interfaces/dtos/search-params.dto';
+
 import { SearchBarComponent } from '@presentation/components/search-bar/search-bar.component';
+import { InstitucionService } from '@core/services/institucion.service';
+import { InstitucionFormComponent } from '@presentation/forms/institucion-form/institucion-form.component';
 
 @Component({
   selector: 'app-schools-page',
   imports: [
     CommonModule,
     PaginationComponent,
-    AddInstitucionComponent,
-    UpdateInstitucionComponent,
+    InstitucionFormComponent,
     SearchBarComponent,
   ],
   templateUrl: './schools-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class SchoolsPageComponent implements OnInit {
-  public toastService = inject(ToastService);
+  toastService = inject(ToastService);
+  institucionService = inject(InstitucionService);
+
+  showAddModal = signal(false);
+  showUpdateModal = signal(false);
+
+  filterName = signal<string>('');
+  filterPais = signal<string>('');
+  filterEstado = signal<string>('');
+
   public commonService = inject(CommonService);
-
-  public showAddModal = signal(false);
-  public showUpdateModal = signal(false);
-
   public totalItems = signal(0);
   public schools = signal<InstitucionData[]>([]);
   public countries = signal<CountriesResponse[]>([]);
-  public searchParams = signal<SearchParams | undefined>(undefined);
 
   public currentPage = signal(1);
   public schoolSelected = signal<InstitucionData | null>(null);
 
   ngOnInit(): void {
-    this.searchParams.set({
-      page: this.currentPage(),
-      accessToken: localStorage.getItem('casei_residencias_access_token') || '',
-    });
-
     this.cargarPaises();
     this.cargarInstituciones();
   }
@@ -64,36 +60,25 @@ export default class SchoolsPageComponent implements OnInit {
   }
 
   private cargarInstituciones(): void {
-    this.commonService.getInstitucionesList(this.searchParams()!).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.totalItems.set(res.items!);
-          this.schools.set(res.schools || []);
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener los usuarios.',
-            'Hubo un problema'
-          );
-        }
-      },
-    });
+    this.institucionService
+      .obtenerInstitucionesPaginadas(this.currentPage(), 10, {
+        estado: this.filterEstado(),
+        nombre: this.filterName(),
+        pais: this.filterPais(),
+      })
+      .subscribe({
+        next: (response) => {
+          this.totalItems.set(response.count);
+          this.schools.set(response.results);
+        },
+        error: (err) => {
+          this.toastService.showError(err.mensaje!, 'Malas noticias');
+        },
+      });
   }
 
   onPageChanged(page: number): void {
     this.currentPage.set(page);
-
-    this.searchParams.update((params) => {
-      return {
-        ...(params || {}),
-        page: this.currentPage(),
-        accessToken:
-          localStorage.getItem('casei_residencias_access_token') || '',
-      };
-    });
-
     this.cargarInstituciones();
   }
 
@@ -118,67 +103,39 @@ export default class SchoolsPageComponent implements OnInit {
   }
 
   onDisableSchool(schoolId: number) {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.commonService.desactivarInstitucion(schoolId, token).subscribe({
+    this.institucionService.deshabilitarInstitucion(schoolId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.toastService.showSuccess(res.mensaje!, 'Éxito');
-          this.cargarInstituciones();
-        } else {
-          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
-        }
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        this.cargarInstituciones();
       },
     });
   }
 
   onEnableSchool(schoolId: number) {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.commonService.activarInstitucion(schoolId, token).subscribe({
+    this.institucionService.habilitarInstitucion(schoolId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.toastService.showSuccess(res.mensaje!, 'Éxito');
-          this.cargarInstituciones();
-        } else {
-          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
-        }
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        this.cargarInstituciones();
       },
     });
   }
 
   filterInstitucionByName(searchTerm: string) {
-    this.searchParams.update((params) => {
-      return {
-        ...(params || {}),
-        nombre: searchTerm,
-        page: this.currentPage(),
-        accessToken:
-          localStorage.getItem('casei_residencias_access_token') || '',
-      };
-    });
+    this.filterName.set(searchTerm);
   }
 
   filterInstitucionByPais(searchTerm: string) {
-    this.searchParams.update((params) => {
-      return {
-        ...(params || {}),
-        pais: searchTerm,
-        page: this.currentPage(),
-        accessToken:
-          localStorage.getItem('casei_residencias_access_token') || '',
-      };
-    });
+    this.filterPais.set(searchTerm);
   }
 
   handleSelectEstadoChange(event: Event) {
@@ -187,15 +144,7 @@ export default class SchoolsPageComponent implements OnInit {
   }
 
   filterInstitucionByEstado(estado: string) {
-    this.searchParams.update((params) => {
-      return {
-        ...(params || {}),
-        estado: estado,
-        page: this.currentPage(),
-        accessToken:
-          localStorage.getItem('casei_residencias_access_token') || '',
-      };
-    });
+    this.filterEstado.set(estado);
   }
 
   searchWithFilters() {
@@ -212,13 +161,9 @@ export default class SchoolsPageComponent implements OnInit {
 
     selectEstado.selectedIndex = 0;
 
-    this.searchParams.set({
-      page: this.currentPage(), // Reiniciar la paginación a la primera página
-      accessToken: localStorage.getItem('casei_residencias_access_token') || '',
-      pais: '',
-      nombre: '',
-      estado: '',
-    });
+    this.filterPais.set('');
+    this.filterName.set('');
+    this.filterEstado.set('');
 
     setTimeout(() => {
       this.cargarInstituciones();

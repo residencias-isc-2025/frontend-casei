@@ -2,16 +2,11 @@ import { actualizarPeriodoUseCase } from './../../core/use-cases/periodos/actual
 import { Injectable } from '@angular/core';
 import {
   agregarAdscripcionUseCase,
-  agregarInstitucionUseCase,
   deshabilitarAdscripcionUseCase,
-  deshabilitarInstitucionUseCase,
   habilitarAdscripcionUseCase,
-  habilitarInstitucionUseCase,
   obtenerListaPaisesUseCase,
   obtenerListaAdscripcionUseCase,
-  obtenerListaInstitucionUseCase,
   actualizarAdscripcionUseCase,
-  actualizarInstitucionUseCase,
 } from '@core/index';
 import { obtenerAdscripcionByIdUseCase } from '@core/use-cases/adscripcion/obtener-adscripcion-by-id.use-case';
 import { obtenerListaObjetivosEspecificosUseCase } from '@core/use-cases/objetivos-especificos/obtener-lista-objetivos-especificos.use-case';
@@ -31,10 +26,6 @@ import { editarObjetivoEspecificoUseCase } from '@core/use-cases/objetivos-espec
   providedIn: 'root',
 })
 export class CommonService {
-  getInstitucionesList(searchParams: SearchParams) {
-    return from(obtenerListaInstitucionUseCase(searchParams));
-  }
-
   getPaisesList() {
     return from(obtenerListaPaisesUseCase());
   }
@@ -51,10 +42,6 @@ export class CommonService {
     return from(obtenerListaObjetivosEspecificosUseCase(searchParams));
   }
 
-  agregarInstitucion(institucionDto: InstitucionDto) {
-    return from(agregarInstitucionUseCase(institucionDto));
-  }
-
   agrearAreaAdscripcion(areaAdscripcionDto: AdscripcionDto) {
     return from(agregarAdscripcionUseCase(areaAdscripcionDto));
   }
@@ -65,10 +52,6 @@ export class CommonService {
 
   agregarObjetivoEspecifico(objetivoDto: ObjetivoEspecificoDto) {
     return from(agregarObjetivoEspecificoUseCase(objetivoDto));
-  }
-
-  actualizarInstitucion(idInstitucion: number, institucionDto: InstitucionDto) {
-    return from(actualizarInstitucionUseCase(idInstitucion, institucionDto));
   }
 
   actualizarAdscripcion(idAdscripcion: number, adscripcionDto: AdscripcionDto) {
@@ -86,20 +69,12 @@ export class CommonService {
     return from(editarObjetivoEspecificoUseCase(idObjetivo, objetivoDto));
   }
 
-  activarInstitucion(idInstitucion: number, accessToken: string) {
-    return from(habilitarInstitucionUseCase(idInstitucion, accessToken));
-  }
-
   activarAdscripcion(idAdscripcion: number, accessToken: string) {
     return from(habilitarAdscripcionUseCase(idAdscripcion, accessToken));
   }
 
   activarPeriodo(idPeriodo: number, accessToken: string) {
     return from(activarPeriodoUseCase(idPeriodo, accessToken));
-  }
-
-  desactivarInstitucion(idInstitucion: number, accessToken: string) {
-    return from(deshabilitarInstitucionUseCase(idInstitucion, accessToken));
   }
 
   desactivarAdscripcion(idAdscripcion: number, accessToken: string) {

@@ -8,9 +8,6 @@ import {
 } from '@angular/core';
 
 // Modals
-import {
-  ChangePasswordComponent,
-} from '@modals/index';
 
 // Services
 import {
@@ -23,6 +20,7 @@ import { Router } from '@angular/router';
 import { User } from '@core/models/user.model';
 import { UserService } from '@core/services/user.service';
 import { UpdateProfileComponent } from '@presentation/forms/update-profile/update-profile.component';
+import { ChangePasswordComponent } from '@presentation/forms/change-password/change-password.component';
 
 interface ProfileButtons {
   id: number;

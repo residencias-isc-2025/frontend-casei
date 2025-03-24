@@ -45,9 +45,7 @@
     </select>
 
     <button
-      (click)="
-        clearAllFilters(searchByCountry, searchByName, selectEstado)
-      "
+      (click)="clearAllFilters(searchByCountry, searchByName, selectEstado)"
       class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded transition"
     >
       Limpiar Filtros
@@ -127,16 +125,18 @@
 </div>
 
 @if (showAddModal()) {
-<app-add-institucion
+<app-institucion-form
+  [editing]="false"
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
   [countriesList]="countries()"
 />
 } @if(showUpdateModal()) {
-<app-update-institucion
+<app-institucion-form
+  [editing]="true"
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
-  [school]="schoolSelected()!"
+  [institucion]="schoolSelected()!"
   [countriesList]="countries()"
 />
 }

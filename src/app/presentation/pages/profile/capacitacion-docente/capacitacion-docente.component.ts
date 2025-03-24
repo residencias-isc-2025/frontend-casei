@@ -15,12 +15,13 @@ import {
 
 import {
   CommonService,
-  InstitucionesService,
   ProfileService,
   ToastService,
   UsersService,
 } from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
+import { InstitucionService } from '@core/services/institucion.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-capcitacion-docente',
@@ -34,11 +35,12 @@ import { PaginationComponent } from '@components/pagination/pagination.component
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class CapitacionDocenteComponent implements OnInit {
-  public toastService = inject(ToastService);
+  toastService = inject(ToastService);
+  institucionService = inject(InstitucionService);
+
   public profileService = inject(ProfileService);
   public commonService = inject(CommonService);
   public usersService = inject(UsersService);
-  public institucionesService = inject(InstitucionesService);
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
@@ -55,10 +57,16 @@ export default class CapitacionDocenteComponent implements OnInit {
   public currentPage = signal(1);
 
   ngOnInit(): void {
-    this.institucionesService.loadInstituciones();
-    this.institucionesService.getInstituciones().subscribe((lista) => {
-      this.institucionesList.set(lista);
-    });
+    this.institucionService
+      .obtenerInstitucionesPaginadas(1, 100, {
+        estado: 'activo',
+      })
+      .pipe(
+        tap((res) => {
+          this.institucionesList.set(res.results);
+        })
+      )
+      .subscribe();
     this.loadCapacitacionDocente();
   }
 

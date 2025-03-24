@@ -20,9 +20,10 @@ import {
   ProfileService,
   CommonService,
   UsersService,
-  InstitucionesService,
 } from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
+import { InstitucionService } from '@core/services/institucion.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-actualizacion-disciplinar',
@@ -36,11 +37,12 @@ import { PaginationComponent } from '@components/pagination/pagination.component
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ActualizacionDisciplinarComponent {
-  public toastService = inject(ToastService);
+  toastService = inject(ToastService);
+  institucionService = inject(InstitucionService);
+
   public profileService = inject(ProfileService);
   public commonService = inject(CommonService);
   public usersService = inject(UsersService);
-  public institucionesService = inject(InstitucionesService);
 
   public showAddModal = signal(false);
   public showUpdateModal = signal(false);
@@ -57,10 +59,16 @@ export default class ActualizacionDisciplinarComponent {
     signal<ActualizacionDisciplinarData | null>(null);
 
   ngOnInit(): void {
-    this.institucionesService.loadInstituciones();
-    this.institucionesService.getInstituciones().subscribe((lista) => {
-      this.institucionesList.set(lista);
-    });
+    this.institucionService
+      .obtenerInstitucionesPaginadas(1, 100, {
+        estado: 'activo',
+      })
+      .pipe(
+        tap((res) => {
+          this.institucionesList.set(res.results);
+        })
+      )
+      .subscribe();
     this.loadActualizacionDisciplinarList();
   }
 

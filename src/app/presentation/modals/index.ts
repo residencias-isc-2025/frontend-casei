@@ -1,4 +1,3 @@
-export * from './change-password/change-password.component';
 export * from './confirmation-modal/confirmation-modal.component';
 
 export * from './01-formacion-academica/add-academic-training/add-academic-training.component';
@@ -33,9 +32,6 @@ export * from './10-premios/update-premios/update-premios.component';
 
 export * from './11-aportaciones/add-aportacion/add-aportacion.component';
 export * from './11-aportaciones/update-aportacion/update-aportacion.component';
-
-export * from './instituciones/add-institucion/add-institucion.component';
-export * from './instituciones/update-institucion/update-institucion.component';
 
 export * from './area-adscripcion/add-area-adscripcion/add-area-adscripcion.component';
 export * from './area-adscripcion/update-area-adscripcion/update-area-adscripcion.component';
