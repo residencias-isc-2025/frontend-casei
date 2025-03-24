@@ -7,7 +7,8 @@ import {
 } from '@angular/core';
 import { SideMenuComponent } from '@components/side-menu/side-menu.component';
 import { Router, RouterOutlet } from '@angular/router';
-import { UsersService, AuthService } from '@services/index';
+import { AuthService } from '@core/services/auth.service';
+import { UserService } from '@core/services/user.service';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -16,9 +17,9 @@ import { UsersService, AuthService } from '@services/index';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class DashboardLayoutComponent implements OnInit {
-  private router = inject(Router);
-  public authService = inject(AuthService);
-  public usersService = inject(UsersService);
+  auth = inject(AuthService);
+  userService = inject(UserService);
+  router = inject(Router);
 
   userRole = signal<string>(this.loadUserRole());
 
@@ -27,7 +28,7 @@ export default class DashboardLayoutComponent implements OnInit {
   }
 
   loadUserRole(): string {
-    return this.usersService.getUserRole();
+    return this.userService.obtenerRolUsuario();
   }
 
   listenToStorageChanges(): void {
@@ -44,9 +45,7 @@ export default class DashboardLayoutComponent implements OnInit {
   }
 
   handleLogout() {
-    localStorage.removeItem('casei_residencias_access_token');
-    localStorage.removeItem('casei_residencias_refresh_token');
-    localStorage.removeItem('user-role');
+    this.auth.logout();
     this.userRole.set('user');
     this.router.navigateByUrl('/auth/login');
   }

@@ -1,3 +1,4 @@
+import { User } from '@core/models/user.model';
 import { ActualizacionDisciplinarData } from '../actualizacion-disciplinar.response';
 import { AportacionData } from '../aportaciones.response';
 import { CapacitacionDocenteData } from '../capacitacion-docente.response';
@@ -9,10 +10,9 @@ import { LogroProfesionalData } from '../logros-profesionales.response';
 import { ParticipacionData } from '../participacion.response';
 import { PremioData } from '../premios.response';
 import { ProductoAcademicoData } from '../productos-academicos.response';
-import { UserResponse } from '../user.response';
 
 export interface CurriculumVitaeResponse {
-  usuario: UserResponse;
+  usuario: User;
   formacion_academica: FormacionAcademicaData[];
   capacitacion_docente: CapacitacionDocenteData[];
   actualizacion_disciplinaria: ActualizacionDisciplinarData[];

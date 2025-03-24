@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormBuilder,
-  FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { AuthService, ToastService } from '@services/index';
+import { ToastService } from '@core/services/toast.service';
+import { AuthService } from '@core/services/auth.service';
 
 @Component({
   selector: 'app-login-page',
@@ -16,19 +16,17 @@ import { AuthService, ToastService } from '@services/index';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class LoginPageComponent {
-  private router = inject(Router);
+  fb = inject(FormBuilder);
 
-  public authService = inject(AuthService);
-  public toastService = inject(ToastService);
+  auth = inject(AuthService);
+  toastService = inject(ToastService);
 
-  myForm: FormGroup;
+  router = inject(Router);
 
-  constructor(private fb: FormBuilder) {
-    this.myForm = this.fb.group({
-      nomina: ['', [Validators.required]],
-      cip: ['', [Validators.required]],
-    });
-  }
+  myForm = this.fb.group({
+    nomina: ['', [Validators.required]],
+    cip: ['', [Validators.required]],
+  });
 
   handleLogin() {
     if (this.myForm.invalid) {
@@ -41,26 +39,13 @@ export default class LoginPageComponent {
 
     const { nomina, cip } = this.myForm.value;
 
-    this.authService.login(nomina, cip).subscribe({
+    this.auth.login(nomina!, cip!).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          localStorage.setItem(
-            'casei_residencias_access_token',
-            res.tokens!.access!
-          );
-          localStorage.setItem(
-            'casei_residencias_refresh_token',
-            res.tokens!.refresh!
-          );
-
-          this.toastService.showSuccess(res.mensaje!, 'Bienvenido');
-          this.router.navigateByUrl('/dashboard');
-        } else {
-          this.toastService.showError(res.mensaje!, 'Malas noticias');
-        }
+        this.toastService.showSuccess(res.mensaje!, 'Bienvenido');
+        this.router.navigateByUrl('/dashboard');
       },
     });
   }

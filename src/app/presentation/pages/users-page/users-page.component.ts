@@ -5,23 +5,21 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { CreateUserComponent } from '@modals/index';
-import {
-  AdscripcionesService,
-  ToastService,
-  UsersService,
-} from '@services/index';
-import { AdscripcionData, UserResponse } from '@interfaces/index';
+
+import { AdscripcionesService, ToastService } from '@services/index';
+import { AdscripcionData } from '@interfaces/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { CommonModule } from '@angular/common';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
-import { SearchParams } from '@interfaces/dtos/search-params.dto';
+import { UserService } from '@core/services/user.service';
+import { User } from '@core/models/user.model';
+import { UserFormComponent } from '@presentation/forms/user-form/user-form.component';
 
 @Component({
   selector: 'app-users-page',
   imports: [
     CommonModule,
-    CreateUserComponent,
+    UserFormComponent,
     PaginationComponent,
     SearchBarComponent,
   ],
@@ -29,26 +27,22 @@ import { SearchParams } from '@interfaces/dtos/search-params.dto';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class UsersPageComponent implements OnInit {
-  public toastService = inject(ToastService);
-  public usersService = inject(UsersService);
-  public adscripcionesService = inject(AdscripcionesService);
+  toastService = inject(ToastService);
+  userService = inject(UserService);
+  adscripcionesService = inject(AdscripcionesService);
 
-  public showModal = signal(false);
+  showModal = signal(false);
+  totalItems = signal(0);
+  users = signal<User[]>([]);
+  adscripcionesList = signal<AdscripcionData[]>([]);
+  currentPage = signal(1);
 
-  public totalItems = signal(0);
-  public users = signal<UserResponse[]>([]);
-  public adscripcionesList = signal<AdscripcionData[]>([]);
-
-  public currentPage = signal(1);
-
-  public searchParams = signal<SearchParams | undefined>(undefined);
+  filterNomina = signal<string>('');
+  filterName = signal<string>('');
+  filterArea = signal<string>('');
+  filterEstado = signal<string>('');
 
   ngOnInit(): void {
-    this.searchParams.set({
-      page: this.currentPage(),
-      accessToken: localStorage.getItem('casei_residencias_access_token') || '',
-    });
-
     this.adscripcionesService.loadAdscripciones();
     this.adscripcionesService.getAdscripcion().subscribe((lista) => {
       this.adscripcionesList.set(lista);
@@ -58,38 +52,33 @@ export default class UsersPageComponent implements OnInit {
   }
 
   private loadUsers(): void {
-    this.usersService.getAllUsers(this.searchParams()!).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.totalItems.set(res.items!);
-          this.users.set(res.usuarios || []);
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener los usuarios.',
-            'Hubo un problema'
+    this.userService
+      .obtenerUsuariosPaginados(this.currentPage(), 10, {
+        nomina: this.filterNomina(),
+        area: this.filterArea(),
+        estado: this.filterEstado(),
+        nombre: this.filterName(),
+      })
+      .subscribe({
+        next: (response) => {
+          this.totalItems.set(response.count);
+          this.users.set(response.results);
+        },
+        error: () => {
+          this.toastService.showError(
+            'Error al obtener usuarios.',
+            'Malas noticias'
           );
-        }
-      },
-    });
+        },
+      });
   }
 
   resetPassword(userId: number): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.usersService.resetPassword(token, userId).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          this.toastService.showSuccess(res.mensaje!, 'Éxito');
-        } else {
-          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
-        }
-      },
+    this.userService.reestablecerPassword(userId).subscribe({
+      next: (response) =>
+        this.toastService.showSuccess(response.mensaje, 'Éxito'),
+      error: (response) =>
+        this.toastService.showSuccess(response.mensaje, 'Malas noticias'),
     });
   }
 
@@ -119,105 +108,61 @@ export default class UsersPageComponent implements OnInit {
       return;
     }
 
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
     const formData = new FormData();
     formData.append('archivo_csv', file);
 
     this.toastService.showInfo('Por favor espere...', 'Creando usuarios');
 
-    this.usersService.createUsersByCsv(token, formData).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
+    this.userService.crearUsuariosPorCsv(formData).subscribe({
+      error: (response) => {
+        this.toastService.showError(response.mensaje!, 'Malas noticias');
       },
-      next: (res) => {
-        if (res.ok) {
-          this.toastService.showSuccess(res.mensaje!, 'Éxito');
-          this.loadUsers();
-        } else {
-          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
-        }
+      next: (response) => {
+        this.toastService.showSuccess(response.mensaje!, 'Éxito');
+        this.loadUsers();
       },
     });
   }
 
   onPageChanged(page: number): void {
     this.currentPage.set(page);
-
-    this.searchParams.update((params) => {
-      return {
-        ...(params || {}),
-        page: this.currentPage(),
-        accessToken:
-          localStorage.getItem('casei_residencias_access_token') || '',
-      };
-    });
-
     this.loadUsers();
   }
 
   onDisableUser(userId: number) {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.usersService.disableUserFunction(userId, token).subscribe({
+    this.userService.deshabilitarUsuario(userId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.toastService.showSuccess(res.mensaje!, 'Éxito');
-          this.loadUsers();
-        } else {
-          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
-        }
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        this.loadUsers();
       },
     });
   }
 
   onEnableUser(userId: number) {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.usersService.enableUserFunction(userId, token).subscribe({
+    this.userService.habilitarUsuario(userId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.toastService.showSuccess(res.mensaje!, 'Éxito');
-          this.loadUsers();
-        } else {
-          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
-        }
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        this.loadUsers();
       },
     });
   }
 
   filterUsersByNomina(searchTerm: string) {
-    this.searchParams.update((params) => {
-      return {
-        ...(params || {}),
-        nomina: searchTerm,
-        page: this.currentPage(),
-        accessToken:
-          localStorage.getItem('casei_residencias_access_token') || '',
-      };
-    });
+    this.filterNomina.set(searchTerm);
   }
 
   filterUsersByName(searchTerm: string) {
-    this.searchParams.update((params) => {
-      return {
-        ...(params || {}),
-        nombre: searchTerm,
-        page: this.currentPage(),
-        accessToken:
-          localStorage.getItem('casei_residencias_access_token') || '',
-      };
-    });
+    this.filterName.set(searchTerm);
   }
 
   handleSelectAreaChange(event: Event) {
@@ -231,27 +176,11 @@ export default class UsersPageComponent implements OnInit {
   }
 
   filterUsersByArea(areaId: string) {
-    this.searchParams.update((params) => {
-      return {
-        ...(params || {}),
-        area_adscripcion: areaId,
-        page: this.currentPage(),
-        accessToken:
-          localStorage.getItem('casei_residencias_access_token') || '',
-      };
-    });
+    this.filterArea.set(areaId);
   }
 
   filterUsersByEstado(estado: string) {
-    this.searchParams.update((params) => {
-      return {
-        ...(params || {}),
-        estado: estado,
-        page: this.currentPage(),
-        accessToken:
-          localStorage.getItem('casei_residencias_access_token') || '',
-      };
-    });
+    this.filterEstado.set(estado);
   }
 
   searchWithFilters() {
@@ -270,26 +199,17 @@ export default class UsersPageComponent implements OnInit {
     selectArea.selectedIndex = 0;
     selectEstado.selectedIndex = 0;
 
-    this.searchParams.set({
-      page: this.currentPage(), // Reiniciar la paginación a la primera página
-      accessToken: localStorage.getItem('casei_residencias_access_token') || '',
-      nomina: '',
-      nombre: '',
-      area_adscripcion: '',
-      estado: '',
-    });
+    this.filterNomina.set('');
+    this.filterName.set('');
+    this.filterArea.set('');
+    this.filterEstado.set('');
 
     setTimeout(() => {
       this.loadUsers();
     }, 100);
   }
 
-  cleanRole(user: UserResponse): string {
-    const role = user.role;
-    return role === 'superuser'
-      ? 'Super usuario'
-      : role === 'admin'
-      ? 'Administrador'
-      : 'Docente';
+  cleanRole(user: User): string {
+    return this.userService.limpiarRol(user);
   }
 }

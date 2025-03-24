@@ -1,13 +1,3 @@
-export * from './use-cases/login.use-case';
-export * from './use-cases/usuarios/create-user.use-case';
-export * from './use-cases/usuarios/get-all-users.use-case';
-export * from './use-cases/perfil/get-user.use-case';
-
-export * from './use-cases/perfil/update-user.use-case';
-export * from './use-cases/perfil/change-password.use-case';
-export * from './use-cases/usuarios/enable-user.user.use-case';
-export * from './use-cases/usuarios/disable-user.user.use-case';
-
 export * from './use-cases/formacion-academica/obtener-lista-formacion-academica.use-case';
 export * from './use-cases/capacitacion-docente/obtener-lista-capacitacion-docente.use-case';
 export * from './use-cases/actualizacion-disciplinar/obtener-lista-actualizacion-disciplinar.use-case';
@@ -55,9 +45,6 @@ export * from './use-cases/logro-profesional/eliminar-logro-profesional.use-case
 export * from './use-cases/participacion/eliminar-participacion.use-case';
 export * from './use-cases/premio/eliminar-premio.use-case';
 export * from './use-cases/aportacion/eliminar-aportacion.use-case';
-
-export * from './use-cases/usuarios/reset-password.use-case';
-export * from './use-cases/usuarios/create-users-by-csv.use-case';
 
 export * from './use-cases/institucion/obtener-lista-institucion.use-case';
 export * from './use-cases/pais/obtener-lista-paises.use-case';

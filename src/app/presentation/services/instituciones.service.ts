@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { InstitucionData } from '@interfaces/index';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CommonService } from './common.service';
-import { ToastService } from './toast.service';
+import { ToastService } from '../../core/services/toast.service';
 
 @Injectable({
   providedIn: 'root',

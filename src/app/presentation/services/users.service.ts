@@ -5,7 +5,6 @@ import {
   ActualizacionDisciplinarDto,
   AportacionDto,
   CapacitacionDocenteDto,
-  CreateUserDto,
   DisenoIngenierilDto,
   ExperienciaProfesionalDto,
   FormacionAcademicaDto,
@@ -14,7 +13,6 @@ import {
   ParticipacionDto,
   PremiosDto,
   ProductoAcademicoDto,
-  UpdateUserDto,
 } from '@interfaces/index';
 
 import {
@@ -29,9 +27,6 @@ import {
   agregarLogroProfesionalUseCase,
   agregarExperienciaProfesionalUseCase,
   agregarCapacitacionDocenteUseCase,
-  changePasswordUseCase,
-  createUsersByCsvUseCase,
-  createUserUseCase,
   eliminarGestionAcademicaUseCase,
   eliminarProductoAcademicoUseCase,
   eliminarFormacionAcademica,
@@ -43,11 +38,6 @@ import {
   eliminarLogroProfesionalUseCse,
   eliminarExperienciaProfesionalUseCase,
   eliminarCapacitacionDocenteUseCase,
-  disableUserUseCase,
-  enableUserUseCase,
-  getAllUsersUseCase,
-  getUserUseCase,
-  resetPasswordUseCase,
   actualizarGestionAcademicaUseCase,
   updateAcademicProductsUseCase,
   actualizarFormacionAcademicaUseCase,
@@ -59,54 +49,12 @@ import {
   actualizarLogroProfesionalUseCase,
   actualizarExperienciaProfesionalUseCase,
   actualizarCapacitacionDocenteUseCase,
-  updateUserUseCase,
 } from '@core/index';
-import { SearchParams } from '@interfaces/dtos/search-params.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  getUserRole(): string {
-    return localStorage.getItem('user-role') || 'user';
-  }
-
-  createUser(user: CreateUserDto) {
-    return from(createUserUseCase(user));
-  }
-
-  getAllUsers(searchParms: SearchParams) {
-    return from(getAllUsersUseCase(searchParms));
-  }
-
-  getLoggedUser(accessToken: string) {
-    return from(getUserUseCase(accessToken));
-  }
-
-  updateUserData(accessToken: string, user: UpdateUserDto) {
-    return from(updateUserUseCase(accessToken, user));
-  }
-
-  changePassword(accessToken: string, newPassword: string) {
-    return from(changePasswordUseCase(accessToken, newPassword));
-  }
-
-  resetPassword(accessToken: string, userId: number) {
-    return from(resetPasswordUseCase(accessToken, userId));
-  }
-
-  createUsersByCsv(accessToken: string, formData: FormData) {
-    return from(createUsersByCsvUseCase(accessToken, formData));
-  }
-
-  enableUserFunction(userId: number, accessToken: string) {
-    return from(enableUserUseCase(userId, accessToken));
-  }
-
-  disableUserFunction(userId: number, accessToken: string) {
-    return from(disableUserUseCase(userId, accessToken));
-  }
-
   //#region Formación académica
   agregarFormacionAcademica(formacionAcademica: FormacionAcademicaDto) {
     return from(agregarFormacionAcademicaUseCase(formacionAcademica));

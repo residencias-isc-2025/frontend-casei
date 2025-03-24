@@ -1,10 +1,9 @@
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
-
 import { provideAnimations } from '@angular/platform-browser/animations';
-
+import { provideRouter } from '@angular/router';
+import { authInterceptor } from '@core/interceptors/auth.interceptor';
 import { provideToastr } from 'ngx-toastr';
-
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -13,5 +12,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimations(), // required animations providers
     provideToastr(),
+    provideHttpClient(withInterceptors([authInterceptor])),
   ],
 };

@@ -1,5 +1,3 @@
-export * from './create-user/create-user.component';
-export * from './update-teacher-name/update-teacher-name.component';
 export * from './change-password/change-password.component';
 export * from './confirmation-modal/confirmation-modal.component';
 

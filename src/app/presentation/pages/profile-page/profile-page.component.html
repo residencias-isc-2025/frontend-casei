@@ -82,7 +82,7 @@
 
 <!-- Editar información -->
 @if(showUpdateModal()) {
-<app-update-teacher-name
+<app-update-profile
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onUpdateInfoEmit()"
   [adscripcionesList]="adscripcionesList()"

@@ -1,4 +1,4 @@
-export interface UserResponse {
+export interface User {
   id: number;
   username: string;
   role: string;
@@ -9,4 +9,5 @@ export interface UserResponse {
   fecha_nacimiento: null | string;
   tipo_docente: null | string;
   area_adscripcion: null | number;
+  password?: string;
 }

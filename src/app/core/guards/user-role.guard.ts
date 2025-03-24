@@ -1,18 +1,21 @@
 import { inject } from '@angular/core';
 import { Router, type CanMatchFn } from '@angular/router';
-import { UsersService } from '@presentation/services';
+import { AuthService } from '@core/services/auth.service';
+import { UserService } from '@core/services/user.service';
 
 export const userRoleGuard: CanMatchFn = () => {
-  const usersService = inject(UsersService);
+  const auth = inject(AuthService);
+  const userService = inject(UserService);
   const router = inject(Router);
 
-  const token = localStorage.getItem('casei_residencias_access_token');
+  const token = auth.getToken();
+
   if (!token) {
     router.navigate(['/auth/login']);
     return false;
   }
 
-  const userRole = usersService.getUserRole();
+  const userRole = userService.obtenerRolUsuario();
   if (userRole === 'superuser' || userRole === 'admin') {
     return true;
   }

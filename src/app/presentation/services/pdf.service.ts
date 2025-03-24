@@ -6,7 +6,7 @@ import {
   InstitucionData,
 } from '@interfaces/index';
 import { curriculumVitaeReport } from '@presentation/reports/curriculum-vitae.report';
-import { ToastService } from './toast.service';
+import { ToastService } from '../../core/services/toast.service';
 import { curriculumSinteticoReport } from '@presentation/reports/curriculum-sintetico.report';
 
 @Injectable({

@@ -9,7 +9,6 @@ import {
 
 // Modals
 import {
-  UpdateTeacherNameComponent,
   ChangePasswordComponent,
 } from '@modals/index';
 
@@ -18,10 +17,12 @@ import {
   AdscripcionesService,
   CommonService,
   ToastService,
-  UsersService,
 } from '@services/index';
-import { AdscripcionData, UserResponse } from '@interfaces/index';
+import { AdscripcionData } from '@interfaces/index';
 import { Router } from '@angular/router';
+import { User } from '@core/models/user.model';
+import { UserService } from '@core/services/user.service';
+import { UpdateProfileComponent } from '@presentation/forms/update-profile/update-profile.component';
 
 interface ProfileButtons {
   id: number;
@@ -31,12 +32,12 @@ interface ProfileButtons {
 
 @Component({
   selector: 'app-profile-page',
-  imports: [CommonModule, UpdateTeacherNameComponent, ChangePasswordComponent],
+  imports: [CommonModule, UpdateProfileComponent, ChangePasswordComponent],
   templateUrl: './profile-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ProfilePageComponent implements OnInit {
-  user = signal<UserResponse | null>(null);
+  user = signal<User | null>(null);
   adscripcion = signal<AdscripcionData | null>(null);
   selectedId = signal<number>(-1);
 
@@ -45,7 +46,7 @@ export default class ProfilePageComponent implements OnInit {
 
   router = inject(Router);
   toastService = inject(ToastService);
-  usersService = inject(UsersService);
+  userService = inject(UserService);
   commonService = inject(CommonService);
   adscripcionesService = inject(AdscripcionesService);
 
@@ -81,9 +82,10 @@ export default class ProfilePageComponent implements OnInit {
   }
 
   loadUserInfo(): void {
+    // !TEMPORAL
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.usersService.getLoggedUser(token).subscribe({
+    this.userService.obtenerPerfil().subscribe({
       error: (err) => {
         this.toastService.showError(
           err.mensaje || 'Error al cargar datos',
@@ -91,12 +93,11 @@ export default class ProfilePageComponent implements OnInit {
         );
       },
       next: (resp) => {
-        localStorage.setItem('user-role', resp.usuario!.role);
-        this.user.set(resp.usuario!);
+        localStorage.setItem('user-role', resp.role);
+        this.user.set(resp);
+        if (!resp.area_adscripcion) return;
 
-        if (!resp.usuario?.area_adscripcion) return;
-
-        this.loadAdscripcion(token, resp.usuario.area_adscripcion);
+        this.loadAdscripcion(token, resp.area_adscripcion);
       },
     });
   }
@@ -123,12 +124,7 @@ export default class ProfilePageComponent implements OnInit {
   }
 
   cleanRole(): string {
-    const role = this.user()?.role;
-    return role === 'superuser'
-      ? 'Super usuario'
-      : role === 'admin'
-      ? 'Administrador'
-      : 'Docente';
+    return this.userService.limpiarRol(this.user()!);
   }
 
   handleClick(id: number) {

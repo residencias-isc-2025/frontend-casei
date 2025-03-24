@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PeriodoData } from '@interfaces/use-cases/periodo.response';
-import { ToastService } from './toast.service';
+import { ToastService } from '../../core/services/toast.service';
 import { CommonService } from './common.service';
 
 @Injectable({

@@ -15,7 +15,7 @@
     </div>
 
     <form
-      [formGroup]="updateTeacherNameForm"
+      [formGroup]="form"
       (keydown.enter)="onSaveData()"
       class="mt-4"
     >
@@ -26,7 +26,7 @@
           >Fecha de nacimiento</label
         >
         <app-custom-datepicker
-          [selected]="updateTeacherNameForm.get('fecha_nacimiento')?.value"
+          [selected]="form.get('fecha_nacimiento')!.value"
           (dateSelected)="onDateSelected($event)"
         />
       </div>
@@ -92,7 +92,7 @@
         </button>
         <button
           class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg disabled:bg-gray-500"
-          [disabled]="updateTeacherNameForm.invalid"
+          [disabled]="form.invalid"
           (click)="onSaveData()"
         >
           Guardar
