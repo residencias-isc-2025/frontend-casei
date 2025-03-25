@@ -62,17 +62,19 @@
 </div>
 
 @if (showAddModal()) {
-<app-add-gestion-academica
+<app-gestion-academica-form
+  [editing]="false"
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
-  [listaInstituciones]="institucionesList()"
+  [instituciones]="institucionesList()"
   title="Agregar gestión académica"
 />
 } @if (showUpdateModal()) {
-<app-update-gestion-academica
+<app-gestion-academica-form
+  [editing]="true"
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
-  [listaInstituciones]="institucionesList()"
+  [instituciones]="institucionesList()"
   [gestionAcademica]="gestionAcademicaSelected()!"
   title="Agregar gestión académica"
 />

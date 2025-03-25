@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
 
 import {
-  GestionAcademicaDto,
   LogroPrefesionalDto,
   ParticipacionDto,
   PremiosDto,
@@ -10,17 +9,14 @@ import {
 } from '@interfaces/index';
 
 import {
-  agregarGestionAcademicaUseCase,
   agregarProductoAcademicoUseCase,
   agregarPremioUseCase,
   agregarParticipacionUseCase,
   agregarLogroProfesionalUseCase,
-  eliminarGestionAcademicaUseCase,
   eliminarProductoAcademicoUseCase,
   eliminarPremioUseCase,
   eliminarParticipacionUseCase,
   eliminarLogroProfesionalUseCse,
-  actualizarGestionAcademicaUseCase,
   updateAcademicProductsUseCase,
   actualizarPremioUseCase,
   actualizarParticipacionUseCase,
@@ -31,25 +27,6 @@ import {
   providedIn: 'root',
 })
 export class UsersService {
-  //#region Gestión académica
-  agregarGestionAcademica(gestionAcademicaDto: GestionAcademicaDto) {
-    return from(agregarGestionAcademicaUseCase(gestionAcademicaDto));
-  }
-
-  actualizarGestionAcademica(
-    idGestion: number,
-    gestionAcademicaDto: GestionAcademicaDto
-  ) {
-    return from(
-      actualizarGestionAcademicaUseCase(idGestion, gestionAcademicaDto)
-    );
-  }
-
-  borrarGestionAcademica(idGestion: number, accessToken: string) {
-    return from(eliminarGestionAcademicaUseCase(idGestion, accessToken));
-  }
-  //#endregion
-
   //#region Productos académicos
   agregarProductosAcademicos(productosAcademicosDto: ProductoAcademicoDto) {
     return from(agregarProductoAcademicoUseCase(productosAcademicosDto));

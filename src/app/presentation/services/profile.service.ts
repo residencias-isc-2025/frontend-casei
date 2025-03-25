@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {
-  obtenerListaGestionAcademicaUseCase,
   obtenerListaProductoAcademicoUseCase,
   obtenerListaPremioUseCase,
   obtenerListaParticipacionUseCase,
@@ -13,16 +12,6 @@ import { from } from 'rxjs';
   providedIn: 'root',
 })
 export class ProfileService {
-  loadGestionAcademicaFunction(
-    accessToken: string,
-    page: number,
-    pageSize: number = 10
-  ) {
-    return from(
-      obtenerListaGestionAcademicaUseCase(accessToken, page, pageSize)
-    );
-  }
-
   loadProductosAcademicosFunction(
     accessToken: string,
     page: number,

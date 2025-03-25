@@ -5,28 +5,20 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { GestionAcademicaData } from '@interfaces/index';
-import {
-  CommonService,
-  ProfileService,
-  ToastService,
-  UsersService,
-} from '@services/index';
-import {
-  AddGestionAcademicaComponent,
-  ConfirmationModalComponent,
-  UpdateGestionAcademicaComponent,
-} from '@modals/index';
+import { ToastService } from '@services/index';
+import { ConfirmationModalComponent } from '@modals/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { InstitucionService } from '@core/services/institucion.service';
 import { tap } from 'rxjs';
 import { Institucion } from '@core/models/institucion.model';
+import { GestionAcademicaFormComponent } from '@presentation/forms/gestion-academica-form/gestion-academica-form.component';
+import { GestionAcademicaService } from '@core/services/gestion-academica.service';
+import { GestionAcademica } from '@core/models/gestion-academica.model';
 
 @Component({
   selector: 'app-gestion-academica',
   imports: [
-    AddGestionAcademicaComponent,
-    UpdateGestionAcademicaComponent,
+    GestionAcademicaFormComponent,
     PaginationComponent,
     ConfirmationModalComponent,
   ],
@@ -36,26 +28,25 @@ import { Institucion } from '@core/models/institucion.model';
 export default class GestionAcademicaComponent implements OnInit {
   toastService = inject(ToastService);
   institucionService = inject(InstitucionService);
+  gestionAcademicaService = inject(GestionAcademicaService);
 
-  public profileService = inject(ProfileService);
-  public commonService = inject(CommonService);
-  public usersService = inject(UsersService);
+  showAddModal = signal(false);
+  showUpdateModal = signal(false);
+  showDeleteModal = signal(false);
 
-  public showAddModal = signal(false);
-  public showUpdateModal = signal(false);
-  public showDeleteModal = signal(false);
+  gestionAcademicaList = signal<GestionAcademica[]>([]);
+  institucionesList = signal<Institucion[]>([]);
 
-  public gestionAcademicaList = signal<GestionAcademicaData[]>([]);
-  public institucionesList = signal<Institucion[]>([]);
+  gestionAcademicaSelected = signal<GestionAcademica | null>(null);
 
-  public gestionAcademicaSelected = signal<GestionAcademicaData | null>(null);
-
-  public totalItems = signal(0);
-  public currentPage = signal(1);
+  totalItems = signal(0);
+  currentPage = signal(1);
 
   ngOnInit(): void {
     this.institucionService
       .obtenerInstitucionesPaginadas(1, 100, {
+        nombre: '',
+        pais: '',
         estado: 'activo',
       })
       .pipe(
@@ -68,34 +59,25 @@ export default class GestionAcademicaComponent implements OnInit {
   }
 
   private loadGestionAcademicaList(): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.profileService
-      .loadGestionAcademicaFunction(token, this.currentPage())
+    this.gestionAcademicaService
+      .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
-          if (res.ok) {
-            this.totalItems.set(res.items!);
-            this.gestionAcademicaList.set(res.data || []);
-          } else {
-            this.toastService.showWarning(
-              'No se pudieron obtener las gestiones académicas.',
-              'Hubo un problema'
-            );
-          }
+          this.totalItems.set(res.count);
+          this.gestionAcademicaList.set(res.results);
         },
       });
   }
 
-  onShowUpdateModal(gestionAcademica: GestionAcademicaData) {
+  onShowUpdateModal(gestionAcademica: GestionAcademica) {
     this.gestionAcademicaSelected.set(gestionAcademica);
     this.showUpdateModal.set(true);
   }
 
-  onShowDeleteModal(gestionAcademica: GestionAcademicaData) {
+  onShowDeleteModal(gestionAcademica: GestionAcademica) {
     this.gestionAcademicaSelected.set(gestionAcademica);
     this.showDeleteModal.set(true);
   }
@@ -118,21 +100,13 @@ export default class GestionAcademicaComponent implements OnInit {
   onDelete(itemId: number) {
     this.showDeleteModal.set(false);
 
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.usersService.borrarGestionAcademica(itemId, token).subscribe({
+    this.gestionAcademicaService.deshabilitar(itemId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.loadGestionAcademicaList();
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener las gestiones académicas.',
-            'Hubo un problema'
-          );
-        }
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        this.loadGestionAcademicaList();
       },
     });
   }

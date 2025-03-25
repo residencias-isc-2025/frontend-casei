@@ -4,6 +4,7 @@ import { CapacitacionDocente } from '@core/models/capacitacion-docente.model';
 import { DisenoIngenieril } from '@core/models/diseno-ingenieril.model';
 import { ExperienciaProfesional } from '@core/models/experiencia-profesional.model';
 import { FormacionAcademica } from '@core/models/formacion-academica.model';
+import { GestionAcademica } from '@core/models/gestion-academica.model';
 import { Institucion } from '@core/models/institucion.model';
 import { calculateAge } from '@helpers/calculate-age.helper';
 import { calculateSeniority } from '@helpers/calculate-seniority.helper';
@@ -12,7 +13,6 @@ import { formatedBirthdate } from '@helpers/formated-birthdate.helper';
 import { getLastNomination } from '@helpers/get-last-nomination.helper';
 import {
   CurriculumVitaeResponse,
-  GestionAcademicaData,
   LogroProfesionalData,
   ParticipacionData,
   PremioData,
@@ -473,7 +473,7 @@ export const curriculumVitaeReport = (
           },
         ],
       ],
-      body: data.gestion_academica.map((item: GestionAcademicaData) => [
+      body: data.gestion_academica.map((item: GestionAcademica) => [
         item.actividad_puesto,
         schools.find((i) => i.id === item.institucion_pais)
           ?.nombre_institucion!,
