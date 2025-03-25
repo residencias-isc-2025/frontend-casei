@@ -5,25 +5,18 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { ParticipacionData } from '@interfaces/index';
-import {
-  AddParticipacionComponent,
-  ConfirmationModalComponent,
-  UpdateParticipacionComponent,
-} from '@presentation/modals';
-import {
-  ToastService,
-  ProfileService,
-  UsersService,
-} from '@presentation/services';
+
+import { ConfirmationModalComponent } from '@presentation/modals';
+import { ToastService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
-import { CommonService } from '@core/services/common.service';
+import { ParticipacionService } from '@core/services/participacion.service';
+import { ParticipacionFormComponent } from '@presentation/forms/participacion-form/participacion-form.component';
+import { Participacion } from '@core/models/participacion.model';
 
 @Component({
   selector: 'app-participacion',
   imports: [
-    AddParticipacionComponent,
-    UpdateParticipacionComponent,
+    ParticipacionFormComponent,
     PaginationComponent,
     ConfirmationModalComponent,
   ],
@@ -31,54 +24,43 @@ import { CommonService } from '@core/services/common.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ParticipacionComponent implements OnInit {
-  public toastService = inject(ToastService);
-  public profileService = inject(ProfileService);
-  public commonService = inject(CommonService);
-  public usersService = inject(UsersService);
+  toastService = inject(ToastService);
+  participacionService = inject(ParticipacionService);
 
-  public showAddModal = signal(false);
-  public showUpdateModal = signal(false);
-  public showDeleteModal = signal(false);
+  showAddModal = signal(false);
+  showUpdateModal = signal(false);
+  showDeleteModal = signal(false);
 
-  public participacionList = signal<ParticipacionData[]>([]);
-  public participacionSelected = signal<ParticipacionData | null>(null);
+  participacionList = signal<Participacion[]>([]);
+  participacionSelected = signal<Participacion | null>(null);
 
-  public totalItems = signal(0);
-  public currentPage = signal(1);
+  totalItems = signal(0);
+  currentPage = signal(1);
 
   ngOnInit(): void {
     this.loadParticipacionList();
   }
 
   private loadParticipacionList(): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.profileService
-      .loadParticipacionesFunction(token, this.currentPage())
+    this.participacionService
+      .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
-          if (res.ok) {
-            this.totalItems.set(res.items!);
-            this.participacionList.set(res.data || []);
-          } else {
-            this.toastService.showWarning(
-              'No se pudo obtener las participaciones.',
-              'Hubo un problema'
-            );
-          }
+          this.totalItems.set(res.count);
+          this.participacionList.set(res.results);
         },
       });
   }
 
-  onShowUpdateModal(participacion: ParticipacionData) {
+  onShowUpdateModal(participacion: Participacion) {
     this.participacionSelected.set(participacion);
     this.showUpdateModal.set(true);
   }
 
-  onShowDeleteModal(participacion: ParticipacionData) {
+  onShowDeleteModal(participacion: Participacion) {
     this.participacionSelected.set(participacion);
     this.showDeleteModal.set(true);
   }
@@ -101,21 +83,13 @@ export default class ParticipacionComponent implements OnInit {
   onDelete(itemId: number) {
     this.showDeleteModal.set(false);
 
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.usersService.borrarParticipacion(itemId, token).subscribe({
+    this.participacionService.deshabilitar(itemId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.loadParticipacionList();
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener las participaciones.',
-            'Hubo un problema'
-          );
-        }
+        this.toastService.showError(res.mensaje!, 'Éxito');
+        this.loadParticipacionList();
       },
     });
   }

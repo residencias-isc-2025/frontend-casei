@@ -7,6 +7,7 @@ import { FormacionAcademica } from '@core/models/formacion-academica.model';
 import { GestionAcademica } from '@core/models/gestion-academica.model';
 import { Institucion } from '@core/models/institucion.model';
 import { LogroProfesional } from '@core/models/logro-profesional.model';
+import { Participacion } from '@core/models/participacion.model';
 import { calculateAge } from '@helpers/calculate-age.helper';
 import { calculateSeniority } from '@helpers/calculate-seniority.helper';
 import { createTable } from '@helpers/create-table.helper';
@@ -14,7 +15,6 @@ import { formatedBirthdate } from '@helpers/formated-birthdate.helper';
 import { getLastNomination } from '@helpers/get-last-nomination.helper';
 import {
   CurriculumVitaeResponse,
-  ParticipacionData,
   PremioData,
   ProductoAcademicoData,
 } from '@interfaces/index';
@@ -733,7 +733,7 @@ export const curriculumSinteticoReport = (
           },
         ],
       ],
-      body: data.participacion.map((item: ParticipacionData) => [
+      body: data.participacion.map((item: Participacion) => [
         item.organismo,
         item.periodo,
         item.nivel_p,

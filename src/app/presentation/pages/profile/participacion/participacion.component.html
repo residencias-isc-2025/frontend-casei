@@ -56,13 +56,15 @@
 </div>
 
 @if (showAddModal()) {
-<app-add-participacion
+<app-participacion-form
+  [editing]="false"
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
   title="Agregar participación"
 />
 } @if (showUpdateModal()) {
-<app-update-participacion
+<app-participacion-form
+  [editing]="true"
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
   [participacion]="participacionSelected()!"

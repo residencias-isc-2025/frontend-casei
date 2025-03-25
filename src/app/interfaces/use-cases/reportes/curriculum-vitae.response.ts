@@ -7,7 +7,7 @@ import { DisenoIngenieril } from '@core/models/diseno-ingenieril.model';
 import { ExperienciaProfesional } from '@core/models/experiencia-profesional.model';
 import { GestionAcademica } from '@core/models/gestion-academica.model';
 
-import { ParticipacionData } from '../participacion.response';
+import { Participacion } from '../../../core/models/participacion.model';
 import { PremioData } from '../premios.response';
 import { ProductoAcademicoData } from '../productos-academicos.response';
 import { LogroProfesional } from '@core/models/logro-profesional.model';
@@ -22,7 +22,7 @@ export interface CurriculumVitaeResponse {
   experiencia_no_academica: ExperienciaProfesional[];
   experiencia_diseno_ingenieril: DisenoIngenieril[];
   logros_profesionales: LogroProfesional[];
-  participacion: ParticipacionData[];
+  participacion: Participacion[];
   premios: PremioData[];
   aportaciones: Aportacion[];
 }
