@@ -1,5 +1,6 @@
-export interface ExperienciaProfesionalDto {
-  accessToken: string;
+export interface ExperienciaProfesional {
+  id: number;
+  usuario: number;
   actividad_puesto: string;
   organizacion_empresa: string;
   d_mes_anio: Date;

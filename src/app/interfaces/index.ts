@@ -4,9 +4,6 @@ export * from './use-cases/gestion-academica.response';
 export * from './dtos/productos-academicos.dto';
 export * from './use-cases/productos-academicos.response';
 
-export * from './dtos/experiencia-profesional.dto';
-export * from './use-cases/experiencia-profesional.response';
-
 export * from './dtos/logro-profesional.dto';
 export * from './use-cases/logros-profesionales.response';
 

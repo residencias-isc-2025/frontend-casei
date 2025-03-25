@@ -107,7 +107,7 @@ export default class CapitacionDocenteComponent implements OnInit {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        this.toastService.showSuccess(res.mensaje!, 'Malas noticias');
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
         this.loadCapacitacionDocente();
       },
     });

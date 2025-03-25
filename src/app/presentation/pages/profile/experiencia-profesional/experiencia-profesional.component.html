@@ -61,13 +61,15 @@
 </div>
 
 @if (showAddModal()) {
-<app-add-experiencia-profesional
+<app-experiencia-profesional-form
+  [editing]="false"
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
   title="Agregar experiencia profesional"
 />
 } @if (showUpdateModal()) {
-<app-update-experiencia-profesional
+<app-experiencia-profesional-form
+  [editing]="true"
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
   [experienciaProfesional]="experienciaProfesionalSelected()!"

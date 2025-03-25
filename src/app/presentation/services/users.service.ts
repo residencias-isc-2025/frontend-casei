@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
 
 import {
-  ExperienciaProfesionalDto,
   GestionAcademicaDto,
   LogroPrefesionalDto,
   ParticipacionDto,
@@ -16,19 +15,16 @@ import {
   agregarPremioUseCase,
   agregarParticipacionUseCase,
   agregarLogroProfesionalUseCase,
-  agregarExperienciaProfesionalUseCase,
   eliminarGestionAcademicaUseCase,
   eliminarProductoAcademicoUseCase,
   eliminarPremioUseCase,
   eliminarParticipacionUseCase,
   eliminarLogroProfesionalUseCse,
-  eliminarExperienciaProfesionalUseCase,
   actualizarGestionAcademicaUseCase,
   updateAcademicProductsUseCase,
   actualizarPremioUseCase,
   actualizarParticipacionUseCase,
   actualizarLogroProfesionalUseCase,
-  actualizarExperienciaProfesionalUseCase,
 } from '@core/index';
 
 @Injectable({
@@ -70,34 +66,6 @@ export class UsersService {
 
   borrarProductosAcademicos(idProducto: number, accessToken: string) {
     return from(eliminarProductoAcademicoUseCase(idProducto, accessToken));
-  }
-  //#endregion
-
-  //#region Experiencia profesional
-  agregarExperienciaProfesional(
-    experienciaProfesionalDto: ExperienciaProfesionalDto
-  ) {
-    return from(
-      agregarExperienciaProfesionalUseCase(experienciaProfesionalDto)
-    );
-  }
-
-  actualizarExperienciaProfesional(
-    idExperiencia: number,
-    experienciaProfesionalDto: ExperienciaProfesionalDto
-  ) {
-    return from(
-      actualizarExperienciaProfesionalUseCase(
-        idExperiencia,
-        experienciaProfesionalDto
-      )
-    );
-  }
-
-  borrarExperienciaProfesional(idExperiencia: number, accessToken: string) {
-    return from(
-      eliminarExperienciaProfesionalUseCase(idExperiencia, accessToken)
-    );
   }
   //#endregion
 

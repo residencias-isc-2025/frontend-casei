@@ -2,6 +2,7 @@ import { ActualizacionDisciplinar } from '@core/models/actualizacion-disciplinar
 import { Aportacion } from '@core/models/aportacion.model';
 import { CapacitacionDocente } from '@core/models/capacitacion-docente.model';
 import { DisenoIngenieril } from '@core/models/diseno-ingenieril.model';
+import { ExperienciaProfesional } from '@core/models/experiencia-profesional.model';
 import { FormacionAcademica } from '@core/models/formacion-academica.model';
 import { Institucion } from '@core/models/institucion.model';
 import { calculateAge } from '@helpers/calculate-age.helper';
@@ -11,7 +12,6 @@ import { formatedBirthdate } from '@helpers/formated-birthdate.helper';
 import { getLastNomination } from '@helpers/get-last-nomination.helper';
 import {
   CurriculumVitaeResponse,
-  ExperienciaProfesionalData,
   GestionAcademicaData,
   LogroProfesionalData,
   ParticipacionData,
@@ -586,7 +586,7 @@ export const curriculumVitaeReport = (
         ],
       ],
       body: data.experiencia_no_academica.map(
-        (item: ExperienciaProfesionalData) => [
+        (item: ExperienciaProfesional) => [
           item.actividad_puesto,
           item.organizacion_empresa,
           String(item.d_mes_anio),

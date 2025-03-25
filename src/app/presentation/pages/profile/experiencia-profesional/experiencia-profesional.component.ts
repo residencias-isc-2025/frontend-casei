@@ -4,12 +4,8 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { ExperienciaProfesionalData } from '@interfaces/index';
-import {
-  AddExperienciaProfesionalComponent,
-  ConfirmationModalComponent,
-  UpdateExperienciaProfesionalComponent,
-} from '@presentation/modals';
+
+import { ConfirmationModalComponent } from '@presentation/modals';
 import {
   ToastService,
   ProfileService,
@@ -17,12 +13,14 @@ import {
   UsersService,
 } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
+import { ExperienciaProfesionalFormComponent } from '@presentation/forms/experiencia-profesional-form/experiencia-profesional-form.component';
+import { ExperienciaProfesional } from '@core/models/experiencia-profesional.model';
+import { ExperienciaProfesionalService } from '@core/services/experiencia-profesional.service';
 
 @Component({
   selector: 'app-experiencia-profesional',
   imports: [
-    AddExperienciaProfesionalComponent,
-    UpdateExperienciaProfesionalComponent,
+    ExperienciaProfesionalFormComponent,
     PaginationComponent,
     ConfirmationModalComponent,
   ],
@@ -30,56 +28,44 @@ import { PaginationComponent } from '@components/pagination/pagination.component
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ExperienciaProfesionalComponent {
-  public toastService = inject(ToastService);
-  public profileService = inject(ProfileService);
-  public commonService = inject(CommonService);
-  public usersService = inject(UsersService);
+  toastService = inject(ToastService);
+  experienciaProfesionalService = inject(ExperienciaProfesionalService);
 
-  public showAddModal = signal(false);
-  public showUpdateModal = signal(false);
-  public showDeleteModal = signal(false);
+  showAddModal = signal(false);
+  showUpdateModal = signal(false);
+  showDeleteModal = signal(false);
 
-  public experienciaProfesionalList = signal<ExperienciaProfesionalData[]>([]);
+  experienciaProfesionalList = signal<ExperienciaProfesional[]>([]);
 
-  public experienciaProfesionalSelected =
-    signal<ExperienciaProfesionalData | null>(null);
+  experienciaProfesionalSelected = signal<ExperienciaProfesional | null>(null);
 
-  public totalItems = signal(0);
-  public currentPage = signal(1);
+  totalItems = signal(0);
+  currentPage = signal(1);
 
   ngOnInit(): void {
     this.loadExperienciaProfesionalList();
   }
 
   private loadExperienciaProfesionalList(): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.profileService
-      .loadExperienciaProfesionalFunction(token, this.currentPage())
+    this.experienciaProfesionalService
+      .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
-          if (res.ok) {
-            this.totalItems.set(res.items!);
-            this.experienciaProfesionalList.set(res.data || []);
-          } else {
-            this.toastService.showWarning(
-              'No se pudieron obtener las experiencias profesionales.',
-              'Hubo un problema'
-            );
-          }
+          this.totalItems.set(res.count);
+          this.experienciaProfesionalList.set(res.results);
         },
       });
   }
 
-  onShowUpdateModal(experienciaProfesional: ExperienciaProfesionalData) {
+  onShowUpdateModal(experienciaProfesional: ExperienciaProfesional) {
     this.experienciaProfesionalSelected.set(experienciaProfesional);
     this.showUpdateModal.set(true);
   }
 
-  onShowDeleteModal(experienciaProfesional: ExperienciaProfesionalData) {
+  onShowDeleteModal(experienciaProfesional: ExperienciaProfesional) {
     this.experienciaProfesionalSelected.set(experienciaProfesional);
     this.showDeleteModal.set(true);
   }
@@ -102,21 +88,13 @@ export default class ExperienciaProfesionalComponent {
   onDelete(itemId: number) {
     this.showDeleteModal.set(false);
 
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.usersService.borrarExperienciaProfesional(itemId, token).subscribe({
+    this.experienciaProfesionalService.deshabilitar(itemId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.loadExperienciaProfesionalList();
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener las experiencias profesionales.',
-            'Hubo un problema'
-          );
-        }
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        this.loadExperienciaProfesionalList();
       },
     });
   }

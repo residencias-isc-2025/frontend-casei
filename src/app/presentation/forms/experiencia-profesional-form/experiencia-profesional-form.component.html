@@ -12,11 +12,7 @@
       </button>
     </div>
 
-    <form
-      [formGroup]="updateExperienciaProfesionalForm"
-      (keydown.enter)="onSaveData()"
-      class="mt-4"
-    >
+    <form [formGroup]="form" (keydown.enter)="onSubmit()" class="mt-4">
       <div class="mb-4">
         <label for="puesto" class="block text-gray-700 font-medium mb-2"
           >Actividad o puesto</label
@@ -45,9 +41,7 @@
             >Fecha de inicio</label
           >
           <app-custom-datepicker
-            [selected]="
-              updateExperienciaProfesionalForm.get('gestion_i')?.value
-            "
+            [selected]="form.get('gestion_i')!.value"
             (dateSelected)="onStartDateSelected($event)"
           />
         </div>
@@ -57,9 +51,7 @@
             >Fecha de finalización</label
           >
           <app-custom-datepicker
-            [selected]="
-              updateExperienciaProfesionalForm.get('gestion_f')?.value
-            "
+            [selected]="form.get('gestion_f')!.value"
             (dateSelected)="onEndDateSelected($event)"
           />
         </div>
@@ -74,8 +66,8 @@
         </button>
         <button
           class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg disabled:bg-gray-500"
-          [disabled]="updateExperienciaProfesionalForm.invalid"
-          (click)="onSaveData()"
+          [disabled]="form.invalid"
+          (click)="onSubmit()"
         >
           Guardar
         </button>
