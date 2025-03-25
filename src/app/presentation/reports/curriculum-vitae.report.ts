@@ -1,3 +1,4 @@
+import { ActualizacionDisciplinar } from '@core/models/actualizacion-disciplinar.model';
 import { CapacitacionDocente } from '@core/models/capacitacion-docente.model';
 import { FormacionAcademica } from '@core/models/formacion-academica.model';
 import { Institucion } from '@core/models/institucion.model';
@@ -7,7 +8,6 @@ import { createTable } from '@helpers/create-table.helper';
 import { formatedBirthdate } from '@helpers/formated-birthdate.helper';
 import { getLastNomination } from '@helpers/get-last-nomination.helper';
 import {
-  ActualizacionDisciplinarData,
   AportacionData,
   CurriculumVitaeResponse,
   DisenoIngenierilData,
@@ -408,7 +408,7 @@ export const curriculumVitaeReport = (
         ],
       ],
       body: data.actualizacion_disciplinaria.map(
-        (item: ActualizacionDisciplinarData) => [
+        (item: ActualizacionDisciplinar) => [
           item.tipo_actualizacion,
           schools.find((i) => i.id === item.institucion_pais)
             ?.nombre_institucion!,

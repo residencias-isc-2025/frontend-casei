@@ -1,7 +1,6 @@
 export * from './dtos/create-user.dto';
 export * from './dtos/update-user.dto';
 
-export * from './dtos/actualizacion-disciplinar.dto';
 export * from './dtos/gestion-academica.dto';
 export * from './dtos/productos-academicos.dto';
 export * from './dtos/experiencia-profesional.dto';
@@ -13,7 +12,6 @@ export * from './dtos/aportaciones.dto';
 
 export * from './dtos/periodo.dto';
 
-export * from './use-cases/actualizacion-disciplinar.response';
 export * from './use-cases/gestion-academica.response';
 export * from './use-cases/productos-academicos.response';
 export * from './use-cases/experiencia-profesional.response';

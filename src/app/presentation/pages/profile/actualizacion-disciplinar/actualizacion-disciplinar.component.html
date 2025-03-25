@@ -62,17 +62,19 @@
 </div>
 
 @if (showAddModal()) {
-<app-add-actualizacion-disciplinar
+<app-actualizacion-disciplinar-form
+  [editing]="false"
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
-  [listaInstituciones]="institucionesList()"
+  [instituciones]="institucionesList()"
   title="Agregar actualización disciplinar"
 />
 } @if (showUpdateModal()) {
-<app-update-actualizacion-disciplinar
+<app-actualizacion-disciplinar-form
+  [editing]="true"
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
-  [listaInstituciones]="institucionesList()"
+  [instituciones]="institucionesList()"
   [actualizacionDisciplinar]="actualizacionDisciplinarSelected()!"
   title="Agregar actualización disciplinar"
 />

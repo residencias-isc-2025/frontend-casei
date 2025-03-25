@@ -4,30 +4,20 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { ActualizacionDisciplinarData } from '@interfaces/index';
-
-import {
-  AddActualizacionDisciplinarComponent,
-  ConfirmationModalComponent,
-  UpdateActualizacionDisciplinarComponent,
-} from '@modals/index';
-
-import {
-  ToastService,
-  ProfileService,
-  CommonService,
-  UsersService,
-} from '@services/index';
+import { ConfirmationModalComponent } from '@modals/index';
+import { ToastService } from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { InstitucionService } from '@core/services/institucion.service';
 import { tap } from 'rxjs';
 import { Institucion } from '@core/models/institucion.model';
+import { ActualizacionDisciplinarFormComponent } from '@presentation/forms/actualizacion-disciplinar-form/actualizacion-disciplinar-form.component';
+import { ActualizacionDisciplinar } from '@core/models/actualizacion-disciplinar.model';
+import { ActualizacionDisciplinarService } from '@core/services/actualizacion-disciplinar.service';
 
 @Component({
   selector: 'app-actualizacion-disciplinar',
   imports: [
-    AddActualizacionDisciplinarComponent,
-    UpdateActualizacionDisciplinarComponent,
+    ActualizacionDisciplinarFormComponent,
     ConfirmationModalComponent,
     PaginationComponent,
   ],
@@ -37,28 +27,26 @@ import { Institucion } from '@core/models/institucion.model';
 export default class ActualizacionDisciplinarComponent {
   toastService = inject(ToastService);
   institucionService = inject(InstitucionService);
+  actualizacionDisciplinarService = inject(ActualizacionDisciplinarService);
 
-  public profileService = inject(ProfileService);
-  public commonService = inject(CommonService);
-  public usersService = inject(UsersService);
+  showAddModal = signal(false);
+  showUpdateModal = signal(false);
+  showDeleteModal = signal(false);
 
-  public showAddModal = signal(false);
-  public showUpdateModal = signal(false);
-  public showDeleteModal = signal(false);
+  totalItems = signal(0);
+  actualizacionDisciplinarList = signal<ActualizacionDisciplinar[]>([]);
+  institucionesList = signal<Institucion[]>([]);
 
-  public totalItems = signal(0);
-  public actualizacionDisciplinarList = signal<ActualizacionDisciplinarData[]>(
-    []
+  currentPage = signal(1);
+  actualizacionDisciplinarSelected = signal<ActualizacionDisciplinar | null>(
+    null
   );
-  public institucionesList = signal<Institucion[]>([]);
-
-  public currentPage = signal(1);
-  public actualizacionDisciplinarSelected =
-    signal<ActualizacionDisciplinarData | null>(null);
 
   ngOnInit(): void {
     this.institucionService
       .obtenerInstitucionesPaginadas(1, 100, {
+        nombre: '',
+        pais: '',
         estado: 'activo',
       })
       .pipe(
@@ -71,24 +59,15 @@ export default class ActualizacionDisciplinarComponent {
   }
 
   private loadActualizacionDisciplinarList(): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.profileService
-      .loadActualizacionDisciplinarFunction(token, this.currentPage())
+    this.actualizacionDisciplinarService
+      .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
-          if (res.ok) {
-            this.totalItems.set(res.items!);
-            this.actualizacionDisciplinarList.set(res.data || []);
-          } else {
-            this.toastService.showWarning(
-              'No se pudieron obtener las actualizaciones disciplinares.',
-              'Hubo un problema'
-            );
-          }
+          this.totalItems.set(res.count);
+          this.actualizacionDisciplinarList.set(res.results);
         },
       });
   }
@@ -98,12 +77,12 @@ export default class ActualizacionDisciplinarComponent {
     this.loadActualizacionDisciplinarList();
   }
 
-  onShowUpdateModal(actualizacionDisciplinar: ActualizacionDisciplinarData) {
+  onShowUpdateModal(actualizacionDisciplinar: ActualizacionDisciplinar) {
     this.actualizacionDisciplinarSelected.set(actualizacionDisciplinar);
     this.showUpdateModal.set(true);
   }
 
-  onShowDeleteModal(actualizacionDisciplinar: ActualizacionDisciplinarData) {
+  onShowDeleteModal(actualizacionDisciplinar: ActualizacionDisciplinar) {
     this.actualizacionDisciplinarSelected.set(actualizacionDisciplinar);
     this.showDeleteModal.set(true);
   }
@@ -121,21 +100,13 @@ export default class ActualizacionDisciplinarComponent {
   onDelete(itemId: number) {
     this.showDeleteModal.set(false);
 
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.usersService.borrarActualizacionDisciplinar(itemId, token).subscribe({
+    this.actualizacionDisciplinarService.deshabilitar(itemId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.loadActualizacionDisciplinarList();
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener las actualizaciones discilpinares.',
-            'Hubo un problema'
-          );
-        }
+        this.toastService.showSuccess(res.mensaje!, 'Malas noticias');
+        this.loadActualizacionDisciplinarList();
       },
     });
   }

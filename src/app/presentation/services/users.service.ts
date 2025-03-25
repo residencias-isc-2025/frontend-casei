@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
 
 import {
-  ActualizacionDisciplinarDto,
   AportacionDto,
   DisenoIngenierilDto,
   ExperienciaProfesionalDto,
@@ -18,7 +17,6 @@ import {
   agregarProductoAcademicoUseCase,
   agregarPremioUseCase,
   agregarAportacionUseCase,
-  agregarActualizacionDiscplinarUseCase,
   agregarDisenoIngenierilUseCase,
   agregarParticipacionUseCase,
   agregarLogroProfesionalUseCase,
@@ -27,7 +25,6 @@ import {
   eliminarProductoAcademicoUseCase,
   eliminarPremioUseCase,
   eliminarAportacionUseCase,
-  eliminarActualizacionDisciplinarUseCase,
   eliminarDisenoIngenierilUseCase,
   eliminarParticipacionUseCase,
   eliminarLogroProfesionalUseCse,
@@ -36,7 +33,6 @@ import {
   updateAcademicProductsUseCase,
   actualizarPremioUseCase,
   actualizarAportacionUseCase,
-  actualizarActualizacionDisciplinarUseCase,
   actualizarDisenoIngenierilUseCase,
   actualizarParticipacionUseCase,
   actualizarLogroProfesionalUseCase,
@@ -47,34 +43,6 @@ import {
   providedIn: 'root',
 })
 export class UsersService {
-  //#region Actualización disciplinar
-  agregarActualizacionDisciplinar(
-    actualizacionDisciplinar: ActualizacionDisciplinarDto
-  ) {
-    return from(
-      agregarActualizacionDiscplinarUseCase(actualizacionDisciplinar)
-    );
-  }
-
-  actualizarActualizacionDisciplinar(
-    idActualizacion: number,
-    actualizacionDisciplinar: ActualizacionDisciplinarDto
-  ) {
-    return from(
-      actualizarActualizacionDisciplinarUseCase(
-        idActualizacion,
-        actualizacionDisciplinar
-      )
-    );
-  }
-
-  borrarActualizacionDisciplinar(idActualizacion: number, accessToken: string) {
-    return from(
-      eliminarActualizacionDisciplinarUseCase(idActualizacion, accessToken)
-    );
-  }
-  //#endregion
-
   //#region Gestión académica
   agregarGestionAcademica(gestionAcademicaDto: GestionAcademicaDto) {
     return from(agregarGestionAcademicaUseCase(gestionAcademicaDto));

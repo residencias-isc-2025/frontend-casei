@@ -4,7 +4,6 @@ import {
   obtenerListaProductoAcademicoUseCase,
   obtenerListaPremioUseCase,
   obtenerListaAportacionUseCase,
-  obtenerListaActualizacionDisplinarUseCase,
   obtenerListaDisenoIngenierilUseCase,
   obtenerListaParticipacionUseCase,
   obtenerListaLogroProfesionalUseCase,
@@ -17,16 +16,6 @@ import { from } from 'rxjs';
   providedIn: 'root',
 })
 export class ProfileService {
-  loadActualizacionDisciplinarFunction(
-    accessToken: string,
-    page: number,
-    pageSize: number = 10
-  ) {
-    return from(
-      obtenerListaActualizacionDisplinarUseCase(accessToken, page, pageSize)
-    );
-  }
-
   loadGestionAcademicaFunction(
     accessToken: string,
     page: number,
