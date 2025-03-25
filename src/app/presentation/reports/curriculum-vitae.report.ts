@@ -1,3 +1,4 @@
+import { FormacionAcademica } from '@core/models/formacion-academica.model';
 import { calculateAge } from '@helpers/calculate-age.helper';
 import { calculateSeniority } from '@helpers/calculate-seniority.helper';
 import { createTable } from '@helpers/create-table.helper';
@@ -10,7 +11,6 @@ import {
   CurriculumVitaeResponse,
   DisenoIngenierilData,
   ExperienciaProfesionalData,
-  FormacionAcademicaData,
   GestionAcademicaData,
   InstitucionData,
   LogroProfesionalData,
@@ -278,7 +278,7 @@ export const curriculumVitaeReport = (
           },
         ],
       ],
-      body: data.formacion_academica.map((item: FormacionAcademicaData) => [
+      body: data.formacion_academica.map((item: FormacionAcademica) => [
         item.nivel,
         item.nombre,
         schools.find((i) => i.id === item.institucion_pais)

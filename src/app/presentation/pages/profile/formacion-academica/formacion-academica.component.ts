@@ -5,25 +5,20 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { FormacionAcademicaData, InstitucionData } from '@interfaces/index';
+import { ConfirmationModalComponent } from '@modals/index';
 
-import {
-  AddAcademicTrainingComponent,
-  ConfirmationModalComponent,
-  UpdateAcademicTrainingComponent,
-} from '@modals/index';
-
-import { CommonService, ProfileService, UsersService } from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { ToastService } from '@core/services/toast.service';
 import { InstitucionService } from '@core/services/institucion.service';
-import { tap } from 'rxjs';
+import { FormacionAcademicaService } from '@core/services/formacion-academica.service';
+import { FormacionAcademicaFormComponent } from '@presentation/forms/formacion-academica-form/formacion-academica-form.component';
+import { FormacionAcademica } from '@core/models/formacion-academica.model';
+import { Institucion } from '@core/models/institucion.model';
 
 @Component({
   selector: 'app-formacion-academica',
   imports: [
-    AddAcademicTrainingComponent,
-    UpdateAcademicTrainingComponent,
+    FormacionAcademicaFormComponent,
     PaginationComponent,
     ConfirmationModalComponent,
   ],
@@ -33,24 +28,19 @@ import { tap } from 'rxjs';
 export default class FormacionAcademicaComponent implements OnInit {
   toastService = inject(ToastService);
   institucionService = inject(InstitucionService);
+  formacionAcademicaService = inject(FormacionAcademicaService);
 
-  public profileService = inject(ProfileService);
-  public commonService = inject(CommonService);
-  public usersService = inject(UsersService);
+  showAddModal = signal(false);
+  showUpdateModal = signal(false);
+  showDeleteModal = signal(false);
 
-  public showAddModal = signal(false);
-  public showUpdateModal = signal(false);
-  public showDeleteModal = signal(false);
+  formacionAcademicaList = signal<FormacionAcademica[]>([]);
+  institucionesList = signal<Institucion[]>([]);
 
-  public formacionAcademicaList = signal<FormacionAcademicaData[]>([]);
-  public institucionesList = signal<InstitucionData[]>([]);
+  formacionAcademicaSelected = signal<FormacionAcademica | null>(null);
 
-  public formacionAcademicaSelected = signal<FormacionAcademicaData | null>(
-    null
-  );
-
-  public totalItems = signal(0);
-  public currentPage = signal(1);
+  totalItems = signal(0);
+  currentPage = signal(1);
 
   ngOnInit(): void {
     this.institucionService
@@ -68,34 +58,25 @@ export default class FormacionAcademicaComponent implements OnInit {
   }
 
   private loadFormacionAcademica(): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.profileService
-      .loadFormacionAcademicaFunction(token, this.currentPage())
+    this.formacionAcademicaService
+      .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
-          if (res.ok) {
-            this.totalItems.set(res.items!);
-            this.formacionAcademicaList.set(res.data || []);
-          } else {
-            this.toastService.showWarning(
-              'No se pudieron obtener las formaciones académicas.',
-              'Hubo un problema'
-            );
-          }
+          this.totalItems.set(res.count);
+          this.formacionAcademicaList.set(res.results);
         },
       });
   }
 
-  onShowUpdateModal(formacionAcademica: FormacionAcademicaData) {
+  onShowUpdateModal(formacionAcademica: FormacionAcademica) {
     this.formacionAcademicaSelected.set(formacionAcademica);
     this.showUpdateModal.set(true);
   }
 
-  onShowDeleteModal(formacionAcademica: FormacionAcademicaData) {
+  onShowDeleteModal(formacionAcademica: FormacionAcademica) {
     this.formacionAcademicaSelected.set(formacionAcademica);
     this.showDeleteModal.set(true);
   }
@@ -116,24 +97,13 @@ export default class FormacionAcademicaComponent implements OnInit {
   }
 
   onDelete(itemId: number) {
-    this.showDeleteModal.set(false);
-
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.usersService.borrarFormacionAcademica(itemId, token).subscribe({
+    this.formacionAcademicaService.deshabilitar(itemId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.toastService.showSuccess(res.mensaje!, 'Éxito');
-          this.loadFormacionAcademica();
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener las formaciones académicas.',
-            'Hubo un problema'
-          );
-        }
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        this.loadFormacionAcademica();
       },
     });
   }

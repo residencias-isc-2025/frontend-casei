@@ -65,17 +65,19 @@
 
 <!-- Agregar formación académica -->
 @if (showAddModal()) {
-<app-add-academic-training
+<app-formacion-academica-form
+  [editing]="false"
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
-  [listaInstituciones]="institucionesList()"
+  [instituciones]="institucionesList()"
   title="Agregar formación académica"
 />
 } @if(showUpdateModal()) {
-<app-update-academic-training
+<app-formacion-academica-form
+  [editing]="true"
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
-  [listaInstituciones]="institucionesList()"
+  [instituciones]="institucionesList()"
   [formacionAcademica]="formacionAcademicaSelected()!"
   title="Editar formación académica"
 />

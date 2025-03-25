@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
   obtenerListaGestionAcademicaUseCase,
   obtenerListaProductoAcademicoUseCase,
-  obtenerListaFormacionAcademicaUseCase,
   obtenerListaPremioUseCase,
   obtenerListaAportacionUseCase,
   obtenerListaActualizacionDisplinarUseCase,
@@ -19,20 +18,14 @@ import { from } from 'rxjs';
   providedIn: 'root',
 })
 export class ProfileService {
-  loadFormacionAcademicaFunction(
-    accessToken: string,
-    page: number,
-    pageSize: number = 10
-  ) {
-    return from(obtenerListaFormacionAcademicaUseCase(accessToken, page, pageSize));
-  }
-
   loadCapacitacionDocenteFunction(
     accessToken: string,
     page: number,
     pageSize: number = 10
   ) {
-    return from(obtenerListaCapacitacionDocenteUseCase(accessToken, page, pageSize));
+    return from(
+      obtenerListaCapacitacionDocenteUseCase(accessToken, page, pageSize)
+    );
   }
 
   loadActualizacionDisciplinarFunction(
@@ -40,7 +33,9 @@ export class ProfileService {
     page: number,
     pageSize: number = 10
   ) {
-    return from(obtenerListaActualizacionDisplinarUseCase(accessToken, page, pageSize));
+    return from(
+      obtenerListaActualizacionDisplinarUseCase(accessToken, page, pageSize)
+    );
   }
 
   loadGestionAcademicaFunction(
@@ -48,7 +43,9 @@ export class ProfileService {
     page: number,
     pageSize: number = 10
   ) {
-    return from(obtenerListaGestionAcademicaUseCase(accessToken, page, pageSize));
+    return from(
+      obtenerListaGestionAcademicaUseCase(accessToken, page, pageSize)
+    );
   }
 
   loadProductosAcademicosFunction(
@@ -56,7 +53,9 @@ export class ProfileService {
     page: number,
     pageSize: number = 10
   ) {
-    return from(obtenerListaProductoAcademicoUseCase(accessToken, page, pageSize));
+    return from(
+      obtenerListaProductoAcademicoUseCase(accessToken, page, pageSize)
+    );
   }
 
   loadExperienciaProfesionalFunction(
@@ -64,7 +63,9 @@ export class ProfileService {
     page: number,
     pageSize: number = 10
   ) {
-    return from(obtenerListaExperienciaProfesionalUseCase(accessToken, page, pageSize));
+    return from(
+      obtenerListaExperienciaProfesionalUseCase(accessToken, page, pageSize)
+    );
   }
 
   loadDisenoIngenierilFunction(
@@ -72,7 +73,9 @@ export class ProfileService {
     page: number,
     pageSize: number = 10
   ) {
-    return from(obtenerListaDisenoIngenierilUseCase(accessToken, page, pageSize));
+    return from(
+      obtenerListaDisenoIngenierilUseCase(accessToken, page, pageSize)
+    );
   }
 
   loadLogrosProfesionalesFunction(
@@ -93,11 +96,19 @@ export class ProfileService {
     return from(obtenerListaParticipacionUseCase(accessToken, page, pageSize));
   }
 
-  loadPremiosFunction(accessToken: string, page: number, pageSize: number = 10) {
+  loadPremiosFunction(
+    accessToken: string,
+    page: number,
+    pageSize: number = 10
+  ) {
     return from(obtenerListaPremioUseCase(accessToken, page, pageSize));
   }
 
-  loadAportacionesFunction(accessToken: string, page: number, pageSize: number = 10) {
+  loadAportacionesFunction(
+    accessToken: string,
+    page: number,
+    pageSize: number = 10
+  ) {
     return from(obtenerListaAportacionUseCase(accessToken, page, pageSize));
   }
 }

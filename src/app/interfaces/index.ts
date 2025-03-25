@@ -19,7 +19,6 @@ export * from './dtos/periodo.dto';
 export * from './use-cases/create-user.response';
 export * from './use-cases/instituciones.response';
 
-export * from './use-cases/formacion-academica.response';
 export * from './use-cases/capacitacion-docente.response';
 export * from './use-cases/actualizacion-disciplinar.response';
 export * from './use-cases/gestion-academica.response';

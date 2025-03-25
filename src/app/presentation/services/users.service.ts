@@ -18,7 +18,6 @@ import {
 import {
   agregarGestionAcademicaUseCase,
   agregarProductoAcademicoUseCase,
-  agregarFormacionAcademicaUseCase,
   agregarPremioUseCase,
   agregarAportacionUseCase,
   agregarActualizacionDiscplinarUseCase,
@@ -29,7 +28,6 @@ import {
   agregarCapacitacionDocenteUseCase,
   eliminarGestionAcademicaUseCase,
   eliminarProductoAcademicoUseCase,
-  eliminarFormacionAcademica,
   eliminarPremioUseCase,
   eliminarAportacionUseCase,
   eliminarActualizacionDisciplinarUseCase,
@@ -40,7 +38,6 @@ import {
   eliminarCapacitacionDocenteUseCase,
   actualizarGestionAcademicaUseCase,
   updateAcademicProductsUseCase,
-  actualizarFormacionAcademicaUseCase,
   actualizarPremioUseCase,
   actualizarAportacionUseCase,
   actualizarActualizacionDisciplinarUseCase,
@@ -55,26 +52,6 @@ import {
   providedIn: 'root',
 })
 export class UsersService {
-  //#region Formación académica
-  agregarFormacionAcademica(formacionAcademica: FormacionAcademicaDto) {
-    return from(agregarFormacionAcademicaUseCase(formacionAcademica));
-  }
-
-  actualizarFormacionAcademica(
-    idFormacion: number,
-    formacionAcademica: FormacionAcademicaDto
-  ) {
-    return from(
-      actualizarFormacionAcademicaUseCase(idFormacion, formacionAcademica)
-    );
-  }
-
-  borrarFormacionAcademica(idFormacion: number, accessToken: string) {
-    return from(eliminarFormacionAcademica(idFormacion, accessToken));
-  }
-
-  //#endregion
-
   //#region Capacitación docente
   agregarCapacitacionDocente(capacitacionDocente: CapacitacionDocenteDto) {
     return from(agregarCapacitacionDocenteUseCase(capacitacionDocente));
