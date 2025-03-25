@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { BaseService } from '@core/classes/base-service.class';
 import { Adscripcion } from '@core/models/adscripcion.model';
 import { environment } from '@environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -13,14 +14,14 @@ export interface AdscripcionSearchParams {
 @Injectable({
   providedIn: 'root',
 })
-export class AdscripcionService {
+export class AdscripcionService extends BaseService<Adscripcion> {
   private adscripcionesList = new BehaviorSubject<Adscripcion[]>([]);
 
   private http = inject(HttpClient);
   private apiUrl = `${environment.api_url}/adscripcion`;
 
   // GET
-  obtenerAdscripcionesPaginadas(
+  obtenerDatosPaginados(
     page: number,
     limit: number,
     params: AdscripcionSearchParams
@@ -44,7 +45,7 @@ export class AdscripcionService {
   }
 
   // POST
-  crearAdscripcion(data: Partial<Adscripcion>) {
+  crear(data: Partial<Adscripcion>) {
     return this.http.post<{ mensaje: string }>(
       `${this.apiUrl}/area-adscripcion/`,
       data
@@ -52,21 +53,21 @@ export class AdscripcionService {
   }
 
   // DELETE
-  deshabilitarAdscripcion(id: number) {
+  deshabilitar(id: number) {
     return this.http.delete<{ mensaje: string }>(
       `${this.apiUrl}/area-adscripcion/${id}/`
     );
   }
 
   // PUT
-  actualizarAdscripcion(id: number, data: Partial<Adscripcion>) {
+  actualizar(id: number, data: Partial<Adscripcion>) {
     return this.http.put<{ mensaje: string; data: Adscripcion }>(
       `${this.apiUrl}/area-adscripcion/${id}/`,
       data
     );
   }
 
-  habilitarAdscripcion(id: number) {
+  habilitar(id: number) {
     return this.http.put<{ mensaje: string }>(
       `${this.apiUrl}/habilitar-area-adscripcion/${id}/`,
       {}

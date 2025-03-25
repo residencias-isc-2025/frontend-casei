@@ -47,7 +47,7 @@ export default class PeriodosPageComponent implements OnInit {
 
   private loadPeriodos(): void {
     this.periodoService
-      .obtenerPeriodosPaginados(this.currentPage(), 10, {
+      .obtenerDatosPaginados(this.currentPage(), 10, {
         activo: this.filterActivo(),
         clave: this.filterClave(),
       })
@@ -85,7 +85,7 @@ export default class PeriodosPageComponent implements OnInit {
   onDisablePeriodo(idPeriodo: number) {
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.periodoService.deshabilitarPeriodo(idPeriodo).subscribe({
+    this.periodoService.deshabilitar(idPeriodo).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
@@ -99,7 +99,7 @@ export default class PeriodosPageComponent implements OnInit {
   onEnablePeriodo(idPeriodo: number) {
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.periodoService.habilitarPeriodo(idPeriodo).subscribe({
+    this.periodoService.habilitar(idPeriodo).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },

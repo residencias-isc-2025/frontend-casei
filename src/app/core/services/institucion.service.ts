@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { BaseService } from '@core/classes/base-service.class';
 import { Institucion } from '@core/models/institucion.model';
 import { environment } from '@environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -13,14 +14,14 @@ export interface InstitucionSearchParams {
 @Injectable({
   providedIn: 'root',
 })
-export class InstitucionService {
+export class InstitucionService extends BaseService<Institucion>{
   private institucionesList = new BehaviorSubject<Institucion[]>([]);
 
   private http = inject(HttpClient);
   private apiUrl = `${environment.api_url}/institucion`;
 
   // GET
-  obtenerInstitucionesPaginadas(
+  obtenerDatosPaginados(
     page: number,
     limit: number,
     params: InstitucionSearchParams
@@ -40,7 +41,7 @@ export class InstitucionService {
   }
 
   // POST
-  crearInstitucion(data: Partial<Institucion>) {
+  crear(data: Partial<Institucion>) {
     return this.http.post<{ mensaje: string }>(
       `${this.apiUrl}/institucion-pais/`,
       data
@@ -48,21 +49,21 @@ export class InstitucionService {
   }
 
   // DELETE
-  deshabilitarInstitucion(id: number) {
+  deshabilitar(id: number) {
     return this.http.delete<{ mensaje: string }>(
       `${this.apiUrl}/institucion-pais/${id}/`
     );
   }
 
   // PUT
-  actualizarInstitucion(id: number, data: Partial<Institucion>) {
+  actualizar(id: number, data: Partial<Institucion>) {
     return this.http.put<{ mensaje: string; data: Institucion }>(
       `${this.apiUrl}/institucion-pais/${id}/`,
       data
     );
   }
 
-  habilitarInstitucion(id: number) {
+  habilitar(id: number) {
     return this.http.put<{ mensaje: string }>(
       `${this.apiUrl}/habilitar-institucion/${id}/`,
       {}

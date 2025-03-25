@@ -69,7 +69,7 @@ export class UpdateProfileComponent implements OnInit {
     } = this.form.value;
 
     this.userService
-      .actualizarUsuario(this.userProfile().id, {
+      .actualizar(this.userProfile().id, {
         nombre,
         apellido_paterno: apellido_p,
         apellido_materno: apellido_m,

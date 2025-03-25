@@ -56,11 +56,11 @@ export class InstitucionFormComponent implements OnInit {
     };
 
     const action = this.editing()
-      ? this.institucionService.actualizarInstitucion(
+      ? this.institucionService.actualizar(
           this.institucion()!.id,
           payload
         )
-      : this.institucionService.crearInstitucion(payload);
+      : this.institucionService.crear(payload);
 
     action.subscribe({
       next: (response) => {

@@ -44,7 +44,7 @@ export default class FormacionAcademicaComponent implements OnInit {
 
   ngOnInit(): void {
     this.institucionService
-      .obtenerInstitucionesPaginadas(1, 100, {
+      .obtenerDatosPaginados(1, 100, {
         nombre: '',
         pais: '',
         estado: 'activo',

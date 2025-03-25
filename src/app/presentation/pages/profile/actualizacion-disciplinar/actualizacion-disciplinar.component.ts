@@ -44,7 +44,7 @@ export default class ActualizacionDisciplinarComponent {
 
   ngOnInit(): void {
     this.institucionService
-      .obtenerInstitucionesPaginadas(1, 100, {
+      .obtenerDatosPaginados(1, 100, {
         nombre: '',
         pais: '',
         estado: 'activo',

@@ -37,7 +37,7 @@ export default class FormatsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.institucionService
-      .obtenerInstitucionesPaginadas(1, 100, {
+      .obtenerDatosPaginados(1, 100, {
         estado: 'activo',
       })
       .pipe(

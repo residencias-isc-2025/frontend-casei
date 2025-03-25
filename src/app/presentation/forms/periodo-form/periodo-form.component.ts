@@ -83,8 +83,8 @@ export class PeriodoFormComponent implements OnInit {
     };
 
     const action = this.editing()
-      ? this.periodoService.actualizarPeriodo(this.periodo()!.id, payload)
-      : this.periodoService.crearPeriodo(payload);
+      ? this.periodoService.actualizar(this.periodo()!.id, payload)
+      : this.periodoService.crear(payload);
 
     action.subscribe({
       next: (response) => {

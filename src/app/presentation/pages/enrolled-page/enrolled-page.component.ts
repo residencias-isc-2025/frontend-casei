@@ -49,7 +49,7 @@ export default class EnrolledPageComponent implements OnInit {
 
   private cargarAdscripciones(): void {
     this.adscripcionService
-      .obtenerAdscripcionesPaginadas(this.currentPage(), 10, {
+      .obtenerDatosPaginados(this.currentPage(), 10, {
         estado: this.filterEstado(),
         nombre: this.filterNombre(),
         siglas: this.filterSiglas(),
@@ -88,7 +88,7 @@ export default class EnrolledPageComponent implements OnInit {
   onDisableAdscripcion(idAdscripcion: number) {
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.adscripcionService.deshabilitarAdscripcion(idAdscripcion).subscribe({
+    this.adscripcionService.deshabilitar(idAdscripcion).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
@@ -102,7 +102,7 @@ export default class EnrolledPageComponent implements OnInit {
   onEnableAdscripcion(idAdscripcion: number) {
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.adscripcionService.habilitarAdscripcion(idAdscripcion).subscribe({
+    this.adscripcionService.habilitar(idAdscripcion).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },

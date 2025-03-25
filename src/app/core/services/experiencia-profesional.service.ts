@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BaseService } from '@core/classes/bae-service.class';
+import { BaseService } from '@core/classes/base-service.class';
 import { ExperienciaProfesional } from '@core/models/experiencia-profesional.model';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';

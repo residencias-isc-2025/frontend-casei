@@ -45,7 +45,7 @@ export default class UsersPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.adscripcionService
-      .obtenerAdscripcionesPaginadas(1, 100, {
+      .obtenerDatosPaginados(1, 100, {
         nombre: '',
         siglas: '',
         estado: 'activo',
@@ -61,7 +61,7 @@ export default class UsersPageComponent implements OnInit {
 
   private loadUsers(): void {
     this.userService
-      .obtenerUsuariosPaginados(this.currentPage(), 10, {
+      .obtenerDatosPaginados(this.currentPage(), 10, {
         nomina: this.filterNomina(),
         area: this.filterArea(),
         estado: this.filterEstado(),
@@ -140,7 +140,7 @@ export default class UsersPageComponent implements OnInit {
   onDisableUser(userId: number) {
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.userService.deshabilitarUsuario(userId).subscribe({
+    this.userService.deshabilitar(userId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
@@ -154,7 +154,7 @@ export default class UsersPageComponent implements OnInit {
   onEnableUser(userId: number) {
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.userService.habilitarUsuario(userId).subscribe({
+    this.userService.habilitar(userId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },

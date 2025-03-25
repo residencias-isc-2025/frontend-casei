@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { BaseService } from '@core/classes/base-service.class';
 import { Periodo } from '@core/models/periodo.model';
 import { environment } from '@environments/environment';
 
@@ -11,12 +12,12 @@ export interface PeriodoSearchParams {
 @Injectable({
   providedIn: 'root',
 })
-export class PeriodoService {
+export class PeriodoService extends BaseService<Periodo> {
   private http = inject(HttpClient);
   private apiUrl = `${environment.api_url}/periodos`;
 
   // GET
-  obtenerPeriodosPaginados(
+  obtenerDatosPaginados(
     page: number,
     limit: number,
     params: PeriodoSearchParams
@@ -35,26 +36,26 @@ export class PeriodoService {
   }
 
   // POST
-  crearPeriodo(data: Partial<Periodo>) {
+  crear(data: Partial<Periodo>) {
     return this.http.post<{ mensaje: string }>(`${this.apiUrl}/periodo/`, data);
   }
 
   // DELETE
-  deshabilitarPeriodo(id: number) {
+  deshabilitar(id: number) {
     return this.http.delete<{ mensaje: string }>(
       `${this.apiUrl}/periodo/${id}/`
     );
   }
 
   // PUT
-  habilitarPeriodo(id: number) {
+  habilitar(id: number) {
     return this.http.put<{ mensaje: string }>(
       `${this.apiUrl}/activar-periodo/${id}/`,
       {}
     );
   }
 
-  actualizarPeriodo(id: number, data: Partial<Periodo>) {
+  actualizar(id: number, data: Partial<Periodo>) {
     return this.http.put<{ mensaje: string; data: Periodo }>(
       `${this.apiUrl}/periodo/${id}/`,
       data

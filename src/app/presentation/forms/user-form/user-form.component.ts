@@ -52,7 +52,7 @@ export class UserFormComponent {
     const { nomina, rol, tipo } = this.form.value;
 
     this.userService
-      .crearUsuario({
+      .crear({
         username: nomina!,
         password: nomina!,
         role: rol!,

@@ -70,7 +70,7 @@ export default class ProfilePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.adscripcionService
-      .obtenerAdscripcionesPaginadas(1, 100, {
+      .obtenerDatosPaginados(1, 100, {
         nombre: '',
         siglas: '',
         estado: 'activo',

@@ -62,7 +62,7 @@ export default class SchoolsPageComponent implements OnInit {
 
   private cargarInstituciones(): void {
     this.institucionService
-      .obtenerInstitucionesPaginadas(this.currentPage(), 10, {
+      .obtenerDatosPaginados(this.currentPage(), 10, {
         estado: this.filterEstado(),
         nombre: this.filterName(),
         pais: this.filterPais(),
@@ -106,7 +106,7 @@ export default class SchoolsPageComponent implements OnInit {
   onDisableSchool(schoolId: number) {
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.institucionService.deshabilitarInstitucion(schoolId).subscribe({
+    this.institucionService.deshabilitar(schoolId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
@@ -120,7 +120,7 @@ export default class SchoolsPageComponent implements OnInit {
   onEnableSchool(schoolId: number) {
     this.toastService.showInfo('Por favor espere...', 'Actualizando');
 
-    this.institucionService.habilitarInstitucion(schoolId).subscribe({
+    this.institucionService.habilitar(schoolId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },

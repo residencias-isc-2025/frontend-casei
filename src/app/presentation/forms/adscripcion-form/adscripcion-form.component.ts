@@ -54,11 +54,11 @@ export class AdscripcionFormComponent implements OnInit {
     };
 
     const action = this.editing()
-      ? this.adscripcionService.actualizarAdscripcion(
+      ? this.adscripcionService.actualizar(
           this.adscripcion()!.id,
           payload
         )
-      : this.adscripcionService.crearAdscripcion(payload);
+      : this.adscripcionService.crear(payload);
 
     action.subscribe({
       next: (response) => {

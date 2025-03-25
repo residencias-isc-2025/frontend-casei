@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { BaseService } from '@core/classes/base-service.class';
 import { User } from '@core/models/user.model';
 import { environment } from '@environments/environment';
 
@@ -13,12 +14,12 @@ export interface UserSearchParams {
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
+export class UserService extends BaseService<User>{
   private http = inject(HttpClient);
   private apiUrl = `${environment.api_url}/usuarios`;
 
   // GET
-  obtenerUsuariosPaginados(
+  obtenerDatosPaginados(
     page: number,
     limit: number,
     params: UserSearchParams
@@ -43,7 +44,7 @@ export class UserService {
   }
 
   // POST
-  crearUsuario(data: Partial<User>) {
+  crear(data: Partial<User>) {
     return this.http.post<{ mensaje: string }>(
       `${this.apiUrl}/register/`,
       data
@@ -65,14 +66,14 @@ export class UserService {
   }
 
   // DELETE
-  deshabilitarUsuario(id: number) {
+  deshabilitar(id: number) {
     return this.http.delete<{ mensaje: string }>(
       `${this.apiUrl}/register/${id}/`
     );
   }
 
   // PUT
-  habilitarUsuario(id: number) {
+  habilitar(id: number) {
     return this.http.put<{ mensaje: string }>(
       `${this.apiUrl}/habilitar-usuario/${id}/`,
       {}
@@ -88,7 +89,7 @@ export class UserService {
     );
   }
 
-  actualizarUsuario(id: number, data: Partial<User>) {
+  actualizar(id: number, data: Partial<User>) {
     return this.http.put<{ mensaje: string; data: User }>(
       `${this.apiUrl}/register/${id}/`,
       data

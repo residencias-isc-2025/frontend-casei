@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BaseService } from '@core/classes/bae-service.class';
+import { BaseService } from '@core/classes/base-service.class';
 import { DisenoIngenieril } from '@core/models/diseno-ingenieril.model';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
