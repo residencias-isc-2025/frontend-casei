@@ -1,4 +1,5 @@
 import { ActualizacionDisciplinar } from '@core/models/actualizacion-disciplinar.model';
+import { Aportacion } from '@core/models/aportacion.model';
 import { CapacitacionDocente } from '@core/models/capacitacion-docente.model';
 import { FormacionAcademica } from '@core/models/formacion-academica.model';
 import { Institucion } from '@core/models/institucion.model';
@@ -8,7 +9,6 @@ import { createTable } from '@helpers/create-table.helper';
 import { formatedBirthdate } from '@helpers/formated-birthdate.helper';
 import { getLastNomination } from '@helpers/get-last-nomination.helper';
 import {
-  AportacionData,
   CurriculumVitaeResponse,
   DisenoIngenierilData,
   ExperienciaProfesionalData,
@@ -795,7 +795,7 @@ export const curriculumVitaeReport = (
           },
         ],
       ],
-      body: data.aportaciones.map((item: AportacionData) => [item.descripcion]),
+      body: data.aportaciones.map((item: Aportacion) => [item.descripcion]),
       theme: 'grid',
     },
     docStartY,

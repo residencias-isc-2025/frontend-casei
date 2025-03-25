@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
 
 import {
-  AportacionDto,
   DisenoIngenierilDto,
   ExperienciaProfesionalDto,
   GestionAcademicaDto,
@@ -16,7 +15,6 @@ import {
   agregarGestionAcademicaUseCase,
   agregarProductoAcademicoUseCase,
   agregarPremioUseCase,
-  agregarAportacionUseCase,
   agregarDisenoIngenierilUseCase,
   agregarParticipacionUseCase,
   agregarLogroProfesionalUseCase,
@@ -24,7 +22,6 @@ import {
   eliminarGestionAcademicaUseCase,
   eliminarProductoAcademicoUseCase,
   eliminarPremioUseCase,
-  eliminarAportacionUseCase,
   eliminarDisenoIngenierilUseCase,
   eliminarParticipacionUseCase,
   eliminarLogroProfesionalUseCse,
@@ -32,7 +29,6 @@ import {
   actualizarGestionAcademicaUseCase,
   updateAcademicProductsUseCase,
   actualizarPremioUseCase,
-  actualizarAportacionUseCase,
   actualizarDisenoIngenierilUseCase,
   actualizarParticipacionUseCase,
   actualizarLogroProfesionalUseCase,
@@ -178,20 +174,6 @@ export class UsersService {
 
   borrarPremio(idPremio: number, accessToken: string) {
     return from(eliminarPremioUseCase(idPremio, accessToken));
-  }
-  //#endregion
-
-  //#region Aportaciones
-  agregarAportacion(aportacionDto: AportacionDto) {
-    return from(agregarAportacionUseCase(aportacionDto));
-  }
-
-  actualizarAportacion(idAportacion: number, aportacionDto: AportacionDto) {
-    return from(actualizarAportacionUseCase(idAportacion, aportacionDto));
-  }
-
-  borrarAportacion(idAportacion: number, accessToken: string) {
-    return from(eliminarAportacionUseCase(idAportacion, accessToken));
   }
   //#endregion
 }

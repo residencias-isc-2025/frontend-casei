@@ -20,6 +20,3 @@ export * from './09-participacion/update-participacion/update-participacion.comp
 
 export * from './10-premios/add-premios/add-premios.component';
 export * from './10-premios/update-premios/update-premios.component';
-
-export * from './11-aportaciones/add-aportacion/add-aportacion.component';
-export * from './11-aportaciones/update-aportacion/update-aportacion.component';

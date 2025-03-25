@@ -8,7 +8,6 @@ export * from './dtos/diseno-ingenieril.dto';
 export * from './dtos/logro-profesional.dto';
 export * from './dtos/participacion.dto';
 export * from './dtos/premios.dto';
-export * from './dtos/aportaciones.dto';
 
 export * from './dtos/periodo.dto';
 
@@ -19,7 +18,6 @@ export * from './use-cases/diseno-ingenieril.response';
 export * from './use-cases/logros-profesionales.response';
 export * from './use-cases/participacion.response';
 export * from './use-cases/premios.response';
-export * from './use-cases/aportaciones.response';
 
 export * from './use-cases/reportes/curriculum-vitae.response';
 

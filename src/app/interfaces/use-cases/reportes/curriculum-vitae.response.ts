@@ -1,10 +1,9 @@
+import { ActualizacionDisciplinar } from '@core/models/actualizacion-disciplinar.model';
+import { Aportacion } from '@core/models/aportacion.model';
 import { CapacitacionDocente } from '@core/models/capacitacion-docente.model';
 import { FormacionAcademica } from '@core/models/formacion-academica.model';
 import { User } from '@core/models/user.model';
-import { ActualizacionDisciplinar } from '@core/models/actualizacion-disciplinar.model';
 
-
-import { AportacionData } from '../aportaciones.response';
 import { DisenoIngenierilData } from '../diseno-ingenieril.response';
 import { ExperienciaProfesionalData } from '../experiencia-profesional.response';
 import { GestionAcademicaData } from '../gestion-academica.response';
@@ -25,5 +24,5 @@ export interface CurriculumVitaeResponse {
   logros_profesionales: LogroProfesionalData[];
   participacion: ParticipacionData[];
   premios: PremioData[];
-  aportaciones: AportacionData[];
+  aportaciones: Aportacion[];
 }
