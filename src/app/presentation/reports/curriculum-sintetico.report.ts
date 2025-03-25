@@ -1,6 +1,7 @@
 import { ActualizacionDisciplinar } from '@core/models/actualizacion-disciplinar.model';
 import { Aportacion } from '@core/models/aportacion.model';
 import { CapacitacionDocente } from '@core/models/capacitacion-docente.model';
+import { DisenoIngenieril } from '@core/models/diseno-ingenieril.model';
 import { FormacionAcademica } from '@core/models/formacion-academica.model';
 import { Institucion } from '@core/models/institucion.model';
 import { calculateAge } from '@helpers/calculate-age.helper';
@@ -10,7 +11,6 @@ import { formatedBirthdate } from '@helpers/formated-birthdate.helper';
 import { getLastNomination } from '@helpers/get-last-nomination.helper';
 import {
   CurriculumVitaeResponse,
-  DisenoIngenierilData,
   ExperienciaProfesionalData,
   GestionAcademicaData,
   LogroProfesionalData,
@@ -642,13 +642,11 @@ export const curriculumSinteticoReport = (
           },
         ],
       ],
-      body: data.experiencia_diseno_ingenieril.map(
-        (item: DisenoIngenierilData) => [
-          item.organismo,
-          item.periodo,
-          item.nivel_experiencia,
-        ]
-      ),
+      body: data.experiencia_diseno_ingenieril.map((item: DisenoIngenieril) => [
+        item.organismo,
+        item.periodo,
+        item.nivel_experiencia,
+      ]),
       theme: 'grid',
     },
     docStartY,

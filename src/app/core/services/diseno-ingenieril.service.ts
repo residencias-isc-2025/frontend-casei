@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { ActualizacionDisciplinar } from '@core/models/actualizacion-disciplinar.model';
 import { BaseService } from '@core/classes/bae-service.class';
+import { DisenoIngenieril } from '@core/models/diseno-ingenieril.model';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ActualizacionDisciplinarService extends BaseService<ActualizacionDisciplinar> {
+export class DisenoIngenierilService extends BaseService<DisenoIngenieril> {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.api_url}/actualizacion_diciplinar`;
+  private apiUrl = `${environment.api_url}/experiencia_diseno`;
 
   override obtenerDatosPaginados(
     page: number,
@@ -20,30 +20,30 @@ export class ActualizacionDisciplinarService extends BaseService<ActualizacionDi
     count: number;
     next: string | null;
     previous: string | null;
-    results: ActualizacionDisciplinar[];
+    results: DisenoIngenieril[];
   }> {
     return this.http.get<{
       count: number;
       next: string | null;
       previous: string | null;
-      results: ActualizacionDisciplinar[];
+      results: DisenoIngenieril[];
     }>(
-      `${this.apiUrl}/actualizacion-disciplinar/?page=${page}&page_size=${limit}`
+      `${this.apiUrl}/experiencia-diseno-ingenieril/?page=${page}&page_size=${limit}`
     );
   }
 
   override crear(
-    data: Partial<ActualizacionDisciplinar>
+    data: Partial<DisenoIngenieril>
   ): Observable<{ mensaje: string }> {
     return this.http.post<{ mensaje: string }>(
-      `${this.apiUrl}/actualizacion-disciplinar/`,
+      `${this.apiUrl}/experiencia-diseno-ingenieril/`,
       data
     );
   }
 
   override deshabilitar(id: number): Observable<{ mensaje: string }> {
     return this.http.delete<{ mensaje: string }>(
-      `${this.apiUrl}/actualizacion-disciplinar/${id}/`
+      `${this.apiUrl}/experiencia-diseno-ingenieril/${id}/`
     );
   }
 
@@ -53,10 +53,10 @@ export class ActualizacionDisciplinarService extends BaseService<ActualizacionDi
 
   override actualizar(
     id: number,
-    data: Partial<ActualizacionDisciplinar>
+    data: Partial<DisenoIngenieril>
   ): Observable<{ mensaje: string }> {
-    return this.http.post<{ mensaje: string }>(
-      `${this.apiUrl}/actualizacion-disciplinar/${id}/`,
+    return this.http.put<{ mensaje: string }>(
+      `${this.apiUrl}/experiencia-diseno-ingenieril/${id}/`,
       data
     );
   }

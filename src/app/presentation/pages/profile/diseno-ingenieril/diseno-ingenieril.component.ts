@@ -5,25 +5,18 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { DisenoIngenierilData } from '@interfaces/index';
-import {
-  AddDisenoIngenierilComponent,
-  ConfirmationModalComponent,
-  UpdateDisenoIngenierilComponent,
-} from '@presentation/modals';
-import {
-  CommonService,
-  ProfileService,
-  ToastService,
-  UsersService,
-} from '@presentation/services';
+
+import { ConfirmationModalComponent } from '@presentation/modals';
+import { ToastService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
+import { DisenoIngenierilFormComponent } from '@presentation/forms/diseno-ingenieril-form/diseno-ingenieril-form.component';
+import { DisenoIngenieril } from '@core/models/diseno-ingenieril.model';
+import { DisenoIngenierilService } from '@core/services/diseno-ingenieril.service';
 
 @Component({
   selector: 'app-diseno-ingenieril',
   imports: [
-    AddDisenoIngenierilComponent,
-    UpdateDisenoIngenierilComponent,
+    DisenoIngenierilFormComponent,
     PaginationComponent,
     ConfirmationModalComponent,
   ],
@@ -31,55 +24,44 @@ import { PaginationComponent } from '@components/pagination/pagination.component
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class DisenoIngenierilComponent implements OnInit {
-  public toastService = inject(ToastService);
-  public profileService = inject(ProfileService);
-  public commonService = inject(CommonService);
-  public usersService = inject(UsersService);
+  toastService = inject(ToastService);
+  disenoIngenierilService = inject(DisenoIngenierilService);
 
-  public showAddModal = signal(false);
-  public showUpdateModal = signal(false);
-  public showDeleteModal = signal(false);
+  showAddModal = signal(false);
+  showUpdateModal = signal(false);
+  showDeleteModal = signal(false);
 
-  public disenoIngenierilList = signal<DisenoIngenierilData[]>([]);
+  disenoIngenierilList = signal<DisenoIngenieril[]>([]);
 
-  public disenoIngenierilSelected = signal<DisenoIngenierilData | null>(null);
+  disenoIngenierilSelected = signal<DisenoIngenieril | null>(null);
 
-  public totalItems = signal(0);
-  public currentPage = signal(1);
+  totalItems = signal(0);
+  currentPage = signal(1);
 
   ngOnInit(): void {
     this.loadDisenoIngenierilList();
   }
 
   private loadDisenoIngenierilList(): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.profileService
-      .loadDisenoIngenierilFunction(token, this.currentPage())
+    this.disenoIngenierilService
+      .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
-          if (res.ok) {
-            this.totalItems.set(res.items!);
-            this.disenoIngenierilList.set(res.data || []);
-          } else {
-            this.toastService.showWarning(
-              'No se pudieron obtener los diseños ingenieriles.',
-              'Hubo un problema'
-            );
-          }
+          this.totalItems.set(res.count);
+          this.disenoIngenierilList.set(res.results);
         },
       });
   }
 
-  onShowUpdateModal(disenoIngenieril: DisenoIngenierilData) {
+  onShowUpdateModal(disenoIngenieril: DisenoIngenieril) {
     this.disenoIngenierilSelected.set(disenoIngenieril);
     this.showUpdateModal.set(true);
   }
 
-  onShowDeleteModal(disenoIngenieril: DisenoIngenierilData) {
+  onShowDeleteModal(disenoIngenieril: DisenoIngenieril) {
     this.disenoIngenierilSelected.set(disenoIngenieril);
     this.showDeleteModal.set(true);
   }
@@ -102,21 +84,13 @@ export default class DisenoIngenierilComponent implements OnInit {
   onDelete(itemId: number) {
     this.showDeleteModal.set(false);
 
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.usersService.borrarDisenoIngenieril(itemId, token).subscribe({
+    this.disenoIngenierilService.deshabilitar(itemId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.loadDisenoIngenierilList();
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener los diseños ingenieriles.',
-            'Hubo un problema'
-          );
-        }
+        this.toastService.showSuccess(res.mensaje!, 'Malas noticias');
+        this.loadDisenoIngenierilList();
       },
     });
   }

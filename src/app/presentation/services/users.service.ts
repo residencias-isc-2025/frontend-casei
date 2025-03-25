@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
 
 import {
-  DisenoIngenierilDto,
   ExperienciaProfesionalDto,
   GestionAcademicaDto,
   LogroPrefesionalDto,
@@ -15,21 +14,18 @@ import {
   agregarGestionAcademicaUseCase,
   agregarProductoAcademicoUseCase,
   agregarPremioUseCase,
-  agregarDisenoIngenierilUseCase,
   agregarParticipacionUseCase,
   agregarLogroProfesionalUseCase,
   agregarExperienciaProfesionalUseCase,
   eliminarGestionAcademicaUseCase,
   eliminarProductoAcademicoUseCase,
   eliminarPremioUseCase,
-  eliminarDisenoIngenierilUseCase,
   eliminarParticipacionUseCase,
   eliminarLogroProfesionalUseCse,
   eliminarExperienciaProfesionalUseCase,
   actualizarGestionAcademicaUseCase,
   updateAcademicProductsUseCase,
   actualizarPremioUseCase,
-  actualizarDisenoIngenierilUseCase,
   actualizarParticipacionUseCase,
   actualizarLogroProfesionalUseCase,
   actualizarExperienciaProfesionalUseCase,
@@ -102,25 +98,6 @@ export class UsersService {
     return from(
       eliminarExperienciaProfesionalUseCase(idExperiencia, accessToken)
     );
-  }
-  //#endregion
-
-  //#region Diseño ingenieril
-  agregarDisenoIngenieril(disenoIngenierilDto: DisenoIngenierilDto) {
-    return from(agregarDisenoIngenierilUseCase(disenoIngenierilDto));
-  }
-
-  actualizarDisenoIngenieril(
-    idDiseno: number,
-    disenoIngenierilDto: DisenoIngenierilDto
-  ) {
-    return from(
-      actualizarDisenoIngenierilUseCase(idDiseno, disenoIngenierilDto)
-    );
-  }
-
-  borrarDisenoIngenieril(idDiseno: number, accessToken: string) {
-    return from(eliminarDisenoIngenierilUseCase(idDiseno, accessToken));
   }
   //#endregion
 

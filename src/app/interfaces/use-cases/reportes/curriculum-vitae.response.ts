@@ -3,8 +3,8 @@ import { Aportacion } from '@core/models/aportacion.model';
 import { CapacitacionDocente } from '@core/models/capacitacion-docente.model';
 import { FormacionAcademica } from '@core/models/formacion-academica.model';
 import { User } from '@core/models/user.model';
+import { DisenoIngenieril } from '@core/models/diseno-ingenieril.model';
 
-import { DisenoIngenierilData } from '../diseno-ingenieril.response';
 import { ExperienciaProfesionalData } from '../experiencia-profesional.response';
 import { GestionAcademicaData } from '../gestion-academica.response';
 import { LogroProfesionalData } from '../logros-profesionales.response';
@@ -20,7 +20,7 @@ export interface CurriculumVitaeResponse {
   gestion_academica: GestionAcademicaData[];
   productos_academicos_relevantes: ProductoAcademicoData[];
   experiencia_no_academica: ExperienciaProfesionalData[];
-  experiencia_diseno_ingenieril: DisenoIngenierilData[];
+  experiencia_diseno_ingenieril: DisenoIngenieril[];
   logros_profesionales: LogroProfesionalData[];
   participacion: ParticipacionData[];
   premios: PremioData[];

@@ -9,9 +9,6 @@ export * from './05-productos-academicos/update-producto-academico/update-produc
 export * from './06-experiencia-profesional/add-experiencia-profesional/add-experiencia-profesional.component';
 export * from './06-experiencia-profesional/update-experiencia-profesional/update-experiencia-profesional.component';
 
-export * from './07-diseno-ingenieril/add-diseno-ingenieril/add-diseno-ingenieril.component';
-export * from './07-diseno-ingenieril/update-diseno-ingenieril/update-diseno-ingenieril.component';
-
 export * from './08-logros-profesionales/add-logro-profesional/add-logro-profesional.component';
 export * from './08-logros-profesionales/update-logro-profesional/update-logro-profesional.component';
 

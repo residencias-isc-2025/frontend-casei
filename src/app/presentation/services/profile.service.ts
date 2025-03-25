@@ -3,7 +3,6 @@ import {
   obtenerListaGestionAcademicaUseCase,
   obtenerListaProductoAcademicoUseCase,
   obtenerListaPremioUseCase,
-  obtenerListaDisenoIngenierilUseCase,
   obtenerListaParticipacionUseCase,
   obtenerListaLogroProfesionalUseCase,
   obtenerListaExperienciaProfesionalUseCase,
@@ -42,16 +41,6 @@ export class ProfileService {
   ) {
     return from(
       obtenerListaExperienciaProfesionalUseCase(accessToken, page, pageSize)
-    );
-  }
-
-  loadDisenoIngenierilFunction(
-    accessToken: string,
-    page: number,
-    pageSize: number = 10
-  ) {
-    return from(
-      obtenerListaDisenoIngenierilUseCase(accessToken, page, pageSize)
     );
   }
 
