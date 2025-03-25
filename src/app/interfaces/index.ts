@@ -1,9 +1,6 @@
 export * from './dtos/productos-academicos.dto';
 export * from './use-cases/productos-academicos.response';
 
-export * from './dtos/logro-profesional.dto';
-export * from './use-cases/logros-profesionales.response';
-
 export * from './dtos/participacion.dto';
 export * from './use-cases/participacion.response';
 

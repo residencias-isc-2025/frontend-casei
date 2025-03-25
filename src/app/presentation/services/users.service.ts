@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
 
 import {
-  LogroPrefesionalDto,
   ParticipacionDto,
   PremiosDto,
   ProductoAcademicoDto,
@@ -12,15 +11,12 @@ import {
   agregarProductoAcademicoUseCase,
   agregarPremioUseCase,
   agregarParticipacionUseCase,
-  agregarLogroProfesionalUseCase,
   eliminarProductoAcademicoUseCase,
   eliminarPremioUseCase,
   eliminarParticipacionUseCase,
-  eliminarLogroProfesionalUseCse,
   updateAcademicProductsUseCase,
   actualizarPremioUseCase,
   actualizarParticipacionUseCase,
-  actualizarLogroProfesionalUseCase,
 } from '@core/index';
 
 @Injectable({
@@ -44,26 +40,6 @@ export class UsersService {
   borrarProductosAcademicos(idProducto: number, accessToken: string) {
     return from(eliminarProductoAcademicoUseCase(idProducto, accessToken));
   }
-  //#endregion
-
-  //#region Logros profesionales
-  agregarLogroProfesional(logroProfesionalDto: LogroPrefesionalDto) {
-    return from(agregarLogroProfesionalUseCase(logroProfesionalDto));
-  }
-
-  actualizarLogroProfesional(
-    idLogro: number,
-    logroProfesionalDto: LogroPrefesionalDto
-  ) {
-    return from(
-      actualizarLogroProfesionalUseCase(idLogro, logroProfesionalDto)
-    );
-  }
-
-  borrarLogroProfesional(idLogro: number, accessToken: string) {
-    return from(eliminarLogroProfesionalUseCse(idLogro, accessToken));
-  }
-
   //#endregion
 
   //#region Participación

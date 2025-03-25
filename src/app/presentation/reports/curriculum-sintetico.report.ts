@@ -6,6 +6,7 @@ import { ExperienciaProfesional } from '@core/models/experiencia-profesional.mod
 import { FormacionAcademica } from '@core/models/formacion-academica.model';
 import { GestionAcademica } from '@core/models/gestion-academica.model';
 import { Institucion } from '@core/models/institucion.model';
+import { LogroProfesional } from '@core/models/logro-profesional.model';
 import { calculateAge } from '@helpers/calculate-age.helper';
 import { calculateSeniority } from '@helpers/calculate-seniority.helper';
 import { createTable } from '@helpers/create-table.helper';
@@ -13,7 +14,6 @@ import { formatedBirthdate } from '@helpers/formated-birthdate.helper';
 import { getLastNomination } from '@helpers/get-last-nomination.helper';
 import {
   CurriculumVitaeResponse,
-  LogroProfesionalData,
   ParticipacionData,
   PremioData,
   ProductoAcademicoData,
@@ -680,7 +680,7 @@ export const curriculumSinteticoReport = (
           },
         ],
       ],
-      body: data.logros_profesionales.map((item: LogroProfesionalData) => [
+      body: data.logros_profesionales.map((item: LogroProfesional) => [
         item.descripcion,
       ]),
       theme: 'grid',

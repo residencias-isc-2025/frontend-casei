@@ -3,7 +3,6 @@ import {
   obtenerListaProductoAcademicoUseCase,
   obtenerListaPremioUseCase,
   obtenerListaParticipacionUseCase,
-  obtenerListaLogroProfesionalUseCase,
 } from '@core/index';
 
 import { from } from 'rxjs';
@@ -19,16 +18,6 @@ export class ProfileService {
   ) {
     return from(
       obtenerListaProductoAcademicoUseCase(accessToken, page, pageSize)
-    );
-  }
-
-  loadLogrosProfesionalesFunction(
-    accessToken: string,
-    page: number,
-    pageSize: number = 10
-  ) {
-    return from(
-      obtenerListaLogroProfesionalUseCase(accessToken, page, pageSize)
     );
   }
 

@@ -5,25 +5,18 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { LogroProfesionalData } from '@interfaces/index';
-import {
-  AddLogroProfesionalComponent,
-  ConfirmationModalComponent,
-  UpdateLogroProfesionalComponent,
-} from '@presentation/modals';
-import {
-  CommonService,
-  ProfileService,
-  ToastService,
-  UsersService,
-} from '@presentation/services';
+
+import { ConfirmationModalComponent } from '@presentation/modals';
+import { ToastService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
+import { LogroProfesionalFormComponent } from '@presentation/forms/logro-profesional-form/logro-profesional-form.component';
+import { LogroProfesional } from '@core/models/logro-profesional.model';
+import { LogroProfesionalService } from '@core/services/logro-profesional.service';
 
 @Component({
   selector: 'app-logros-profesionales',
   imports: [
-    AddLogroProfesionalComponent,
-    UpdateLogroProfesionalComponent,
+    LogroProfesionalFormComponent,
     PaginationComponent,
     ConfirmationModalComponent,
   ],
@@ -31,54 +24,43 @@ import { PaginationComponent } from '@components/pagination/pagination.component
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class LogrosProfesionalesComponent implements OnInit {
-  public toastService = inject(ToastService);
-  public profileService = inject(ProfileService);
-  public commonService = inject(CommonService);
-  public usersService = inject(UsersService);
+  toastService = inject(ToastService);
+  logroProfesionalService = inject(LogroProfesionalService);
 
-  public showAddModal = signal(false);
-  public showUpdateModal = signal(false);
-  public showDeleteModal = signal(false);
+  showAddModal = signal(false);
+  showUpdateModal = signal(false);
+  showDeleteModal = signal(false);
 
-  public logrosProfesionalesList = signal<LogroProfesionalData[]>([]);
-  public logroProfesionalSelected = signal<LogroProfesionalData | null>(null);
+  logrosProfesionalesList = signal<LogroProfesional[]>([]);
+  logroProfesionalSelected = signal<LogroProfesional | null>(null);
 
-  public totalItems = signal(0);
-  public currentPage = signal(1);
+  totalItems = signal(0);
+  currentPage = signal(1);
 
   ngOnInit(): void {
     this.loadLogrosProfesionalesList();
   }
 
   private loadLogrosProfesionalesList(): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.profileService
-      .loadLogrosProfesionalesFunction(token, this.currentPage())
+    this.logroProfesionalService
+      .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
-          if (res.ok) {
-            this.totalItems.set(res.items!);
-            this.logrosProfesionalesList.set(res.data || []);
-          } else {
-            this.toastService.showWarning(
-              'No se pudieron obtener los logros profesionales.',
-              'Hubo un problema'
-            );
-          }
+          this.totalItems.set(res.count);
+          this.logrosProfesionalesList.set(res.results);
         },
       });
   }
 
-  onShowUpdateModal(logroProfesional: LogroProfesionalData) {
+  onShowUpdateModal(logroProfesional: LogroProfesional) {
     this.logroProfesionalSelected.set(logroProfesional);
     this.showUpdateModal.set(true);
   }
 
-  onShowDeleteModal(logroProfesional: LogroProfesionalData) {
+  onShowDeleteModal(logroProfesional: LogroProfesional) {
     this.logroProfesionalSelected.set(logroProfesional);
     this.showDeleteModal.set(true);
   }
@@ -101,21 +83,13 @@ export default class LogrosProfesionalesComponent implements OnInit {
   onDelete(itemId: number) {
     this.showDeleteModal.set(false);
 
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.usersService.borrarLogroProfesional(itemId, token).subscribe({
+    this.logroProfesionalService.deshabilitar(itemId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.loadLogrosProfesionalesList();
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener los logros profesionales.',
-            'Hubo un problema'
-          );
-        }
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        this.loadLogrosProfesionalesList();
       },
     });
   }
