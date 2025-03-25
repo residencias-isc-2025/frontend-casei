@@ -5,34 +5,33 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
+import { ObjetivoEspecifico } from '@core/models/objetivo-especifico.model';
+import { ObjetivosEspecificosService } from '@core/services/objetivos-especificos.service';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
+import { ObjetivosEspecificosFormComponent } from '@presentation/forms/objetivos-especificos-form/objetivos-especificos-form.component';
 import { ConfirmationModalComponent } from '@presentation/modals/confirmation-modal/confirmation-modal.component';
-import { CommonService, ToastService } from '@presentation/services';
-import { ObjetivoEspecificoData } from '../../../interfaces/use-cases/objetivo-especifico.response';
-import { AddObjetivoEspecificoComponent } from '@presentation/modals/objetivos-especificos/add-objetivo-especifico/add-objetivos-especificos.component';
-import { UpdateObjetivoEspecificoComponent } from '@presentation/modals/objetivos-especificos/update-objetivo-especifico/update-objetivo-especifico.component';
+import { ToastService } from '@presentation/services';
 
 @Component({
   selector: 'app-objetivos-especificos-page',
   imports: [
     PaginationComponent,
     ConfirmationModalComponent,
-    AddObjetivoEspecificoComponent,
-    UpdateObjetivoEspecificoComponent,
+    ObjetivosEspecificosFormComponent,
   ],
   templateUrl: './objetivos-especificos-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ObjetivosEspecificosPageComponent implements OnInit {
-  public toastService = inject(ToastService);
-  public commonService = inject(CommonService);
+  toastService = inject(ToastService);
+  objetivoEspecificoService = inject(ObjetivosEspecificosService);
 
-  public showAddModal = signal(false);
-  public showUpdateModal = signal(false);
-  public showDeleteModal = signal(false);
+  showAddModal = signal(false);
+  showUpdateModal = signal(false);
+  showDeleteModal = signal(false);
 
-  public objetivosList = signal<ObjetivoEspecificoData[]>([]);
-  public objetivoSelected = signal<ObjetivoEspecificoData | null>(null);
+  objetivosEspecificosList = signal<ObjetivoEspecifico[]>([]);
+  objetivoEspecificoSelected = signal<ObjetivoEspecifico | null>(null);
 
   public totalItems = signal(0);
   public currentPage = signal(1);
@@ -44,36 +43,26 @@ export default class ObjetivosEspecificosPageComponent implements OnInit {
   private loadObjetivosEspecificos(): void {
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.commonService
-      .getObjetivosEspecificosList({
-        accessToken: token,
-        page: this.currentPage(),
-      })
+    this.objetivoEspecificoService
+      .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
-          if (res.ok) {
-            this.totalItems.set(res.items!);
-            this.objetivosList.set(res.data || []);
-          } else {
-            this.toastService.showWarning(
-              'No se pudo obtener los premios.',
-              'Hubo un problema'
-            );
-          }
+          this.totalItems.set(res.count);
+          this.objetivosEspecificosList.set(res.results);
         },
       });
   }
 
-  onShowUpdateModal(objetivo: ObjetivoEspecificoData) {
-    this.objetivoSelected.set(objetivo);
+  onShowUpdateModal(objetivo: ObjetivoEspecifico) {
+    this.objetivoEspecificoSelected.set(objetivo);
     this.showUpdateModal.set(true);
   }
 
-  onShowDeleteModal(objetivo: ObjetivoEspecificoData) {
-    this.objetivoSelected.set(objetivo);
+  onShowDeleteModal(objetivo: ObjetivoEspecifico) {
+    this.objetivoEspecificoSelected.set(objetivo);
     this.showDeleteModal.set(true);
   }
 
@@ -96,19 +85,12 @@ export default class ObjetivosEspecificosPageComponent implements OnInit {
     this.showDeleteModal.set(false);
     const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.commonService.eliminarObjetivoEspecifico(itemId, token).subscribe({
+    this.objetivoEspecificoService.deshabilitar(itemId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
-      next: (res) => {
-        if (res.ok) {
-          this.loadObjetivosEspecificos();
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener los objetivos específicos.',
-            'Hubo un problema'
-          );
-        }
+      next: () => {
+        this.loadObjetivosEspecificos();
       },
     });
   }

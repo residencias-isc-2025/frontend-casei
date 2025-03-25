@@ -17,7 +17,7 @@
         <th class="py-3 px-4 text-left">Acciones</th>
       </thead>
       <tbody class="text-gray-600">
-        @for(objetivo of objetivosList(); track $index) {
+        @for(objetivo of objetivosEspecificosList(); track $index) {
         <tr class="border-b hover:bg-gray-100 transition">
           <td class="py-3 px-4">{{ $index + 1 }}</td>
           <td class="py-3 px-4">{{ objetivo.descripcion }}</td>
@@ -52,32 +52,29 @@
 </div>
 
 @if (showAddModal()) {
-<app-add-objetivo-especifico
+<app-objetivos-especificos-form
+  [editing]="false"
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
   title="Agregar objetivo específico"
 />
-}
-
-@if (showUpdateModal()) {
-<app-update-objetivos-especificos
+} @if (showUpdateModal()) {
+<app-objetivos-especificos-form
+  [editing]="true"
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
-  [objetivo]="objetivoSelected()!"
+  [objetivoEspecifico]="objetivoEspecificoSelected()!"
   title="Editar objetivo específico"
 />
-}
-
-
-@if (showDeleteModal()){
+} @if (showDeleteModal()){
 <app-confirmation-modal
   title="Eliminar: Objetivo específico"
   [message]="
     '¿Esta seguro de querer eliminar el objetivo específico correspondinete a ' +
-    objetivoSelected()?.descripcion +
+    objetivoEspecificoSelected()?.descripcion +
     '?'
   "
-  (onConfirm)="onDelete(objetivoSelected()?.id!)"
+  (onConfirm)="onDelete(objetivoEspecificoSelected()?.id!)"
   (onCancel)="showDeleteModal.set(false)"
 />
 }

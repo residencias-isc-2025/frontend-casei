@@ -15,48 +15,23 @@ import { ToastService, CommonService } from '@presentation/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class CriteriosPageComponent {
-  public toastService = inject(ToastService);
-  public commonService = inject(CommonService);
+  toastService = inject(ToastService);
 
-  public showAddModal = signal(false);
-  public showUpdateModal = signal(false);
-  public showDeleteModal = signal(false);
+  showAddModal = signal(false);
+  showUpdateModal = signal(false);
+  showDeleteModal = signal(false);
 
-  public criteriosList = signal<any[]>([]);
-  public criterioSelected = signal<any | null>(null);
+  criteriosList = signal<any[]>([]);
+  criterioSelected = signal<any | null>(null);
 
-  public totalItems = signal(0);
-  public currentPage = signal(1);
+  totalItems = signal(0);
+  currentPage = signal(1);
 
   ngOnInit(): void {
     //this.loadCriteriosDesempeno();
   }
 
-  private loadCriteriosDesempeno(): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.commonService
-      .getObjetivosEspecificosList({
-        accessToken: token,
-        page: this.currentPage(),
-      })
-      .subscribe({
-        error: (res) => {
-          this.toastService.showError(res.mensaje!, 'Malas noticias');
-        },
-        next: (res) => {
-          if (res.ok) {
-            this.totalItems.set(res.items!);
-            this.criteriosList.set(res.data || []);
-          } else {
-            this.toastService.showWarning(
-              'No se pudo obtener los premios.',
-              'Hubo un problema'
-            );
-          }
-        },
-      });
-  }
+  private loadCriteriosDesempeno(): void {}
 
   onShowUpdateModal(criterio: any) {
     this.criterioSelected.set(criterio);
@@ -85,24 +60,5 @@ export default class CriteriosPageComponent {
 
   onDelete(itemId: number) {
     return;
-
-    this.showDeleteModal.set(false);
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.commonService.eliminarObjetivoEspecifico(itemId, token).subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        if (res.ok) {
-          //this.loadCriteriosDesempeno();
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener los objetivos específicos.',
-            'Hubo un problema'
-          );
-        }
-      },
-    });
   }
 }
