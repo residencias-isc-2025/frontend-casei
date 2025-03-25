@@ -54,13 +54,15 @@
 </div>
 
 @if (showAddModal()) {
-<app-add-producto-academico
+<app-producto-academico-form
+  [editing]="false"
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
   title="Agregar producto académico"
 />
 } @if (showUpdateModal()) {
-<app-update-producto-academico
+<app-producto-academico-form
+  [editing]="true"
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
   [productoAcademico]="productoAcademicoSelected()!"

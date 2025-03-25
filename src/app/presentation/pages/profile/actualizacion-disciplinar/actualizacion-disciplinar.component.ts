@@ -4,7 +4,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { ConfirmationModalComponent } from '@modals/index';
+
 import { ToastService } from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { InstitucionService } from '@core/services/institucion.service';
@@ -13,6 +13,7 @@ import { Institucion } from '@core/models/institucion.model';
 import { ActualizacionDisciplinarFormComponent } from '@presentation/forms/actualizacion-disciplinar-form/actualizacion-disciplinar-form.component';
 import { ActualizacionDisciplinar } from '@core/models/actualizacion-disciplinar.model';
 import { ActualizacionDisciplinarService } from '@core/services/actualizacion-disciplinar.service';
+import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-actualizacion-disciplinar',

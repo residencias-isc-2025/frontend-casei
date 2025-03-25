@@ -9,15 +9,13 @@ import { Institucion } from '@core/models/institucion.model';
 import { LogroProfesional } from '@core/models/logro-profesional.model';
 import { Participacion } from '@core/models/participacion.model';
 import { Premio } from '@core/models/premio.model';
+import { ProductoAcademico } from '@core/models/productos-academicos.model';
 import { calculateAge } from '@helpers/calculate-age.helper';
 import { calculateSeniority } from '@helpers/calculate-seniority.helper';
 import { createTable } from '@helpers/create-table.helper';
 import { formatedBirthdate } from '@helpers/formated-birthdate.helper';
 import { getLastNomination } from '@helpers/get-last-nomination.helper';
-import {
-  CurriculumVitaeResponse,
-  ProductoAcademicoData,
-} from '@interfaces/index';
+import { CurriculumVitaeResponse } from '@interfaces/index';
 import { DocHeaderData } from '@interfaces/reports/doc-header-data.interface';
 import jsPDF from 'jspdf';
 
@@ -523,7 +521,7 @@ export const curriculumVitaeReport = (
         ],
       ],
       body: data.productos_academicos_relevantes.map(
-        (item: ProductoAcademicoData, index) => [
+        (item: ProductoAcademico, index) => [
           index + 1,
           item.descripcion_producto_academico,
         ]

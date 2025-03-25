@@ -5,7 +5,7 @@ import {
   signal,
 } from '@angular/core';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
-import { ConfirmationModalComponent } from '@presentation/modals/confirmation-modal/confirmation-modal.component';
+import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
 import { ToastService } from '@presentation/services';
 
 @Component({

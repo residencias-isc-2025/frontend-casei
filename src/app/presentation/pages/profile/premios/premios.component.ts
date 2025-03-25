@@ -5,12 +5,13 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { ConfirmationModalComponent } from '@presentation/modals';
+
 import { ToastService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { Premio } from '@core/models/premio.model';
 import { PremioService } from '@core/services/premio.service';
 import { PremioFormComponent } from '@presentation/forms/premio-form/premio-form.component';
+import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-premios',

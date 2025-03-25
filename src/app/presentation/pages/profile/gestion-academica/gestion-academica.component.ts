@@ -6,7 +6,6 @@ import {
   signal,
 } from '@angular/core';
 import { ToastService } from '@services/index';
-import { ConfirmationModalComponent } from '@modals/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { InstitucionService } from '@core/services/institucion.service';
 import { tap } from 'rxjs';
@@ -14,6 +13,7 @@ import { Institucion } from '@core/models/institucion.model';
 import { GestionAcademicaFormComponent } from '@presentation/forms/gestion-academica-form/gestion-academica-form.component';
 import { GestionAcademicaService } from '@core/services/gestion-academica.service';
 import { GestionAcademica } from '@core/models/gestion-academica.model';
+import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-gestion-academica',

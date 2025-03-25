@@ -5,21 +5,18 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { ProductoAcademicoData } from '@interfaces/index';
-import {
-  AddProductoAcademicoComponent,
-  ConfirmationModalComponent,
-  UpdateProductoAcademicoComponent,
-} from '@presentation/modals';
-import { ProfileService, ToastService, UsersService } from '@services/index';
+
+import { ToastService } from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
-import { CommonService } from '@core/services/common.service';
+import { ProductoAcademicoFormComponent } from '@presentation/forms/producto-academico-form/producto-academico-form.component';
+import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
+import { ProductoAcademicoService } from '@core/services/producto-academico.service';
+import { ProductoAcademico } from '@core/models/productos-academicos.model';
 
 @Component({
   selector: 'app-productos-academicos',
   imports: [
-    AddProductoAcademicoComponent,
-    UpdateProductoAcademicoComponent,
+    ProductoAcademicoFormComponent,
     PaginationComponent,
     ConfirmationModalComponent,
   ],
@@ -27,54 +24,43 @@ import { CommonService } from '@core/services/common.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ProductosAcademicosComponent implements OnInit {
-  commonService = inject(CommonService);
-  public toastService = inject(ToastService);
-  public profileService = inject(ProfileService);
-  public usersService = inject(UsersService);
+  toastService = inject(ToastService);
+  productoAcademicoService = inject(ProductoAcademicoService);
 
-  public showAddModal = signal(false);
-  public showUpdateModal = signal(false);
-  public showDeleteModal = signal(false);
+  showAddModal = signal(false);
+  showUpdateModal = signal(false);
+  showDeleteModal = signal(false);
 
-  public productosAcademicosList = signal<ProductoAcademicoData[]>([]);
-  public productoAcademicoSelected = signal<ProductoAcademicoData | null>(null);
+  productosAcademicosList = signal<ProductoAcademico[]>([]);
+  productoAcademicoSelected = signal<ProductoAcademico | null>(null);
 
-  public totalItems = signal(0);
-  public currentPage = signal(1);
+  totalItems = signal(0);
+  currentPage = signal(1);
 
   ngOnInit(): void {
     this.loadProductosAcademicosList();
   }
 
   private loadProductosAcademicosList(): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.profileService
-      .loadProductosAcademicosFunction(token, this.currentPage())
+    this.productoAcademicoService
+      .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
-          if (res.ok) {
-            this.totalItems.set(res.items!);
-            this.productosAcademicosList.set(res.data || []);
-          } else {
-            this.toastService.showWarning(
-              'No se pudieron obtener los productos académicos.',
-              'Hubo un problema'
-            );
-          }
+          this.totalItems.set(res.count);
+          this.productosAcademicosList.set(res.results);
         },
       });
   }
 
-  onShowUpdateModel(productoAcademico: ProductoAcademicoData) {
+  onShowUpdateModel(productoAcademico: ProductoAcademico) {
     this.productoAcademicoSelected.set(productoAcademico);
     this.showUpdateModal.set(true);
   }
 
-  onShowDeleteModal(productoAcademico: ProductoAcademicoData) {
+  onShowDeleteModal(productoAcademico: ProductoAcademico) {
     this.productoAcademicoSelected.set(productoAcademico);
     this.showDeleteModal.set(true);
   }
@@ -96,21 +82,14 @@ export default class ProductosAcademicosComponent implements OnInit {
 
   onDelete(itemId: number) {
     this.showDeleteModal.set(false);
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
 
-    this.usersService.borrarProductosAcademicos(itemId, token).subscribe({
+    this.productoAcademicoService.deshabilitar(itemId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.loadProductosAcademicosList();
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener los productos académicos.',
-            'Hubo un problema'
-          );
-        }
+        this.toastService.showError(res.mensaje!, 'Éxito');
+        this.loadProductosAcademicosList();
       },
     });
   }

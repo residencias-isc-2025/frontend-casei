@@ -6,11 +6,10 @@ import { User } from '@core/models/user.model';
 import { DisenoIngenieril } from '@core/models/diseno-ingenieril.model';
 import { ExperienciaProfesional } from '@core/models/experiencia-profesional.model';
 import { GestionAcademica } from '@core/models/gestion-academica.model';
-
-import { Participacion } from '../../../core/models/participacion.model';
-import { Premio } from '../../../core/models/premio.model';
-import { ProductoAcademicoData } from '../productos-academicos.response';
+import { ProductoAcademico } from '@core/models/productos-academicos.model';
 import { LogroProfesional } from '@core/models/logro-profesional.model';
+import { Participacion } from '@core/models/participacion.model';
+import { Premio } from '@core/models/premio.model';
 
 export interface CurriculumVitaeResponse {
   usuario: User;
@@ -18,7 +17,7 @@ export interface CurriculumVitaeResponse {
   capacitacion_docente: CapacitacionDocente[];
   actualizacion_disciplinaria: ActualizacionDisciplinar[];
   gestion_academica: GestionAcademica[];
-  productos_academicos_relevantes: ProductoAcademicoData[];
+  productos_academicos_relevantes: ProductoAcademico[];
   experiencia_no_academica: ExperienciaProfesional[];
   experiencia_diseno_ingenieril: DisenoIngenieril[];
   logros_profesionales: LogroProfesional[];

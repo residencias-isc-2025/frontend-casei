@@ -6,12 +6,12 @@ import {
   signal,
 } from '@angular/core';
 
-import { ConfirmationModalComponent } from '@presentation/modals';
 import { ToastService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { ParticipacionService } from '@core/services/participacion.service';
 import { ParticipacionFormComponent } from '@presentation/forms/participacion-form/participacion-form.component';
 import { Participacion } from '@core/models/participacion.model';
+import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-participacion',

@@ -9,7 +9,7 @@ import { ObjetivoEspecifico } from '@core/models/objetivo-especifico.model';
 import { ObjetivosEspecificosService } from '@core/services/objetivos-especificos.service';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 import { ObjetivosEspecificosFormComponent } from '@presentation/forms/objetivos-especificos-form/objetivos-especificos-form.component';
-import { ConfirmationModalComponent } from '@presentation/modals/confirmation-modal/confirmation-modal.component';
+import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
 import { ToastService } from '@presentation/services';
 
 @Component({

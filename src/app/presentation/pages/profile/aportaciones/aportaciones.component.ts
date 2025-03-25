@@ -6,12 +6,12 @@ import {
   signal,
 } from '@angular/core';
 
-import { ConfirmationModalComponent } from '@presentation/modals';
 import { ToastService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { AportacionFormComponent } from '@presentation/forms/aportacion-form/aportacion-form.component';
 import { AportacionService } from '@core/services/aportacion.service';
 import { Aportacion } from '@core/models/aportacion.model';
+import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-aportaciones',

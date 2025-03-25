@@ -6,12 +6,12 @@ import {
   signal,
 } from '@angular/core';
 
-import { ConfirmationModalComponent } from '@presentation/modals';
 import { ToastService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { LogroProfesionalFormComponent } from '@presentation/forms/logro-profesional-form/logro-profesional-form.component';
 import { LogroProfesional } from '@core/models/logro-profesional.model';
 import { LogroProfesionalService } from '@core/services/logro-profesional.service';
+import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-logros-profesionales',

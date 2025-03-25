@@ -5,7 +5,6 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { ConfirmationModalComponent } from '@modals/index';
 
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { ToastService } from '@core/services/toast.service';
@@ -14,6 +13,7 @@ import { FormacionAcademicaService } from '@core/services/formacion-academica.se
 import { FormacionAcademicaFormComponent } from '@presentation/forms/formacion-academica-form/formacion-academica-form.component';
 import { FormacionAcademica } from '@core/models/formacion-academica.model';
 import { Institucion } from '@core/models/institucion.model';
+import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-formacion-academica',
