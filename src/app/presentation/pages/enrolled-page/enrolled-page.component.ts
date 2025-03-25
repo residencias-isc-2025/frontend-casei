@@ -9,10 +9,10 @@ import {
 import { Adscripcion } from '@core/models/adscripcion.model';
 import { AdscripcionService } from '@core/services/adscripcion.service';
 import { CommonService } from '@core/services/common.service';
+import { ToastService } from '@core/services/toast.service';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 import { SearchBarComponent } from '@presentation/components/search-bar/search-bar.component';
 import { AdscripcionFormComponent } from '@presentation/forms/adscripcion-form/adscripcion-form.component';
-import { ToastService } from '@presentation/services';
 
 @Component({
   selector: 'app-enrolled-page',

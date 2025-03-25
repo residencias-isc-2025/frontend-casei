@@ -5,7 +5,6 @@ import {
   signal,
 } from '@angular/core';
 
-import { ToastService } from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { InstitucionService } from '@core/services/institucion.service';
 import { tap } from 'rxjs';
@@ -14,6 +13,7 @@ import { ActualizacionDisciplinarFormComponent } from '@presentation/forms/actua
 import { ActualizacionDisciplinar } from '@core/models/actualizacion-disciplinar.model';
 import { ActualizacionDisciplinarService } from '@core/services/actualizacion-disciplinar.service';
 import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
+import { ToastService } from '@core/services/toast.service';
 
 @Component({
   selector: 'app-actualizacion-disciplinar',

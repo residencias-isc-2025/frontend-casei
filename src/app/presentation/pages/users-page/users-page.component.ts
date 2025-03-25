@@ -6,7 +6,6 @@ import {
   signal,
 } from '@angular/core';
 
-import { ToastService } from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { CommonModule } from '@angular/common';
 import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
@@ -15,6 +14,7 @@ import { User } from '@core/models/user.model';
 import { UserFormComponent } from '@presentation/forms/user-form/user-form.component';
 import { Adscripcion } from '@core/models/adscripcion.model';
 import { AdscripcionService } from '@core/services/adscripcion.service';
+import { ToastService } from '@core/services/toast.service';
 
 @Component({
   selector: 'app-users-page',

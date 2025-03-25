@@ -8,11 +8,12 @@ import {
 } from '@angular/core';
 
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
-import { ToastService } from '@presentation/services';
+
 import { SearchBarComponent } from '@presentation/components/search-bar/search-bar.component';
 import { PeriodoFormComponent } from '@presentation/forms/periodo-form/periodo-form.component';
 import { Periodo } from '@core/models/periodo.model';
 import { PeriodoService } from '@core/services/periodo.service';
+import { ToastService } from '@core/services/toast.service';
 
 @Component({
   selector: 'app-periodos-page',

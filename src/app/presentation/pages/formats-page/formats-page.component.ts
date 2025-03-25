@@ -5,14 +5,15 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
+import { CurriculumVitae } from '@core/models/curriculum-vitae.model';
 import { Institucion } from '@core/models/institucion.model';
+import { CedulaService } from '@core/services/cedula.service';
 import { CommonService } from '@core/services/common.service';
 import { InstitucionService } from '@core/services/institucion.service';
-import { CurriculumVitaeResponse } from '@interfaces/index';
+import { PdfService } from '@core/services/pdf.service';
+import { ToastService } from '@core/services/toast.service';
 import { DownloadPdfButtonComponent } from '@presentation/components/download-pdf-button/download-pdf-button.component';
 import { DownloadXlsButtonComponent } from '@presentation/components/download-xls-button/download-xls-button.component';
-import { PdfService, ToastService } from '@presentation/services';
-import { ReportsService } from '@presentation/services/reports.service';
 import { tap } from 'rxjs';
 
 @Component({
@@ -24,12 +25,11 @@ import { tap } from 'rxjs';
 export default class FormatsPageComponent implements OnInit {
   toastService = inject(ToastService);
   institucionService = inject(InstitucionService);
-
   pdfService = inject(PdfService);
-  reportsService = inject(ReportsService);
+  reportsService = inject(CedulaService);
   commonService = inject(CommonService);
 
-  curriculumVitaeData = signal<CurriculumVitaeResponse | null>(null);
+  curriculumVitaeData = signal<CurriculumVitae | null>(null);
   institucionesList = signal<Institucion[]>([]);
 
   ngOnInit(): void {
@@ -46,41 +46,26 @@ export default class FormatsPageComponent implements OnInit {
   }
 
   downloadCurricumVitae() {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.reportsService.getCurriculumVitaeFuncition(token).subscribe({
+    this.reportsService.obtenerCurriculumVitae().subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.pdfService.generarCurriculumVitae(
-            res.informacion!,
-            this.institucionesList()
-          );
-        } else {
-          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
-        }
+        this.pdfService.generarCurriculumVitae(res, this.institucionesList());
       },
     });
   }
 
   downloadCurricumSintetico() {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.reportsService.getCurriculumVitaeFuncition(token).subscribe({
+    this.reportsService.obtenerCurriculumVitae().subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.pdfService.generarCurriculumSintetico(
-            res.informacion!,
-            this.institucionesList()
-          );
-        } else {
-          this.toastService.showWarning(res.mensaje!, 'Malas noticias');
-        }
+        this.pdfService.generarCurriculumSintetico(
+          res,
+          this.institucionesList()
+        );
       },
     });
   }

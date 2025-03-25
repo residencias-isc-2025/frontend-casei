@@ -11,7 +11,7 @@ import { LogroProfesional } from '@core/models/logro-profesional.model';
 import { Participacion } from '@core/models/participacion.model';
 import { Premio } from '@core/models/premio.model';
 
-export interface CurriculumVitaeResponse {
+export interface CurriculumVitae {
   usuario: User;
   formacion_academica: FormacionAcademica[];
   capacitacion_docente: CapacitacionDocente[];

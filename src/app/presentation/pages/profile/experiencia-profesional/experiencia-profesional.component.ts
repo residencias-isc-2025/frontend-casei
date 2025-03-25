@@ -4,12 +4,13 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { ToastService } from '@presentation/services';
+
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { ExperienciaProfesionalFormComponent } from '@presentation/forms/experiencia-profesional-form/experiencia-profesional-form.component';
 import { ExperienciaProfesional } from '@core/models/experiencia-profesional.model';
 import { ExperienciaProfesionalService } from '@core/services/experiencia-profesional.service';
 import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
+import { ToastService } from '@core/services/toast.service';
 
 @Component({
   selector: 'app-experiencia-profesional',

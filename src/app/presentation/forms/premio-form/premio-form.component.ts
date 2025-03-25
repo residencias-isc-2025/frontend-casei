@@ -10,7 +10,7 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Premio } from '@core/models/premio.model';
 import { PremioService } from '@core/services/premio.service';
-import { ToastService } from '@presentation/services';
+import { ToastService } from '@core/services/toast.service';
 
 @Component({
   selector: 'app-premio-form',

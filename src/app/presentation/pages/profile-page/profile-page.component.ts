@@ -7,10 +7,7 @@ import {
   signal,
 } from '@angular/core';
 
-// Modals
-
 // Services
-import { ToastService } from '@services/index';
 import { Router } from '@angular/router';
 import { User } from '@core/models/user.model';
 import { UserService } from '@core/services/user.service';
@@ -19,6 +16,7 @@ import { ChangePasswordComponent } from '@presentation/forms/change-password/cha
 import { Adscripcion } from '@core/models/adscripcion.model';
 import { AdscripcionService } from '@core/services/adscripcion.service';
 import { CommonService } from '@core/services/common.service';
+import { ToastService } from '@core/services/toast.service';
 
 interface ProfileButtons {
   id: number;

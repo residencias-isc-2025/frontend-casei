@@ -10,7 +10,7 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductoAcademico } from '@core/models/productos-academicos.model';
 import { ProductoAcademicoService } from '@core/services/producto-academico.service';
-import { ToastService } from '@presentation/services';
+import { ToastService } from '@core/services/toast.service';
 
 @Component({
   selector: 'app-producto-academico-form',
@@ -52,7 +52,10 @@ export class ProductoAcademicoFormComponent implements OnInit {
     };
 
     const action = this.editing()
-      ? this.productoAcademicoService.actualizar(this.productoAcademico()!.id, payload)
+      ? this.productoAcademicoService.actualizar(
+          this.productoAcademico()!.id,
+          payload
+        )
       : this.productoAcademicoService.crear(payload);
 
     action.subscribe({

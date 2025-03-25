@@ -6,7 +6,7 @@ import {
   signal,
 } from '@angular/core';
 
-import { ToastService } from '@presentation/services';
+import { ToastService } from '@core/services/toast.service';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { ParticipacionService } from '@core/services/participacion.service';
 import { ParticipacionFormComponent } from '@presentation/forms/participacion-form/participacion-form.component';

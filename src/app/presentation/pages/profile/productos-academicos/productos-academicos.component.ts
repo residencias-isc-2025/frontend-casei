@@ -6,12 +6,12 @@ import {
   signal,
 } from '@angular/core';
 
-import { ToastService } from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { ProductoAcademicoFormComponent } from '@presentation/forms/producto-academico-form/producto-academico-form.component';
 import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
 import { ProductoAcademicoService } from '@core/services/producto-academico.service';
 import { ProductoAcademico } from '@core/models/productos-academicos.model';
+import { ToastService } from '@core/services/toast.service';
 
 @Component({
   selector: 'app-productos-academicos',

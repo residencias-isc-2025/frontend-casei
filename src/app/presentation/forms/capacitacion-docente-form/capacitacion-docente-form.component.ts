@@ -11,7 +11,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CapacitacionDocente } from '@core/models/capacitacion-docente.model';
 import { Institucion } from '@core/models/institucion.model';
 import { CapacitacionDocenteService } from '@core/services/capacitacion-docente.service';
-import { ToastService } from '@presentation/services';
+import { ToastService } from '@core/services/toast.service';
 import { validYearValidator } from '@validators/valid-year.validator';
 
 @Component({

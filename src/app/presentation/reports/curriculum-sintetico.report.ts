@@ -1,6 +1,7 @@
 import { ActualizacionDisciplinar } from '@core/models/actualizacion-disciplinar.model';
 import { Aportacion } from '@core/models/aportacion.model';
 import { CapacitacionDocente } from '@core/models/capacitacion-docente.model';
+import { CurriculumVitae } from '@core/models/curriculum-vitae.model';
 import { DisenoIngenieril } from '@core/models/diseno-ingenieril.model';
 import { ExperienciaProfesional } from '@core/models/experiencia-profesional.model';
 import { FormacionAcademica } from '@core/models/formacion-academica.model';
@@ -15,13 +16,12 @@ import { calculateSeniority } from '@helpers/calculate-seniority.helper';
 import { createTable } from '@helpers/create-table.helper';
 import { formatedBirthdate } from '@helpers/formated-birthdate.helper';
 import { getLastNomination } from '@helpers/get-last-nomination.helper';
-import { CurriculumVitaeResponse } from '@interfaces/index';
 import { DocHeaderData } from '@interfaces/reports/doc-header-data.interface';
 import jsPDF from 'jspdf';
 
 export const curriculumSinteticoReport = (
   doc: jsPDF,
-  data: CurriculumVitaeResponse,
+  data: CurriculumVitae,
   schools: Institucion[]
 ): jsPDF => {
   const payrollNumber = !isNaN(Number(data.usuario.username))

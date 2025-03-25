@@ -10,7 +10,7 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Adscripcion } from '@core/models/adscripcion.model';
 import { AdscripcionService } from '@core/services/adscripcion.service';
-import { ToastService } from '@presentation/services';
+import { ToastService } from '@core/services/toast.service';
 
 @Component({
   selector: 'app-adscripcion-form',
@@ -54,10 +54,7 @@ export class AdscripcionFormComponent implements OnInit {
     };
 
     const action = this.editing()
-      ? this.adscripcionService.actualizar(
-          this.adscripcion()!.id,
-          payload
-        )
+      ? this.adscripcionService.actualizar(this.adscripcion()!.id, payload)
       : this.adscripcionService.crear(payload);
 
     action.subscribe({

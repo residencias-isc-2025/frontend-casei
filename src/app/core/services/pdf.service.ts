@@ -1,11 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import jsPDF from 'jspdf';
-
-import { CurriculumVitaeResponse } from '@interfaces/index';
 import { curriculumVitaeReport } from '@presentation/reports/curriculum-vitae.report';
-import { ToastService } from '../../core/services/toast.service';
+import { ToastService } from './toast.service';
 import { curriculumSinteticoReport } from '@presentation/reports/curriculum-sintetico.report';
 import { Institucion } from '@core/models/institucion.model';
+import { CurriculumVitae } from '@core/models/curriculum-vitae.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,10 +12,7 @@ import { Institucion } from '@core/models/institucion.model';
 export class PdfService {
   toastService = inject(ToastService);
 
-  generarCurriculumVitae(
-    data: CurriculumVitaeResponse,
-    schools: Institucion[]
-  ) {
+  generarCurriculumVitae(data: CurriculumVitae, schools: Institucion[]) {
     const { apellido_materno, apellido_paterno, nombre, fecha_nacimiento } =
       data.usuario;
 
@@ -48,10 +44,7 @@ export class PdfService {
     doc.save('CACEI - Cedula_0');
   }
 
-  generarCurriculumSintetico(
-    data: CurriculumVitaeResponse,
-    schools: Institucion[]
-  ) {
+  generarCurriculumSintetico(data: CurriculumVitae, schools: Institucion[]) {
     const { apellido_materno, apellido_paterno, nombre, fecha_nacimiento } =
       data.usuario;
 

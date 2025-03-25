@@ -6,7 +6,7 @@ import {
   signal,
 } from '@angular/core';
 
-import { ToastService } from '@presentation/services';
+import { ToastService } from '@core/services/toast.service';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { LogroProfesionalFormComponent } from '@presentation/forms/logro-profesional-form/logro-profesional-form.component';
 import { LogroProfesional } from '@core/models/logro-profesional.model';

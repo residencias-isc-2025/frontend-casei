@@ -7,7 +7,6 @@ import {
   signal,
 } from '@angular/core';
 
-import { ToastService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 
 import { SearchBarComponent } from '@presentation/components/search-bar/search-bar.component';
@@ -16,6 +15,7 @@ import { InstitucionFormComponent } from '@presentation/forms/institucion-form/i
 import { Institucion } from '@core/models/institucion.model';
 import { CommonService } from '@core/services/common.service';
 import { Countries } from '@core/models/countries.model';
+import { ToastService } from '@core/services/toast.service';
 
 @Component({
   selector: 'app-schools-page',

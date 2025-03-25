@@ -9,8 +9,9 @@ import {
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ObjetivosEspecificosService } from '@core/services/objetivos-especificos.service';
-import { ToastService } from '@presentation/services';
+
 import { ObjetivoEspecifico } from '@core/models/objetivo-especifico.model';
+import { ToastService } from '@core/services/toast.service';
 
 @Component({
   selector: 'app-objetivos-especificos-form',

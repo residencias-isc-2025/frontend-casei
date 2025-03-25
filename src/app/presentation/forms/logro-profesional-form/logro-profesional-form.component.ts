@@ -10,7 +10,7 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LogroProfesional } from '@core/models/logro-profesional.model';
 import { LogroProfesionalService } from '@core/services/logro-profesional.service';
-import { ToastService } from '@presentation/services';
+import { ToastService } from '@core/services/toast.service';
 
 @Component({
   selector: 'app-logro-profesional-form',

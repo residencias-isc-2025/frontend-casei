@@ -4,9 +4,9 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { ToastService } from '@core/services/toast.service';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
-import { ToastService } from '@presentation/services';
 
 @Component({
   selector: 'app-criterios-page',

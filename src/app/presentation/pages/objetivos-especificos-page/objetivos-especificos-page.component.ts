@@ -10,7 +10,7 @@ import { ObjetivosEspecificosService } from '@core/services/objetivos-especifico
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 import { ObjetivosEspecificosFormComponent } from '@presentation/forms/objetivos-especificos-form/objetivos-especificos-form.component';
 import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
-import { ToastService } from '@presentation/services';
+import { ToastService } from '@core/services/toast.service';
 
 @Component({
   selector: 'app-objetivos-especificos-page',
@@ -33,8 +33,8 @@ export default class ObjetivosEspecificosPageComponent implements OnInit {
   objetivosEspecificosList = signal<ObjetivoEspecifico[]>([]);
   objetivoEspecificoSelected = signal<ObjetivoEspecifico | null>(null);
 
-  public totalItems = signal(0);
-  public currentPage = signal(1);
+  totalItems = signal(0);
+  currentPage = signal(1);
 
   ngOnInit(): void {
     this.loadObjetivosEspecificos();
