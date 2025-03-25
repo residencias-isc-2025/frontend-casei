@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 import { ConfirmationModalComponent } from '@presentation/modals/confirmation-modal/confirmation-modal.component';
-import { ToastService, CommonService } from '@presentation/services';
+import { ToastService } from '@presentation/services';
 
 @Component({
   selector: 'app-criterios-page',

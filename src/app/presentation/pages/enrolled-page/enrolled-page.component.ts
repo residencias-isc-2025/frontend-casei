@@ -8,10 +8,11 @@ import {
 } from '@angular/core';
 import { Adscripcion } from '@core/models/adscripcion.model';
 import { AdscripcionService } from '@core/services/adscripcion.service';
+import { CommonService } from '@core/services/common.service';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 import { SearchBarComponent } from '@presentation/components/search-bar/search-bar.component';
 import { AdscripcionFormComponent } from '@presentation/forms/adscripcion-form/adscripcion-form.component';
-import { CommonService, ToastService } from '@presentation/services';
+import { ToastService } from '@presentation/services';
 
 @Component({
   selector: 'app-enrolled-page',
@@ -41,7 +42,7 @@ export default class EnrolledPageComponent implements OnInit {
   filterNombre = signal<string>('');
   filterSiglas = signal<string>('');
 
-  public commonService = inject(CommonService);
+  commonService = inject(CommonService);
 
   ngOnInit(): void {
     this.cargarAdscripciones();

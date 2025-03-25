@@ -6,14 +6,16 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { CountriesResponse } from '@interfaces/index';
-import { ToastService, CommonService } from '@presentation/services';
+
+import { ToastService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 
 import { SearchBarComponent } from '@presentation/components/search-bar/search-bar.component';
 import { InstitucionService } from '@core/services/institucion.service';
 import { InstitucionFormComponent } from '@presentation/forms/institucion-form/institucion-form.component';
 import { Institucion } from '@core/models/institucion.model';
+import { CommonService } from '@core/services/common.service';
+import { Countries } from '@core/models/countries.model';
 
 @Component({
   selector: 'app-schools-page',
@@ -29,6 +31,7 @@ import { Institucion } from '@core/models/institucion.model';
 export default class SchoolsPageComponent implements OnInit {
   toastService = inject(ToastService);
   institucionService = inject(InstitucionService);
+  commonService = inject(CommonService);
 
   showAddModal = signal(false);
   showUpdateModal = signal(false);
@@ -37,13 +40,12 @@ export default class SchoolsPageComponent implements OnInit {
   filterPais = signal<string>('');
   filterEstado = signal<string>('');
 
-  public commonService = inject(CommonService);
-  public totalItems = signal(0);
-  public schools = signal<Institucion[]>([]);
-  public countries = signal<CountriesResponse[]>([]);
+  totalItems = signal(0);
+  schools = signal<Institucion[]>([]);
+  countries = signal<Countries[]>([]);
 
-  public currentPage = signal(1);
-  public schoolSelected = signal<Institucion | null>(null);
+  currentPage = signal(1);
+  schoolSelected = signal<Institucion | null>(null);
 
   ngOnInit(): void {
     this.cargarPaises();
@@ -51,11 +53,9 @@ export default class SchoolsPageComponent implements OnInit {
   }
 
   private cargarPaises(): void {
-    this.commonService.getPaisesList().subscribe({
+    this.commonService.obtenerListaPaises().subscribe({
       next: (res) => {
-        if (res.ok) {
-          this.countries.set(res.data || []);
-        }
+        this.countries.set(res);
       },
     });
   }

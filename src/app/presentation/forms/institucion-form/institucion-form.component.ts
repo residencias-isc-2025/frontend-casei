@@ -11,7 +11,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Institucion } from '@core/models/institucion.model';
 import { InstitucionService } from '@core/services/institucion.service';
 import { ToastService } from '@core/services/toast.service';
-import { CountriesResponse } from '@interfaces/use-cases/countries.response';
+import { Countries } from '@core/models/countries.model';
 
 @Component({
   selector: 'app-institucion-form',
@@ -29,7 +29,7 @@ export class InstitucionFormComponent implements OnInit {
 
   editing = input.required<boolean>();
 
-  countriesList = input<CountriesResponse[]>([]);
+  countriesList = input<Countries[]>([]);
   institucion = input<Institucion>();
 
   form = this.fb.group({

@@ -10,7 +10,7 @@ import {
 // Modals
 
 // Services
-import { CommonService, ToastService } from '@services/index';
+import { ToastService } from '@services/index';
 import { Router } from '@angular/router';
 import { User } from '@core/models/user.model';
 import { UserService } from '@core/services/user.service';
@@ -18,6 +18,7 @@ import { UpdateProfileComponent } from '@presentation/forms/update-profile/updat
 import { ChangePasswordComponent } from '@presentation/forms/change-password/change-password.component';
 import { Adscripcion } from '@core/models/adscripcion.model';
 import { AdscripcionService } from '@core/services/adscripcion.service';
+import { CommonService } from '@core/services/common.service';
 
 interface ProfileButtons {
   id: number;

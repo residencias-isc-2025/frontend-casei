@@ -6,15 +6,12 @@ import {
   signal,
 } from '@angular/core';
 import { Institucion } from '@core/models/institucion.model';
+import { CommonService } from '@core/services/common.service';
 import { InstitucionService } from '@core/services/institucion.service';
 import { CurriculumVitaeResponse } from '@interfaces/index';
 import { DownloadPdfButtonComponent } from '@presentation/components/download-pdf-button/download-pdf-button.component';
 import { DownloadXlsButtonComponent } from '@presentation/components/download-xls-button/download-xls-button.component';
-import {
-  CommonService,
-  PdfService,
-  ToastService,
-} from '@presentation/services';
+import { PdfService, ToastService } from '@presentation/services';
 import { ReportsService } from '@presentation/services/reports.service';
 import { tap } from 'rxjs';
 

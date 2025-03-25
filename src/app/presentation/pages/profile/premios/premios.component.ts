@@ -14,10 +14,10 @@ import {
 import {
   ToastService,
   ProfileService,
-  CommonService,
   UsersService,
 } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
+import { CommonService } from '@core/services/common.service';
 
 @Component({
   selector: 'app-premios',

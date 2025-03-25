@@ -1,9 +1,9 @@
-import { CountriesResponse } from '@interfaces/index';
+import { Countries } from '@interfaces/index';
 
 export const sortCountriesAlphabetically = (
-  list: CountriesResponse[],
+  list: Countries[],
   ascending: boolean = true
-): CountriesResponse[] => {
+): Countries[] => {
   return [...list].sort((a, b) => {
     const valueA = String(a.name.common.toLowerCase());
     const valueB = String(b.name.common.toLowerCase());

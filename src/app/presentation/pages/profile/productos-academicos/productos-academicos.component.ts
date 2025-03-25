@@ -11,13 +11,9 @@ import {
   ConfirmationModalComponent,
   UpdateProductoAcademicoComponent,
 } from '@presentation/modals';
-import {
-  CommonService,
-  ProfileService,
-  ToastService,
-  UsersService,
-} from '@services/index';
+import { ProfileService, ToastService, UsersService } from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
+import { CommonService } from '@core/services/common.service';
 
 @Component({
   selector: 'app-productos-academicos',
@@ -31,9 +27,9 @@ import { PaginationComponent } from '@components/pagination/pagination.component
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ProductosAcademicosComponent implements OnInit {
+  commonService = inject(CommonService);
   public toastService = inject(ToastService);
   public profileService = inject(ProfileService);
-  public commonService = inject(CommonService);
   public usersService = inject(UsersService);
 
   public showAddModal = signal(false);

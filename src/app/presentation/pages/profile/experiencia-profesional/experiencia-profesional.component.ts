@@ -6,12 +6,7 @@ import {
 } from '@angular/core';
 
 import { ConfirmationModalComponent } from '@presentation/modals';
-import {
-  ToastService,
-  ProfileService,
-  CommonService,
-  UsersService,
-} from '@presentation/services';
+import { ToastService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { ExperienciaProfesionalFormComponent } from '@presentation/forms/experiencia-profesional-form/experiencia-profesional-form.component';
 import { ExperienciaProfesional } from '@core/models/experiencia-profesional.model';

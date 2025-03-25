@@ -16,6 +16,4 @@ export * from './use-cases/producto-academico/eliminar-producto-academico.use-ca
 export * from './use-cases/participacion/eliminar-participacion.use-case';
 export * from './use-cases/premio/eliminar-premio.use-case';
 
-export * from './use-cases/pais/obtener-lista-paises.use-case';
-
 export * from './use-cases/reportes/obtener-curriculum-vitae.use-case';
