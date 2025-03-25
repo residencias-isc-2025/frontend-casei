@@ -52,13 +52,15 @@
 </div>
 
 @if (showAddModal()) {
-<app-add-premios
+<app-premio-form
+  [editing]="false"
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
   title="Agregar premio"
 />
 } @if (showUpdateModal()) {
-<app-update-premios
+<app-premio-form
+  [editing]="true"
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
   [premio]="premioSelected()!"

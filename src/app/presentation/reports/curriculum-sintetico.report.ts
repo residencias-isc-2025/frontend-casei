@@ -8,6 +8,7 @@ import { GestionAcademica } from '@core/models/gestion-academica.model';
 import { Institucion } from '@core/models/institucion.model';
 import { LogroProfesional } from '@core/models/logro-profesional.model';
 import { Participacion } from '@core/models/participacion.model';
+import { Premio } from '@core/models/premio.model';
 import { calculateAge } from '@helpers/calculate-age.helper';
 import { calculateSeniority } from '@helpers/calculate-seniority.helper';
 import { createTable } from '@helpers/create-table.helper';
@@ -15,7 +16,6 @@ import { formatedBirthdate } from '@helpers/formated-birthdate.helper';
 import { getLastNomination } from '@helpers/get-last-nomination.helper';
 import {
   CurriculumVitaeResponse,
-  PremioData,
   ProductoAcademicoData,
 } from '@interfaces/index';
 import { DocHeaderData } from '@interfaces/reports/doc-header-data.interface';
@@ -770,7 +770,7 @@ export const curriculumSinteticoReport = (
           },
         ],
       ],
-      body: data.premios.map((item: PremioData) => [item.descripcion]),
+      body: data.premios.map((item: Premio) => [item.descripcion]),
       theme: 'grid',
     },
     docStartY,

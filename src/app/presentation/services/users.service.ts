@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
 
-import { PremiosDto, ProductoAcademicoDto } from '@interfaces/index';
+import { ProductoAcademicoDto } from '@interfaces/index';
 
 import {
   agregarProductoAcademicoUseCase,
-  agregarPremioUseCase,
   eliminarProductoAcademicoUseCase,
-  eliminarPremioUseCase,
   updateAcademicProductsUseCase,
-  actualizarPremioUseCase,
 } from '@core/index';
 
 @Injectable({
@@ -32,20 +29,6 @@ export class UsersService {
 
   borrarProductosAcademicos(idProducto: number, accessToken: string) {
     return from(eliminarProductoAcademicoUseCase(idProducto, accessToken));
-  }
-  //#endregion
-
-  //#region Premios
-  agregarPremio(premioDto: PremiosDto) {
-    return from(agregarPremioUseCase(premioDto));
-  }
-
-  actualizarPremio(idPremio: number, premioDto: PremiosDto) {
-    return from(actualizarPremioUseCase(idPremio, premioDto));
-  }
-
-  borrarPremio(idPremio: number, accessToken: string) {
-    return from(eliminarPremioUseCase(idPremio, accessToken));
   }
   //#endregion
 }

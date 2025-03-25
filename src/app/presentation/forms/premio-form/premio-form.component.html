@@ -12,11 +12,7 @@
       </button>
     </div>
 
-    <form
-      [formGroup]="updatePremioForm"
-      (keydown.enter)="onSaveData()"
-      class="mt-4"
-    >
+    <form [formGroup]="form" (keydown.enter)="onSubmit()" class="mt-4">
       <div class="mb-4">
         <label for="descripcion" class="block text-gray-700 font-medium mb-2"
           >Descripción del premio</label
@@ -38,8 +34,8 @@
         </button>
         <button
           class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg disabled:bg-gray-500"
-          [disabled]="updatePremioForm.invalid"
-          (click)="onSaveData()"
+          [disabled]="form.invalid"
+          (click)="onSubmit()"
         >
           Guardar
         </button>

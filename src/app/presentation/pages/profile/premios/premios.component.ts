@@ -5,25 +5,17 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { PremioData } from '@interfaces/index';
-import {
-  AddPremiosComponent,
-  ConfirmationModalComponent,
-  UpdatePremiosComponent,
-} from '@presentation/modals';
-import {
-  ToastService,
-  ProfileService,
-  UsersService,
-} from '@presentation/services';
+import { ConfirmationModalComponent } from '@presentation/modals';
+import { ToastService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
-import { CommonService } from '@core/services/common.service';
+import { Premio } from '@core/models/premio.model';
+import { PremioService } from '@core/services/premio.service';
+import { PremioFormComponent } from '@presentation/forms/premio-form/premio-form.component';
 
 @Component({
   selector: 'app-premios',
   imports: [
-    AddPremiosComponent,
-    UpdatePremiosComponent,
+    PremioFormComponent,
     PaginationComponent,
     ConfirmationModalComponent,
   ],
@@ -31,54 +23,43 @@ import { CommonService } from '@core/services/common.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class PremiosComponent implements OnInit {
-  public toastService = inject(ToastService);
-  public profileService = inject(ProfileService);
-  public commonService = inject(CommonService);
-  public usersService = inject(UsersService);
+  toastService = inject(ToastService);
+  premioService = inject(PremioService);
 
-  public showAddModal = signal(false);
-  public showUpdateModal = signal(false);
-  public showDeleteModal = signal(false);
+  showAddModal = signal(false);
+  showUpdateModal = signal(false);
+  showDeleteModal = signal(false);
 
-  public premiosList = signal<PremioData[]>([]);
-  public premioSelected = signal<PremioData | null>(null);
+  premiosList = signal<Premio[]>([]);
+  premioSelected = signal<Premio | null>(null);
 
-  public totalItems = signal(0);
-  public currentPage = signal(1);
+  totalItems = signal(0);
+  currentPage = signal(1);
 
   ngOnInit(): void {
     this.loadPremiosList();
   }
 
   private loadPremiosList(): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.profileService
-      .loadPremiosFunction(token, this.currentPage())
+    this.premioService
+      .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
-          if (res.ok) {
-            this.totalItems.set(res.items!);
-            this.premiosList.set(res.data || []);
-          } else {
-            this.toastService.showWarning(
-              'No se pudo obtener los premios.',
-              'Hubo un problema'
-            );
-          }
+          this.totalItems.set(res.count);
+          this.premiosList.set(res.results);
         },
       });
   }
 
-  onShowUpdateModal(premio: PremioData) {
+  onShowUpdateModal(premio: Premio) {
     this.premioSelected.set(premio);
     this.showUpdateModal.set(true);
   }
 
-  onShowDeleteModal(premio: PremioData) {
+  onShowDeleteModal(premio: Premio) {
     this.premioSelected.set(premio);
     this.showDeleteModal.set(true);
   }
@@ -101,21 +82,13 @@ export default class PremiosComponent implements OnInit {
   onDelete(itemId: number) {
     this.showDeleteModal.set(false);
 
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.usersService.borrarPremio(itemId, token).subscribe({
+    this.premioService.deshabilitar(itemId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.loadPremiosList();
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener los premios.',
-            'Hubo un problema'
-          );
-        }
+        this.toastService.showError(res.mensaje!, 'Éxito');
+        this.loadPremiosList();
       },
     });
   }
