@@ -1,8 +1,6 @@
 export * from './dtos/create-user.dto';
 export * from './dtos/update-user.dto';
 
-export * from './dtos/formacion-academica.dto';
-export * from './dtos/capacitacion-docente.dto';
 export * from './dtos/actualizacion-disciplinar.dto';
 export * from './dtos/gestion-academica.dto';
 export * from './dtos/productos-academicos.dto';
@@ -12,14 +10,9 @@ export * from './dtos/logro-profesional.dto';
 export * from './dtos/participacion.dto';
 export * from './dtos/premios.dto';
 export * from './dtos/aportaciones.dto';
-export * from './dtos/institucion.dto';
-export * from './dtos/adscripcion.dto';
+
 export * from './dtos/periodo.dto';
 
-export * from './use-cases/create-user.response';
-export * from './use-cases/instituciones.response';
-
-export * from './use-cases/capacitacion-docente.response';
 export * from './use-cases/actualizacion-disciplinar.response';
 export * from './use-cases/gestion-academica.response';
 export * from './use-cases/productos-academicos.response';
@@ -29,7 +22,6 @@ export * from './use-cases/logros-profesionales.response';
 export * from './use-cases/participacion.response';
 export * from './use-cases/premios.response';
 export * from './use-cases/aportaciones.response';
-export * from './use-cases/create-users-by-csv.response';
 
 export * from './use-cases/reportes/curriculum-vitae.response';
 

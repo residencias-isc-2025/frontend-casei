@@ -63,18 +63,20 @@
 
 <!-- Agregar formación académica -->
 @if (showAddModal()) {
-<app-add-teaching-training
+<app-capacitacion-docente-form
+  [editing]="false"
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
-  [listaInstituciones]="institucionesList()"
+  [instituciones]="institucionesList()"
   title="Agregar capacitación docente"
 />
 } @if(showUpdateModal()) {
-<app-update-teaching-training
+<app-capacitacion-docente-form
+  [editing]="true"
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
-  [listaInstituciones]="institucionesList()"
-  [capacitacionDocente]="formacionAcademicaSelected()!"
+  [instituciones]="institucionesList()"
+  [capacitacionDocente]="capacitacionDocenteSelected()!"
   title="Editar capacitación docente"
 />
 }@if (showDeleteModal()){
@@ -82,10 +84,10 @@
   title="Eliminar: Capacitación Docente"
   [message]="
     '¿Esta seguro de querer eliminar la capacitación docente correspondinete a ' +
-    formacionAcademicaSelected()?.tipo_capacitacion +
+    capacitacionDocenteSelected()?.tipo_capacitacion +
     '?'
   "
-  (onConfirm)="onDelete(formacionAcademicaSelected()?.id!)"
+  (onConfirm)="onDelete(capacitacionDocenteSelected()?.id!)"
   (onCancel)="showDeleteModal.set(false)"
 />
 }

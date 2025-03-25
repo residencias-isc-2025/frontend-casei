@@ -9,7 +9,6 @@ import {
   obtenerListaParticipacionUseCase,
   obtenerListaLogroProfesionalUseCase,
   obtenerListaExperienciaProfesionalUseCase,
-  obtenerListaCapacitacionDocenteUseCase,
 } from '@core/index';
 
 import { from } from 'rxjs';
@@ -18,16 +17,6 @@ import { from } from 'rxjs';
   providedIn: 'root',
 })
 export class ProfileService {
-  loadCapacitacionDocenteFunction(
-    accessToken: string,
-    page: number,
-    pageSize: number = 10
-  ) {
-    return from(
-      obtenerListaCapacitacionDocenteUseCase(accessToken, page, pageSize)
-    );
-  }
-
   loadActualizacionDisciplinarFunction(
     accessToken: string,
     page: number,

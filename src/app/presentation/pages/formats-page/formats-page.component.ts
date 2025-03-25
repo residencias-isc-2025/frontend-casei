@@ -5,8 +5,9 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
+import { Institucion } from '@core/models/institucion.model';
 import { InstitucionService } from '@core/services/institucion.service';
-import { CurriculumVitaeResponse, InstitucionData } from '@interfaces/index';
+import { CurriculumVitaeResponse } from '@interfaces/index';
 import { DownloadPdfButtonComponent } from '@presentation/components/download-pdf-button/download-pdf-button.component';
 import { DownloadXlsButtonComponent } from '@presentation/components/download-xls-button/download-xls-button.component';
 import {
@@ -32,7 +33,7 @@ export default class FormatsPageComponent implements OnInit {
   commonService = inject(CommonService);
 
   curriculumVitaeData = signal<CurriculumVitaeResponse | null>(null);
-  institucionesList = signal<InstitucionData[]>([]);
+  institucionesList = signal<Institucion[]>([]);
 
   ngOnInit(): void {
     this.institucionService

@@ -6,13 +6,14 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { CountriesResponse, InstitucionData } from '@interfaces/index';
+import { CountriesResponse } from '@interfaces/index';
 import { ToastService, CommonService } from '@presentation/services';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 
 import { SearchBarComponent } from '@presentation/components/search-bar/search-bar.component';
 import { InstitucionService } from '@core/services/institucion.service';
 import { InstitucionFormComponent } from '@presentation/forms/institucion-form/institucion-form.component';
+import { Institucion } from '@core/models/institucion.model';
 
 @Component({
   selector: 'app-schools-page',
@@ -38,11 +39,11 @@ export default class SchoolsPageComponent implements OnInit {
 
   public commonService = inject(CommonService);
   public totalItems = signal(0);
-  public schools = signal<InstitucionData[]>([]);
+  public schools = signal<Institucion[]>([]);
   public countries = signal<CountriesResponse[]>([]);
 
   public currentPage = signal(1);
-  public schoolSelected = signal<InstitucionData | null>(null);
+  public schoolSelected = signal<Institucion | null>(null);
 
   ngOnInit(): void {
     this.cargarPaises();

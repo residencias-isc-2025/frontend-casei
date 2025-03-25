@@ -1,4 +1,6 @@
+import { CapacitacionDocente } from '@core/models/capacitacion-docente.model';
 import { FormacionAcademica } from '@core/models/formacion-academica.model';
+import { Institucion } from '@core/models/institucion.model';
 import { calculateAge } from '@helpers/calculate-age.helper';
 import { calculateSeniority } from '@helpers/calculate-seniority.helper';
 import { createTable } from '@helpers/create-table.helper';
@@ -7,12 +9,10 @@ import { getLastNomination } from '@helpers/get-last-nomination.helper';
 import {
   ActualizacionDisciplinarData,
   AportacionData,
-  CapacitacionDocenteData,
   CurriculumVitaeResponse,
   DisenoIngenierilData,
   ExperienciaProfesionalData,
   GestionAcademicaData,
-  InstitucionData,
   LogroProfesionalData,
   ParticipacionData,
   PremioData,
@@ -24,7 +24,7 @@ import jsPDF from 'jspdf';
 export const curriculumSinteticoReport = (
   doc: jsPDF,
   data: CurriculumVitaeResponse,
-  schools: InstitucionData[]
+  schools: Institucion[]
 ): jsPDF => {
   const payrollNumber = !isNaN(Number(data.usuario.username))
     ? data.usuario.username
@@ -343,7 +343,7 @@ export const curriculumSinteticoReport = (
           },
         ],
       ],
-      body: data.capacitacion_docente.map((item: CapacitacionDocenteData) => [
+      body: data.capacitacion_docente.map((item: CapacitacionDocente) => [
         item.tipo_capacitacion,
         schools.find((i) => i.id === item.institucion_pais)
           ?.nombre_institucion!,

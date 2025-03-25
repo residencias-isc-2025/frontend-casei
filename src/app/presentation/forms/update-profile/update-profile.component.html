@@ -46,7 +46,7 @@
           </option>
           @for(adscripcion of adscripcionesList(); track adscripcion.id) {
           <option [value]="adscripcion.id">
-            {{ adscripcionesService.getAdscripcioNombre(adscripcion.id) }}
+            {{ adscripcionService.getAdscripcioNombre(adscripcion.id) }}
           </option>
           }
         </select>

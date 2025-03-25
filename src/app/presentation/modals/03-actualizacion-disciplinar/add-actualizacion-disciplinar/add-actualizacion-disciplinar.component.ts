@@ -12,7 +12,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { InstitucionData } from '@interfaces/index';
+import { Institucion } from '@core/models/institucion.model';
+
 import { ToastService, UsersService } from '@services/index';
 import { validYearValidator } from '@validators/index';
 
@@ -24,7 +25,7 @@ import { validYearValidator } from '@validators/index';
 })
 export class AddActualizacionDisciplinarComponent {
   title = input('');
-  listaInstituciones = input.required<InstitucionData[]>();
+  listaInstituciones = input.required<Institucion[]>();
 
   onCancel = output();
   onSave = output();

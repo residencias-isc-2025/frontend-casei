@@ -5,29 +5,22 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { CapacitacionDocenteData, InstitucionData } from '@interfaces/index';
 
-import {
-  AddTeachingTrainingComponent,
-  ConfirmationModalComponent,
-  UpdateTeachingTrainingComponent,
-} from '@modals/index';
+import { ConfirmationModalComponent } from '@modals/index';
 
-import {
-  CommonService,
-  ProfileService,
-  ToastService,
-  UsersService,
-} from '@services/index';
+import { ToastService } from '@services/index';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { InstitucionService } from '@core/services/institucion.service';
 import { tap } from 'rxjs';
+import { CapacitacionDocenteFormComponent } from '@presentation/forms/capacitacion-docente-form/capacitacion-docente-form.component';
+import { CapacitacionDocente } from '@core/models/capacitacion-docente.model';
+import { Institucion } from '@core/models/institucion.model';
+import { CapacitacionDocenteService } from '@core/services/capacitacion-docente.service';
 
 @Component({
   selector: 'app-capcitacion-docente',
   imports: [
-    AddTeachingTrainingComponent,
-    UpdateTeachingTrainingComponent,
+    CapacitacionDocenteFormComponent,
     PaginationComponent,
     ConfirmationModalComponent,
   ],
@@ -37,24 +30,19 @@ import { tap } from 'rxjs';
 export default class CapitacionDocenteComponent implements OnInit {
   toastService = inject(ToastService);
   institucionService = inject(InstitucionService);
+  capacitacionDocenteService = inject(CapacitacionDocenteService);
 
-  public profileService = inject(ProfileService);
-  public commonService = inject(CommonService);
-  public usersService = inject(UsersService);
+  showAddModal = signal(false);
+  showUpdateModal = signal(false);
+  showDeleteModal = signal(false);
 
-  public showAddModal = signal(false);
-  public showUpdateModal = signal(false);
-  public showDeleteModal = signal(false);
+  capacitacionDocenteList = signal<CapacitacionDocente[]>([]);
+  institucionesList = signal<Institucion[]>([]);
 
-  public capacitacionDocenteList = signal<CapacitacionDocenteData[]>([]);
-  public institucionesList = signal<InstitucionData[]>([]);
+  capacitacionDocenteSelected = signal<CapacitacionDocente | null>(null);
 
-  public formacionAcademicaSelected = signal<CapacitacionDocenteData | null>(
-    null
-  );
-
-  public totalItems = signal(0);
-  public currentPage = signal(1);
+  totalItems = signal(0);
+  currentPage = signal(1);
 
   ngOnInit(): void {
     this.institucionService
@@ -71,35 +59,26 @@ export default class CapitacionDocenteComponent implements OnInit {
   }
 
   private loadCapacitacionDocente(): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.profileService
-      .loadCapacitacionDocenteFunction(token, this.currentPage())
+    this.capacitacionDocenteService
+      .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
-          if (res.ok) {
-            this.totalItems.set(res.items!);
-            this.capacitacionDocenteList.set(res.data || []);
-          } else {
-            this.toastService.showWarning(
-              'No se pudieron obtener las capacitaciones docentes.',
-              'Hubo un problema'
-            );
-          }
+          this.totalItems.set(res.count);
+          this.capacitacionDocenteList.set(res.results);
         },
       });
   }
 
-  onShowUpdateModal(capacitacionDocente: CapacitacionDocenteData) {
-    this.formacionAcademicaSelected.set(capacitacionDocente);
+  onShowUpdateModal(capacitacionDocente: CapacitacionDocente) {
+    this.capacitacionDocenteSelected.set(capacitacionDocente);
     this.showUpdateModal.set(true);
   }
 
-  onShowDeleteModal(capacitacionDocente: CapacitacionDocenteData) {
-    this.formacionAcademicaSelected.set(capacitacionDocente);
+  onShowDeleteModal(capacitacionDocente: CapacitacionDocente) {
+    this.capacitacionDocenteSelected.set(capacitacionDocente);
     this.showDeleteModal.set(true);
   }
 
@@ -121,21 +100,13 @@ export default class CapitacionDocenteComponent implements OnInit {
   onDelete(itemId: number) {
     this.showDeleteModal.set(false);
 
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
-    this.usersService.borrarCapacitacionDocente(itemId, token).subscribe({
+    this.capacitacionDocenteService.deshabilitar(itemId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        if (res.ok) {
-          this.loadCapacitacionDocente();
-        } else {
-          this.toastService.showWarning(
-            'No se pudieron obtener las capacitaciones docentes.',
-            'Hubo un problema'
-          );
-        }
+        this.toastService.showSuccess(res.mensaje!, 'Malas noticias');
+        this.loadCapacitacionDocente();
       },
     });
   }

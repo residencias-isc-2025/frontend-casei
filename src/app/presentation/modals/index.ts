@@ -1,8 +1,5 @@
 export * from './confirmation-modal/confirmation-modal.component';
 
-export * from './02-capacitacion-docente/add-teaching-training/add-teaching-training.component';
-export * from './02-capacitacion-docente/update-teaching-training/update-teaching-training.component';
-
 export * from './03-actualizacion-disciplinar/add-actualizacion-disciplinar/add-actualizacion-disciplinar.component';
 export * from './03-actualizacion-disciplinar/update-actualizacion-disciplinar/update-actualizacion-disciplinar.component';
 

@@ -4,10 +4,8 @@ import { from } from 'rxjs';
 import {
   ActualizacionDisciplinarDto,
   AportacionDto,
-  CapacitacionDocenteDto,
   DisenoIngenierilDto,
   ExperienciaProfesionalDto,
-  FormacionAcademicaDto,
   GestionAcademicaDto,
   LogroPrefesionalDto,
   ParticipacionDto,
@@ -25,7 +23,6 @@ import {
   agregarParticipacionUseCase,
   agregarLogroProfesionalUseCase,
   agregarExperienciaProfesionalUseCase,
-  agregarCapacitacionDocenteUseCase,
   eliminarGestionAcademicaUseCase,
   eliminarProductoAcademicoUseCase,
   eliminarPremioUseCase,
@@ -35,7 +32,6 @@ import {
   eliminarParticipacionUseCase,
   eliminarLogroProfesionalUseCse,
   eliminarExperienciaProfesionalUseCase,
-  eliminarCapacitacionDocenteUseCase,
   actualizarGestionAcademicaUseCase,
   updateAcademicProductsUseCase,
   actualizarPremioUseCase,
@@ -45,34 +41,12 @@ import {
   actualizarParticipacionUseCase,
   actualizarLogroProfesionalUseCase,
   actualizarExperienciaProfesionalUseCase,
-  actualizarCapacitacionDocenteUseCase,
 } from '@core/index';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  //#region Capacitación docente
-  agregarCapacitacionDocente(capacitacionDocente: CapacitacionDocenteDto) {
-    return from(agregarCapacitacionDocenteUseCase(capacitacionDocente));
-  }
-
-  actualizarCapacitacionDocente(
-    idCapacitacion: number,
-    capacitacionDocente: CapacitacionDocenteDto
-  ) {
-    return from(
-      actualizarCapacitacionDocenteUseCase(idCapacitacion, capacitacionDocente)
-    );
-  }
-
-  borrarCapacitacionDocente(idCapacitacion: number, accessToken: string) {
-    return from(
-      eliminarCapacitacionDocenteUseCase(idCapacitacion, accessToken)
-    );
-  }
-  //#endregion
-
   //#region Actualización disciplinar
   agregarActualizacionDisciplinar(
     actualizacionDisciplinar: ActualizacionDisciplinarDto

@@ -13,7 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { InstitucionData } from '@interfaces/index';
+import { Institucion } from '@core/models/institucion.model';
 import { CustomDatepickerComponent } from '@presentation/components/custom-datepicker/custom-datepicker.component';
 import { ToastService, UsersService } from '@services/index';
 
@@ -25,7 +25,7 @@ import { ToastService, UsersService } from '@services/index';
 })
 export class AddGestionAcademicaComponent implements OnInit {
   title = input('');
-  listaInstituciones = input.required<InstitucionData[]>();
+  listaInstituciones = input.required<Institucion[]>();
 
   onCancel = output();
   onSave = output();

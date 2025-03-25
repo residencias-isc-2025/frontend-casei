@@ -1,4 +1,3 @@
-export * from './use-cases/capacitacion-docente/obtener-lista-capacitacion-docente.use-case';
 export * from './use-cases/actualizacion-disciplinar/obtener-lista-actualizacion-disciplinar.use-case';
 export * from './use-cases/gestion-academica/obtener-lista-gestion-academica.use-case';
 export * from './use-cases/producto-academico/obtener-lista-producto-academico.use-case';
@@ -9,7 +8,6 @@ export * from './use-cases/participacion/obtener-lista-participacion.use-case';
 export * from './use-cases/premio/obtener-lista-premio.use-case';
 export * from './use-cases/aportacion/obtener-lista-aportacion.use-case';
 
-export * from './use-cases/capacitacion-docente/agregar-capacitacion-docente.use-case';
 export * from './use-cases/actualizacion-disciplinar/agregar-actualizacion-disciplinar.use-case';
 export * from './use-cases/gestion-academica/agregar-gestion-academica.use-case';
 export * from './use-cases/producto-academico/agregar-producto-academico.use-case';
@@ -20,7 +18,6 @@ export * from './use-cases/participacion/agregar-participacion.use-case';
 export * from './use-cases/premio/agregar-premio.use-case';
 export * from './use-cases/aportacion/agregar-aportacion.use-case';
 
-export * from './use-cases/capacitacion-docente/actualizar-capacitacion-docente.use-case';
 export * from './use-cases/actualizacion-disciplinar/actualizar-actualizacion-disciplinar.use-case';
 export * from './use-cases/gestion-academica/actualizar-gestion-academica.use-case';
 export * from './use-cases/producto-academico/actualizar-producto-academico.use-case';
@@ -31,7 +28,6 @@ export * from './use-cases/participacion/actualizar-participacion.use-case';
 export * from './use-cases/premio/actualizar-premio.use-case';
 export * from './use-cases/aportacion/actualizar-aportacion.use-case';
 
-export * from './use-cases/capacitacion-docente/eliminar-capacitacion-docente.use-case';
 export * from './use-cases/actualizacion-disciplinar/eliminar-actualizacion-disciplinar.use-case';
 export * from './use-cases/gestion-academica/eliminar-gestion-academica.use-case';
 export * from './use-cases/producto-academico/eliminar-producto-academico.use-case';

@@ -4,10 +4,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import {
-  ActualizacionDisciplinarData,
-  InstitucionData,
-} from '@interfaces/index';
+import { ActualizacionDisciplinarData } from '@interfaces/index';
 
 import {
   AddActualizacionDisciplinarComponent,
@@ -24,6 +21,7 @@ import {
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { InstitucionService } from '@core/services/institucion.service';
 import { tap } from 'rxjs';
+import { Institucion } from '@core/models/institucion.model';
 
 @Component({
   selector: 'app-actualizacion-disciplinar',
@@ -52,7 +50,7 @@ export default class ActualizacionDisciplinarComponent {
   public actualizacionDisciplinarList = signal<ActualizacionDisciplinarData[]>(
     []
   );
-  public institucionesList = signal<InstitucionData[]>([]);
+  public institucionesList = signal<Institucion[]>([]);
 
   public currentPage = signal(1);
   public actualizacionDisciplinarSelected =

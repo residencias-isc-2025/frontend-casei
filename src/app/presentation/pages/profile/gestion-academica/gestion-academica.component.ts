@@ -5,7 +5,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { GestionAcademicaData, InstitucionData } from '@interfaces/index';
+import { GestionAcademicaData } from '@interfaces/index';
 import {
   CommonService,
   ProfileService,
@@ -20,6 +20,7 @@ import {
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { InstitucionService } from '@core/services/institucion.service';
 import { tap } from 'rxjs';
+import { Institucion } from '@core/models/institucion.model';
 
 @Component({
   selector: 'app-gestion-academica',
@@ -45,7 +46,7 @@ export default class GestionAcademicaComponent implements OnInit {
   public showDeleteModal = signal(false);
 
   public gestionAcademicaList = signal<GestionAcademicaData[]>([]);
-  public institucionesList = signal<InstitucionData[]>([]);
+  public institucionesList = signal<Institucion[]>([]);
 
   public gestionAcademicaSelected = signal<GestionAcademicaData | null>(null);
 
