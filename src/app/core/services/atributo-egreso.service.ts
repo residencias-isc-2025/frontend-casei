@@ -33,11 +33,16 @@ export class AtributoEgresoService extends BaseService<AtributoEgreso> {
   override crear(
     data: Partial<AtributoEgreso>
   ): Observable<{ mensaje: string }> {
-    throw new Error('Method not implemented.');
+    return this.http.post<{ mensaje: string }>(
+      `${this.apiUrl}/atributos-egreso/`,
+      data
+    );
   }
 
   override deshabilitar(id: number): Observable<{ mensaje: string }> {
-    throw new Error('Method not implemented.');
+    return this.http.delete<{ mensaje: string }>(
+      `${this.apiUrl}/atributos-egreso/${id}/`
+    );
   }
 
   override habilitar(id: number): Observable<{ mensaje: string }> {
@@ -48,7 +53,10 @@ export class AtributoEgresoService extends BaseService<AtributoEgreso> {
     id: number,
     data: Partial<AtributoEgreso>
   ): Observable<{ mensaje: string }> {
-    throw new Error('Method not implemented.');
+    return this.http.put<{ mensaje: string }>(
+      `${this.apiUrl}/atributos-egreso/${id}/`,
+      data
+    );
   }
 
   atributoEgresoSiglas(id: number, lista: AtributoEgreso[]) {

@@ -41,8 +41,6 @@ export default class ObjetivosEspecificosPageComponent implements OnInit {
   }
 
   private loadObjetivosEspecificos(): void {
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
-
     this.objetivoEspecificoService
       .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
@@ -83,13 +81,13 @@ export default class ObjetivosEspecificosPageComponent implements OnInit {
 
   onDelete(itemId: number) {
     this.showDeleteModal.set(false);
-    const token = localStorage.getItem('casei_residencias_access_token') || '';
 
     this.objetivoEspecificoService.deshabilitar(itemId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
-      next: () => {
+      next: (res) => {
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
         this.loadObjetivosEspecificos();
       },
     });

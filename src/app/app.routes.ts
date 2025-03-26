@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { userRoleGuard } from '@core/guards/user-role.guard';
 
-
 export const routes: Routes = [
   {
     path: 'auth',
@@ -133,6 +132,13 @@ export const routes: Routes = [
         loadComponent: () =>
           import(
             '@presentation/pages/objetivos-especificos-page/objetivos-especificos-page.component'
+          ),
+      },
+      {
+        path: 'atributos-egreso',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/atributo-egreso-page/atributo-egreso-page.component'
           ),
       },
       {
