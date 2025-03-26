@@ -2,7 +2,7 @@ export interface GestionAcademica {
   id: number;
   actividad_puesto: string;
   institucion_pais: number;
-  d_mes_anio: Date;
-  a_mes_anio: Date;
+  d_mes_anio: string;
+  a_mes_anio: string;
   usuario: number;
 }

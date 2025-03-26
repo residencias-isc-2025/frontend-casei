@@ -88,7 +88,7 @@ export default class AportacionesComponent implements OnInit {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        this.toastService.showError(res.mensaje!, 'Éxito');
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
         this.loadAportacionesList();
       },
     });

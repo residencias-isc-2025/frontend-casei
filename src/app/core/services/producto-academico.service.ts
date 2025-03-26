@@ -33,7 +33,10 @@ export class ProductoAcademicoService extends BaseService<ProductoAcademico> {
   override crear(
     data: Partial<ProductoAcademico>
   ): Observable<{ mensaje: string }> {
-    return this.http.post<{ mensaje: string }>(`${this.apiUrl}/premios/`, data);
+    return this.http.post<{ mensaje: string }>(
+      `${this.apiUrl}/productos-academicos/`,
+      data
+    );
   }
 
   override deshabilitar(id: number): Observable<{ mensaje: string }> {

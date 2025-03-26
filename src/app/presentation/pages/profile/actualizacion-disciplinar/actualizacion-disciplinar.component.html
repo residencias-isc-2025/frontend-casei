@@ -23,11 +23,7 @@
         <tr class="border-b hover:bg-gray-100 transition">
           <td class="py-3 px-4">{{ actualizacionD.tipo_actualizacion }}</td>
           <td class="py-3 px-4">
-            {{
-              this.institucionService.getInstitucion(
-                actualizacionD.institucion_pais
-              )
-            }}
+            {{ getInstitucionNombre(actualizacionD.institucion_pais) }}
           </td>
           <td class="py-3 px-4">{{ actualizacionD.anio_obtencion }}</td>
           <td class="py-3 px-4">{{ actualizacionD.horas }}</td>

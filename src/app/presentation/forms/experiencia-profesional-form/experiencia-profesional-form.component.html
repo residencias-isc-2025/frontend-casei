@@ -37,21 +37,21 @@
 
       <div class="mb-4 grid grid-cols-2 space-x-2">
         <div class="mb-4">
-          <label for="gestion_i" class="block text-gray-700 font-medium mb-2"
+          <label for="fecha_i" class="block text-gray-700 font-medium mb-2"
             >Fecha de inicio</label
           >
           <app-custom-datepicker
-            [selected]="form.get('gestion_i')!.value"
+            [selected]="form.get('fecha_i')!.value"
             (dateSelected)="onStartDateSelected($event)"
           />
         </div>
 
         <div class="mb-4">
-          <label for="gestion_f" class="block text-gray-700 font-medium mb-2"
+          <label for="fecha_f" class="block text-gray-700 font-medium mb-2"
             >Fecha de finalización</label
           >
           <app-custom-datepicker
-            [selected]="form.get('gestion_f')!.value"
+            [selected]="form.get('fecha_f')!.value"
             (dateSelected)="onEndDateSelected($event)"
           />
         </div>

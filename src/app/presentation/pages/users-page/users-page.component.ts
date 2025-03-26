@@ -218,6 +218,10 @@ export default class UsersPageComponent implements OnInit {
   }
 
   cleanRole(user: User): string {
-    return this.userService.limpiarRol(user);
+    return this.userService.limpiarRol(user.role);
+  }
+
+  getSiglas(idArea: number) {
+    return this.adscripcionService.getAdscripcioSiglas(idArea, this.adscripcionesList())
   }
 }

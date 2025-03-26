@@ -34,7 +34,7 @@ export class FormacionAcademicaService extends BaseService<FormacionAcademica> {
     data: Partial<FormacionAcademica>
   ): Observable<{ mensaje: string }> {
     return this.http.post<{ mensaje: string }>(
-      `${this.apiUrl}/objetivos-especificos/`,
+      `${this.apiUrl}/formacion-academica/`,
       data
     );
   }

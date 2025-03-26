@@ -82,8 +82,8 @@ export class GestionAcademicaFormComponent implements OnInit {
     const payload: Partial<GestionAcademica> = {
       actividad_puesto: formValue.puesto ?? '',
       institucion_pais: formValue.institucion ?? 0,
-      d_mes_anio: new Date(formatedBirthdate(formValue.gestion_i ?? '')),
-      a_mes_anio: new Date(formatedBirthdate(formValue.gestion_f ?? '')),
+      d_mes_anio: formValue.gestion_i ?? '',
+      a_mes_anio: formValue.gestion_f ?? '',
     };
 
     const action = this.editing()

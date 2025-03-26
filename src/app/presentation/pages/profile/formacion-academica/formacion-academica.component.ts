@@ -97,6 +97,7 @@ export default class FormacionAcademicaComponent implements OnInit {
   }
 
   onDelete(itemId: number) {
+    this.showDeleteModal.set(false);
     this.formacionAcademicaService.deshabilitar(itemId).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');

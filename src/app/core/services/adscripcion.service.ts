@@ -15,8 +15,6 @@ export interface AdscripcionSearchParams {
   providedIn: 'root',
 })
 export class AdscripcionService extends BaseService<Adscripcion> {
-  private adscripcionesList = new BehaviorSubject<Adscripcion[]>([]);
-
   private http = inject(HttpClient);
   private apiUrl = `${environment.api_url}/adscripcion`;
 
@@ -75,21 +73,13 @@ export class AdscripcionService extends BaseService<Adscripcion> {
   }
 
   // OTROS
-  getAdscripcion(): Observable<Adscripcion[]> {
-    return this.adscripcionesList.asObservable();
-  }
-
-  getAdscripcioNombre(idAdscripcion: number): string {
-    const adscripcion = this.adscripcionesList
-      .getValue()
-      .find((inst) => inst.id === idAdscripcion);
+  getAdscripcioNombre(idAdscripcion: number, lista: Adscripcion[]): string {
+    const adscripcion = lista.find((ads) => ads.id === idAdscripcion);
     return adscripcion ? adscripcion.nombre : '';
   }
 
-  getAdscripcioSiglas(idAdscripcion: number): string {
-    const adscripcion = this.adscripcionesList
-      .getValue()
-      .find((inst) => inst.id === idAdscripcion);
+  getAdscripcioSiglas(idAdscripcion: number, lista: Adscripcion[]): string {
+    const adscripcion = lista.find((inst) => inst.id === idAdscripcion);
     return adscripcion ? adscripcion.siglas : '';
   }
 }

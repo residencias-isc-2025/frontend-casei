@@ -11,7 +11,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ExperienciaProfesional } from '@core/models/experiencia-profesional.model';
 import { ExperienciaProfesionalService } from '@core/services/experiencia-profesional.service';
 import { ToastService } from '@core/services/toast.service';
-import { formatedBirthdate } from '@helpers/formated-birthdate.helper';
 import { CustomDatepickerComponent } from '@presentation/components/custom-datepicker/custom-datepicker.component';
 
 @Component({
@@ -79,8 +78,8 @@ export class ExperienciaProfesionalFormComponent implements OnInit {
     const payload: Partial<ExperienciaProfesional> = {
       actividad_puesto: formValue.puesto ?? '',
       organizacion_empresa: formValue.empresa ?? '',
-      d_mes_anio: new Date(formatedBirthdate(formValue.fecha_i ?? '')),
-      a_mes_anio: new Date(formatedBirthdate(formValue.fecha_f ?? '')),
+      d_mes_anio: formValue.fecha_i ?? '',
+      a_mes_anio: formValue.fecha_f ?? '',
     };
 
     const action = this.editing()

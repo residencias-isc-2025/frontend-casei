@@ -55,7 +55,7 @@ export class LogroProfesionalService extends BaseService<LogroProfesional> {
     id: number,
     data: Partial<LogroProfesional>
   ): Observable<{ mensaje: string }> {
-    return this.http.post<{ mensaje: string }>(
+    return this.http.put<{ mensaje: string }>(
       `${this.apiUrl}/logros-profesionales/${id}/`,
       data
     );

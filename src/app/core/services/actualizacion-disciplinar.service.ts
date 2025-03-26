@@ -55,7 +55,7 @@ export class ActualizacionDisciplinarService extends BaseService<ActualizacionDi
     id: number,
     data: Partial<ActualizacionDisciplinar>
   ): Observable<{ mensaje: string }> {
-    return this.http.post<{ mensaje: string }>(
+    return this.http.put<{ mensaje: string }>(
       `${this.apiUrl}/actualizacion-disciplinar/${id}/`,
       data
     );

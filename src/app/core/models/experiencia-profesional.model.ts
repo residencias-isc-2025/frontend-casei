@@ -3,6 +3,6 @@ export interface ExperienciaProfesional {
   usuario: number;
   actividad_puesto: string;
   organizacion_empresa: string;
-  d_mes_anio: Date;
-  a_mes_anio: Date;
+  d_mes_anio: string;
+  a_mes_anio: string;
 }

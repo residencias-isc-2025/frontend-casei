@@ -14,11 +14,7 @@
       </button>
     </div>
 
-    <form
-      [formGroup]="form"
-      (keydown.enter)="onSaveData()"
-      class="mt-4"
-    >
+    <form [formGroup]="form" (keydown.enter)="onSaveData()" class="mt-4">
       <div class="mb-4">
         <label
           for="fecha_nacimiento"
@@ -46,7 +42,7 @@
           </option>
           @for(adscripcion of adscripcionesList(); track adscripcion.id) {
           <option [value]="adscripcion.id">
-            {{ adscripcionService.getAdscripcioNombre(adscripcion.id) }}
+            {{ adscripcion.nombre }}
           </option>
           }
         </select>

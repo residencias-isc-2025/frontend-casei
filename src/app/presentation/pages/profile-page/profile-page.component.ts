@@ -34,6 +34,7 @@ export default class ProfilePageComponent implements OnInit {
   user = signal<User | null>(null);
   adscripcion = signal<Adscripcion | null>(null);
   selectedId = signal<number>(-1);
+  userRole = signal<string>('');
 
   showPasswordModal = signal(false);
   showUpdateModal = signal(false);
@@ -94,6 +95,8 @@ export default class ProfilePageComponent implements OnInit {
       next: (resp) => {
         localStorage.setItem('user-role', resp.role);
         this.user.set(resp);
+        this.userRole.set(resp.role);
+
         if (!resp.area_adscripcion) return;
 
         this.loadAdscripcion(resp.area_adscripcion);
@@ -116,7 +119,7 @@ export default class ProfilePageComponent implements OnInit {
   }
 
   cleanRole(): string {
-    return this.userService.limpiarRol(this.user()!);
+    return this.userService.limpiarRol(this.userRole());
   }
 
   handleClick(id: number) {

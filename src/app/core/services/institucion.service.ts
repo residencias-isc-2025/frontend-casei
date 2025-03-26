@@ -14,9 +14,7 @@ export interface InstitucionSearchParams {
 @Injectable({
   providedIn: 'root',
 })
-export class InstitucionService extends BaseService<Institucion>{
-  private institucionesList = new BehaviorSubject<Institucion[]>([]);
-
+export class InstitucionService extends BaseService<Institucion> {
   private http = inject(HttpClient);
   private apiUrl = `${environment.api_url}/institucion`;
 
@@ -71,14 +69,8 @@ export class InstitucionService extends BaseService<Institucion>{
   }
 
   // OTROS
-  getInstituciones(): Observable<Institucion[]> {
-    return this.institucionesList.asObservable();
-  }
-
-  getInstitucion(idInstitucion: number): string {
-    const institucion = this.institucionesList
-      .getValue()
-      .find((inst) => inst.id === idInstitucion);
+  getInstitucion(idInstitucion: number, lista: Institucion[]): string {
+    const institucion = lista.find((inst) => inst.id === idInstitucion);
     return institucion ? institucion.nombre_institucion : '';
   }
 }

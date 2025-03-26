@@ -101,8 +101,7 @@ export class UserService extends BaseService<User>{
     return localStorage.getItem('user-role') || 'user';
   }
 
-  limpiarRol(user: User): string {
-    const role = user.role;
+  limpiarRol(role: string): string {
     return role === 'superuser'
       ? 'Super usuario'
       : role === 'admin'
