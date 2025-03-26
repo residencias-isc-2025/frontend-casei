@@ -1,4 +1,4 @@
-import { Countries } from '@interfaces/index';
+import { Countries } from '@core/models/countries.model';
 
 export const sortCountriesAlphabetically = (
   list: Countries[],

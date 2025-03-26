@@ -12,15 +12,19 @@
   <div class="bg-white shadow-lg rounded-lg overflow-hidden">
     <table class="w-full border-collapse">
       <thead class="bg-gray-200 text-gray-700">
-        <th class="py-3 px-4 text-left">Índice</th>
+        <th class="py-3 px-4 text-left">Nivel</th>
         <th class="py-3 px-4 text-left">Descripción</th>
+        <th class="py-3 px-4 text-left">Atributo Egreso</th>
         <th class="py-3 px-4 text-left">Acciones</th>
       </thead>
       <tbody class="text-gray-600">
         @for(criterio of criteriosList(); track $index) {
         <tr class="border-b hover:bg-gray-100 transition">
-          <td class="py-3 px-4">{{ $index + 1 }}</td>
+          <td class="py-3 px-4">{{ criterio.nivel }}</td>
           <td class="py-3 px-4">{{ criterio.descripcion }}</td>
+          <td class="py-3 px-4">
+            {{ atributoSiglas(criterio.atributo_egreso) }}
+          </td>
 
           <td class="py-3 px-4">
             <div class="flex flex-row space-x-2">
@@ -61,5 +65,22 @@
   "
   (onConfirm)="onDelete(criterioSelected()?.id!)"
   (onCancel)="showDeleteModal.set(false)"
+/>
+} @if (showAddModal()) {
+<app-criterio-desempenio-form
+  [editing]="false"
+  [atributosEgreso]="atributosEgresoList()"
+  title="Crear criterio de desempeño"
+  (onCancel)="showAddModal.set(false)"
+  (onSave)="onSaveEmit()"
+/>
+} @if (showUpdateModal()) {
+<app-criterio-desempenio-form
+  [editing]="true"
+  [atributosEgreso]="atributosEgresoList()"
+  title="Actualizar criterio de desempeño"
+  [criterioDesempenio]="criterioSelected()!"
+  (onCancel)="showUpdateModal.set(false)"
+  (onSave)="onEditEmit()"
 />
 }
