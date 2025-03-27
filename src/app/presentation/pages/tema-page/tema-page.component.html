@@ -1,0 +1,116 @@
+<div class="container mx-auto p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Temas</h1>
+    <button
+      (click)="showAddModal.set(true)"
+      class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+    >
+      Agregar
+    </button>
+  </div>
+
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+    <table class="w-full border-collapse">
+      <thead class="bg-gray-200 text-gray-700">
+        <th class="py-3 px-4 text-left">Nombre</th>
+        <th class="py-3 px-4 text-left">Objetivo</th>
+        <th class="py-3 px-4 text-left">Criterio de desempeño</th>
+        <th class="py-3 px-4 text-left">Atributo de egreso</th>
+        <th class="py-3 px-4 text-left">Estrategia de enseñanza</th>
+        <th class="py-3 px-4 text-left">Estrategia de evaluación</th>
+        <th class="py-3 px-4 text-left">Práctica</th>
+        <th class="py-3 px-4 text-left">Acciones</th>
+      </thead>
+      <tbody class="text-gray-600">
+        @for(tema of temasList(); track $index) {
+        <tr class="border-b hover:bg-gray-100 transition">
+          <td class="py-3 px-4">{{ tema.nombre }}</td>
+          <td class="py-3 px-4">{{ tema.objetivo }}</td>
+          <td class="py-3 px-4">
+            {{
+              crierioDesempenoData(tema.criterio_desempeno ?? 0)?.descripcion
+            }}
+          </td>
+          <td class="py-3 px-4">
+            {{
+              atributoEgresoData(
+                crierioDesempenoData(tema.criterio_desempeno ?? 0)?.id ?? 0
+              )
+            }}
+          </td>
+          <td class="py-3 px-4">
+            {{
+              estrategiaEnsenanzaData(tema.estrategia_ensenanza)?.descripcion
+            }}
+          </td>
+          <td class="py-3 px-4">
+            {{
+              estrategiaEvaluacionData(tema.estrategia_evaluacion)?.descripcion
+            }}
+          </td>
+          <td class="py-3 px-4">{{ practicaData(tema.practica)?.siglas }}</td>
+
+          <td class="py-3 px-4">
+            <div class="flex flex-row space-x-2">
+              <button
+                (click)="onShowUpdateModal(tema)"
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-blue-500 hover:bg-blue-700"
+              >
+                Editar
+              </button>
+              <button
+                (click)="onShowDeleteModal(tema)"
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
+              >
+                Eliminar
+              </button>
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    <app-pagination
+      [totalItems]="totalItems()"
+      [itemsPerPage]="10"
+      [currentPage]="currentPage()"
+      (pageChanged)="onPageChanged($event)"
+    />
+  </div>
+</div>
+
+@if (showAddModal()) {
+<app-tema-form
+  [editing]="false"
+  (onCancel)="showAddModal.set(false)"
+  (onSave)="onSaveEmit()"
+  title="Agregar tema"
+  [criteriosDesempenoList]="criteriosDesempenoList()"
+  [estrategiaEnsenanzaList]="estrategiasEnsenanzaList()"
+  [estrategiaEvaluacionList]="estrategiasEvaluacionList()"
+  [practicasList]="practicasList()"
+/>
+} @if (showUpdateModal()) {
+<app-tema-form
+  [editing]="true"
+  (onCancel)="showUpdateModal.set(false)"
+  (onSave)="onEditEmit()"
+  [tema]="temaSelected()!"
+  title="Editar tema"
+  [criteriosDesempenoList]="criteriosDesempenoList()"
+  [estrategiaEnsenanzaList]="estrategiasEnsenanzaList()"
+  [estrategiaEvaluacionList]="estrategiasEvaluacionList()"
+  [practicasList]="practicasList()"
+/>
+} @if (showDeleteModal()){
+<app-confirmation-modal
+  title="Eliminar: Tema"
+  [message]="
+    '¿Esta seguro de querer eliminar el tema correspondiete a ' +
+    temaSelected()?.nombre +
+    '?'
+  "
+  (onConfirm)="onDelete(temaSelected()?.id!)"
+  (onCancel)="showDeleteModal.set(false)"
+/>
+}

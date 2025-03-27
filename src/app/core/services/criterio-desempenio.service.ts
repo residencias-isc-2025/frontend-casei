@@ -58,4 +58,9 @@ export class CriterioDesempenioService extends BaseService<CriterioDesempenio> {
       data
     );
   }
+
+  criterioDesempenoData(id: number, lista: CriterioDesempenio[]) {
+    const criterio = lista.find((criterioD) => criterioD.id === id);
+    return criterio;
+  }
 }

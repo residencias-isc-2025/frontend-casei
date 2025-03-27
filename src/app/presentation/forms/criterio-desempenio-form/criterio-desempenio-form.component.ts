@@ -71,8 +71,6 @@ export class CriterioDesempenioFormComponent implements OnInit {
       nivel: formValue.nivel ?? '',
     };
 
-    console.log(payload);
-
     const action = this.editing()
       ? this.criterioDesempenioService.actualizar(
           this.criterioDesempenio()!.id,

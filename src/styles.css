@@ -1,2 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
-@import "tailwindcss"
+@import "tailwindcss";
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 6px;
+}

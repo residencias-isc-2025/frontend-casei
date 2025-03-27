@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BaseService } from '@core/classes/base-service.class';
-import { EstrategiaEnsenanza } from '@core/models/estrategia-ensenanza.model';
+import { Tema } from '@core/models/tema.model';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EstrategiaEnsenanzaService extends BaseService<EstrategiaEnsenanza> {
+export class TemaService extends BaseService<Tema> {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.api_url}/estrategia_ensenanza`;
+  private apiUrl = `${environment.api_url}/temas`;
 
   override obtenerDatosPaginados(
     page: number,
@@ -20,29 +20,22 @@ export class EstrategiaEnsenanzaService extends BaseService<EstrategiaEnsenanza>
     count: number;
     next: string | null;
     previous: string | null;
-    results: EstrategiaEnsenanza[];
+    results: Tema[];
   }> {
     return this.http.get<{
       count: number;
       next: string | null;
       previous: string | null;
-      results: EstrategiaEnsenanza[];
-    }>(`${this.apiUrl}/estrategias-ensenanza/?page=${page}&page_size=${limit}`);
+      results: Tema[];
+    }>(`${this.apiUrl}/temas/?page=${page}&page_size=${limit}`);
   }
 
-  override crear(
-    data: Partial<EstrategiaEnsenanza>
-  ): Observable<{ mensaje: string }> {
-    return this.http.post<{ mensaje: string }>(
-      `${this.apiUrl}/estrategias-ensenanza/`,
-      data
-    );
+  override crear(data: Partial<Tema>): Observable<{ mensaje: string }> {
+    return this.http.post<{ mensaje: string }>(`${this.apiUrl}/temas/`, data);
   }
 
   override deshabilitar(id: number): Observable<{ mensaje: string }> {
-    return this.http.delete<{ mensaje: string }>(
-      `${this.apiUrl}/estrategias-ensenanza/${id}/`
-    );
+    return this.http.delete<{ mensaje: string }>(`${this.apiUrl}/temas/${id}/`);
   }
 
   override habilitar(id: number): Observable<{ mensaje: string }> {
@@ -51,16 +44,11 @@ export class EstrategiaEnsenanzaService extends BaseService<EstrategiaEnsenanza>
 
   override actualizar(
     id: number,
-    data: Partial<EstrategiaEnsenanza>
+    data: Partial<Tema>
   ): Observable<{ mensaje: string }> {
     return this.http.put<{ mensaje: string }>(
-      `${this.apiUrl}/estrategias-ensenanza/${id}/`,
+      `${this.apiUrl}/temas/${id}/`,
       data
     );
-  }
-
-  estrategiaEnsenanzaData(id: number, lista: EstrategiaEnsenanza[]) {
-    const data = lista.find((est) => est.id === id);
-    return data;
   }
 }

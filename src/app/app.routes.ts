@@ -163,9 +163,12 @@ export const routes: Routes = [
       {
         path: 'practicas',
         loadComponent: () =>
-          import(
-            '@presentation/pages/practicas-page/practicas-page.component'
-          ),
+          import('@presentation/pages/practicas-page/practicas-page.component'),
+      },
+      {
+        path: 'temas',
+        loadComponent: () =>
+          import('@presentation/pages/tema-page/tema-page.component'),
       },
       {
         path: 'formatos',

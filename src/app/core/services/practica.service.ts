@@ -6,7 +6,7 @@ import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PracticaService extends BaseService<Practica> {
   private http = inject(HttpClient);
@@ -30,9 +30,7 @@ export class PracticaService extends BaseService<Practica> {
     }>(`${this.apiUrl}/practica/?page=${page}&page_size=${limit}`);
   }
 
-  override crear(
-    data: Partial<Practica>
-  ): Observable<{ mensaje: string }> {
+  override crear(data: Partial<Practica>): Observable<{ mensaje: string }> {
     return this.http.post<{ mensaje: string }>(
       `${this.apiUrl}/practica/`,
       data
@@ -57,5 +55,10 @@ export class PracticaService extends BaseService<Practica> {
       `${this.apiUrl}/practica/${id}/`,
       data
     );
+  }
+
+  practicaData(id: number, lista: Practica[]) {
+    const practica = lista.find((p) => p.id === id);
+    return practica;
   }
 }
