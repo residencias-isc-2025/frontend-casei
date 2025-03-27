@@ -23,11 +23,7 @@
         <tr class="border-b hover:bg-gray-100 transition">
           <td class="py-3 px-4">{{ capacitacionDocente.tipo_capacitacion }}</td>
           <td class="py-3 px-4">
-            {{
-              this.institucionService.getInstitucion(
-                capacitacionDocente.institucion_pais
-              )
-            }}
+            {{ nombreInstitucion(capacitacionDocente.institucion_pais) }}
           </td>
           <td class="py-3 px-4">{{ capacitacionDocente.anio_obtencion }}</td>
           <td class="py-3 px-4">{{ capacitacionDocente.horas }}</td>

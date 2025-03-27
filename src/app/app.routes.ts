@@ -147,6 +147,27 @@ export const routes: Routes = [
           import('@presentation/pages/criterios-page/criterios-page.component'),
       },
       {
+        path: 'estrategias-ensenanza',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/estrategia-ensenanza-page/estrategia-ensenanza-page.component'
+          ),
+      },
+      {
+        path: 'estrategias-evaluacion',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/estrategia-evaluacion-page/estrategia-evaluacion-page.component'
+          ),
+      },
+      {
+        path: 'practicas',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/practicas-page/practicas-page.component'
+          ),
+      },
+      {
         path: 'formatos',
         loadComponent: () =>
           import('@presentation/pages/formats-page/formats-page.component'),

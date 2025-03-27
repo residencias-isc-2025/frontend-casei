@@ -108,4 +108,8 @@ export default class FormacionAcademicaComponent implements OnInit {
       },
     });
   }
+
+  nombreInstitucion(id: number) {
+    return this.institucionService.getInstitucion(id, this.institucionesList());
+  }
 }

@@ -1,6 +1,6 @@
 <div class="container mx-auto p-6">
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Premios</h1>
+    <h1 class="text-2xl font-bold text-gray-800">Estrategias de Evaluación</h1>
     <button
       (click)="showAddModal.set(true)"
       class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
@@ -17,21 +17,21 @@
         <th class="py-3 px-4 text-left">Acciones</th>
       </thead>
       <tbody class="text-gray-600">
-        @for(premio of premiosList(); track $index) {
+        @for(estrategia of estrategiasEvaluacionList(); track $index) {
         <tr class="border-b hover:bg-gray-100 transition">
           <td class="py-3 px-4">{{ $index + 1 }}</td>
-          <td class="py-3 px-4">{{ premio.descripcion }}</td>
+          <td class="py-3 px-4">{{ estrategia.descripcion }}</td>
 
           <td class="py-3 px-4">
             <div class="flex flex-row space-x-2">
               <button
-                (click)="onShowUpdateModal(premio)"
+                (click)="onShowUpdateModal(estrategia)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-blue-500 hover:bg-blue-700"
               >
                 Editar
               </button>
               <button
-                (click)="onShowDeleteModal(premio)"
+                (click)="onShowDeleteModal(estrategia)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
               >
                 Eliminar
@@ -52,29 +52,29 @@
 </div>
 
 @if (showAddModal()) {
-<app-premio-form
+<app-estrategia-evaluacion-form
   [editing]="false"
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
-  title="Agregar premio"
+  title="Agregar estrategia de evaluación"
 />
 } @if (showUpdateModal()) {
-<app-premio-form
+<app-estrategia-evaluacion-form
   [editing]="true"
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
-  [premio]="premioSelected()!"
-  title="Editar premio"
+  [estrategiaEvaluacion]="estrategiaEvaluacionSelected()!"
+  title="Editar estrategia de evaluación"
 />
 }@if (showDeleteModal()){
 <app-confirmation-modal
-  title="Eliminar: Premio"
+  title="Eliminar: Estrategia de enseñanza"
   [message]="
-    '¿Esta seguro de querer eliminar el premio correspondinete a ' +
-    premioSelected()?.descripcion +
+    '¿Esta seguro de querer eliminar la estrategia de enseñanza correspondiete a ' +
+    estrategiaEvaluacionSelected()?.descripcion +
     '?'
   "
-  (onConfirm)="onDelete(premioSelected()?.id!)"
+  (onConfirm)="onDelete(estrategiaEvaluacionSelected()?.id!)"
   (onCancel)="showDeleteModal.set(false)"
 />
 }

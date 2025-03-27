@@ -1,6 +1,6 @@
 <div class="container mx-auto p-6">
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Premios</h1>
+    <h1 class="text-2xl font-bold text-gray-800">Prácticas</h1>
     <button
       (click)="showAddModal.set(true)"
       class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
@@ -13,25 +13,27 @@
     <table class="w-full border-collapse">
       <thead class="bg-gray-200 text-gray-700">
         <th class="py-3 px-4 text-left">Índice</th>
+        <th class="py-3 px-4 text-left">Siglas</th>
+        <th class="py-3 px-4 text-left">Nombre</th>
         <th class="py-3 px-4 text-left">Descripción</th>
         <th class="py-3 px-4 text-left">Acciones</th>
       </thead>
       <tbody class="text-gray-600">
-        @for(premio of premiosList(); track $index) {
+        @for(practica of practicaList(); track $index) {
         <tr class="border-b hover:bg-gray-100 transition">
           <td class="py-3 px-4">{{ $index + 1 }}</td>
-          <td class="py-3 px-4">{{ premio.descripcion }}</td>
+          <td class="py-3 px-4">{{ practica.descripcion }}</td>
 
           <td class="py-3 px-4">
             <div class="flex flex-row space-x-2">
               <button
-                (click)="onShowUpdateModal(premio)"
+                (click)="onShowUpdateModal(practica)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-blue-500 hover:bg-blue-700"
               >
                 Editar
               </button>
               <button
-                (click)="onShowDeleteModal(premio)"
+                (click)="onShowDeleteModal(practica)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
               >
                 Eliminar
@@ -52,29 +54,30 @@
 </div>
 
 @if (showAddModal()) {
-<app-premio-form
+<app-practica-form
   [editing]="false"
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
-  title="Agregar premio"
+  title="Agregar práctica"
 />
 } @if (showUpdateModal()) {
-<app-premio-form
+<app-practica-form
   [editing]="true"
   (onCancel)="showUpdateModal.set(false)"
   (onSave)="onEditEmit()"
-  [premio]="premioSelected()!"
-  title="Editar premio"
+  [practica]="practicaSelected()!"
+  title="Editar práctica"
 />
 }@if (showDeleteModal()){
 <app-confirmation-modal
-  title="Eliminar: Premio"
+  title="Eliminar: Práctica"
   [message]="
-    '¿Esta seguro de querer eliminar el premio correspondinete a ' +
-    premioSelected()?.descripcion +
+    '¿Esta seguro de querer eliminar la práctica correspondiete a ' +
+    practicaSelected()?.descripcion +
     '?'
   "
-  (onConfirm)="onDelete(premioSelected()?.id!)"
+  (onConfirm)="onDelete(practicaSelected()?.id!)"
   (onCancel)="showDeleteModal.set(false)"
 />
 }
+
