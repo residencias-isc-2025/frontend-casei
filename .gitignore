@@ -42,4 +42,3 @@ testem.log
 Thumbs.db
 src/environments/environment.development.ts
 .gitignore
-src/environments/environment.ts
