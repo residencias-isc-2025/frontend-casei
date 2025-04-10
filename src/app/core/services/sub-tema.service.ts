@@ -1,18 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BaseService } from '@core/classes/base-service.class';
-import { CompetenciaGenerica } from '@core/models/competencia-generica.model';
+import { SubTemas } from '@core/models/sub-temas.model';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CompetenciaGenericaService extends BaseService<CompetenciaGenerica> {
+export class SubTemaService extends BaseService<SubTemas> {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.api_url}/competencias_genericas/competencias-genericas`;
-
-  // competencias-genericas
+  private apiUrl = `${environment.api_url}/sub_temas/sub-temas`;
 
   override obtenerDatosPaginados(
     page: number,
@@ -22,38 +20,37 @@ export class CompetenciaGenericaService extends BaseService<CompetenciaGenerica>
     count: number;
     next: string | null;
     previous: string | null;
-    results: CompetenciaGenerica[];
+    results: SubTemas[];
   }> {
     return this.http.get<{
       count: number;
       next: string | null;
       previous: string | null;
-      results: CompetenciaGenerica[];
+      results: SubTemas[];
     }>(`${this.apiUrl}/?page=${page}&page_size=${limit}`);
   }
-  override crear(
-    data: Partial<CompetenciaGenerica>
-  ): Observable<{ mensaje: string }> {
+
+  override crear(data: Partial<SubTemas>): Observable<{ mensaje: string }> {
     return this.http.post<{ mensaje: string }>(`${this.apiUrl}/`, data);
   }
+
   override deshabilitar(id: number): Observable<{ mensaje: string }> {
     return this.http.delete<{ mensaje: string }>(`${this.apiUrl}/${id}/`);
   }
+
   override habilitar(id: number): Observable<{ mensaje: string }> {
     throw new Error('Method not implemented.');
   }
+
   override actualizar(
     id: number,
-    data: Partial<CompetenciaGenerica>
+    data: Partial<SubTemas>
   ): Observable<{ mensaje: string }> {
-    return this.http.put<{ mensaje: string; data: CompetenciaGenerica }>(
-      `${this.apiUrl}/${id}/`,
-      data
-    );
+    return this.http.put<{ mensaje: string }>(`${this.apiUrl}/${id}/`, data);
   }
 
-  competenciaGenericaData(id: number, lista: CompetenciaGenerica[]) {
-    const data = lista.find((est) => est.id === id);
-    return data;
+  getSubtemaData(id: number, lista: SubTemas[]) {
+    const subtema = lista.find((s) => s.id === id);
+    return subtema;
   }
 }

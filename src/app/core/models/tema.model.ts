@@ -6,4 +6,5 @@ export interface Tema {
   estrategia_ensenanza: number;
   estrategia_evaluacion: number;
   practica: number;
+  sub_temas: number[];
 }

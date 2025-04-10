@@ -107,6 +107,11 @@ export class SideMenuComponent {
       routerLink: '/dashboard/temas',
     },
     {
+      icon: 'fas fa-puzzle-piece',
+      routeName: 'Subtemas',
+      routerLink: '/dashboard/subtemas',
+    },
+    {
       icon: 'fas fa-book',
       routeName: 'Bibliografías',
       routerLink: '/dashboard/bibliografias',

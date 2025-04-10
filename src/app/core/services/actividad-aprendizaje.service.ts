@@ -54,4 +54,9 @@ export class ActividadAprendizajeService extends BaseService<ActividadAprendizaj
       data
     );
   }
+
+  getActividadAprendizajeData(id: number, lista: ActividadAprendizaje[]) {
+    const actividad = lista.find((a) => a.id === id);
+    return actividad;
+  }
 }

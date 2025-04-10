@@ -171,6 +171,11 @@ export const routes: Routes = [
           import('@presentation/pages/tema-page/tema-page.component'),
       },
       {
+        path: 'subtemas',
+        loadComponent: () =>
+          import('@presentation/pages/subtemas-page/subtemas-page.component'),
+      },
+      {
         path: 'formatos',
         loadComponent: () =>
           import('@presentation/pages/formats-page/formats-page.component'),

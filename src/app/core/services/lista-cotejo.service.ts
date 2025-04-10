@@ -75,4 +75,9 @@ export class ListaCotejoService extends BaseService<ListaCotejo> {
     const fullUrl = `${this.mediaUrl}${url}`;
     return this.http.get(fullUrl, { responseType: 'blob' });
   }
+
+  listaCotejoData(id: number, lista: ListaCotejo[]) {
+    const data = lista.find((est) => est.id === id);
+    return data;
+  }
 }

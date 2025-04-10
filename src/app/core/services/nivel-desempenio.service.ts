@@ -49,4 +49,9 @@ export class NivelDesempenioService extends BaseService<NivelDesempenio> {
       data
     );
   }
+
+  nivelDesempenioData(id: number, lista: NivelDesempenio[]) {
+    const data = lista.find((est) => est.id === id);
+    return data;
+  }
 }

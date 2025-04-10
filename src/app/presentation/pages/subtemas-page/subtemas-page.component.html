@@ -1,0 +1,118 @@
+<div class="container mx-auto p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Subtemas</h1>
+    <button
+      (click)="showAddModal.set(true)"
+      class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+    >
+      Agregar
+    </button>
+  </div>
+
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+    <table class="w-full border-collapse">
+      <thead class="bg-gray-200 text-gray-700">
+        <th class="py-3 px-4 text-left">Descripción</th>
+        <th class="py-3 px-4 text-left">Horas</th>
+        <th class="py-3 px-4 text-left">Actividad de aprendizaje</th>
+        <th class="py-3 px-4 text-left">Estrategia de enseñanza</th>
+        <th class="py-3 px-4 text-left">Competencia genérica</th>
+        <th class="py-3 px-4 text-left">Indicador de alcance</th>
+        <th class="py-3 px-4 text-left">Nivel de desempeño</th>
+        <th class="py-3 px-4 text-left">Lista de cotejo</th>
+        <th class="py-3 px-4 text-left">Acciones</th>
+      </thead>
+      <tbody class="text-gray-600">
+        @for(subtema of subtemasList(); track $index) {
+        <tr class="border-b hover:bg-gray-100 transition">
+          <td class="py-3 px-4">{{ subtema.descripcion }}</td>
+          <td class="py-3 px-4 text-right">{{ subtema.horas }}</td>
+          <td class="py-3 px-4">
+            {{
+              actividadAprendizaje(subtema.actividad_aprendizaje)?.descripcion
+            }}
+          </td>
+          <td class="py-3 px-4">
+            {{ estrategiaEnsenanza(subtema.estrategia_ensenanza)?.descripcion }}
+          </td>
+          <td class="py-3 px-4">
+            {{ competenciaGenerica(subtema.competencia_generica)?.descripcion }}
+          </td>
+          <td class="py-3 px-4">
+            {{ indicadorAlcance(subtema.indicador_alcance)?.siglas }}
+          </td>
+          <td class="py-3 px-4">
+            {{ nivelDesempenio(subtema.nivel_desempeno)?.nombre }}
+          </td>
+          <td class="py-3 px-4">
+            {{ listaCotejo(subtema.lista_cotejo)?.nombre }}
+          </td>
+
+          <td class="py-3 px-4">
+            <div class="flex flex-row space-x-2">
+              <button
+                (click)="onShowUpdateModal(subtema)"
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-blue-500 hover:bg-blue-700"
+              >
+                Editar
+              </button>
+              <button
+                (click)="onShowDeleteModal(subtema)"
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
+              >
+                Eliminar
+              </button>
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    <app-pagination
+      [totalItems]="totalItems()"
+      [itemsPerPage]="10"
+      [currentPage]="currentPage()"
+      (pageChanged)="onPageChanged($event)"
+    />
+  </div>
+</div>
+
+@if (showAddModal()) {
+<app-subtema-form
+  [editing]="false"
+  (onCancel)="showAddModal.set(false)"
+  (onSave)="onSaveEmit()"
+  title="Agregar subtema"
+  [actividadAprendizajeList]="actividadAprendizajeList()"
+  [competenciaGenericaList]="competenciaGenericaList()"
+  [estrategiasEnsenanzaList]="estrategiasEnsenanzaList()"
+  [indicadorAlcanceList]="indicadorAlcanceList()"
+  [nivelDesempenioList]="nivelDesempenioList()"
+  [listaCotejoList]="listaCotejoList()"
+/>
+} @if (showUpdateModal()) {
+<app-subtema-form
+  [editing]="true"
+  (onCancel)="showUpdateModal.set(false)"
+  (onSave)="onEditEmit()"
+  [subtema]="subtemaSelected()!"
+  title="Editar subtema"
+  [actividadAprendizajeList]="actividadAprendizajeList()"
+  [competenciaGenericaList]="competenciaGenericaList()"
+  [estrategiasEnsenanzaList]="estrategiasEnsenanzaList()"
+  [indicadorAlcanceList]="indicadorAlcanceList()"
+  [nivelDesempenioList]="nivelDesempenioList()"
+  [listaCotejoList]="listaCotejoList()"
+/>
+} @if (showDeleteModal()){
+<app-confirmation-modal
+  title="Eliminar: Subtema"
+  [message]="
+    '¿Esta seguro de querer eliminar el subtema correspondiete a ' +
+    subtemaSelected()?.descripcion +
+    '?'
+  "
+  (onConfirm)="onDelete(subtemaSelected()?.id!)"
+  (onCancel)="showDeleteModal.set(false)"
+/>
+}
