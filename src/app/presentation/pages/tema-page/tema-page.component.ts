@@ -21,6 +21,7 @@ import { ToastService } from '@core/services/toast.service';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
 import { SubtemasTemaFormComponent } from '@presentation/forms/subtemas-tema-form/subtemas-tema-form.component';
+import { TemaAddSubtemaFormComponent } from '@presentation/forms/tema-add-subtema-form/tema-add-subtema-form.component';
 import { TemaFormComponent } from '@presentation/forms/tema-form/tema-form.component';
 
 @Component({
@@ -30,6 +31,7 @@ import { TemaFormComponent } from '@presentation/forms/tema-form/tema-form.compo
     ConfirmationModalComponent,
     TemaFormComponent,
     SubtemasTemaFormComponent,
+    TemaAddSubtemaFormComponent,
   ],
   templateUrl: './tema-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,6 +49,7 @@ export default class TemaPageComponent implements OnInit {
   showUpdateModal = signal(false);
   showDeleteModal = signal(false);
   showSubtemasModal = signal(false);
+  showAddSubtemaModal = signal(false);
 
   temaSelected = signal<Tema | null>(null);
   temasList = signal<Tema[]>([]);
@@ -157,6 +160,11 @@ export default class TemaPageComponent implements OnInit {
     this.showSubtemasModal.set(true);
   }
 
+  onShowAddSubtemasModal(tema: Tema) {
+    this.temaSelected.set(tema);
+    this.showAddSubtemaModal.set(true);
+  }
+
   onSaveEmit() {
     this.loadTemasList();
     this.showAddModal.set(false);
@@ -170,6 +178,11 @@ export default class TemaPageComponent implements OnInit {
   onSubtemaUpdate() {
     this.loadTemasList();
     this.showSubtemasModal.set(false);
+  }
+
+  onSubtemaAdd() {
+    this.loadTemasList();
+    this.showAddSubtemaModal.set(false);
   }
 
   onPageChanged(page: number): void {
