@@ -121,5 +121,10 @@ export class SideMenuComponent {
       routeName: 'Competencias Genéricas',
       routerLink: '/dashboard/competencias-genericas',
     },
+    {
+      icon: 'fas fa-signal',
+      routeName: 'Indicador de Alcance',
+      routerLink: '/dashboard/indicador-alcance',
+    },
   ];
 }

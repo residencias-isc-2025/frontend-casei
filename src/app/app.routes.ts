@@ -197,6 +197,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'indicador-alcance',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/indicador-alcance-page/indicador-alcance-page.component'
+          ),
+      },
+      {
         path: '**',
         redirectTo: 'perfil',
         pathMatch: 'full',
