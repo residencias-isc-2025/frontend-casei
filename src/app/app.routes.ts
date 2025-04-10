@@ -190,6 +190,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'competencias-genericas',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/competencia-generica-page/competencia-generica-page.component'
+          ),
+      },
+      {
         path: '**',
         redirectTo: 'perfil',
         pathMatch: 'full',

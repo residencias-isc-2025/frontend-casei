@@ -1,0 +1,85 @@
+<div class="container mx-auto p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Competencias genéricas</h1>
+    <div class="space-x-1">
+      <button
+        (click)="this.showAddModal.set(true)"
+        class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+      >
+        Agregar
+      </button>
+
+      <!-- <label
+        class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+      >
+        Cargar CSV
+        <input
+          type="file"
+          accept=".csv"
+          class="hidden"
+        />
+      </label> -->
+    </div>
+  </div>
+
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+    <table class="w-full border-collapse">
+      <thead class="bg-gray-200 text-gray-700">
+        <tr>
+          <th class="py-3 px-4 text-left capitalize">Indíce</th>
+          <th class="py-3 px-4 text-left capitalize">Descripción</th>
+          <th class="py-3 px-4 text-left">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-600">
+        @for (competencia of competenciasGenericas(); track $index) {
+        <tr class="border-b hover:bg-gray-100 transition">
+          <td class="py-3 px-4">{{ $index + 1 }}</td>
+          <td class="py-3 px-4">{{ competencia.descripcion }}</td>
+          <td class="py-3 px-4">
+            <div class="flex flex-row space-x-2">
+              <button
+                (click)="onShowUpdateModel(competencia.id)"
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-blue-500 hover:bg-blue-700"
+              >
+                Editar
+              </button>
+
+              <button
+                (click)="onDeleteCompetenciaGenerica(competencia.id)"
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
+              >
+                Borrar
+              </button>
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+
+    <app-pagination
+      [totalItems]="totalItems()"
+      [itemsPerPage]="10"
+      [currentPage]="currentPage()"
+      (pageChanged)="onPageChanged($event)"
+    />
+  </div>
+</div>
+
+@if (showAddModal()) {
+<app-competencia-generica-form
+  [editing]="false"
+  (onCancel)="showAddModal.set(false)"
+  (onSave)="onSaveEmit()"
+  title="Agregar competencia genérica"
+/>
+} @if(showUpdateModal()) {
+<app-competencia-generica-form
+  [editing]="true"
+  (onCancel)="showUpdateModal.set(false)"
+  (onSave)="onEditEmit()"
+  [competenciaGenerica]="competenciaGenericaSelected()!"
+  title="Editar competencia genérica"
+/>
+}

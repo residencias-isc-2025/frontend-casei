@@ -116,5 +116,10 @@ export class SideMenuComponent {
       routeName: 'Actividades de Aprendizaje',
       routerLink: '/dashboard/actividad-aprendizaje',
     },
+    {
+      icon: 'fas fa-handshake',
+      routeName: 'Competencias Genéricas',
+      routerLink: '/dashboard/competencias-genericas',
+    },
   ];
 }
