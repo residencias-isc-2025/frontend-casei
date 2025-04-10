@@ -211,6 +211,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'nivel-desempenio',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/nivel-desempenio-page/nivel-desempenio-page.component'
+          ),
+      },
+      {
         path: '**',
         redirectTo: 'perfil',
         pathMatch: 'full',

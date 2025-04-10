@@ -131,5 +131,10 @@ export class SideMenuComponent {
       routeName: 'Listas de cotejo',
       routerLink: '/dashboard/lista-cotejo',
     },
+    {
+      icon: 'fas fa-trophy',
+      routeName: 'Nivel de desempeño',
+      routerLink: '/dashboard/nivel-desempenio',
+    },
   ];
 }

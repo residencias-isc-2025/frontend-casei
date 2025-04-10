@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BaseService } from '@core/classes/base-service.class';
-import { IndicadorAlcance } from '@core/models/indicador-alcance.model';
+import { NivelDesempenio } from '@core/models/nivel-desempenio.model';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class IndicadorAlcanceService extends BaseService<IndicadorAlcance> {
+export class NivelDesempenioService extends BaseService<NivelDesempenio> {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.api_url}/indicador_alcance/indicador-alcance`;
+  private apiUrl = `${environment.api_url}/nivel_desempenio/nivel-desempenio`;
 
   override obtenerDatosPaginados(
     page: number,
@@ -20,17 +20,17 @@ export class IndicadorAlcanceService extends BaseService<IndicadorAlcance> {
     count: number;
     next: string | null;
     previous: string | null;
-    results: IndicadorAlcance[];
+    results: NivelDesempenio[];
   }> {
     return this.http.get<{
       count: number;
       next: string | null;
       previous: string | null;
-      results: IndicadorAlcance[];
+      results: NivelDesempenio[];
     }>(`${this.apiUrl}/?page=${page}&page_size=${limit}`);
   }
   override crear(
-    data: Partial<IndicadorAlcance>
+    data: Partial<NivelDesempenio>
   ): Observable<{ mensaje: string }> {
     return this.http.post<{ mensaje: string }>(`${this.apiUrl}/`, data);
   }
@@ -42,16 +42,11 @@ export class IndicadorAlcanceService extends BaseService<IndicadorAlcance> {
   }
   override actualizar(
     id: number,
-    data: Partial<IndicadorAlcance>
+    data: Partial<NivelDesempenio>
   ): Observable<{ mensaje: string }> {
-    return this.http.put<{ mensaje: string; data: IndicadorAlcance }>(
+    return this.http.put<{ mensaje: string; data: NivelDesempenio }>(
       `${this.apiUrl}/${id}/`,
       data
     );
-  }
-
-  indicadorAlcanceInfo(id: number, lista: IndicadorAlcance[]) {
-    const indicador = lista.find((indicadorA) => indicadorA.id === id);
-    return indicador;
   }
 }

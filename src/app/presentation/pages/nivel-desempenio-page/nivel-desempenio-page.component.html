@@ -1,6 +1,6 @@
 <div class="container mx-auto p-6">
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Listas de cotejo</h1>
+    <h1 class="text-2xl font-bold text-gray-800">Niveles de desempeño</h1>
     <button
       (click)="showAddModal.set(true)"
       class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
@@ -14,33 +14,30 @@
       <thead class="bg-gray-200 text-gray-700">
         <th class="py-3 px-4 text-left">Índice</th>
         <th class="py-3 px-4 text-left">Nombre</th>
-        <th class="py-3 px-4 text-left">Actividad</th>
+        <th class="py-3 px-4 text-left">Valor</th>
+        <th class="py-3 px-4 text-left">Indicador de alcance</th>
         <th class="py-3 px-4 text-left">Acciones</th>
       </thead>
       <tbody class="text-gray-600">
-        @for(lista of listasCotejo(); track $index) {
+        @for(nivelD of nivelesDesempenio(); track $index) {
         <tr class="border-b hover:bg-gray-100 transition">
           <td class="py-3 px-4">{{ $index + 1 }}</td>
-          <td class="py-3 px-4">{{ lista.nombre }}</td>
+          <td class="py-3 px-4">{{ nivelD.nombre }}</td>
+          <td class="py-3 px-4">{{ nivelD.valor }}</td>
           <td class="py-3 px-4">
-            <button
-              class="px-4 py-2 bg-cyan-300 hover:bg-cyan-400 rounded-lg font-bold"
-              (click)="downloadFile(lista)"
-            >
-              Descargar
-            </button>
+            {{ getIndicadorData(nivelD.indicador_alcance)?.siglas }}
           </td>
 
           <td class="py-3 px-4">
             <div class="flex flex-row space-x-2">
               <button
-                (click)="onShowUpdateModal(lista)"
+                (click)="onShowUpdateModal(nivelD)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-blue-500 hover:bg-blue-700"
               >
                 Editar
               </button>
               <button
-                (click)="onShowDeleteModal(lista)"
+                (click)="onShowDeleteModal(nivelD)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
               >
                 Eliminar
@@ -51,39 +48,41 @@
         }
       </tbody>
     </table>
-    <!-- <app-pagination
+    <app-pagination
       [totalItems]="totalItems()"
       [itemsPerPage]="10"
       [currentPage]="currentPage()"
       (pageChanged)="onPageChanged($event)"
-    /> -->
+    />
   </div>
 </div>
 
 @if (showAddModal()) {
-<app-lista-cotejo-form
-    [editing]="false"
-    (onCancel)="showAddModal.set(false)"
-    (onSave)="onSaveEmit()"
-    title="Agregar lista de cotejo"
-  />
+<app-nivel-desempenio-form
+  [editing]="false"
+  (onCancel)="showAddModal.set(false)"
+  (onSave)="onSaveEmit()"
+  [indicadorAlcanceList]="indicadoresAlcance()"
+  title="Agregar lista de cotejo"
+/>
 } @if (showUpdateModal()) {
-<app-lista-cotejo-form
-    [editing]="true"
-    (onCancel)="showUpdateModal.set(false)"
-    (onSave)="onEditEmit()"
-    [listaCotejo]="listaCotejoSelected()!"
-    title="Editar lista de cotejo"
-  />
+<app-nivel-desempenio-form
+  [editing]="true"
+  (onCancel)="showUpdateModal.set(false)"
+  (onSave)="onEditEmit()"
+  [indicadorAlcanceList]="indicadoresAlcance()"
+  [nivelDesempenio]="nivelDesempenioSelected()!"
+  title="Editar lista de cotejo"
+/>
 }@if (showDeleteModal()){
 <app-confirmation-modal
-  title="Eliminar: Lista de cotejo"
+  title="Eliminar: Nivel de desempeño"
   [message]="
-    '¿Esta seguro de querer eliminar la lista de cotejo correspondiente a ' +
-    listaCotejoSelected()?.nombre +
+    '¿Esta seguro de querer eliminar el nivel de desempeño correspondiente a ' +
+    nivelDesempenioSelected()?.nombre +
     '?'
   "
-  (onConfirm)="onDelete(listaCotejoSelected()?.id!)"
+  (onConfirm)="onDelete(nivelDesempenioSelected()?.id!)"
   (onCancel)="showDeleteModal.set(false)"
 />
 }
