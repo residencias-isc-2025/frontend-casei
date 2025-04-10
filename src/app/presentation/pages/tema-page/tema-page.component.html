@@ -53,6 +53,14 @@
           <td class="py-3 px-4">
             <div class="flex flex-row space-x-2">
               <button
+                (click)="onShowSubtemasModal(tema)"
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-amber-500 hover:bg-amber-700 disabled:bg-gray-500"
+                [disabled]="tema.sub_temas.length === 0"
+              >
+                Ver subtemas
+              </button>
+
+              <button
                 (click)="onShowUpdateModal(tema)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-blue-500 hover:bg-blue-700"
               >
@@ -112,5 +120,11 @@
   "
   (onConfirm)="onDelete(temaSelected()?.id!)"
   (onCancel)="showDeleteModal.set(false)"
+/>
+} @if(showSubtemasModal()){
+<app-subtemas-tema-form
+  (onCancel)="showSubtemasModal.set(false)"
+  (onSave)="onSubtemaUpdate()"
+  [tema]="temaSelected()!"
 />
 }

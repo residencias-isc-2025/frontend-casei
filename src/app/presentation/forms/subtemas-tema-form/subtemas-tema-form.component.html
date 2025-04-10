@@ -1,0 +1,68 @@
+
+<div
+  class="fixed inset-0 bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50"
+>
+  <div
+    class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto"
+  >
+    <!-- Header -->
+    <div class="flex justify-between items-center border-b pb-4 mb-6">
+      <h2 class="text-2xl font-bold text-gray-800">
+        Subtemas del tema:
+        <span class="text-blue-600">{{ tema().nombre }}</span>
+      </h2>
+      <button
+        (click)="onCancel.emit()"
+        class="text-gray-400 hover:text-gray-600 text-2xl leading-none"
+        aria-label="Cerrar"
+      >
+        &times;
+      </button>
+    </div>
+
+    <!-- Tabla de Subtemas -->
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-left text-gray-600">
+        <thead
+          class="bg-gray-100 text-gray-700 uppercase tracking-wide text-xs"
+        >
+          <tr>
+            <th class="py-3 px-4">Descripción</th>
+            <th class="py-3 px-4 text-right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          @for (subtema of tema().sub_temas; track $index) {
+          <tr>
+            <td class="py-3 px-4">
+              {{ getSubtemaInfo(subtema)?.descripcion }}
+            </td>
+            <td class="py-3 px-4 text-right">
+              <button
+                (click)="onShowDeleteModal(getSubtemaInfo(subtema)!)"
+                class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1.5 px-4 rounded-lg transition duration-300"
+              >
+                Desvincular
+              </button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Confirmación -->
+@if (showDeleteModal()) {
+<app-confirmation-modal
+  title="Eliminar: Subtema"
+  [message]="
+    '¿Esta seguro de querer desvincular el subtema correspondiete a ' +
+    subtemaSelected()?.descripcion +
+    '?'
+  "
+  (onConfirm)="onDelete(subtemaSelected()?.id!)"
+  (onCancel)="showDeleteModal.set(false)"
+/>
+}
