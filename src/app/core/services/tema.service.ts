@@ -51,4 +51,9 @@ export class TemaService extends BaseService<Tema> {
       data
     );
   }
+
+  temaData(id: number, lista: Tema[]) {
+    const data = lista.find((est) => est.id === id);
+    return data;
+  }
 }

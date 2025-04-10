@@ -58,4 +58,9 @@ export class ObjetivosEspecificosService extends BaseService<ObjetivoEspecifico>
       data
     );
   }
+
+  objetivoEspecificoData(id: number, lista: ObjetivoEspecifico[]) {
+    const data = lista.find((est) => est.id === id);
+    return data;
+  }
 }

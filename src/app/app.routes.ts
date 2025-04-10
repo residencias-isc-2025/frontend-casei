@@ -223,6 +223,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'competencias',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/competencias-page/competencias-page.component'
+          ),
+      },
+      {
         path: '**',
         redirectTo: 'perfil',
         pathMatch: 'full',

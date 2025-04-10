@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BaseService } from '@core/classes/base-service.class';
-import { CompetenciaGenerica } from '@core/models/competencia-generica.model';
+import { Competencia } from '@core/models/competencia.model';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CompetenciaGenericaService extends BaseService<CompetenciaGenerica> {
+export class CompetenciaService extends BaseService<Competencia> {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.api_url}/competencias_genericas/competencias-genericas`;
+  private apiUrl = `${environment.api_url}/competencia/competencia`;
 
   override obtenerDatosPaginados(
     page: number,
@@ -20,18 +20,16 @@ export class CompetenciaGenericaService extends BaseService<CompetenciaGenerica>
     count: number;
     next: string | null;
     previous: string | null;
-    results: CompetenciaGenerica[];
+    results: Competencia[];
   }> {
     return this.http.get<{
       count: number;
       next: string | null;
       previous: string | null;
-      results: CompetenciaGenerica[];
+      results: Competencia[];
     }>(`${this.apiUrl}/?page=${page}&page_size=${limit}`);
   }
-  override crear(
-    data: Partial<CompetenciaGenerica>
-  ): Observable<{ mensaje: string }> {
+  override crear(data: Partial<Competencia>): Observable<{ mensaje: string }> {
     return this.http.post<{ mensaje: string }>(`${this.apiUrl}/`, data);
   }
   override deshabilitar(id: number): Observable<{ mensaje: string }> {
@@ -42,16 +40,11 @@ export class CompetenciaGenericaService extends BaseService<CompetenciaGenerica>
   }
   override actualizar(
     id: number,
-    data: Partial<CompetenciaGenerica>
+    data: Partial<Competencia>
   ): Observable<{ mensaje: string }> {
-    return this.http.put<{ mensaje: string; data: CompetenciaGenerica }>(
+    return this.http.put<{ mensaje: string; data: Competencia }>(
       `${this.apiUrl}/${id}/`,
       data
     );
-  }
-
-  competenciaGenericaData(id: number, lista: CompetenciaGenerica[]) {
-    const data = lista.find((est) => est.id === id);
-    return data;
   }
 }

@@ -122,6 +122,11 @@ export class SideMenuComponent {
       routerLink: '/dashboard/actividad-aprendizaje',
     },
     {
+      icon: 'fas fa-briefcase',
+      routeName: 'Competencias',
+      routerLink: '/dashboard/competencias',
+    },
+    {
       icon: 'fas fa-handshake',
       routeName: 'Competencias Genéricas',
       routerLink: '/dashboard/competencias-genericas',
