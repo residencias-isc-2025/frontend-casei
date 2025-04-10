@@ -22,6 +22,8 @@
         @for(practica of practicaList(); track $index) {
         <tr class="border-b hover:bg-gray-100 transition">
           <td class="py-3 px-4">{{ $index + 1 }}</td>
+          <td class="py-3 px-4">{{ practica.siglas }}</td>
+          <td class="py-3 px-4">{{ practica.nombre }}</td>
           <td class="py-3 px-4">{{ practica.descripcion }}</td>
 
           <td class="py-3 px-4">

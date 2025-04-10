@@ -183,6 +183,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'actividad-aprendizaje',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/actividad-aprendizaje-page/actividad-aprendizaje-page.component'
+          ),
+      },
+      {
         path: '**',
         redirectTo: 'perfil',
         pathMatch: 'full',

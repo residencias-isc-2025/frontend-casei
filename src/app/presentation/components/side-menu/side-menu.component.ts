@@ -111,5 +111,10 @@ export class SideMenuComponent {
       routeName: 'Bibliografías',
       routerLink: '/dashboard/bibliografias',
     },
+    {
+      icon: 'fas fa-clipboard-list',
+      routeName: 'Actividades de Aprendizaje',
+      routerLink: '/dashboard/actividad-aprendizaje',
+    },
   ];
 }
