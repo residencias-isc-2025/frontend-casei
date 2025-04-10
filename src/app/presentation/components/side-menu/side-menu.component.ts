@@ -106,5 +106,10 @@ export class SideMenuComponent {
       routeName: 'Temas',
       routerLink: '/dashboard/temas',
     },
+    {
+      icon: 'fas fa-book',
+      routeName: 'Bibliografías',
+      routerLink: '/dashboard/bibliografias',
+    },
   ];
 }

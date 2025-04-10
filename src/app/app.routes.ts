@@ -176,6 +176,13 @@ export const routes: Routes = [
           import('@presentation/pages/formats-page/formats-page.component'),
       },
       {
+        path: 'bibliografias',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/bibliografia-page/bibliografia-page.component'
+          ),
+      },
+      {
         path: '**',
         redirectTo: 'perfil',
         pathMatch: 'full',
