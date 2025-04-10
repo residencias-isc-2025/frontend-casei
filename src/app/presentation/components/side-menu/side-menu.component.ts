@@ -123,8 +123,13 @@ export class SideMenuComponent {
     },
     {
       icon: 'fas fa-signal',
-      routeName: 'Indicador de Alcance',
+      routeName: 'Indicadores de Alcance',
       routerLink: '/dashboard/indicador-alcance',
+    },
+    {
+      icon: 'fas fa-tasks',
+      routeName: 'Listas de cotejo',
+      routerLink: '/dashboard/lista-cotejo',
     },
   ];
 }

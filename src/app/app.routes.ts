@@ -204,6 +204,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'lista-cotejo',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/lista-cotejo-page/lista-cotejo-page.component'
+          ),
+      },
+      {
         path: '**',
         redirectTo: 'perfil',
         pathMatch: 'full',
