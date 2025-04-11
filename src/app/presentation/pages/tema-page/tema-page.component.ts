@@ -205,34 +205,37 @@ export default class TemaPageComponent implements OnInit {
   }
 
   atributoEgresoData(idAtributo: number) {
-    return this.atributoEgresoService.atributoEgresoSiglas(
+    return this.atributoEgresoService.obtenerDataInfo(
       idAtributo,
       this.atributosEgresoList()
-    );
+    )?.siglas;
   }
 
   crierioDesempenoData(idCriterio: number) {
-    return this.criterioDesempenioService.criterioDesempenoData(
+    return this.criterioDesempenioService.obtenerDataInfo(
       idCriterio,
       this.criteriosDesempenoList()
     );
   }
 
   estrategiaEnsenanzaData(idEnsenanza: number) {
-    return this.estrategiaEnsenanzaService.estrategiaEnsenanzaData(
+    return this.estrategiaEnsenanzaService.obtenerDataInfo(
       idEnsenanza,
       this.estrategiasEnsenanzaList()
     );
   }
 
   estrategiaEvaluacionData(idEvaluacion: number) {
-    return this.estrategiaEvaluacionService.estrategiaEvaluacionData(
+    return this.estrategiaEvaluacionService.obtenerDataInfo(
       idEvaluacion,
       this.estrategiasEvaluacionList()
     );
   }
 
   practicaData(idPractica: number) {
-    return this.practicaService.practicaData(idPractica, this.practicasList());
+    return this.practicaService.obtenerDataInfo(
+      idPractica,
+      this.practicasList()
+    );
   }
 }

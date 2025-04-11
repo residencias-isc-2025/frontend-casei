@@ -27,9 +27,7 @@ export class LogroProfesionalService extends BaseService<LogroProfesional> {
       next: string | null;
       previous: string | null;
       results: LogroProfesional[];
-    }>(
-      `${this.apiUrl}/logros-profesionales/?page=${page}&page_size=${limit}`
-    );
+    }>(`${this.apiUrl}/logros-profesionales/?page=${page}&page_size=${limit}`);
   }
 
   override crear(
@@ -59,5 +57,13 @@ export class LogroProfesionalService extends BaseService<LogroProfesional> {
       `${this.apiUrl}/logros-profesionales/${id}/`,
       data
     );
+  }
+
+  override obtenerDataInfo(
+    id: number,
+    lista: LogroProfesional[]
+  ): LogroProfesional | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
   }
 }

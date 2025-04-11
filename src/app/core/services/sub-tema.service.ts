@@ -49,8 +49,11 @@ export class SubTemaService extends BaseService<SubTemas> {
     return this.http.put<{ mensaje: string }>(`${this.apiUrl}/${id}/`, data);
   }
 
-  getSubtemaData(id: number, lista: SubTemas[]) {
-    const subtema = lista.find((s) => s.id === id);
-    return subtema;
+  override obtenerDataInfo(
+    id: number,
+    lista: SubTemas[]
+  ): SubTemas | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
   }
 }

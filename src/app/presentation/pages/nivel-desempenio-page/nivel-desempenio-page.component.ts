@@ -112,7 +112,7 @@ export default class NivelDesempenioPageComponent implements OnInit {
   }
 
   getIndicadorData(idIndicador: number) {
-    return this.indicadorAlcanceService.indicadorAlcanceInfo(
+    return this.indicadorAlcanceService.obtenerDataInfo(
       idIndicador,
       this.indicadoresAlcance()
     );

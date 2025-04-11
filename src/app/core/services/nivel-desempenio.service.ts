@@ -29,17 +29,21 @@ export class NivelDesempenioService extends BaseService<NivelDesempenio> {
       results: NivelDesempenio[];
     }>(`${this.apiUrl}/?page=${page}&page_size=${limit}`);
   }
+
   override crear(
     data: Partial<NivelDesempenio>
   ): Observable<{ mensaje: string }> {
     return this.http.post<{ mensaje: string }>(`${this.apiUrl}/`, data);
   }
+
   override deshabilitar(id: number): Observable<{ mensaje: string }> {
     return this.http.delete<{ mensaje: string }>(`${this.apiUrl}/${id}/`);
   }
+
   override habilitar(id: number): Observable<{ mensaje: string }> {
     throw new Error('Method not implemented.');
   }
+
   override actualizar(
     id: number,
     data: Partial<NivelDesempenio>
@@ -50,8 +54,11 @@ export class NivelDesempenioService extends BaseService<NivelDesempenio> {
     );
   }
 
-  nivelDesempenioData(id: number, lista: NivelDesempenio[]) {
-    const data = lista.find((est) => est.id === id);
+  override obtenerDataInfo(
+    id: number,
+    lista: NivelDesempenio[]
+  ): NivelDesempenio | undefined {
+    const data = lista.find((d) => d.id === id);
     return data;
   }
 }

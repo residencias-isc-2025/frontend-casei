@@ -14,12 +14,11 @@ export interface UserSearchParams {
 @Injectable({
   providedIn: 'root',
 })
-export class UserService extends BaseService<User>{
+export class UserService extends BaseService<User> {
   private http = inject(HttpClient);
   private apiUrl = `${environment.api_url}/usuarios`;
 
-  // GET
-  obtenerDatosPaginados(
+  override obtenerDatosPaginados(
     page: number,
     limit: number,
     params: UserSearchParams
@@ -43,8 +42,7 @@ export class UserService extends BaseService<User>{
     return this.http.get<User>(`${this.apiUrl}/profile/`);
   }
 
-  // POST
-  crear(data: Partial<User>) {
+  override crear(data: Partial<User>) {
     return this.http.post<{ mensaje: string }>(
       `${this.apiUrl}/register/`,
       data
@@ -65,15 +63,13 @@ export class UserService extends BaseService<User>{
     );
   }
 
-  // DELETE
-  deshabilitar(id: number) {
+  override deshabilitar(id: number) {
     return this.http.delete<{ mensaje: string }>(
       `${this.apiUrl}/register/${id}/`
     );
   }
 
-  // PUT
-  habilitar(id: number) {
+  override habilitar(id: number) {
     return this.http.put<{ mensaje: string }>(
       `${this.apiUrl}/habilitar-usuario/${id}/`,
       {}
@@ -89,14 +85,18 @@ export class UserService extends BaseService<User>{
     );
   }
 
-  actualizar(id: number, data: Partial<User>) {
+  override actualizar(id: number, data: Partial<User>) {
     return this.http.put<{ mensaje: string; data: User }>(
       `${this.apiUrl}/register/${id}/`,
       data
     );
   }
 
-  // OTROS
+  override obtenerDataInfo(id: number, lista: User[]): User | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
+  }
+
   obtenerRolUsuario() {
     return localStorage.getItem('user-role') || 'user';
   }

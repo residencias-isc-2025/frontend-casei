@@ -56,4 +56,12 @@ export class AportacionService extends BaseService<Aportacion> {
       data
     );
   }
+
+  override obtenerDataInfo(
+    id: number,
+    lista: Aportacion[]
+  ): Aportacion | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
+  }
 }

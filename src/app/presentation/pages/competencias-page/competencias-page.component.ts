@@ -127,13 +127,13 @@ export default class CompetenciasPageComponent implements OnInit {
   }
 
   objetivoEspecifico(id: number) {
-    return this.objetivoEspecificoService.objetivoEspecificoData(
+    return this.objetivoEspecificoService.obtenerDataInfo(
       id,
       this.objetivosEspecificosList()
     );
   }
 
   tema(id: number) {
-    return this.temaService.temaData(id, this.temasList());
+    return this.temaService.obtenerDataInfo(id, this.temasList());
   }
 }

@@ -60,4 +60,12 @@ export class DisenoIngenierilService extends BaseService<DisenoIngenieril> {
       data
     );
   }
+
+  override obtenerDataInfo(
+    id: number,
+    lista: DisenoIngenieril[]
+  ): DisenoIngenieril | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
+  }
 }

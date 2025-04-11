@@ -60,4 +60,12 @@ export class ExperienciaProfesionalService extends BaseService<ExperienciaProfes
       data
     );
   }
+
+  override obtenerDataInfo(
+    id: number,
+    lista: ExperienciaProfesional[]
+  ): ExperienciaProfesional | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
+  }
 }

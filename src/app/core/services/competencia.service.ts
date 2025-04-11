@@ -29,15 +29,19 @@ export class CompetenciaService extends BaseService<Competencia> {
       results: Competencia[];
     }>(`${this.apiUrl}/?page=${page}&page_size=${limit}`);
   }
+
   override crear(data: Partial<Competencia>): Observable<{ mensaje: string }> {
     return this.http.post<{ mensaje: string }>(`${this.apiUrl}/`, data);
   }
+
   override deshabilitar(id: number): Observable<{ mensaje: string }> {
     return this.http.delete<{ mensaje: string }>(`${this.apiUrl}/${id}/`);
   }
+
   override habilitar(id: number): Observable<{ mensaje: string }> {
     throw new Error('Method not implemented.');
   }
+
   override actualizar(
     id: number,
     data: Partial<Competencia>
@@ -46,5 +50,13 @@ export class CompetenciaService extends BaseService<Competencia> {
       `${this.apiUrl}/${id}/`,
       data
     );
+  }
+
+  override obtenerDataInfo(
+    id: number,
+    lista: Competencia[]
+  ): Competencia | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
   }
 }

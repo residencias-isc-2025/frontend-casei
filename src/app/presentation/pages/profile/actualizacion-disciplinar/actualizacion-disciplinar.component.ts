@@ -113,6 +113,9 @@ export default class ActualizacionDisciplinarComponent {
   }
 
   getInstitucionNombre(idInstitucion: number) {
-    return this.institucionService.getInstitucion(idInstitucion, this.institucionesList());
+    return this.institucionService.obtenerDataInfo(
+      idInstitucion,
+      this.institucionesList()
+    )?.nombre_institucion;
   }
 }

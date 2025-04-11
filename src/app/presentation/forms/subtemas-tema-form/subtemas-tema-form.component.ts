@@ -42,7 +42,7 @@ export class SubtemasTemaFormComponent implements OnInit {
   }
 
   getSubtemaInfo(idSubtema: number) {
-    return this.subtemaService.getSubtemaData(idSubtema, this.subtemas());
+    return this.subtemaService.obtenerDataInfo(idSubtema, this.subtemas());
   }
 
   onShowDeleteModal(subtema: SubTemas) {

@@ -16,8 +16,7 @@ export class PeriodoService extends BaseService<Periodo> {
   private http = inject(HttpClient);
   private apiUrl = `${environment.api_url}/periodos`;
 
-  // GET
-  obtenerDatosPaginados(
+  override obtenerDatosPaginados(
     page: number,
     limit: number,
     params: PeriodoSearchParams
@@ -35,30 +34,32 @@ export class PeriodoService extends BaseService<Periodo> {
     }>(url);
   }
 
-  // POST
-  crear(data: Partial<Periodo>) {
+  override crear(data: Partial<Periodo>) {
     return this.http.post<{ mensaje: string }>(`${this.apiUrl}/periodo/`, data);
   }
 
-  // DELETE
-  deshabilitar(id: number) {
+  override deshabilitar(id: number) {
     return this.http.delete<{ mensaje: string }>(
       `${this.apiUrl}/periodo/${id}/`
     );
   }
 
-  // PUT
-  habilitar(id: number) {
+  override habilitar(id: number) {
     return this.http.put<{ mensaje: string }>(
       `${this.apiUrl}/activar-periodo/${id}/`,
       {}
     );
   }
 
-  actualizar(id: number, data: Partial<Periodo>) {
+  override actualizar(id: number, data: Partial<Periodo>) {
     return this.http.put<{ mensaje: string; data: Periodo }>(
       `${this.apiUrl}/periodo/${id}/`,
       data
     );
+  }
+
+  override obtenerDataInfo(id: number, lista: Periodo[]): Periodo | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
   }
 }

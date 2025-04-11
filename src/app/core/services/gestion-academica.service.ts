@@ -58,4 +58,12 @@ export class GestionAcademicaService extends BaseService<GestionAcademica> {
       data
     );
   }
+
+  override obtenerDataInfo(
+    id: number,
+    lista: GestionAcademica[]
+  ): GestionAcademica | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
+  }
 }

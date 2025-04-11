@@ -52,10 +52,11 @@ export class CriterioDesempenioFormComponent implements OnInit {
       nivel: this.criterioDesempenio()?.nivel,
     });
 
-    const descripcion = this.atributoEgresoService.atributoEgresoDescripcion(
-      this.criterioDesempenio()!.atributo_egreso,
-      this.atributosEgreso()
-    );
+    const descripcion =
+      this.atributoEgresoService.obtenerDataInfo(
+        this.criterioDesempenio()!.atributo_egreso,
+        this.atributosEgreso()
+      )?.descripcion ?? '';
 
     this.atributoDescripcion.set(descripcion);
   }
@@ -92,10 +93,11 @@ export class CriterioDesempenioFormComponent implements OnInit {
   handleAtributoEgresoChange(event: Event) {
     const select = event.target as HTMLSelectElement;
 
-    const descripcion = this.atributoEgresoService.atributoEgresoDescripcion(
-      +select.value,
-      this.atributosEgreso()
-    );
+    const descripcion =
+      this.atributoEgresoService.obtenerDataInfo(
+        +select.value,
+        this.atributosEgreso()
+      )?.descripcion ?? '';
 
     this.atributoDescripcion.set(descripcion);
   }

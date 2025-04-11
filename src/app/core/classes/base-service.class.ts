@@ -22,4 +22,6 @@ export abstract class BaseService<T> {
     id: number,
     data: Partial<T>
   ): Observable<{ mensaje: string }>;
+
+  abstract obtenerDataInfo(id: number, lista: T[]): T | undefined;
 }

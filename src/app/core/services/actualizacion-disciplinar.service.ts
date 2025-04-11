@@ -60,4 +60,12 @@ export class ActualizacionDisciplinarService extends BaseService<ActualizacionDi
       data
     );
   }
+
+  override obtenerDataInfo(
+    id: number,
+    lista: ActualizacionDisciplinar[]
+  ): ActualizacionDisciplinar | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
+  }
 }

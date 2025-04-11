@@ -61,4 +61,12 @@ export class FormacionAcademicaService extends BaseService<FormacionAcademica> {
       }
     );
   }
+
+  override obtenerDataInfo(
+    id: number,
+    lista: FormacionAcademica[]
+  ): FormacionAcademica | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
+  }
 }

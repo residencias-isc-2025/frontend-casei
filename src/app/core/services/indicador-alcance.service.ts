@@ -29,17 +29,21 @@ export class IndicadorAlcanceService extends BaseService<IndicadorAlcance> {
       results: IndicadorAlcance[];
     }>(`${this.apiUrl}/?page=${page}&page_size=${limit}`);
   }
+
   override crear(
     data: Partial<IndicadorAlcance>
   ): Observable<{ mensaje: string }> {
     return this.http.post<{ mensaje: string }>(`${this.apiUrl}/`, data);
   }
+
   override deshabilitar(id: number): Observable<{ mensaje: string }> {
     return this.http.delete<{ mensaje: string }>(`${this.apiUrl}/${id}/`);
   }
+
   override habilitar(id: number): Observable<{ mensaje: string }> {
     throw new Error('Method not implemented.');
   }
+
   override actualizar(
     id: number,
     data: Partial<IndicadorAlcance>
@@ -50,8 +54,11 @@ export class IndicadorAlcanceService extends BaseService<IndicadorAlcance> {
     );
   }
 
-  indicadorAlcanceInfo(id: number, lista: IndicadorAlcance[]) {
-    const indicador = lista.find((indicadorA) => indicadorA.id === id);
-    return indicador;
+  override obtenerDataInfo(
+    id: number,
+    lista: IndicadorAlcance[]
+  ): IndicadorAlcance | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
   }
 }

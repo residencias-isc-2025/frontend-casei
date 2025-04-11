@@ -59,8 +59,11 @@ export class ObjetivosEspecificosService extends BaseService<ObjetivoEspecifico>
     );
   }
 
-  objetivoEspecificoData(id: number, lista: ObjetivoEspecifico[]) {
-    const data = lista.find((est) => est.id === id);
+  override obtenerDataInfo(
+    id: number,
+    lista: ObjetivoEspecifico[]
+  ): ObjetivoEspecifico | undefined {
+    const data = lista.find((d) => d.id === id);
     return data;
   }
 }

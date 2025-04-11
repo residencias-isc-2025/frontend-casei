@@ -222,6 +222,9 @@ export default class UsersPageComponent implements OnInit {
   }
 
   getSiglas(idArea: number) {
-    return this.adscripcionService.getAdscripcioSiglas(idArea, this.adscripcionesList())
+    return this.adscripcionService.obtenerDataInfo(
+      idArea,
+      this.adscripcionesList()
+    )?.siglas;
   }
 }

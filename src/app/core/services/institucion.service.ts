@@ -17,8 +17,7 @@ export class InstitucionService extends BaseService<Institucion> {
   private http = inject(HttpClient);
   private apiUrl = `${environment.api_url}/institucion`;
 
-  // GET
-  obtenerDatosPaginados(
+  override obtenerDatosPaginados(
     page: number,
     limit: number,
     params: InstitucionSearchParams
@@ -37,39 +36,38 @@ export class InstitucionService extends BaseService<Institucion> {
     }>(url);
   }
 
-  // POST
-  crear(data: Partial<Institucion>) {
+  override crear(data: Partial<Institucion>) {
     return this.http.post<{ mensaje: string }>(
       `${this.apiUrl}/institucion-pais/`,
       data
     );
   }
 
-  // DELETE
-  deshabilitar(id: number) {
+  override deshabilitar(id: number) {
     return this.http.delete<{ mensaje: string }>(
       `${this.apiUrl}/institucion-pais/${id}/`
     );
   }
 
-  // PUT
-  actualizar(id: number, data: Partial<Institucion>) {
+  override actualizar(id: number, data: Partial<Institucion>) {
     return this.http.put<{ mensaje: string; data: Institucion }>(
       `${this.apiUrl}/institucion-pais/${id}/`,
       data
     );
   }
 
-  habilitar(id: number) {
+  override habilitar(id: number) {
     return this.http.put<{ mensaje: string }>(
       `${this.apiUrl}/habilitar-institucion/${id}/`,
       {}
     );
   }
 
-  // OTROS
-  getInstitucion(idInstitucion: number, lista: Institucion[]): string {
-    const institucion = lista.find((inst) => inst.id === idInstitucion);
-    return institucion ? institucion.nombre_institucion : '';
+  override obtenerDataInfo(
+    id: number,
+    lista: Institucion[]
+  ): Institucion | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
   }
 }

@@ -59,13 +59,11 @@ export class AtributoEgresoService extends BaseService<AtributoEgreso> {
     );
   }
 
-  atributoEgresoSiglas(id: number, lista: AtributoEgreso[]) {
-    const atributo = lista.find((atr) => atr.id === id);
-    return atributo ? atributo.siglas : '';
-  }
-
-  atributoEgresoDescripcion(id: number, lista: AtributoEgreso[]) {
-    const atributo = lista.find((atr) => atr.id === id);
-    return atributo ? atributo.descripcion : '';
+  override obtenerDataInfo(
+    id: number,
+    lista: AtributoEgreso[]
+  ): AtributoEgreso | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
   }
 }

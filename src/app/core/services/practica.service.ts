@@ -57,8 +57,11 @@ export class PracticaService extends BaseService<Practica> {
     );
   }
 
-  practicaData(id: number, lista: Practica[]) {
-    const practica = lista.find((p) => p.id === id);
-    return practica;
+  override obtenerDataInfo(
+    id: number,
+    lista: Practica[]
+  ): Practica | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
   }
 }

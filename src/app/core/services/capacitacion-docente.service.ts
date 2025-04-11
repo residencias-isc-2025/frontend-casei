@@ -58,4 +58,12 @@ export class CapacitacionDocenteService extends BaseService<CapacitacionDocente>
       data
     );
   }
+
+  override obtenerDataInfo(
+    id: number,
+    lista: CapacitacionDocente[]
+  ): CapacitacionDocente | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
+  }
 }

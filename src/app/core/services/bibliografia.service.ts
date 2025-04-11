@@ -29,20 +29,24 @@ export class BibliografiaService extends BaseService<Bibliografia> {
       results: Bibliografia[];
     }>(`${this.apiUrl}/bibliografia/?page=${page}&page_size=${limit}`);
   }
+
   override crear(data: Partial<Bibliografia>): Observable<{ mensaje: string }> {
     return this.http.post<{ mensaje: string }>(
       `${this.apiUrl}/bibliografia/`,
       data
     );
   }
+
   override deshabilitar(id: number): Observable<{ mensaje: string }> {
     return this.http.delete<{ mensaje: string }>(
       `${this.apiUrl}/bibliografia/${id}/`
     );
   }
+
   override habilitar(id: number): Observable<{ mensaje: string }> {
     throw new Error('Method not implemented.');
   }
+
   override actualizar(
     id: number,
     data: Partial<Bibliografia>
@@ -51,5 +55,13 @@ export class BibliografiaService extends BaseService<Bibliografia> {
       `${this.apiUrl}/bibliografia/${id}/`,
       data
     );
+  }
+
+  override obtenerDataInfo(
+    id: number,
+    lista: Bibliografia[]
+  ): Bibliografia | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
   }
 }

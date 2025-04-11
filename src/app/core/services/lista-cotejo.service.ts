@@ -53,6 +53,14 @@ export class ListaCotejoService extends BaseService<ListaCotejo> {
     );
   }
 
+  override obtenerDataInfo(
+    id: number,
+    lista: ListaCotejo[]
+  ): ListaCotejo | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
+  }
+
   obtenerDatos(): Observable<ListaCotejo[]> {
     return this.http.get<ListaCotejo[]>(`${this.apiUrl}/`);
   }
@@ -74,10 +82,5 @@ export class ListaCotejoService extends BaseService<ListaCotejo> {
   descargarArchivo(url: string) {
     const fullUrl = `${this.mediaUrl}${url}`;
     return this.http.get(fullUrl, { responseType: 'blob' });
-  }
-
-  listaCotejoData(id: number, lista: ListaCotejo[]) {
-    const data = lista.find((est) => est.id === id);
-    return data;
   }
 }

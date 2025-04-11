@@ -112,6 +112,7 @@ export default class CapitacionDocenteComponent implements OnInit {
   }
 
   nombreInstitucion(id: number) {
-    return this.institucionService.getInstitucion(id, this.institucionesList());
+    return this.institucionService.obtenerDataInfo(id, this.institucionesList())
+      ?.nombre_institucion;
   }
 }

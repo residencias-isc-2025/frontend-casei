@@ -199,42 +199,42 @@ export default class SubtemasPageComponent implements OnInit {
   }
 
   actividadAprendizaje(idActividad: number) {
-    return this.actividadAprendizajeService.getActividadAprendizajeData(
+    return this.actividadAprendizajeService.obtenerDataInfo(
       idActividad,
       this.actividadAprendizajeList()
     );
   }
 
   estrategiaEnsenanza(idEstrategia: number) {
-    return this.estrategiaEnsenanzaService.estrategiaEnsenanzaData(
+    return this.estrategiaEnsenanzaService.obtenerDataInfo(
       idEstrategia,
       this.estrategiasEnsenanzaList()
     );
   }
 
   competenciaGenerica(idCompetenciaG: number) {
-    return this.competenciaGenericaService.competenciaGenericaData(
+    return this.competenciaGenericaService.obtenerDataInfo(
       idCompetenciaG,
       this.competenciaGenericaList()
     );
   }
 
   indicadorAlcance(idIndicador: number) {
-    return this.indicadorAlcanceService.indicadorAlcanceInfo(
+    return this.indicadorAlcanceService.obtenerDataInfo(
       idIndicador,
       this.indicadorAlcanceList()
     );
   }
 
   nivelDesempenio(idIndicador: number) {
-    return this.nivelDesempenioService.nivelDesempenioData(
+    return this.nivelDesempenioService.obtenerDataInfo(
       idIndicador,
       this.nivelDesempenioList()
     );
   }
 
   listaCotejo(idLista: number) {
-    return this.listaCotejoService.listaCotejoData(
+    return this.listaCotejoService.obtenerDataInfo(
       idLista,
       this.listaCotejoList()
     );

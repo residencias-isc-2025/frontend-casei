@@ -59,4 +59,12 @@ export class ParticipacionService extends BaseService<Participacion> {
       data
     );
   }
+
+  override obtenerDataInfo(
+    id: number,
+    lista: Participacion[]
+  ): Participacion | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
+  }
 }

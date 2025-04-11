@@ -59,8 +59,11 @@ export class EstrategiaEvaluacionService extends BaseService<EstrategiaEvaluacio
     );
   }
 
-  estrategiaEvaluacionData(id: number, lista: EstrategiaEvaluacion[]) {
-    const data = lista.find((ev) => ev.id === id);
+  override obtenerDataInfo(
+    id: number,
+    lista: EstrategiaEvaluacion[]
+  ): EstrategiaEvaluacion | undefined {
+    const data = lista.find((d) => d.id === id);
     return data;
   }
 }

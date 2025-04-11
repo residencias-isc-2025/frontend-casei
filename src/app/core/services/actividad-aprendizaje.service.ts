@@ -29,6 +29,7 @@ export class ActividadAprendizajeService extends BaseService<ActividadAprendizaj
       results: ActividadAprendizaje[];
     }>(`${this.apiUrl}/actividad-aprendizaje/?page=${page}&page_size=${limit}`);
   }
+
   override crear(
     data: Partial<ActividadAprendizaje>
   ): Observable<{ mensaje: string }> {
@@ -37,14 +38,17 @@ export class ActividadAprendizajeService extends BaseService<ActividadAprendizaj
       data
     );
   }
+
   override deshabilitar(id: number): Observable<{ mensaje: string }> {
     return this.http.delete<{ mensaje: string }>(
       `${this.apiUrl}/actividad-aprendizaje/${id}/`
     );
   }
+
   override habilitar(id: number): Observable<{ mensaje: string }> {
     throw new Error('Method not implemented.');
   }
+
   override actualizar(
     id: number,
     data: Partial<ActividadAprendizaje>
@@ -55,8 +59,11 @@ export class ActividadAprendizajeService extends BaseService<ActividadAprendizaj
     );
   }
 
-  getActividadAprendizajeData(id: number, lista: ActividadAprendizaje[]) {
-    const actividad = lista.find((a) => a.id === id);
-    return actividad;
+  override obtenerDataInfo(
+    id: number,
+    lista: ActividadAprendizaje[]
+  ): ActividadAprendizaje | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
   }
 }

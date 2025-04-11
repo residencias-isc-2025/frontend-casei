@@ -58,4 +58,12 @@ export class ProductoAcademicoService extends BaseService<ProductoAcademico> {
       data
     );
   }
+
+  override obtenerDataInfo(
+    id: number,
+    lista: ProductoAcademico[]
+  ): ProductoAcademico | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
+  }
 }

@@ -17,8 +17,7 @@ export class AdscripcionService extends BaseService<Adscripcion> {
   private http = inject(HttpClient);
   private apiUrl = `${environment.api_url}/adscripcion`;
 
-  // GET
-  obtenerDatosPaginados(
+  override obtenerDatosPaginados(
     page: number,
     limit: number,
     params: AdscripcionSearchParams
@@ -41,44 +40,38 @@ export class AdscripcionService extends BaseService<Adscripcion> {
     return this.http.get<Adscripcion>(`${this.apiUrl}/area-adscripcion/${id}/`);
   }
 
-  // POST
-  crear(data: Partial<Adscripcion>) {
+  override crear(data: Partial<Adscripcion>) {
     return this.http.post<{ mensaje: string }>(
       `${this.apiUrl}/area-adscripcion/`,
       data
     );
   }
 
-  // DELETE
-  deshabilitar(id: number) {
+  override deshabilitar(id: number) {
     return this.http.delete<{ mensaje: string }>(
       `${this.apiUrl}/area-adscripcion/${id}/`
     );
   }
 
-  // PUT
-  actualizar(id: number, data: Partial<Adscripcion>) {
+  override actualizar(id: number, data: Partial<Adscripcion>) {
     return this.http.put<{ mensaje: string; data: Adscripcion }>(
       `${this.apiUrl}/area-adscripcion/${id}/`,
       data
     );
   }
 
-  habilitar(id: number) {
+  override habilitar(id: number) {
     return this.http.put<{ mensaje: string }>(
       `${this.apiUrl}/habilitar-area-adscripcion/${id}/`,
       {}
     );
   }
 
-  // OTROS
-  getAdscripcioNombre(idAdscripcion: number, lista: Adscripcion[]): string {
-    const adscripcion = lista.find((ads) => ads.id === idAdscripcion);
-    return adscripcion ? adscripcion.nombre : '';
-  }
-
-  getAdscripcioSiglas(idAdscripcion: number, lista: Adscripcion[]): string {
-    const adscripcion = lista.find((inst) => inst.id === idAdscripcion);
-    return adscripcion ? adscripcion.siglas : '';
+  override obtenerDataInfo(
+    id: number,
+    lista: Adscripcion[]
+  ): Adscripcion | undefined {
+    const data = lista.find((d) => d.id === id);
+    return data;
   }
 }

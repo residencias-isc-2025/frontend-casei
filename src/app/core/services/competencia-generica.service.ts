@@ -29,17 +29,21 @@ export class CompetenciaGenericaService extends BaseService<CompetenciaGenerica>
       results: CompetenciaGenerica[];
     }>(`${this.apiUrl}/?page=${page}&page_size=${limit}`);
   }
+
   override crear(
     data: Partial<CompetenciaGenerica>
   ): Observable<{ mensaje: string }> {
     return this.http.post<{ mensaje: string }>(`${this.apiUrl}/`, data);
   }
+
   override deshabilitar(id: number): Observable<{ mensaje: string }> {
     return this.http.delete<{ mensaje: string }>(`${this.apiUrl}/${id}/`);
   }
+
   override habilitar(id: number): Observable<{ mensaje: string }> {
     throw new Error('Method not implemented.');
   }
+
   override actualizar(
     id: number,
     data: Partial<CompetenciaGenerica>
@@ -50,8 +54,11 @@ export class CompetenciaGenericaService extends BaseService<CompetenciaGenerica>
     );
   }
 
-  competenciaGenericaData(id: number, lista: CompetenciaGenerica[]) {
-    const data = lista.find((est) => est.id === id);
+  override obtenerDataInfo(
+    id: number,
+    lista: CompetenciaGenerica[]
+  ): CompetenciaGenerica | undefined {
+    const data = lista.find((d) => d.id === id);
     return data;
   }
 }

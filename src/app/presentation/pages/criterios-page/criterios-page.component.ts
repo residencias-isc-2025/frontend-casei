@@ -58,12 +58,12 @@ export default class CriteriosPageComponent {
       });
   }
 
-  onShowUpdateModal(criterio: any) {
+  onShowUpdateModal(criterio: CriterioDesempenio) {
     this.criterioSelected.set(criterio);
     this.showUpdateModal.set(true);
   }
 
-  onShowDeleteModal(criterio: any) {
+  onShowDeleteModal(criterio: CriterioDesempenio) {
     this.criterioSelected.set(criterio);
     this.showDeleteModal.set(true);
   }
@@ -98,9 +98,9 @@ export default class CriteriosPageComponent {
   }
 
   atributoSiglas(idAtributo: number) {
-    return this.atributoEgresoService.atributoEgresoSiglas(
+    return this.atributoEgresoService.obtenerDataInfo(
       idAtributo,
       this.atributosEgresoList()
-    );
+    )?.siglas;
   }
 }
