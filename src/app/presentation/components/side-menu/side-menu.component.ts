@@ -146,5 +146,10 @@ export class SideMenuComponent {
       routeName: 'Nivel de desempeño',
       routerLink: '/dashboard/nivel-desempenio',
     },
+    {
+      icon: 'fas fa-folder-open',
+      routeName: 'Materias',
+      routerLink: '/dashboard/materias',
+    },
   ];
 }

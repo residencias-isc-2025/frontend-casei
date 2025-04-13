@@ -230,6 +230,11 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'materias',
+        loadComponent: () =>
+          import('@presentation/pages/materia-page/materia-page.component'),
+      },
+      {
         path: '**',
         redirectTo: 'perfil',
         pathMatch: 'full',
