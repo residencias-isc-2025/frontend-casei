@@ -2,6 +2,7 @@
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-bold text-gray-800">Materias</h1>
     <button
+      routerLink="add"
       class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
     >
       Agregar
@@ -59,6 +60,7 @@
           }}
         </button>
         <button
+          [routerLink]="['edit', mat.id]"
           class="px-4 py-1.5 text-sm font-semibold bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition"
         >
           Editar

@@ -1,1 +1,357 @@
-<p>materia-form-page works!</p>,
+<div class="container mx-auto p-6 max-w-5xl">
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">
+    {{ isEditing ? "Editar" : "Agregar" }} Materia
+  </h1>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
+    <!-- Información general -->
+    <section class="bg-white rounded-xl shdow p-6 border border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">
+        Información general
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Clave</label>
+          <input
+            type="text"
+            formControlName="clave"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Nombre</label>
+          <input
+            type="text"
+            formControlName="nombre"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Semestre</label>
+          <input
+            type="text"
+            formControlName="semestre"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">
+            Tipo de curso
+          </label>
+          <select
+            formControlName="tipo_curso"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          >
+            <option [ngValue]="true">Obligatoria</option>
+            <option [ngValue]="false">Optativa</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <label class="block text-gray-600 font-medium mb-1"
+          >Materias requeridas</label
+        >
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+          @for (materia of paginate(materiasOptions(), currentPage.materias());
+          track materia.id) {
+          <label
+            class="flex items-center bg-gray-100 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-200 transition"
+          >
+            <input
+              type="checkbox"
+              [value]="materia.id"
+              [checked]="form.value.materias_requeridas?.includes(materia.id)"
+              (change)="toggleCheckbox('materias_requeridas', materia.id)"
+              class="form-checkbox text-blue-600 rounded mr-3 h-4 w-4"
+            />
+            <span class="text-gray-800 text-sm"
+              >{{ materia.clave }} - {{ materia.nombre }}</span
+            >
+          </label>
+          }
+        </div>
+
+        <div class="flex justify-center gap-2 mt-3">
+          <app-pagination
+            [totalItems]="materiasOptions().length"
+            [itemsPerPage]="ITEMS_PER_PAGE"
+            [currentPage]="currentPage.materias()"
+            (pageChanged)="currentPage.materias.set($event)"
+          />
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <label class="block text-gray-600 font-medium mb-1">
+          Objetivo general
+        </label>
+        <textarea
+          formControlName="objetivo_general"
+          rows="3"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+        >
+        </textarea>
+      </div>
+
+      <div class="mt-4">
+        <label class="block text-gray-600 font-medium mb-1">
+          Descripción del indicador
+        </label>
+        <textarea
+          formControlName="indicador_descripcion"
+          rows="3"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+        >
+        </textarea>
+      </div>
+    </section>
+
+    <!-- Créditos y horas -->
+    <section class="bg-white rounded-xl shdow p-6 border border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">Créditos y horas</h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">
+            Créditos requeridos
+          </label>
+          <input
+            type="number"
+            formControlName="creditos_requeridos"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">
+            Créditos teoría
+          </label>
+          <input
+            type="number"
+            formControlName="creditos_teoria"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">
+            Créditos práctica
+          </label>
+          <input
+            type="number"
+            formControlName="creditos_practica"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">
+            Horas de ciencias básicas
+          </label>
+          <input
+            type="number"
+            formControlName="horas_ciencias_basicas"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">
+            Horas de ciencias de la ingeniería
+          </label>
+          <input
+            type="number"
+            formControlName="horas_ciencias_ingenieria"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">
+            Horas de ingeniería aplicada
+          </label>
+          <input
+            type="number"
+            formControlName="horas_ingenieria_aplicada"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">
+            Horas de diseño ingenieril
+          </label>
+          <input
+            type="number"
+            formControlName="horas_disenio_ingenieril"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">
+            Horas de ciencias sociales
+          </label>
+          <input
+            type="number"
+            formControlName="horas_ciencias_sociales"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">
+            Horas de ciencias económicas
+          </label>
+          <input
+            type="number"
+            formControlName="horas_ciencias_economicas"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">
+            Horas de otros cursos
+          </label>
+          <input
+            type="number"
+            formControlName="horas_otros_cursos"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Competencias y criterios -->
+    <section class="bg-white rounded-xl shdow p-6 border border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">
+        Competencias y criterios
+      </h2>
+
+      <div class="grid grid-cols-1 gap-4">
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">
+            Competencias
+          </label>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+            @for (comp of paginate(competenciasOptions(),
+            currentPage.competencias()); track comp.id) {
+            <label
+              class="flex items-center bg-gray-100 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-200 transition"
+            >
+              <input
+                type="checkbox"
+                [value]="comp.id"
+                [checked]="form.value.competencias?.includes(comp.id)"
+                (change)="toggleCheckbox('competencias', comp.id)"
+                class="form-checkbox text-blue-600 rounded mr-3 h-4 w-4"
+              />
+              <span class="text-gray-800 text-sm">{{ comp.descripcion }}</span>
+            </label>
+            }
+          </div>
+
+          <div class="flex justify-center gap-2 mt-3">
+            <app-pagination
+              [totalItems]="competenciasOptions().length"
+              [itemsPerPage]="ITEMS_PER_PAGE"
+              [currentPage]="currentPage.competencias()"
+              (pageChanged)="currentPage.competencias.set($event)"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">
+            Criterios de desempeño
+          </label>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+            @for (criterio of paginate(criteriosDesempenioOptions(),
+            currentPage.criterios()); track criterio.id) {
+            <label
+              class="flex items-center bg-gray-100 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-200 transition"
+            >
+              <input
+                type="checkbox"
+                [value]="criterio.id"
+                [checked]="form.value.criterio_desempeno?.includes(criterio.id)"
+                (change)="toggleCheckbox('criterio_desempeno', criterio.id)"
+                class="form-checkbox text-blue-600 rounded mr-3 h-4 w-4"
+              />
+              <span class="text-gray-800 text-sm">{{
+                criterio.descripcion
+              }}</span>
+            </label>
+            }
+          </div>
+
+          <div class="flex justify-center gap-2 mt-3">
+            <app-pagination
+              [totalItems]="criteriosDesempenioOptions().length"
+              [itemsPerPage]="ITEMS_PER_PAGE"
+              [currentPage]="currentPage.criterios()"
+              (pageChanged)="currentPage.criterios.set($event)"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bibliografía -->
+    <section class="bg-white rounded-xl shdow p-6 border border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">Bibliografía</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        @for (bib of paginate(bibliografiasOptions(),
+        currentPage.bibliografia()); track bib.id) {
+        <label
+          class="flex items-center bg-gray-100 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-200 transition"
+        >
+          <input
+            type="checkbox"
+            [value]="bib.id"
+            [checked]="form.value.bibliografia?.includes(bib.id)"
+            (change)="toggleCheckbox('bibliografia', bib.id)"
+            class="form-checkbox text-blue-600 rounded mr-3 h-4 w-4"
+          />
+          <span class="text-gray-800 text-sm">
+            {{ formatBibliografiaBibTeX(bib) }}
+          </span>
+        </label>
+        }
+      </div>
+
+      <div class="flex justify-center gap-2 mt-3">
+        <app-pagination
+          [totalItems]="criteriosDesempenioOptions().length"
+          [itemsPerPage]="ITEMS_PER_PAGE"
+          [currentPage]="currentPage.criterios()"
+          (pageChanged)="currentPage.criterios.set($event)"
+        />
+      </div>
+    </section>
+
+    <div class="flex justify-end gap-4 mt-6">
+      <button
+        type="button"
+        (click)="router.navigateByUrl('/dashboard/materias')"
+        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg transition"
+      >
+        Cancelar
+      </button>
+
+      <button
+        type="submit"
+        class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg transition"
+      >
+        {{ isEditing ? "Actualizar" : "Guardar" }}
+      </button>
+    </div>
+  </form>
+</div>

@@ -26,6 +26,7 @@
     <table class="w-full border-collapse">
       <thead class="bg-gray-200 text-gray-700">
         <tr>
+          <th class="py-3 px-4 text-left capitalize">Descripción</th>
           <th class="py-3 px-4 text-left capitalize">Objetivo específico</th>
           <th class="py-3 px-4 text-left capitalize">Tema</th>
           <th class="py-3 px-4 text-left">Acciones</th>
@@ -34,12 +35,17 @@
       <tbody class="text-gray-600">
         @for (competencia of competencias(); track $index) {
         <tr class="border-b hover:bg-gray-100 transition">
+          <td class="py-3 px-4">{{ competencia.descripcion }}</td>
           <td class="py-3 px-4">
             {{
               objetivoEspecifico(competencia.objetivos_especificos)?.descripcion
             }}
           </td>
-          <td class="py-3 px-4">{{ tema(competencia.temas)?.nombre }}</td>
+          <td class="py-3 px-4">
+            @for(tema of competencia.temas; track tema) {
+            {{ temaData(tema)?.nombre }}
+            }
+          </td>
           <td class="py-3 px-4">
             <div class="flex flex-row space-x-2">
               <button

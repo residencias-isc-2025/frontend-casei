@@ -56,4 +56,8 @@ export class MateriaService extends BaseService<Materia> {
     const data = lista.find((d) => d.id === id);
     return data;
   }
+
+  obtenerItemById(id: number) {
+    return this.http.get<Materia>(`${this.apiUrl}/${id}/`);
+  }
 }

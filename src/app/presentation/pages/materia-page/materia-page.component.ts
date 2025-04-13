@@ -6,6 +6,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { Bibliografia } from '@core/models/bibliografia.model';
 import { Materia } from '@core/models/materia.model';
 import { BibliografiaService } from '@core/services/bibliografia.service';
@@ -16,7 +17,12 @@ import { ConfirmationModalComponent } from '@presentation/forms/confirmation-mod
 
 @Component({
   selector: 'app-materia-page',
-  imports: [CommonModule, PaginationComponent, ConfirmationModalComponent],
+  imports: [
+    CommonModule,
+    PaginationComponent,
+    ConfirmationModalComponent,
+    RouterModule,
+  ],
   templateUrl: './materia-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

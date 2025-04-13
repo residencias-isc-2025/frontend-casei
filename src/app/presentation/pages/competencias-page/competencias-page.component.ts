@@ -133,7 +133,7 @@ export default class CompetenciasPageComponent implements OnInit {
     );
   }
 
-  tema(id: number) {
+  temaData(id: number) {
     return this.temaService.obtenerDataInfo(id, this.temasList());
   }
 }

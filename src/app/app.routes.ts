@@ -235,6 +235,20 @@ export const routes: Routes = [
           import('@presentation/pages/materia-page/materia-page.component'),
       },
       {
+        path: 'materias/add',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/materia-form-page/materia-form-page.component'
+          ),
+      },
+      {
+        path: 'materias/edit/:id',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/materia-form-page/materia-form-page.component'
+          ),
+      },
+      {
         path: '**',
         redirectTo: 'perfil',
         pathMatch: 'full',

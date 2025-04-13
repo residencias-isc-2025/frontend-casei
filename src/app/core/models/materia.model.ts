@@ -18,6 +18,6 @@ export interface Materia {
   horas_otros_cursos: number;
   objetivo_general: string;
   indicador_descripcion: string;
-  criterio_desempeno?: number;
+  criterio_desempeno: number[];
   bibliografia: number[];
 }

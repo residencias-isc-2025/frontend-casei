@@ -36,8 +36,9 @@ export class CompetenciaFormComponent {
   competencia = input<Competencia>();
 
   form = this.fb.group({
+    descripcion: ['', Validators.required],
     objetivos_especificos: [0, Validators.required],
-    temas: [0, Validators.required],
+    temas: [[0], Validators.required],
   });
 
   ngOnInit(): void {
@@ -54,8 +55,9 @@ export class CompetenciaFormComponent {
     const fromValue = this.form.value;
 
     const payload: Partial<Competencia> = {
+      descripcion: fromValue.descripcion ?? '',
       objetivos_especificos: fromValue.objetivos_especificos ?? 0,
-      temas: fromValue.temas ?? 0,
+      temas: fromValue.temas ?? [],
     };
 
     const action = this.editing()
