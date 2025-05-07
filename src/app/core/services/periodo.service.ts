@@ -23,7 +23,7 @@ export class PeriodoService extends BaseService<Periodo> {
   ) {
     let url = `${this.apiUrl}/periodo/?page=${page}&page_size=${limit}`;
 
-    if (params.clave !== '') url += `&clave=${params.clave}`;
+    if (params.clave !== undefined) url += `&clave=${params.clave}`;
     if (params.activo !== undefined) url += `&activo=${params.activo}`;
 
     return this.http.get<{

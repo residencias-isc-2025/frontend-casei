@@ -161,5 +161,10 @@ export class SideMenuComponent {
       routeName: 'Carreras',
       routerLink: '/dashboard/carrera',
     },
+    {
+      icon: 'fas fa-book',
+      routeName: 'Clases',
+      routerLink: '/dashboard/clase',
+    },
   ];
 }

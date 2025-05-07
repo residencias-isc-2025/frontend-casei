@@ -273,6 +273,11 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'clase',
+        loadComponent: () =>
+          import('@presentation/pages/clase-page/clase-page.component'),
+      },
+      {
         path: '**',
         redirectTo: 'perfil',
         pathMatch: 'full',
