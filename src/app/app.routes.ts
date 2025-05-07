@@ -249,6 +249,25 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'carrera',
+        loadComponent: () =>
+          import('@presentation/pages/carrera-page/carrera-page.component'),
+      },
+      {
+        path: 'carrera/add',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/carrera-form-page/carrera-form-page.component'
+          ),
+      },
+      {
+        path: 'carrera/edit/:id',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/carrera-form-page/carrera-form-page.component'
+          ),
+      },
+      {
         path: '**',
         redirectTo: 'perfil',
         pathMatch: 'full',

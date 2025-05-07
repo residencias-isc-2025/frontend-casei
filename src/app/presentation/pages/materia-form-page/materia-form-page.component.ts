@@ -177,7 +177,7 @@ export default class MateriaFormPageComponent implements OnInit {
   }
 
   paginate<T>(list: T[], page: number): T[] {
-    const start = page - 1 * this.ITEMS_PER_PAGE;
+    const start = (page - 1) * this.ITEMS_PER_PAGE;
     const end = start + this.ITEMS_PER_PAGE;
     return list.slice(start, end);
   }

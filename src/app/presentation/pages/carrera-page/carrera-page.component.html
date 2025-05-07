@@ -1,0 +1,112 @@
+<div class="container mx-auto p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Carreras</h1>
+    <button
+      routerLink="add"
+      class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+    >
+      Agregar
+    </button>
+  </div>
+
+  @if(carrerasList().length === 0) {
+  <p class="text-xl font-bold text-gray-800 text-center">
+    No hay carreras registradas.
+  </p>
+  }@else {
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    @for(carrera of carrerasList(); track carrera.id) {
+    <div
+      class="bg-white rounded-lg p-6 hover:shadow-lg transition duration-300 border border-gray-300"
+    >
+      <h2 class="text-xl font-semibold text-blue-700 mb-1">
+        {{ carrera.nombre }} - {{ adscripcion(carrera.adscripcion)?.siglas }}
+      </h2>
+
+      <div class="mt-4 flex justify-end gap-2">
+        <button
+          (click)="toggleExpand(carrera.id)"
+          class="px-4 py-1.5 text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition"
+        >
+          {{
+            expandedCarreaId() === carrera.id
+              ? "Ocultar detalles"
+              : "Ver detalles"
+          }}
+        </button>
+        <button
+          [routerLink]="['edit', carrera.id]"
+          class="px-4 py-1.5 text-sm font-semibold bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition"
+        >
+          Editar
+        </button>
+        <button
+          class="px-4 py-1.5 text-sm font-semibold bg-red-500 hover:bg-red-600 text-white rounded-lg transition"
+        >
+          Eliminar
+        </button>
+      </div>
+
+      <div
+        [class.max-h-0]="expandedCarreaId() !== carrera.id"
+        [class.max-h-max]="expandedCarreaId() === carrera.id"
+        [class.opacity-0]="expandedCarreaId() !== carrera.id"
+        [class.opacity-100]="expandedCarreaId() === carrera.id"
+        class="overflow-hidden transition-all duration-500 ease-in-out border-t mt-4 pt-4 space-y-2 text-sm text-gray-700"
+      >
+        <div>
+          <span class="font-medium">Misión:</span>
+          <p class="italic text-gray-500">Ninguna</p>
+        </div>
+
+        <div>
+          <span class="font-medium">Visión:</span>
+          <p class="italic text-gray-500">Ninguna</p>
+        </div>
+
+        <div>
+          <span class="font-medium">Objetivo:</span>
+          <p class="italic text-gray-500">Ninguna</p>
+        </div>
+
+        <div>
+          <span class="font-medium">Objetivos educacionales:</span>
+          <p class="italic text-gray-500">Ninguna</p>
+        </div>
+
+        <div>
+          <span class="font-medium">Objetivo específicos:</span>
+          <p class="italic text-gray-500">Ninguna</p>
+        </div>
+
+        <div>
+          <span class="font-medium">Dónde trabaja:</span>
+          <p class="italic text-gray-500">Ninguna</p>
+        </div>
+
+        <div>
+          <span class="font-medium">Perfil de ingreso:</span>
+          <p class="italic text-gray-500">Ninguna</p>
+        </div>
+
+        <div>
+          <span class="font-medium">Perfil de egreso:</span>
+          <p class="italic text-gray-500">Ninguna</p>
+        </div>
+
+        <div>
+          <span class="font-medium">Atributos de egreso:</span>
+          <ul class="list-disc list-inside ml-2">
+            @for(atributo of carrera.atributos_egreso; track $index) {
+            <li>
+              {{ atributoEgreso(atributo)?.descripcion }}
+            </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+  }
+</div>

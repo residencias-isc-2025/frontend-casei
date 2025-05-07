@@ -151,5 +151,10 @@ export class SideMenuComponent {
       routeName: 'Materias',
       routerLink: '/dashboard/materias',
     },
+    {
+      icon: 'fas fa-graduation-cap',
+      routeName: 'Carreras',
+      routerLink: '/dashboard/carrera',
+    },
   ];
 }

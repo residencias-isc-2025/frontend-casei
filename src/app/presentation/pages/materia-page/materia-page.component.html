@@ -8,11 +8,12 @@
       Agregar
     </button>
   </div>
-
+  @if (materiasList().length === 0) {
+  <p class="text-xl font-bold text-gray-800 text-center">
+    No hay materias registradas.
+  </p>
+  }@else {
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    @if (materiasList().length === 0) {
-    <p>No hay materias registradas</p>
-    } @else {
     <div
       *ngFor="let mat of materiasList()"
       class="bg-white rounded-lg p-6 hover:shadow-lg transition duration-300 border border-gray-300"
@@ -77,7 +78,6 @@
       </div>
 
       <div
-        div
         [class.max-h-0]="expandedMateriaId() !== mat.id"
         [class.max-h-96]="expandedMateriaId() === mat.id"
         [class.opacity-0]="expandedMateriaId() !== mat.id"
@@ -123,7 +123,6 @@
         </div>
       </div>
     </div>
-    }
   </div>
   <div class="mt-6">
     <app-pagination
@@ -133,6 +132,7 @@
       (pageChanged)="onPageChanged($event)"
     />
   </div>
+  }
 </div>
 
 <!-- Modal de eliminación -->
