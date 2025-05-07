@@ -43,6 +43,11 @@ export default class FormacionAcademicaComponent implements OnInit {
   currentPage = signal(1);
 
   ngOnInit(): void {
+    this.loadInstituciones();
+    this.loadFormacionAcademica();
+  }
+
+  private loadInstituciones() {
     this.institucionService
       .obtenerDatosPaginados(1, 100, {
         nombre: '',
@@ -52,9 +57,15 @@ export default class FormacionAcademicaComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.institucionesList.set(response.results);
+
+          if (response.results.length === 0) {
+            this.toastService.showWarning(
+              'No hay instituciones registradas',
+              'Malas noticias'
+            );
+          }
         },
       });
-    this.loadFormacionAcademica();
   }
 
   private loadFormacionAcademica(): void {
@@ -65,6 +76,7 @@ export default class FormacionAcademicaComponent implements OnInit {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
+          if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.formacionAcademicaList.set(res.results);
         },

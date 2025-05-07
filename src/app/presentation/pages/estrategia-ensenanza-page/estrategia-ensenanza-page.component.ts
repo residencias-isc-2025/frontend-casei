@@ -37,10 +37,10 @@ export default class EstrategiaEnsenanzaPageComponent implements OnInit {
   currentPage = signal(1);
 
   ngOnInit(): void {
-    this.loadPremiosList();
+    this.loadEstrategiasEnsenanzaList();
   }
 
-  private loadPremiosList(): void {
+  private loadEstrategiasEnsenanzaList(): void {
     this.estrategiaEnsenanzaService
       .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
@@ -48,6 +48,7 @@ export default class EstrategiaEnsenanzaPageComponent implements OnInit {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
+          if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.estrategiasEnsenanzaList.set(res.results);
         },
@@ -65,18 +66,18 @@ export default class EstrategiaEnsenanzaPageComponent implements OnInit {
   }
 
   onSaveEmit() {
-    this.loadPremiosList();
+    this.loadEstrategiasEnsenanzaList();
     this.showAddModal.set(false);
   }
 
   onEditEmit() {
-    this.loadPremiosList();
+    this.loadEstrategiasEnsenanzaList();
     this.showUpdateModal.set(false);
   }
 
   onPageChanged(page: number): void {
     this.currentPage.set(page);
-    this.loadPremiosList();
+    this.loadEstrategiasEnsenanzaList();
   }
 
   onDelete(itemId: number) {
@@ -88,7 +89,7 @@ export default class EstrategiaEnsenanzaPageComponent implements OnInit {
       },
       next: (res) => {
         this.toastService.showSuccess(res.mensaje!, 'Éxito');
-        this.loadPremiosList();
+        this.loadEstrategiasEnsenanzaList();
       },
     });
   }

@@ -54,6 +54,12 @@ export default class NivelDesempenioPageComponent implements OnInit {
       },
       next: (res) => {
         this.indicadoresAlcance.set(res.results);
+        if (res.count === 0) {
+          this.toastService.showWarning(
+            'No hay indicadores de alcance registrados.',
+            'Advertencia'
+          );
+        }
       },
     });
   }
@@ -66,6 +72,7 @@ export default class NivelDesempenioPageComponent implements OnInit {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
+          if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.nivelesDesempenio.set(res.results);
         },

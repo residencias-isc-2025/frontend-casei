@@ -44,6 +44,11 @@ export default class UsersPageComponent implements OnInit {
   filterEstado = signal<string>('');
 
   ngOnInit(): void {
+    this.loadAdscripciones();
+    this.loadUsers();
+  }
+
+  private loadAdscripciones() {
     this.adscripcionService
       .obtenerDatosPaginados(1, 100, {
         nombre: '',
@@ -53,10 +58,15 @@ export default class UsersPageComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.adscripcionesList.set(response.results);
+
+          if (response.results.length === 0) {
+            this.toastService.showWarning(
+              'No hay áreas de adscripción registradas',
+              'Advertencia'
+            );
+          }
         },
       });
-
-    this.loadUsers();
   }
 
   private loadUsers(): void {
@@ -69,6 +79,7 @@ export default class UsersPageComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
+          if (response.count === 0) this.currentPage.set(0);
           this.totalItems.set(response.count);
           this.users.set(response.results);
         },

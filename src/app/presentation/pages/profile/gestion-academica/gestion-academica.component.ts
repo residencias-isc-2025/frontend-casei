@@ -44,19 +44,29 @@ export default class GestionAcademicaComponent implements OnInit {
   currentPage = signal(1);
 
   ngOnInit(): void {
+    this.loadInstituciones();
+    this.loadGestionAcademicaList();
+  }
+
+  private loadInstituciones() {
     this.institucionService
       .obtenerDatosPaginados(1, 100, {
         nombre: '',
         pais: '',
         estado: 'activo',
       })
-      .pipe(
-        tap((res) => {
-          this.institucionesList.set(res.results);
-        })
-      )
-      .subscribe();
-    this.loadGestionAcademicaList();
+      .subscribe({
+        next: (response) => {
+          this.institucionesList.set(response.results);
+
+          if (response.results.length === 0) {
+            this.toastService.showWarning(
+              'No hay instituciones registradas',
+              'Malas noticias'
+            );
+          }
+        },
+      });
   }
 
   private loadGestionAcademicaList(): void {
@@ -67,6 +77,7 @@ export default class GestionAcademicaComponent implements OnInit {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
+          if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.gestionAcademicaList.set(res.results);
         },

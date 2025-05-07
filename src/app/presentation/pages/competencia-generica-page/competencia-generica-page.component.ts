@@ -44,6 +44,7 @@ export default class CompetenciaGenericaPageComponent implements OnInit {
       .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
         next: (response) => {
+          if (response.count === 0) this.currentPage.set(0);
           this.totalItems.set(response.count);
           this.competenciasGenericas.set(response.results);
         },
@@ -58,15 +59,8 @@ export default class CompetenciaGenericaPageComponent implements OnInit {
     this.cargarCompetenciasGenericas();
   }
 
-  onShowUpdateModel(idCompetenciaGenerica: number) {
-    const competencia = this.competenciasGenericas().find(
-      (c) => c.id === idCompetenciaGenerica
-    );
-
-    this.competenciaGenericaSelected.set(
-      competencia !== undefined ? competencia : null
-    );
-
+  onShowUpdateModel(competencia: CompetenciaGenerica) {
+    this.competenciaGenericaSelected.set(competencia);
     this.showUpdateModal.set(true);
   }
 

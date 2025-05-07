@@ -48,19 +48,20 @@ export default class PracticasPageComponent implements OnInit {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
+          if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.practicaList.set(res.results);
         },
       });
   }
 
-  onShowUpdateModal(estrategia: Practica) {
-    this.practicaSelected.set(estrategia);
+  onShowUpdateModal(item: Practica) {
+    this.practicaSelected.set(item);
     this.showUpdateModal.set(true);
   }
 
-  onShowDeleteModal(estrategia: Practica) {
-    this.practicaSelected.set(estrategia);
+  onShowDeleteModal(item: Practica) {
+    this.practicaSelected.set(item);
     this.showDeleteModal.set(true);
   }
 

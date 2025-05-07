@@ -80,6 +80,7 @@ export default class TemaPageComponent implements OnInit {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
+          if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.temasList.set(res.results);
         },
@@ -93,6 +94,13 @@ export default class TemaPageComponent implements OnInit {
       },
       next: (res) => {
         this.criteriosDesempenoList.set(res.results);
+
+        if (res.count === 0) {
+          this.toastService.showWarning(
+            'No hay criterios de desempeño registrados.',
+            'Advertencia'
+          );
+        }
       },
     });
   }
@@ -104,6 +112,12 @@ export default class TemaPageComponent implements OnInit {
       },
       next: (res) => {
         this.atributosEgresoList.set(res.results);
+        if (res.count === 0) {
+          this.toastService.showWarning(
+            'No hay atributos de egreso registrados.',
+            'Advertencia'
+          );
+        }
       },
     });
   }
@@ -117,6 +131,12 @@ export default class TemaPageComponent implements OnInit {
         },
         next: (res) => {
           this.estrategiasEnsenanzaList.set(res.results);
+          if (res.count === 0) {
+            this.toastService.showWarning(
+              'No hay estrategias de enseñanza registradas.',
+              'Advertencia'
+            );
+          }
         },
       });
   }
@@ -130,6 +150,12 @@ export default class TemaPageComponent implements OnInit {
         },
         next: (res) => {
           this.estrategiasEvaluacionList.set(res.results);
+          if (res.count === 0) {
+            this.toastService.showWarning(
+              'No hay estrageias de evaluación registradas.',
+              'Advertencia'
+            );
+          }
         },
       });
   }
@@ -141,17 +167,23 @@ export default class TemaPageComponent implements OnInit {
       },
       next: (res) => {
         this.practicasList.set(res.results);
+        if (res.count === 0) {
+          this.toastService.showWarning(
+            'No hay prácticas registradas.',
+            'Advertencia'
+          );
+        }
       },
     });
   }
 
-  onShowUpdateModal(estrategia: Tema) {
-    this.temaSelected.set(estrategia);
+  onShowUpdateModal(item: Tema) {
+    this.temaSelected.set(item);
     this.showUpdateModal.set(true);
   }
 
-  onShowDeleteModal(estrategia: Tema) {
-    this.temaSelected.set(estrategia);
+  onShowDeleteModal(item: Tema) {
+    this.temaSelected.set(item);
     this.showDeleteModal.set(true);
   }
 

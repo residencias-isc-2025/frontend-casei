@@ -48,19 +48,20 @@ export default class AtributoEgresoPageComponent implements OnInit {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
+          if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.atributosEgresoList.set(res.results);
         },
       });
   }
 
-  onShowUpdateModal(objetivo: AtributoEgreso) {
-    this.atributoEgresoSelected.set(objetivo);
+  onShowUpdateModal(item: AtributoEgreso) {
+    this.atributoEgresoSelected.set(item);
     this.showUpdateModal.set(true);
   }
 
-  onShowDeleteModal(objetivo: AtributoEgreso) {
-    this.atributoEgresoSelected.set(objetivo);
+  onShowDeleteModal(item: AtributoEgreso) {
+    this.atributoEgresoSelected.set(item);
     this.showDeleteModal.set(true);
   }
 

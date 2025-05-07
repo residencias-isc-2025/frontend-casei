@@ -41,7 +41,15 @@ export default class CriteriosPageComponent {
 
   ngOnInit(): void {
     this.atributoEgresoService.obtenerDatosPaginados(1, 100, {}).subscribe({
-      next: (res) => this.atributosEgresoList.set(res.results),
+      next: (res) => {
+        this.atributosEgresoList.set(res.results);
+        if (res.count === 0) {
+          this.toastService.showWarning(
+            'No hay atributos de egreso registrados',
+            'Advertencia'
+          );
+        }
+      },
     });
 
     this.loadCriteriosDesempeno();
@@ -52,6 +60,7 @@ export default class CriteriosPageComponent {
       .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
         next: (response) => {
+          if (response.count === 0) this.currentPage.set(0);
           this.totalItems.set(response.count);
           this.criteriosList.set(response.results);
         },

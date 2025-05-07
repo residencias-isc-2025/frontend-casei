@@ -63,7 +63,7 @@
   (onCancel)="showAddModal.set(false)"
   (onSave)="onSaveEmit()"
   [indicadorAlcanceList]="indicadoresAlcance()"
-  title="Agregar lista de cotejo"
+  title="Agregar Nivel de desempeño"
 />
 } @if (showUpdateModal()) {
 <app-nivel-desempenio-form
@@ -72,7 +72,7 @@
   (onSave)="onEditEmit()"
   [indicadorAlcanceList]="indicadoresAlcance()"
   [nivelDesempenio]="nivelDesempenioSelected()!"
-  title="Editar lista de cotejo"
+  title="Editar Nivel de desempeño"
 />
 }@if (showDeleteModal()){
 <app-confirmation-modal

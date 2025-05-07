@@ -44,6 +44,7 @@ export default class ActividadAprendizajePageComponent implements OnInit {
       .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
         next: (response) => {
+          if (response.count === 0) this.currentPage.set(0);
           this.totalItems.set(response.count);
           this.actividadesAprendizaje.set(response.results);
         },
@@ -58,15 +59,8 @@ export default class ActividadAprendizajePageComponent implements OnInit {
     this.cargarActividadesAprendizaje();
   }
 
-  onShowUpdateModel(idActividad: number) {
-    const actividad = this.actividadesAprendizaje().find(
-      (a) => a.id === idActividad
-    );
-
-    this.actividadAprendizajeSelected.set(
-      actividad !== undefined ? actividad : null
-    );
-
+  onShowUpdateModel(actividad: ActividadAprendizaje) {
+    this.actividadAprendizajeSelected.set(actividad);
     this.showUpdateModal.set(true);
   }
 

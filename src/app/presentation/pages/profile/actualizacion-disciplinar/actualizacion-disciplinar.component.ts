@@ -44,19 +44,29 @@ export default class ActualizacionDisciplinarComponent {
   );
 
   ngOnInit(): void {
+    this.loadInstituciones();
+    this.loadActualizacionDisciplinarList();
+  }
+
+  private loadInstituciones() {
     this.institucionService
       .obtenerDatosPaginados(1, 100, {
         nombre: '',
         pais: '',
         estado: 'activo',
       })
-      .pipe(
-        tap((res) => {
-          this.institucionesList.set(res.results);
-        })
-      )
-      .subscribe();
-    this.loadActualizacionDisciplinarList();
+      .subscribe({
+        next: (response) => {
+          this.institucionesList.set(response.results);
+
+          if (response.results.length === 0) {
+            this.toastService.showWarning(
+              'No hay instituciones registradas',
+              'Malas noticias'
+            );
+          }
+        },
+      });
   }
 
   private loadActualizacionDisciplinarList(): void {
@@ -67,6 +77,7 @@ export default class ActualizacionDisciplinarComponent {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
+          if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.actualizacionDisciplinarList.set(res.results);
         },

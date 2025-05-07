@@ -69,6 +69,7 @@ export default class SchoolsPageComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
+          if (response.count === 0) this.currentPage.set(0);
           this.totalItems.set(response.count);
           this.schools.set(response.results);
         },
@@ -83,13 +84,8 @@ export default class SchoolsPageComponent implements OnInit {
     this.cargarInstituciones();
   }
 
-  onShowUpdateModel(idFormacion: number) {
-    const formacion = this.schools().find(
-      (formacion) => formacion.id === idFormacion
-    );
-
-    this.schoolSelected.set(formacion !== undefined ? formacion : null);
-
+  onShowUpdateModel(institucion: Institucion) {
+    this.schoolSelected.set(institucion);
     this.showUpdateModal.set(true);
   }
 

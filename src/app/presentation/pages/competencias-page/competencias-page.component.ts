@@ -59,6 +59,7 @@ export default class CompetenciasPageComponent implements OnInit {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
+          if (res.count) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.competencias.set(res.results);
         },
@@ -72,6 +73,12 @@ export default class CompetenciasPageComponent implements OnInit {
       },
       next: (res) => {
         this.objetivosEspecificosList.set(res.results);
+        if (res.count === 0) {
+          this.toastService.showWarning(
+            'No hay objetivos específicos registrados.',
+            'Advertencia'
+          );
+        }
       },
     });
   }
@@ -83,6 +90,12 @@ export default class CompetenciasPageComponent implements OnInit {
       },
       next: (res) => {
         this.temasList.set(res.results);
+        if (res.count === 0) {
+          this.toastService.showWarning(
+            'No hay temas registrados.',
+            'Advertencia'
+          );
+        }
       },
     });
   }

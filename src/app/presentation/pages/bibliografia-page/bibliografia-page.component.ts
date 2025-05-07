@@ -40,6 +40,7 @@ export default class BibliografiaPageComponent implements OnInit {
       .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
         next: (response) => {
+          if (response.count === 0) this.currentPage.set(0);
           this.totalItems.set(response.count);
           this.bibliografias.set(response.results);
         },
@@ -54,11 +55,8 @@ export default class BibliografiaPageComponent implements OnInit {
     this.cargarBibliografia();
   }
 
-  onShowUpdateModel(idBibliografia: number) {
-    const formacion = this.bibliografias().find((b) => b.id === idBibliografia);
-
-    this.bibliografiaSelected.set(formacion !== undefined ? formacion : null);
-
+  onShowUpdateModel(item: Bibliografia) {
+    this.bibliografiaSelected.set(item);
     this.showUpdateModal.set(true);
   }
 

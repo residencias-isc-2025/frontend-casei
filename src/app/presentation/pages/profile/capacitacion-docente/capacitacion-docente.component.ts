@@ -43,19 +43,29 @@ export default class CapitacionDocenteComponent implements OnInit {
   currentPage = signal(1);
 
   ngOnInit(): void {
+    this.loadInstituciones();
+    this.loadCapacitacionDocente();
+  }
+
+  private loadInstituciones() {
     this.institucionService
       .obtenerDatosPaginados(1, 100, {
         nombre: '',
         pais: '',
         estado: 'activo',
       })
-      .pipe(
-        tap((res) => {
-          this.institucionesList.set(res.results);
-        })
-      )
-      .subscribe();
-    this.loadCapacitacionDocente();
+      .subscribe({
+        next: (response) => {
+          this.institucionesList.set(response.results);
+
+          if (response.results.length === 0) {
+            this.toastService.showWarning(
+              'No hay instituciones registradas',
+              'Malas noticias'
+            );
+          }
+        },
+      });
   }
 
   private loadCapacitacionDocente(): void {
@@ -66,6 +76,8 @@ export default class CapitacionDocenteComponent implements OnInit {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
+          if (res.count === 0) this.currentPage.set(0);
+
           this.totalItems.set(res.count);
           this.capacitacionDocenteList.set(res.results);
         },

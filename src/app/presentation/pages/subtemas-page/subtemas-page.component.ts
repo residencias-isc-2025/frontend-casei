@@ -80,6 +80,7 @@ export default class SubtemasPageComponent implements OnInit {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
+          if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.subtemasList.set(res.results);
         },
@@ -94,8 +95,14 @@ export default class SubtemasPageComponent implements OnInit {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
-          this.totalItems.set(res.count);
           this.actividadAprendizajeList.set(res.results);
+
+          if (res.count === 0) {
+            this.toastService.showWarning(
+              'No hay actividades de aprendizaje registradas.',
+              'Advertencia'
+            );
+          }
         },
       });
   }
@@ -109,6 +116,12 @@ export default class SubtemasPageComponent implements OnInit {
         },
         next: (res) => {
           this.estrategiasEnsenanzaList.set(res.results);
+          if (res.count === 0) {
+            this.toastService.showWarning(
+              'No hay estrategias de enseñanza registradas.',
+              'Advertencia'
+            );
+          }
         },
       });
   }
@@ -122,6 +135,12 @@ export default class SubtemasPageComponent implements OnInit {
         },
         next: (res) => {
           this.competenciaGenericaList.set(res.results);
+          if (res.count === 0) {
+            this.toastService.showWarning(
+              'No hay competencias genéricas registradas.',
+              'Advertencia'
+            );
+          }
         },
       });
   }
@@ -133,6 +152,12 @@ export default class SubtemasPageComponent implements OnInit {
       },
       next: (res) => {
         this.indicadorAlcanceList.set(res.results);
+        if (res.count === 0) {
+          this.toastService.showWarning(
+            'No hay indicadores de alcance registrados.',
+            'Advertencia'
+          );
+        }
       },
     });
   }
@@ -144,6 +169,12 @@ export default class SubtemasPageComponent implements OnInit {
       },
       next: (res) => {
         this.nivelDesempenioList.set(res.results);
+        if (res.count === 0) {
+          this.toastService.showWarning(
+            'No hay niveles de desempeño registrados.',
+            'Advertencia'
+          );
+        }
       },
     });
   }
@@ -155,6 +186,12 @@ export default class SubtemasPageComponent implements OnInit {
       },
       next: (res) => {
         this.listaCotejoList.set(res);
+        if (res.length === 0) {
+          this.toastService.showWarning(
+            'No hay listas de cotejo registradas.',
+            'Advertencia'
+          );
+        }
       },
     });
   }

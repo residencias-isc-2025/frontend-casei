@@ -49,6 +49,7 @@ export default class ProductosAcademicosComponent implements OnInit {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
+          if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.productosAcademicosList.set(res.results);
         },
