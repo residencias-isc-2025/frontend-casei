@@ -72,27 +72,57 @@
 
         <div>
           <span class="font-medium">Objetivos educacionales:</span>
-          <p class="italic text-gray-500">Ninguna</p>
+          <ul class="list-disc list-inside ml-2">
+            @for(objetivoEd of objetivosEducacionalesList(); track
+            objetivoEd.id) { @if(objetivoEd.carrera === carrera.id) {
+            <li>
+              {{ objetivoEd.descripcion }}
+            </li>
+            } }
+          </ul>
         </div>
 
         <div>
           <span class="font-medium">Objetivo específicos:</span>
-          <p class="italic text-gray-500">Ninguna</p>
+          <p class="italic text-gray-500">
+            {{ objetivoEspecifico(carrera.objetivo_especifico)?.descripcion }}
+          </p>
         </div>
 
         <div>
           <span class="font-medium">Dónde trabaja:</span>
-          <p class="italic text-gray-500">Ninguna</p>
+          <ul class="list-disc list-inside ml-2">
+            @for(dondeTrabaja of dondeTrabajaList(); track dondeTrabaja.id) {
+            @if(dondeTrabaja.carrera === carrera.id) {
+            <li>
+              {{ dondeTrabaja.descripcion }}
+            </li>
+            } }
+          </ul>
         </div>
 
         <div>
           <span class="font-medium">Perfil de ingreso:</span>
-          <p class="italic text-gray-500">Ninguna</p>
+          <ul class="list-disc list-inside ml-2">
+            @for(perfilI of perfilIngresoList(); track perfilI.id) {
+            @if(perfilI.carrera === carrera.id) {
+            <li>
+              {{ perfilI.descripcion }}
+            </li>
+            } }
+          </ul>
         </div>
 
         <div>
           <span class="font-medium">Perfil de egreso:</span>
-          <p class="italic text-gray-500">Ninguna</p>
+          <ul class="list-disc list-inside ml-2">
+            @for(perfilE of perfilEgresoList(); track perfilE.id) {
+            @if(perfilE.carrera === carrera.id) {
+            <li>
+              {{ perfilE.descripcion }}
+            </li>
+            } }
+          </ul>
         </div>
 
         <div>
