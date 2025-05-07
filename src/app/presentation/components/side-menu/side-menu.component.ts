@@ -39,9 +39,14 @@ export class SideMenuComponent {
 
   rutasComunes: MenuOptions[] = [
     {
-      icon: 'fas fa-user',
+      icon: 'fas fa-user-tie',
       routeName: 'Perfil',
       routerLink: '/dashboard/perfil',
+    },
+    {
+      icon: 'fas fa-users',
+      routeName: 'Alumnos',
+      routerLink: '/dashboard/alumnos',
     },
     {
       icon: 'fas fa-file',
