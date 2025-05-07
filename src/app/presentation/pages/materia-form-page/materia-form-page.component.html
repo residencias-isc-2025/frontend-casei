@@ -343,12 +343,13 @@
         (click)="router.navigateByUrl('/dashboard/materias')"
         class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg transition"
       >
-        Cancelar
+        Cancela
       </button>
 
       <button
         type="submit"
-        class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg transition"
+        [disabled]="form.invalid"
+        class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg transition  disabled:bg-gray-500"
       >
         {{ isEditing ? "Actualizar" : "Guardar" }}
       </button>

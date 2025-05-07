@@ -57,6 +57,7 @@ export default class MateriaPageComponent implements OnInit {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
+          if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.materiasList.set(res.results);
         },
@@ -81,6 +82,12 @@ export default class MateriaPageComponent implements OnInit {
       },
       next: (res) => {
         this.bibliografias.set(res.results);
+        if (res.count === 0) {
+          this.toastService.showWarning(
+            'No hay bibliografías registradas.',
+            'Advertencia'
+          );
+        }
       },
     });
   }

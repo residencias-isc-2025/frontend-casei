@@ -17,11 +17,16 @@ import { CompetenciaService } from '@core/services/competencia.service';
 import { CriterioDesempenioService } from '@core/services/criterio-desempenio.service';
 import { MateriaService } from '@core/services/materia.service';
 import { ToastService } from '@core/services/toast.service';
-import { PaginationComponent } from "../../components/pagination/pagination.component";
+import { PaginationComponent } from '../../components/pagination/pagination.component';
 
 @Component({
   selector: 'app-materia-form-page',
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, PaginationComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    PaginationComponent,
+  ],
   templateUrl: './materia-form-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -57,9 +62,9 @@ export default class MateriaFormPageComponent implements OnInit {
   form = this.fb.group({
     clave: ['', Validators.required],
     nombre: ['', Validators.required],
-    competencias: [[0]],
+    competencias: [[] as number[]],
     creditos_requeridos: [0, Validators.required],
-    materias_requeridas: [[0]],
+    materias_requeridas: [[] as number[]],
     semestre: [''],
     tipo_curso: [true, Validators.required],
     creditos_teoria: [0, Validators.required],
@@ -73,8 +78,8 @@ export default class MateriaFormPageComponent implements OnInit {
     horas_otros_cursos: [0],
     objetivo_general: ['', Validators.required],
     indicador_descripcion: ['', Validators.required],
-    criterio_desempeno: [[0]],
-    bibliografia: [[0]],
+    criterio_desempeno: [[] as number[]],
+    bibliografia: [[] as number[]],
   });
 
   ngOnInit(): void {
@@ -99,12 +104,15 @@ export default class MateriaFormPageComponent implements OnInit {
         this.toastService.showError(err.mensaje, 'Malas noticias'),
     });
   }
+
   cargarMaterias() {
     this.materiaService.obtenerDatosPaginados(1, 100, {}).subscribe({
-      next: (res) =>
-        this.materiasOptions.set(
-          res.results.filter((m) => m.id !== this.materiaId)
-        ),
+      next: (res) => {
+        const dataFiltered = res.results.filter((m) => m.id !== this.materiaId);
+
+        this.materiasOptions.set(dataFiltered);
+        if (dataFiltered.length === 0) this.currentPage.materias.set(0);
+      },
       error: (err) =>
         this.toastService.showError(err.mensaje, 'Malas noticias'),
     });
@@ -112,7 +120,10 @@ export default class MateriaFormPageComponent implements OnInit {
 
   cargarCompetencias() {
     this.competenciaService.obtenerDatosPaginados(1, 100, {}).subscribe({
-      next: (res) => this.competenciasOptions.set(res.results),
+      next: (res) => {
+        this.competenciasOptions.set(res.results);
+        if (res.count === 0) this.currentPage.competencias.set(0);
+      },
       error: (err) =>
         this.toastService.showError(err.mensaje, 'Malas noticias'),
     });
@@ -120,7 +131,10 @@ export default class MateriaFormPageComponent implements OnInit {
 
   cargarCriteriosDesempenio() {
     this.criterioDesempenioService.obtenerDatosPaginados(1, 100, {}).subscribe({
-      next: (res) => this.criteriosDesempenioOptions.set(res.results),
+      next: (res) => {
+        this.criteriosDesempenioOptions.set(res.results);
+        if (res.count === 0) this.currentPage.criterios.set(0);
+      },
       error: (err) =>
         this.toastService.showError(err.mensaje, 'Malas noticias'),
     });
@@ -128,7 +142,10 @@ export default class MateriaFormPageComponent implements OnInit {
 
   cargarBibliografias() {
     this.bibliografiaService.obtenerDatosPaginados(1, 100, {}).subscribe({
-      next: (res) => this.bibliografiasOptions.set(res.results),
+      next: (res) => {
+        this.bibliografiasOptions.set(res.results);
+        if (res.count === 0) this.currentPage.bibliografia.set(0);
+      },
       error: (err) =>
         this.toastService.showError(err.mensaje, 'Malas noticias'),
     });
@@ -237,8 +254,29 @@ export default class MateriaFormPageComponent implements OnInit {
         this.router.navigateByUrl('/dashboard/materias');
       },
       error: (response) => {
-        this.toastService.showError(response.mensaje, 'Malas noticias');
+        for (const [key, messages] of Object.entries(response.error)) {
+          const fieldName = this.formatFieldName(key);
+          this.handleMateriaErrors(messages, fieldName);
+        }
       },
     });
+  }
+
+  private handleMateriaErrors(error: any, title: string) {
+    if (error === undefined) return;
+    this.toastService.showError(error[0], title);
+  }
+
+  private formatFieldName(key: string): string {
+    const map: Record<string, string> = {
+      bibliografia: 'Bibliografía',
+      competencias: 'Competencias',
+      criterio_desempeno: 'Criterios de desempeño',
+      clave: 'Clave',
+    };
+
+    return (
+      map[key] || key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ')
+    );
   }
 }

@@ -10,6 +10,9 @@
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    @if (materiasList().length === 0) {
+    <p>No hay materias registradas</p>
+    } @else {
     <div
       *ngFor="let mat of materiasList()"
       class="bg-white rounded-lg p-6 hover:shadow-lg transition duration-300 border border-gray-300"
@@ -120,6 +123,7 @@
         </div>
       </div>
     </div>
+    }
   </div>
   <div class="mt-6">
     <app-pagination
