@@ -23,8 +23,8 @@ import { ConfirmationModalComponent } from '@presentation/forms/confirmation-mod
   selector: 'app-carrera-page',
   imports: [
     CommonModule,
-    // PaginationComponent,
-    //ConfirmationModalComponent,
+    PaginationComponent,
+    ConfirmationModalComponent,
     RouterModule,
   ],
   templateUrl: './carrera-page.component.html',
@@ -44,6 +44,7 @@ export default class CarreraPageComponent implements OnInit {
 
   carreraSelected = signal<Carrera | null>(null);
   expandedCarreaId = signal<number | null>(null);
+  showDeleteModal = signal(false);
 
   totalItems = signal(0);
   currentPage = signal(1);
@@ -121,6 +122,30 @@ export default class CarreraPageComponent implements OnInit {
             'Advertencia'
           );
         }
+      },
+    });
+  }
+
+  onPageChanged(page: number): void {
+    this.currentPage.set(page);
+    this.loadCarreras();
+  }
+
+  onShowDeleteModal(item: Carrera) {
+    this.carreraSelected.set(item);
+    this.showDeleteModal.set(true);
+  }
+
+  onDelete(itemId: number) {
+    this.showDeleteModal.set(false);
+
+    this.carreraService.deshabilitar(itemId).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        this.loadCarreras();
       },
     });
   }

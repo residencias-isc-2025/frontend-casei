@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  input,
   OnInit,
   signal,
 } from '@angular/core';
@@ -18,6 +17,12 @@ import { CarreraService } from '@core/services/carrera.service';
 import { ObjetivosEspecificosService } from '@core/services/objetivos-especificos.service';
 import { ToastService } from '@core/services/toast.service';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
+
+interface CarreraButtons {
+  id: number;
+  text: string;
+  action: () => void;
+}
 
 @Component({
   selector: 'app-carrera-form-page',
@@ -62,6 +67,19 @@ export default class CarreraFormPageComponent implements OnInit {
     objetivo_especifico: [0, Validators.required],
     atributos_egreso: [[] as number[], Validators.required],
   });
+
+  titles = [
+    'Objetivos Educacionales',
+    '¿Dónde trabaja?',
+    'Perfil de Ingreso',
+    'Perfil de egreso',
+  ];
+
+  buttons: CarreraButtons[] = this.titles.map((t, i) => ({
+    id: i + 1,
+    text: t,
+    action: () => this.handleClick(i + 1),
+  }));
 
   ngOnInit(): void {
     this.loadAdscripciones();
@@ -114,8 +132,6 @@ export default class CarreraFormPageComponent implements OnInit {
       next: (res) => {
         this.objetivosEspecificosList.set(res.results);
 
-        console.log(res.results);
-
         if (res.count === 0) {
           this.toastService.showWarning(
             'No hay objetivos específicos registrados.',
@@ -164,6 +180,23 @@ export default class CarreraFormPageComponent implements OnInit {
     const start = (page - 1) * this.ITEMS_PER_PAGE;
     const end = start + this.ITEMS_PER_PAGE;
     return list.slice(start, end);
+  }
+
+  handleClick(id: number) {
+    switch (id) {
+      case 1:
+        console.log('Objetivos educacionales');
+        break;
+      case 2:
+        console.log('Donde trabaja');
+        break;
+      case 3:
+        console.log('Perfil de ingreso');
+        break;
+      case 4:
+        console.log('Perfil de egreso');
+        break;
+    }
   }
 
   onSubmit() {}

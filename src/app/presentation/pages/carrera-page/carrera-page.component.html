@@ -41,6 +41,7 @@
           Editar
         </button>
         <button
+          (click)="onShowDeleteModal(carrera)"
           class="px-4 py-1.5 text-sm font-semibold bg-red-500 hover:bg-red-600 text-white rounded-lg transition"
         >
           Eliminar
@@ -108,5 +109,26 @@
     </div>
     }
   </div>
+  <div class="mt-6">
+    <app-pagination
+      [totalItems]="totalItems()"
+      [itemsPerPage]="10"
+      [currentPage]="currentPage()"
+      (pageChanged)="onPageChanged($event)"
+    />
+  </div>
   }
 </div>
+
+<!-- Modal de eliminación -->
+<app-confirmation-modal
+  *ngIf="showDeleteModal()"
+  title="Eliminar: Materia"
+  [message]="
+    '¿Esta seguro de querer eliminar la carrera correspondiente a ' +
+    carreraSelected()?.nombre +
+    '?'
+  "
+  (onConfirm)="onDelete(carreraSelected()?.id!)"
+  (onCancel)="showDeleteModal.set(false)"
+/>
