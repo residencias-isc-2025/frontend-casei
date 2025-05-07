@@ -15,6 +15,12 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
+import { DondeTrabajaService } from '@core/services/donde-trabaja.service';
+import { DondeTrabaja } from '@core/models/donde-trabaja.model';
+import { PerfilIngresoService } from '@core/services/perfil-ingreso.service';
+import { PerfilIngreso } from '@core/models/perfil-ingreso.mode';
+import { PerfilEgreso } from '@core/models/perfil-egreso.model';
+import { PerfilEgresoService } from '@core/services/perfil-egreso.service';
 
 @Component({
   selector: 'app-objetivo-educacional-form',
@@ -36,12 +42,12 @@ export class ObjetivoEducacionalFormComponent implements OnInit {
   carrera = input.required<Carrera>();
   title = input.required<string>();
   deleteProperty = input.required<string>();
-  service = input.required<ObjetivoEducacionalService>();
+  service = input.required<ObjetivoEducacionalService | DondeTrabajaService | PerfilIngresoService | PerfilEgresoService>();
 
   dataList = signal<ObjetivoEducacional[]>([]);
 
   showDeleteModal = signal(false);
-  propertySelected = signal<ObjetivoEducacional | null>(null);
+  propertySelected = signal<ObjetivoEducacional | DondeTrabaja | PerfilIngreso | PerfilEgreso | null>(null);
 
   form = this.fb.group({
     descripcion: ['', Validators.required],
@@ -60,7 +66,7 @@ export class ObjetivoEducacionalFormComponent implements OnInit {
       });
   }
 
-  onShowDeleteModal(item: ObjetivoEducacional) {
+  onShowDeleteModal(item: ObjetivoEducacional | DondeTrabaja | PerfilIngreso | PerfilEgreso) {
     this.propertySelected.set(item);
     this.showDeleteModal.set(true);
   }

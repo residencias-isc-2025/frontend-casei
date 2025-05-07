@@ -15,8 +15,11 @@ import { ObjetivoEspecifico } from '@core/models/objetivo-especifico.model';
 import { AdscripcionService } from '@core/services/adscripcion.service';
 import { AtributoEgresoService } from '@core/services/atributo-egreso.service';
 import { CarreraService } from '@core/services/carrera.service';
+import { DondeTrabajaService } from '@core/services/donde-trabaja.service';
 import { ObjetivoEducacionalService } from '@core/services/objetivo-educacional.service';
 import { ObjetivosEspecificosService } from '@core/services/objetivos-especificos.service';
+import { PerfilEgresoService } from '@core/services/perfil-egreso.service';
+import { PerfilIngresoService } from '@core/services/perfil-ingreso.service';
 import { ToastService } from '@core/services/toast.service';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 import { ObjetivoEducacionalFormComponent } from '@presentation/forms/objetivo-educacional-form/objetivo-educacional-form.component';
@@ -34,7 +37,7 @@ interface CarreraButtons {
     ReactiveFormsModule,
     RouterModule,
     PaginationComponent,
-    ObjetivoEducacionalFormComponent
+    ObjetivoEducacionalFormComponent,
   ],
   templateUrl: './carrera-form-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,6 +55,9 @@ export default class CarreraFormPageComponent implements OnInit {
   atributosEgresoList = signal<AtributoEgreso[]>([]);
 
   objetivoEducacionalService = inject(ObjetivoEducacionalService);
+  dondeTrabajaService = inject(DondeTrabajaService);
+  perfilIngresoService = inject(PerfilIngresoService);
+  perfilEgresoService = inject(PerfilEgresoService);
 
   router = inject(Router);
   route = inject(ActivatedRoute);
@@ -66,7 +72,10 @@ export default class CarreraFormPageComponent implements OnInit {
     atributosEgreso: signal(1),
   };
 
-  showObjetivoEducacionalForm = signal<boolean>(false)
+  showObjetivoEducacionalForm = signal<boolean>(false);
+  showDondeTrabajaForm = signal<boolean>(false);
+  showPerfilIngresoForm = signal<boolean>(false);
+  showPerfilEgresoForm = signal<boolean>(false);
 
   readonly ITEMS_PER_PAGE = 6;
 
@@ -198,16 +207,15 @@ export default class CarreraFormPageComponent implements OnInit {
     switch (id) {
       case 1:
         this.showObjetivoEducacionalForm.set(true);
-        console.log('Objetivos educacionales');
         break;
       case 2:
-        console.log('Donde trabaja');
+        this.showDondeTrabajaForm.set(true);
         break;
       case 3:
-        console.log('Perfil de ingreso');
+        this.showPerfilIngresoForm.set(true);
         break;
       case 4:
-        console.log('Perfil de egreso');
+        this.showPerfilEgresoForm.set(true);
         break;
     }
   }

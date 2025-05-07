@@ -196,4 +196,28 @@
   (onCancel)="showObjetivoEducacionalForm.set(false)"
   [service]="objetivoEducacionalService"
 />
+} @if(showDondeTrabajaForm()) {
+<app-objetivo-educacional-form
+  [carrera]="carreraSelected()!"
+  title="¿Dónde trabaja?"
+  deleteProperty="dónde trabaja"
+  (onCancel)="showDondeTrabajaForm.set(false)"
+  [service]="dondeTrabajaService"
+/>
+} @if(showPerfilIngresoForm()) {
+<app-objetivo-educacional-form
+  [carrera]="carreraSelected()!"
+  title="Perfil de ingreso"
+  deleteProperty="perfil de ingreso"
+  (onCancel)="showPerfilIngresoForm.set(false)"
+  [service]="perfilIngresoService"
+/>
+} @if(showPerfilEgresoForm()) {
+<app-objetivo-educacional-form
+  [carrera]="carreraSelected()!"
+  title="Perfil de egreso"
+  deleteProperty="perfil de egreso"
+  (onCancel)="showPerfilEgresoForm.set(false)"
+  [service]="perfilEgresoService"
+/>
 }
