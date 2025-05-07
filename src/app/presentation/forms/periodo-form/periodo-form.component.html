@@ -42,9 +42,11 @@
           <label for="fecha_i" class="block text-gray-700 font-medium mb-2"
             >Fecha de inicio</label
           >
-          <app-custom-datepicker
-            [selected]="form.get('fecha_i')!.value"
-            (dateSelected)="onStartDateSelected($event)"
+          <input
+            type="date"
+            formControlName="fecha_i"
+            [max]="hoy"
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
@@ -52,9 +54,11 @@
           <label for="fecha_f" class="block text-gray-700 font-medium mb-2"
             >Fecha de finalización</label
           >
-          <app-custom-datepicker
-            [selected]="form.get('fecha_f')!.value"
-            (dateSelected)="onEndDateSelected($event)"
+          <input
+            type="date"
+            formControlName="fecha_f"
+            [max]="hoy"
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
       </div>

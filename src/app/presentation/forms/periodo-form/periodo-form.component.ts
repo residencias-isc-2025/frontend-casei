@@ -12,11 +12,10 @@ import { Periodo } from '@core/models/periodo.model';
 import { PeriodoService } from '@core/services/periodo.service';
 import { ToastService } from '@core/services/toast.service';
 import { formatedBirthdate } from '@helpers/formated-birthdate.helper';
-import { CustomDatepickerComponent } from '@presentation/components/custom-datepicker/custom-datepicker.component';
 
 @Component({
   selector: 'app-periodo-form',
-  imports: [CommonModule, ReactiveFormsModule, CustomDatepickerComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './periodo-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -32,6 +31,8 @@ export class PeriodoFormComponent implements OnInit {
 
   periodo = input<Periodo>();
 
+  hoy: string = '';
+
   form = this.fb.group({
     descripcion: ['', Validators.required],
     clave: ['', Validators.required],
@@ -41,10 +42,11 @@ export class PeriodoFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.editing()) {
-      const today = new Date().toISOString().split('T')[0];
+      this.hoy = new Date().toISOString().split('T')[0];
+
       this.form.patchValue({
-        fecha_i: today,
-        fecha_f: today,
+        fecha_i: this.hoy,
+        fecha_f: this.hoy,
       });
     } else {
       const startDate = new Date(this.periodo()!.fecha_inicio)
@@ -63,14 +65,6 @@ export class PeriodoFormComponent implements OnInit {
     }
   }
 
-  onStartDateSelected(date: string) {
-    this.form.get('fecha_i')?.setValue(date);
-  }
-
-  onEndDateSelected(date: string) {
-    this.form.get('fecha_f')?.setValue(date);
-  }
-
   onSubmit() {
     if (this.form.invalid) return;
 
@@ -78,9 +72,11 @@ export class PeriodoFormComponent implements OnInit {
     const payload: Partial<Periodo> = {
       descripcion: formValue.descripcion ?? '',
       clave: formValue.clave ?? '',
-      fecha_inicio: new Date(formatedBirthdate(formValue.fecha_i ?? '')),
-      fecha_fin: new Date(formatedBirthdate(formValue.fecha_f ?? '')),
+      fecha_inicio: formValue.fecha_i ?? '',
+      fecha_fin: formValue.fecha_f ?? '',
     };
+
+    console.log(payload);
 
     const action = this.editing()
       ? this.periodoService.actualizar(this.periodo()!.id, payload)

@@ -13,11 +13,10 @@ import { User } from '@core/models/user.model';
 import { AdscripcionService } from '@core/services/adscripcion.service';
 import { ToastService } from '@core/services/toast.service';
 import { UserService } from '@core/services/user.service';
-import { CustomDatepickerComponent } from '@presentation/components/custom-datepicker/custom-datepicker.component';
 
 @Component({
   selector: 'app-update-profile',
-  imports: [CommonModule, ReactiveFormsModule, CustomDatepickerComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './update-profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -33,6 +32,8 @@ export class UpdateProfileComponent implements OnInit {
   userProfile = input.required<User>();
   adscripcionesList = input<Adscripcion[]>([]);
 
+  hoy: string = '';
+
   form = this.fb.group({
     nombre: ['', Validators.required],
     apellido_p: ['', Validators.required],
@@ -42,6 +43,8 @@ export class UpdateProfileComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.hoy = new Date().toISOString().split('T')[0];
+
     this.initForm();
   }
 

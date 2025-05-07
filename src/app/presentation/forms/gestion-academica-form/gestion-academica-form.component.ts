@@ -12,12 +12,10 @@ import { GestionAcademica } from '@core/models/gestion-academica.model';
 import { Institucion } from '@core/models/institucion.model';
 import { GestionAcademicaService } from '@core/services/gestion-academica.service';
 import { ToastService } from '@core/services/toast.service';
-import { formatedBirthdate } from '@helpers/formated-birthdate.helper';
-import { CustomDatepickerComponent } from '@presentation/components/custom-datepicker/custom-datepicker.component';
 
 @Component({
   selector: 'app-gestion-academica-form',
-  imports: [CommonModule, ReactiveFormsModule, CustomDatepickerComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './gestion-academica-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -35,6 +33,8 @@ export class GestionAcademicaFormComponent implements OnInit {
   instituciones = input.required<Institucion[]>();
   gestionAcademica = input<GestionAcademica>();
 
+  hoy: string = '';
+
   form = this.fb.group({
     puesto: ['', Validators.required],
     institucion: [0, Validators.required],
@@ -44,11 +44,11 @@ export class GestionAcademicaFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.editing()) {
-      const today = new Date().toISOString().split('T')[0];
+      this.hoy = new Date().toISOString().split('T')[0];
 
       this.form.patchValue({
-        gestion_i: today,
-        gestion_f: today,
+        gestion_i: this.hoy,
+        gestion_f: this.hoy,
       });
     } else {
       const startDate = new Date(this.gestionAcademica()!.d_mes_anio)

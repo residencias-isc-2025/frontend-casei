@@ -11,11 +11,10 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ExperienciaProfesional } from '@core/models/experiencia-profesional.model';
 import { ExperienciaProfesionalService } from '@core/services/experiencia-profesional.service';
 import { ToastService } from '@core/services/toast.service';
-import { CustomDatepickerComponent } from '@presentation/components/custom-datepicker/custom-datepicker.component';
 
 @Component({
   selector: 'app-experiencia-profesional-form',
-  imports: [CommonModule, ReactiveFormsModule, CustomDatepickerComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './experiencia-profesional-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -32,6 +31,8 @@ export class ExperienciaProfesionalFormComponent implements OnInit {
 
   experienciaProfesional = input<ExperienciaProfesional>();
 
+  hoy: string = '';
+
   form = this.fb.group({
     puesto: ['', Validators.required],
     empresa: ['', Validators.required],
@@ -41,10 +42,10 @@ export class ExperienciaProfesionalFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.editing()) {
-      const today = new Date().toISOString().split('T')[0];
+      this.hoy = new Date().toISOString().split('T')[0];
       this.form.patchValue({
-        fecha_i: today,
-        fecha_f: today,
+        fecha_i: this.hoy,
+        fecha_f: this.hoy,
       });
     } else {
       const startDate = new Date(this.experienciaProfesional()!.d_mes_anio)
