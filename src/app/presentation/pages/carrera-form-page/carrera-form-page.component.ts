@@ -10,13 +10,16 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Adscripcion } from '@core/models/adscripcion.model';
 import { AtributoEgreso } from '@core/models/atributo-egreso.model';
+import { Carrera } from '@core/models/carrera.model';
 import { ObjetivoEspecifico } from '@core/models/objetivo-especifico.model';
 import { AdscripcionService } from '@core/services/adscripcion.service';
 import { AtributoEgresoService } from '@core/services/atributo-egreso.service';
 import { CarreraService } from '@core/services/carrera.service';
+import { ObjetivoEducacionalService } from '@core/services/objetivo-educacional.service';
 import { ObjetivosEspecificosService } from '@core/services/objetivos-especificos.service';
 import { ToastService } from '@core/services/toast.service';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
+import { ObjetivoEducacionalFormComponent } from '@presentation/forms/objetivo-educacional-form/objetivo-educacional-form.component';
 
 interface CarreraButtons {
   id: number;
@@ -31,6 +34,7 @@ interface CarreraButtons {
     ReactiveFormsModule,
     RouterModule,
     PaginationComponent,
+    ObjetivoEducacionalFormComponent
   ],
   templateUrl: './carrera-form-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,17 +51,22 @@ export default class CarreraFormPageComponent implements OnInit {
   objetivosEspecificosList = signal<ObjetivoEspecifico[]>([]);
   atributosEgresoList = signal<AtributoEgreso[]>([]);
 
+  objetivoEducacionalService = inject(ObjetivoEducacionalService);
+
   router = inject(Router);
   route = inject(ActivatedRoute);
 
   isEditing = false;
   carreraId: number | null = null;
+  carreraSelected = signal<Carrera | null>(null);
 
   currentPage = {
     adscripciones: signal(1),
     objetivosEspecificos: signal(1),
     atributosEgreso: signal(1),
   };
+
+  showObjetivoEducacionalForm = signal<boolean>(false)
 
   readonly ITEMS_PER_PAGE = 6;
 
@@ -72,7 +81,7 @@ export default class CarreraFormPageComponent implements OnInit {
     'Objetivos Educacionales',
     '¿Dónde trabaja?',
     'Perfil de Ingreso',
-    'Perfil de egreso',
+    'Perfil de Egreso',
   ];
 
   buttons: CarreraButtons[] = this.titles.map((t, i) => ({
@@ -97,7 +106,10 @@ export default class CarreraFormPageComponent implements OnInit {
 
   cargarCarrera(id: number) {
     this.carreraService.obtenerItemById(id).subscribe({
-      next: (res) => this.carreraForm.patchValue(res),
+      next: (res) => {
+        this.carreraSelected.set(res);
+        this.carreraForm.patchValue(res);
+      },
       error: (err) =>
         this.toastService.showError(err.mensaje, 'Malas noticias'),
     });
@@ -185,6 +197,7 @@ export default class CarreraFormPageComponent implements OnInit {
   handleClick(id: number) {
     switch (id) {
       case 1:
+        this.showObjetivoEducacionalForm.set(true);
         console.log('Objetivos educacionales');
         break;
       case 2:
@@ -199,5 +212,48 @@ export default class CarreraFormPageComponent implements OnInit {
     }
   }
 
-  onSubmit() {}
+  onSubmit() {
+    if (this.carreraForm.invalid) return;
+
+    const formValues = this.carreraForm.value;
+
+    const data: Partial<Carrera> = {
+      nombre: formValues.nombre ?? '',
+      adscripcion: formValues.adscripcion ?? 0,
+      objetivo_especifico: formValues.objetivo_especifico ?? 0,
+      atributos_egreso: formValues.atributos_egreso ?? [],
+    };
+
+    const action = this.isEditing
+      ? this.carreraService.actualizar(this.carreraId!, data)
+      : this.carreraService.crear(data);
+
+    action.subscribe({
+      next: (response) => {
+        this.toastService.showSuccess(response.mensaje, 'Éxito');
+        this.router.navigateByUrl('/dashboard/carrera');
+      },
+      error: (response) => {
+        for (const [key, messages] of Object.entries(response.error)) {
+          const fieldName = this.formatFieldName(key);
+          this.handleMateriaErrors(messages, fieldName);
+        }
+      },
+    });
+  }
+
+  private handleMateriaErrors(error: any, title: string) {
+    if (error === undefined) return;
+    this.toastService.showError(error[0], title);
+  }
+
+  private formatFieldName(key: string): string {
+    const map: Record<string, string> = {
+      atributos_egreso: 'Atributos de egreso',
+    };
+
+    return (
+      map[key] || key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ')
+    );
+  }
 }

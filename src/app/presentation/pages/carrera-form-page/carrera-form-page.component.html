@@ -164,26 +164,36 @@
         </button>
       </div>
     </section>
-
-    <!-- Otra información -->
-    @if(isEditing) {
-    <section class="bg-white rounded-xl shdow p-6 border border-gray-200">
-      <h2 class="text-lg font-semibold text-gray-700 mb-4">
-        Información sobre la carrera
-      </h2>
-
-      <div class="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-4 flex-grow">
-        @for(boton of buttons; track $index) {
-
-        <button
-          (click)="boton.action()"
-          class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 rounded-lg transition duration-300"
-        >
-          {{ boton.text }}
-        </button>
-        }
-      </div>
-    </section>
-    }
   </form>
+
+  <!-- Otra información -->
+  @if(isEditing) {
+  <section class="bg-white rounded-xl shdow p-6 border border-gray-200 mt-6">
+    <h2 class="text-lg font-semibold text-gray-700 mb-4">
+      Información sobre la carrera
+    </h2>
+
+    <div class="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-4 flex-grow">
+      @for(boton of buttons; track $index) {
+
+      <button
+        (click)="boton.action()"
+        class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 rounded-lg transition duration-300"
+      >
+        {{ boton.text }}
+      </button>
+      }
+    </div>
+  </section>
+  }
 </div>
+
+@if(showObjetivoEducacionalForm()) {
+<app-objetivo-educacional-form
+  [carrera]="carreraSelected()!"
+  title="Objetivos educacionales"
+  deleteProperty="Objetivo educacional"
+  (onCancel)="showObjetivoEducacionalForm.set(false)"
+  [service]="objetivoEducacionalService"
+/>
+}
