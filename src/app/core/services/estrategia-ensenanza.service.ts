@@ -27,21 +27,21 @@ export class EstrategiaEnsenanzaService extends BaseService<EstrategiaEnsenanza>
       next: string | null;
       previous: string | null;
       results: EstrategiaEnsenanza[];
-    }>(`${this.apiUrl}/estrategias-ensenanza/?page=${page}&page_size=${limit}`);
+    }>(`${this.apiUrl}/estrategia-ensenanza/?page=${page}&page_size=${limit}`);
   }
 
   override crear(
     data: Partial<EstrategiaEnsenanza>
   ): Observable<{ mensaje: string }> {
     return this.http.post<{ mensaje: string }>(
-      `${this.apiUrl}/estrategias-ensenanza/`,
+      `${this.apiUrl}/estrategia-ensenanza/`,
       data
     );
   }
 
   override deshabilitar(id: number): Observable<{ mensaje: string }> {
     return this.http.delete<{ mensaje: string }>(
-      `${this.apiUrl}/estrategias-ensenanza/${id}/`
+      `${this.apiUrl}/estrategia-ensenanza/${id}/`
     );
   }
 
@@ -54,7 +54,7 @@ export class EstrategiaEnsenanzaService extends BaseService<EstrategiaEnsenanza>
     data: Partial<EstrategiaEnsenanza>
   ): Observable<{ mensaje: string }> {
     return this.http.put<{ mensaje: string }>(
-      `${this.apiUrl}/estrategias-ensenanza/${id}/`,
+      `${this.apiUrl}/estrategia-ensenanza/${id}/`,
       data
     );
   }
