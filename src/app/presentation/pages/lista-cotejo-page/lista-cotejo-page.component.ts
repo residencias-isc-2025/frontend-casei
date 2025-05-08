@@ -17,7 +17,7 @@ import { ListaCotejoFormComponent } from '@presentation/forms/lista-cotejo-form/
   selector: 'app-lista-cotejo-page',
   imports: [
     CommonModule,
-    //PaginationComponent,
+    PaginationComponent,
     ConfirmationModalComponent,
     ListaCotejoFormComponent,
   ],
@@ -43,15 +43,17 @@ export default class ListaCotejoPageComponent implements OnInit {
   }
 
   private cargarListasCotejo(): void {
-    this.listaCotejoService.obtenerDatos().subscribe({
-      error: (res) => {
-        this.toastService.showError(res.mensaje!, 'Malas noticias');
-      },
-      next: (res) => {
-        this.totalItems.set(res.length);
-        this.listasCotejo.set(res);
-      },
-    });
+    this.listaCotejoService
+      .obtenerDatosPaginados(this.currentPage(), 10, {})
+      .subscribe({
+        error: (res) => {
+          this.toastService.showError(res.mensaje!, 'Malas noticias');
+        },
+        next: (res) => {
+          this.totalItems.set(res.count);
+          this.listasCotejo.set(res.results);
+        },
+      });
   }
 
   onShowUpdateModal(listaCotejo: ListaCotejo) {

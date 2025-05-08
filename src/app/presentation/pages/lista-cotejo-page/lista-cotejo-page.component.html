@@ -51,30 +51,30 @@
         }
       </tbody>
     </table>
-    <!-- <app-pagination
+    <app-pagination
       [totalItems]="totalItems()"
       [itemsPerPage]="10"
       [currentPage]="currentPage()"
       (pageChanged)="onPageChanged($event)"
-    /> -->
+    />
   </div>
 </div>
 
 @if (showAddModal()) {
 <app-lista-cotejo-form
-    [editing]="false"
-    (onCancel)="showAddModal.set(false)"
-    (onSave)="onSaveEmit()"
-    title="Agregar lista de cotejo"
-  />
+  [editing]="false"
+  (onCancel)="showAddModal.set(false)"
+  (onSave)="onSaveEmit()"
+  title="Agregar lista de cotejo"
+/>
 } @if (showUpdateModal()) {
 <app-lista-cotejo-form
-    [editing]="true"
-    (onCancel)="showUpdateModal.set(false)"
-    (onSave)="onEditEmit()"
-    [listaCotejo]="listaCotejoSelected()!"
-    title="Editar lista de cotejo"
-  />
+  [editing]="true"
+  (onCancel)="showUpdateModal.set(false)"
+  (onSave)="onEditEmit()"
+  [listaCotejo]="listaCotejoSelected()!"
+  title="Editar lista de cotejo"
+/>
 }@if (showDeleteModal()){
 <app-confirmation-modal
   title="Eliminar: Lista de cotejo"
