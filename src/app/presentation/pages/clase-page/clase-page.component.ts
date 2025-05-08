@@ -49,6 +49,8 @@ export default class ClasePageComponent implements OnInit {
 
   claseSelected = signal<Clase | null>(null);
 
+  showDeleteModal = signal<boolean>(false);
+
   totalItems = signal(0);
   currentPage = signal(1);
 
@@ -130,6 +132,11 @@ export default class ClasePageComponent implements OnInit {
     this.loadClases();
   }
 
+  onShowDeleteModal(item: Clase) {
+    this.claseSelected.set(item);
+    this.showDeleteModal.set(true);
+  }
+
   periodoData(idPeriodo: number): Periodo | undefined {
     return this.periodoService.obtenerDataInfo(idPeriodo, this.periodosList());
   }
@@ -158,5 +165,19 @@ export default class ClasePageComponent implements OnInit {
       .subscribe((res) => (countAlumnos = res));
 
     console.log(countAlumnos);
+  }
+
+  onDelete(itemId: number) {
+    this.showDeleteModal.set(false);
+
+    this.claseService.deshabilitar(itemId).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        this.loadCarreras();
+      },
+    });
   }
 }

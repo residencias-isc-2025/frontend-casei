@@ -40,6 +40,7 @@
           <td class="py-3 px-4">
             <div class="flex flex-row space-x-2">
               <button
+                (click)="loadAlumnosClase(clase)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-amber-500 hover:bg-amber-700 disabled:bg-gray-500"
                 [disabled]="clase.alumnos.length === 0"
               >
@@ -53,6 +54,7 @@
                 Editar
               </button>
               <button
+                (click)="onShowDeleteModal(clase)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
               >
                 Eliminar
@@ -71,3 +73,21 @@
     />
   </div>
 </div>
+
+<app-confirmation-modal
+  *ngIf="showDeleteModal()"
+  title="Eliminar: Clase"
+  [message]="
+    '¿Esta seguro de querer eliminar la clase correspondiente al grupo ' +
+    claseSelected()!.grupo +
+    ' de la materia ' +
+    materiaData(claseSelected()!.materia)!.nombre +
+    ' del periodo ' +
+    periodoData(claseSelected()!.periodo)!.clave +
+    ' de la carrera ' +
+    carreraData(claseSelected()!.carrera)!.nombre +
+    '?'
+  "
+  (onConfirm)="onDelete(claseSelected()?.id!)"
+  (onCancel)="showDeleteModal.set(false)"
+/>
