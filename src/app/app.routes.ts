@@ -278,6 +278,20 @@ export const routes: Routes = [
           import('@presentation/pages/clase-page/clase-page.component'),
       },
       {
+        path: 'clase/add',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/clase-form-page/clase-form-page.component'
+          ),
+      },
+      {
+        path: 'clase/edit/:id',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/clase-form-page/clase-form-page.component'
+          ),
+      },
+      {
         path: '**',
         redirectTo: 'perfil',
         pathMatch: 'full',

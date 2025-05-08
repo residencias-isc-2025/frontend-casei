@@ -56,4 +56,8 @@ export class ClaseService extends BaseService<Clase> {
     const data = lista.find((d) => d.id === id);
     return data;
   }
+
+  obtenerItemById(id: number) {
+    return this.http.get<Clase>(`${this.apiUrl}/${id}/`);
+  }
 }

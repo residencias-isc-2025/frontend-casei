@@ -1,0 +1,118 @@
+<div class="container mx-auto p-6 max-w-5xl">
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">
+    {{ isEditing ? "Editar" : "Agregar" }} Clase
+  </h1>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
+    <section class="bg-white rounded-xl shadow p-6 border border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">
+        Información general
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-2">
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Materia</label>
+          <select
+            formControlName="materia"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="" selected disabled>Selecciona una materia</option>
+            <option *ngFor="let mat of materias()" [value]="mat.id">
+              {{ mat.nombre }}
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Grupo</label>
+          <select
+            formControlName="grupo"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="" selected disabled>Selecciona un grupo</option>
+            <option value="01">1</option>
+            <option value="02">2</option>
+            <option value="03">3</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Carrera</label>
+          <select
+            formControlName="carrera"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="" selected disabled>Selecciona una carrera</option>
+            <option *ngFor="let car of carreras()" [value]="car.id">
+              {{ car.nombre }}
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Periodo</label>
+          <select
+            formControlName="periodo"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="" selected disabled>Selecciona un periodo</option>
+            <option *ngFor="let per of periodos()" [value]="per.id">
+              {{ per.clave }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <label class="block text-gray-600 font-medium mb-1">Alumnos</label>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+          @for(alumno of alumnos(); track alumno.id) {
+          <label
+            class="flex items-center bg-gray-100 rounded-lg px-4 py-2 cursor-pointer hover:bg-gray-200 transition"
+          >
+            <input
+              type="checkbox"
+              [value]="alumno.id"
+              [checked]="form.value.alumnos?.includes(alumno.id)"
+              (change)="toggleCheckbox('alumnos', alumno.id)"
+              class="form-checkbox text-blue-600 rounded mr-3 h-4 w-4"
+            />
+            <span class="text-gray-800 text-sm"
+              >{{ alumno.matricula }}: {{ alumno.nombre }}
+              {{ alumno.apellido_paterno }} {{ alumno.apellido_materno }} -
+              {{ carreraData(alumno.carrera)?.nombre }}</span
+            >
+          </label>
+          }
+        </div>
+
+        <div class="flex justify-center gap-2 mt-3">
+          <app-pagination
+            [totalItems]="alumnos().length"
+            [itemsPerPage]="10"
+            [currentPage]="currentPage()"
+            (pageChanged)="onPageChanged($event)"
+          />
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-4 mt-6">
+        <button
+          type="button"
+          (click)="router.navigateByUrl('/dashboard/clase')"
+          class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg transition"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          [disabled]="form.invalid"
+          class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg transition disabled:bg-gray-500"
+        >
+          {{ isEditing ? "Actualizar" : "Guardar" }}
+        </button>
+      </div>
+    </section>
+  </form>
+</div>
