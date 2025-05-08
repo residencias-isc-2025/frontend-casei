@@ -61,10 +61,6 @@ export class ListaCotejoService extends BaseService<ListaCotejo> {
     return data;
   }
 
-  obtenerDatos(): Observable<ListaCotejo[]> {
-    return this.http.get<ListaCotejo[]>(`${this.apiUrl}/`);
-  }
-
   cargarArchivo(data: FormData): Observable<{ mensaje: string }> {
     return this.http.post<{ mensaje: string }>(`${this.apiUrl}/`, data);
   }

@@ -180,13 +180,13 @@ export default class SubtemasPageComponent implements OnInit {
   }
 
   private loadListaCotejoList(): void {
-    this.listaCotejoService.obtenerDatos().subscribe({
+    this.listaCotejoService.obtenerDatosPaginados(1, 100, {}).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        this.listaCotejoList.set(res);
-        if (res.length === 0) {
+        this.listaCotejoList.set(res.results);
+        if (res.count === 0) {
           this.toastService.showWarning(
             'No hay listas de cotejo registradas.',
             'Advertencia'
