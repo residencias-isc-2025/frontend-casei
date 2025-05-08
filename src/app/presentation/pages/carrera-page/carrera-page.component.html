@@ -44,7 +44,7 @@
           (click)="onShowDeleteModal(carrera)"
           class="px-4 py-1.5 text-sm font-semibold bg-red-500 hover:bg-red-600 text-white rounded-lg transition"
         >
-          Eliminar
+          Desactivar
         </button>
       </div>
 
@@ -57,17 +57,17 @@
       >
         <div>
           <span class="font-medium">Misión:</span>
-          <p class="italic text-gray-500">Ninguna</p>
+          <p class="italic text-gray-500">{{ carrera.mision }}</p>
         </div>
 
         <div>
           <span class="font-medium">Visión:</span>
-          <p class="italic text-gray-500">Ninguna</p>
+          <p class="italic text-gray-500">{{ carrera.vision }}</p>
         </div>
 
         <div>
           <span class="font-medium">Objetivo:</span>
-          <p class="italic text-gray-500">Ninguna</p>
+          <p class="italic text-gray-500">{{ carrera.objetivo_carrera }}</p>
         </div>
 
         <div>
@@ -84,9 +84,13 @@
 
         <div>
           <span class="font-medium">Objetivo específicos:</span>
-          <p class="italic text-gray-500">
-            {{ objetivoEspecifico(carrera.objetivo_especifico)?.descripcion }}
-          </p>
+          <ul class="list-disc list-inside ml-2">
+            @for(objetivoEs of carrera.objetivo_especifico; track objetivoEs) {
+            <li>
+              {{ objetivoEspecifico(objetivoEs)?.descripcion }}
+            </li>
+            }
+          </ul>
         </div>
 
         <div>

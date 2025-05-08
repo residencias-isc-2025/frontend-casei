@@ -56,4 +56,8 @@ export class AlumnoService extends BaseService<Alumno> {
     const data = lista.find((d) => d.id === id);
     return data;
   }
+
+  totalRegistros(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/count/`);
+  }
 }

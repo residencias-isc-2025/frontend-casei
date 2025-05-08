@@ -7,10 +7,12 @@ import {
   signal,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Alumno } from '@core/models/alumno.model';
 import { Carrera } from '@core/models/carrera.model';
 import { Clase } from '@core/models/clase.model';
 import { Materia } from '@core/models/materia.model';
 import { Periodo } from '@core/models/periodo.model';
+import { AlumnoService } from '@core/services/alumno.service';
 import { CarreraService } from '@core/services/carrera.service';
 import { ClaseService } from '@core/services/clase.service';
 import { MateriaService } from '@core/services/materia.service';
@@ -36,11 +38,16 @@ export default class ClasePageComponent implements OnInit {
   periodoService = inject(PeriodoService);
   materiaService = inject(MateriaService);
   carreraService = inject(CarreraService);
+  alumnoService = inject(AlumnoService);
 
   clasesList = signal<Clase[]>([]);
   periodosList = signal<Periodo[]>([]);
   materiasList = signal<Materia[]>([]);
   carrerasList = signal<Carrera[]>([]);
+
+  alumnosClaseList = signal<Alumno[]>([]);
+
+  claseSelected = signal<Clase | null>(null);
 
   totalItems = signal(0);
   currentPage = signal(1);
@@ -60,6 +67,7 @@ export default class ClasePageComponent implements OnInit {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
+          if (res.count === 0) this.currentPage.set(0);
           this.clasesList.set(res.results);
           this.totalItems.set(res.count);
         },
@@ -138,5 +146,17 @@ export default class ClasePageComponent implements OnInit {
     if (periodo === undefined) return false;
     const hoy = new Date().toISOString().split('T')[0];
     return periodo.fecha_fin > hoy ? true : false;
+  }
+
+  loadAlumnosClase(clase: Clase) {
+    this.claseSelected.set(clase);
+
+    let countAlumnos = 0;
+
+    this.alumnoService
+      .totalRegistros()
+      .subscribe((res) => (countAlumnos = res));
+
+    console.log(countAlumnos);
   }
 }

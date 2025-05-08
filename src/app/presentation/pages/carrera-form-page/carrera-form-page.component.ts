@@ -82,8 +82,11 @@ export default class CarreraFormPageComponent implements OnInit {
   carreraForm = this.fb.group({
     nombre: ['', Validators.required],
     adscripcion: [0, Validators.required],
-    objetivo_especifico: [0, Validators.required],
+    objetivo_especifico: [[] as number[], Validators.required],
     atributos_egreso: [[] as number[], Validators.required],
+    mision: ['', Validators.required],
+    vision: ['', Validators.required],
+    objetivo_carrera: ['', Validators.required],
   });
 
   titles = [
@@ -228,8 +231,11 @@ export default class CarreraFormPageComponent implements OnInit {
     const data: Partial<Carrera> = {
       nombre: formValues.nombre ?? '',
       adscripcion: formValues.adscripcion ?? 0,
-      objetivo_especifico: formValues.objetivo_especifico ?? 0,
+      objetivo_especifico: formValues.objetivo_especifico ?? [],
       atributos_egreso: formValues.atributos_egreso ?? [],
+      mision: formValues.mision ?? '',
+      vision: formValues.vision ?? '',
+      objetivo_carrera: formValues.objetivo_carrera ?? '',
     };
 
     const action = this.isEditing
