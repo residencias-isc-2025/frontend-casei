@@ -1,0 +1,64 @@
+<div
+  class="fixed inset-0 bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50"
+>
+  <div
+    class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto"
+  >
+    <!-- Header -->
+    <div class="flex justify-between items-center border-b pb-4 mb-6">
+      <div class="flex flex-col">
+        <h2 class="text-2xl font-bold text-gray-800">
+          Alumnos de la clase:
+          <span class="text-blue-600"
+            >{{ materiaClave() }}{{ clase().grupo }}</span
+          >
+        </h2>
+        <h3 class="text-xl font-bold text-gray-800">
+          Carrera:
+          <span class="text-blue-600">{{ carrera().nombre }}</span>
+        </h3>
+        <h3 class="text-xl font-bold text-gray-800">
+          Materia:
+          <span class="text-blue-600">{{ materiaNombre() }}</span>
+        </h3>
+        <h3 class="text-xl font-bold text-gray-800">
+          Periodo:
+          <span class="text-blue-600">{{ periodo().clave }}</span>
+        </h3>
+      </div>
+      <button
+        (click)="onCancel.emit()"
+        class="text-gray-400 hover:text-gray-600 text-2xl leading-none"
+        aria-label="Cerrar"
+      >
+        &times;
+      </button>
+    </div>
+
+    <!-- Tabla de alumnos -->
+    <div class="overflow-x-auto rounded-lg">
+      <table class="w-full text-sm text-left text-gray-600">
+        <thead
+          class="bg-gray-100 text-gray-700 uppercase tracking-wide text-xs"
+        >
+          <tr>
+            <th class="py-3 px-4">Matrícula</th>
+            <th class="py-3 px-4">Apellidos</th>
+            <th class="py-3 px-4">Nombre(s)</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          @for(alumno of alumnos(); track alumno.id) {
+          <tr>
+            <td class="py-3 px-4">{{ alumno.matricula }}</td>
+            <td class="py-3 px-4">
+              {{ alumno.apellido_paterno }} {{ alumno.apellido_materno }}
+            </td>
+            <td class="py-3 px-4">{{ alumno.nombre }}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

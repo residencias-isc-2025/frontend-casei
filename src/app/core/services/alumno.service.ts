@@ -57,7 +57,7 @@ export class AlumnoService extends BaseService<Alumno> {
     return data;
   }
 
-  totalRegistros(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/count/`);
+  totalRegistros(): Observable<{ total_alumnos: number }> {
+    return this.http.get<{ total_alumnos: number }>(`${this.apiUrl}/count/`);
   }
 }

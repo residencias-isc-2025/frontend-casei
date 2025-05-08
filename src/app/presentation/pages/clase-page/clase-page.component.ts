@@ -19,6 +19,7 @@ import { MateriaService } from '@core/services/materia.service';
 import { PeriodoService } from '@core/services/periodo.service';
 import { ToastService } from '@core/services/toast.service';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
+import { AlumnosClaseFormComponent } from '@presentation/forms/alumnos-clase-form/alumnos-clase-form.component';
 import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
 
 @Component({
@@ -26,6 +27,7 @@ import { ConfirmationModalComponent } from '@presentation/forms/confirmation-mod
   imports: [
     PaginationComponent,
     ConfirmationModalComponent,
+    AlumnosClaseFormComponent,
     RouterModule,
     CommonModule,
   ],
@@ -50,6 +52,7 @@ export default class ClasePageComponent implements OnInit {
   claseSelected = signal<Clase | null>(null);
 
   showDeleteModal = signal<boolean>(false);
+  showAlumnosClaseModal = signal<boolean>(false);
 
   totalItems = signal(0);
   currentPage = signal(1);
@@ -160,11 +163,25 @@ export default class ClasePageComponent implements OnInit {
 
     let countAlumnos = 0;
 
-    this.alumnoService
-      .totalRegistros()
-      .subscribe((res) => (countAlumnos = res));
+    this.alumnoService.totalRegistros().subscribe((res) => {
+      countAlumnos = res.total_alumnos;
+    });
 
-    console.log(countAlumnos);
+    if (countAlumnos < 10) countAlumnos = 10;
+
+    this.alumnoService
+      .obtenerDatosPaginados(1, countAlumnos, {})
+      .subscribe((res) => {
+        let alumnosFiltered = [];
+
+        for (const a of res.results) {
+          if (!this.claseSelected()?.alumnos.includes(a.id)) continue;
+          alumnosFiltered.push(a);
+        }
+
+        this.alumnosClaseList.set(alumnosFiltered);
+        this.showAlumnosClaseModal.set(true);
+      });
   }
 
   onDelete(itemId: number) {
