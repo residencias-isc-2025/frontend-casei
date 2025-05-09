@@ -36,23 +36,19 @@
           <td class="py-3 px-4">{{ alumno.nombre }}</td>
           <td class="py-3 px-4">{{ carreraData(alumno.carrera)?.nombre }}</td>
           <td class="py-3 px-4">
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <button
-                  (click)="onShowUpdateModal(alumno)"
-                  class="text-white font-bold w-full py-2 px-4 rounded-lg transition duration-300 bg-blue-500 hover:bg-blue-700"
-                >
-                  Editar
-                </button>
-              </div>
-              <div>
-                <button
-                  (click)="onShowDeleteModal(alumno)"
-                  class="text-white font-bold w-full py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
-                >
-                  Desactivar
-                </button>
-              </div>
+            <div class="flex flex-row space-x-2 gap-2">
+              <button
+                (click)="onShowUpdateModal(alumno)"
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-blue-500 hover:bg-blue-700"
+              >
+                Editar
+              </button>
+              <button
+                (click)="onShowDeleteModal(alumno)"
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
+              >
+                Desactivar
+              </button>
             </div>
           </td>
         </tr>
