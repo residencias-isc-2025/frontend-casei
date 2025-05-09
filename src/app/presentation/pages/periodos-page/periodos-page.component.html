@@ -12,7 +12,7 @@
   </div>
 
   <!-- Filtros -->
-  <div class="flex justify-start items-center mb-6 space-x-1">
+  <div class="flex justify-start items-center mb-6 space-x-1 gap-2">
     <app-search-bar
       #searchByClave
       placeholder="Buscar por clave..."
@@ -74,7 +74,7 @@
           <td class="py-3 px-4">{{ periodo.fecha_inicio }}</td>
           <td class="py-3 px-4">{{ periodo.fecha_fin }}</td>
           <td class="py-3 px-4">
-            <div class="flex flex-row space-x-2">
+            <div class="flex flex-row space-x-2 gap-2">
               <button
                 (click)="onShowUpdateModal(periodo)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-blue-500 hover:bg-blue-700"

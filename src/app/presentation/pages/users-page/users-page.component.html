@@ -1,7 +1,7 @@
 <div class="container mx-auto p-6">
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-bold text-gray-800">Usuarios</h1>
-    <div class="space-x-1">
+    <div class="flex flex-row space-x-2 gap-2">
       <button
         (click)="this.showModal.set(true)"
         class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
@@ -23,7 +23,7 @@
     </div>
   </div>
 
-  <div class="flex justify-start items-center mb-6 space-x-1">
+  <div class="flex justify-start items-center mb-6 space-x-1 gap-2">
     <app-search-bar
       #searchByNomina
       class="w-72"
@@ -126,7 +126,7 @@
           </td>
 
           <td class="py-3 px-4">
-            <div class="flex flex-row space-x-2">
+            <div class="flex flex-row space-x-2 gap-2">
               <button
                 (click)="resetPassword(user.id)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-orange-500 hover:bg-orange-700"
