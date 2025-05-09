@@ -6,13 +6,15 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { SidebarLinkComponent } from '../sidebar-link/sidebar-link.component';
 
 export enum TitleColor {
   red = 'text-red-500',
   green = 'text-green-500',
   blue = 'text-blue-500',
   purple = 'text-purple-500',
+  yellow = 'text-yellow-500',
+  black = 'text-black',
 }
 
 interface MenuOptions {
@@ -23,33 +25,33 @@ interface MenuOptions {
 
 @Component({
   selector: 'app-side-menu',
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, SidebarLinkComponent],
   templateUrl: './side-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SideMenuComponent {
-  title = input('Residencias');
+  title = input('CACEI');
   userRole = input.required();
 
   date = signal(formatDate(new Date(), 'yyyy', 'en-US'));
 
-  titleColor = input<TitleColor>(TitleColor.blue);
+  titleColor = input<TitleColor>(TitleColor.yellow);
 
   onLogout = output();
 
   rutasComunes: MenuOptions[] = [
     {
-      icon: 'fas fa-user-tie',
+      icon: '/assets/svgs/user.svg',
       routeName: 'Perfil',
       routerLink: '/dashboard/perfil',
     },
     {
-      icon: 'fas fa-users',
+      icon: '/assets/svgs/apple.svg',
       routeName: 'Alumnos',
       routerLink: '/dashboard/alumnos',
     },
     {
-      icon: 'fas fa-file',
+      icon: '/assets/svgs/clipboard-text.svg',
       routeName: 'Formatos',
       routerLink: '/dashboard/formatos',
     },
@@ -57,112 +59,112 @@ export class SideMenuComponent {
 
   rutasProtegidas: MenuOptions[] = [
     {
-      icon: 'fas fa-users',
+      icon: '/assets/svgs/users.svg',
       routeName: 'usuarios',
       routerLink: '/dashboard/usuarios',
     },
     {
-      icon: 'fas fa-university',
+      icon: '/assets/svgs/school.svg',
       routeName: 'Instituciones',
       routerLink: '/dashboard/instituciones',
     },
     {
-      icon: 'fas fa-paperclip',
+      icon: '/assets/svgs/adscripcion.svg',
       routeName: 'Adscripciones',
       routerLink: '/dashboard/adscripciones',
     },
     {
-      icon: 'fas fa-calendar-alt',
+      icon: '/assets/svgs/periodo.svg',
       routeName: 'Periodos',
       routerLink: '/dashboard/periodos',
     },
     {
-      icon: 'fas fa-bullseye',
+      icon: '/assets/svgs/objetivo-especifico.svg',
       routeName: 'Objetivos específicos',
       routerLink: '/dashboard/objetivos-especificos',
     },
     {
-      icon: 'fas fa-file-alt',
+      icon: '/assets/svgs/atributo-egreso.svg',
       routeName: 'Atributos de egreso',
       routerLink: '/dashboard/atributos-egreso',
     },
     {
-      icon: 'fas fa-graduation-cap',
+      icon: '/assets/svgs/criterio-desempeno.svg',
       routeName: 'Criterios de desempeño',
       routerLink: '/dashboard/criterios',
     },
     {
-      icon: 'fas fa-book-open',
+      icon: '/assets/svgs/estrategia-ensenanza.svg',
       routeName: 'Estrategias de enseñanza',
       routerLink: '/dashboard/estrategias-ensenanza',
     },
     {
-      icon: 'fas fa-check-circle',
+      icon: '/assets/svgs/estrategia-evaluacion.svg',
       routeName: 'Estrategias de evaluación',
       routerLink: '/dashboard/estrategias-evaluacion',
     },
     {
-      icon: 'fas fa-tools',
+      icon: '/assets/svgs/practica.svg',
       routeName: 'Prácticas',
       routerLink: '/dashboard/practicas',
     },
     {
-      icon: 'fas fa-puzzle-piece',
+      icon: '/assets/svgs/tema.svg',
       routeName: 'Temas',
       routerLink: '/dashboard/temas',
     },
     {
-      icon: 'fas fa-puzzle-piece',
+      icon: '/assets/svgs/subtema.svg',
       routeName: 'Subtemas',
       routerLink: '/dashboard/subtemas',
     },
     {
-      icon: 'fas fa-book',
+      icon: '/assets/svgs/bibliografia.svg',
       routeName: 'Bibliografías',
       routerLink: '/dashboard/bibliografias',
     },
     {
-      icon: 'fas fa-clipboard-list',
+      icon: '/assets/svgs/actividad-aprendizaje.svg',
       routeName: 'Actividades de Aprendizaje',
       routerLink: '/dashboard/actividad-aprendizaje',
     },
     {
-      icon: 'fas fa-briefcase',
+      icon: '/assets/svgs/competencia.svg',
       routeName: 'Competencias',
       routerLink: '/dashboard/competencias',
     },
     {
-      icon: 'fas fa-handshake',
+      icon: '/assets/svgs/competencia-generica.svg',
       routeName: 'Competencias Genéricas',
       routerLink: '/dashboard/competencias-genericas',
     },
     {
-      icon: 'fas fa-signal',
+      icon: '/assets/svgs/indicador-alcance.svg',
       routeName: 'Indicadores de Alcance',
       routerLink: '/dashboard/indicador-alcance',
     },
     {
-      icon: 'fas fa-tasks',
+      icon: '/assets/svgs/lista-cotejo.svg',
       routeName: 'Listas de cotejo',
       routerLink: '/dashboard/lista-cotejo',
     },
     {
-      icon: 'fas fa-trophy',
+      icon: '/assets/svgs/nivel-desempeno.svg',
       routeName: 'Nivel de desempeño',
       routerLink: '/dashboard/nivel-desempenio',
     },
     {
-      icon: 'fas fa-folder-open',
+      icon: '/assets/svgs/materia.svg',
       routeName: 'Materias',
       routerLink: '/dashboard/materias',
     },
     {
-      icon: 'fas fa-graduation-cap',
+      icon: '/assets/svgs/carrera.svg',
       routeName: 'Carreras',
       routerLink: '/dashboard/carrera',
     },
     {
-      icon: 'fas fa-book',
+      icon: '/assets/svgs/clase.svg',
       routeName: 'Clases',
       routerLink: '/dashboard/clase',
     },

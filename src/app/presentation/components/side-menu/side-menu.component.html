@@ -1,5 +1,5 @@
 <aside
-  class="bg-gradient-to-br from-gray-800 to-gray-900 -translate-x-80 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0"
+  class="bg-gradient-to-t from-sky-950 to-sky-900 -translate-x-80 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0"
 >
   <div class="relative border-b border-white/20">
     <a class="flex items-center gap-4 py-6 px-8">
@@ -44,50 +44,22 @@
       <!-- Rutas comunes -->
       @for(ruta of rutasComunes; track $index) {
       <li>
-        <a
-          routerLinkActive="rounded-lg bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20 active:opacity-[0.85] w-full flex items-center gap-4 px-4 capitalize"
-          [routerLink]="ruta.routerLink"
-          [routerLinkActiveOptions]="{ exact: true }"
-          aria-current="page"
-          href="#"
-        >
-          <button
-            class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
-            type="button"
-          >
-            <i [class]="ruta.icon"></i>
-            <p
-              class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize"
-            >
-              {{ ruta.routeName }}
-            </p>
-          </button>
-        </a>
+        <app-sidebar-link
+          [routerLinkProp]="ruta.routerLink"
+          [routeNameProp]="ruta.routeName"
+          [iconProp]="ruta.icon"
+        />
       </li>
       }
       <!-- Rutas protegidas -->
       @if(userRole() === 'superuser' || userRole() === 'admin') { @for(ruta of
       rutasProtegidas; track $index) {
       <li>
-        <a
-          routerLinkActive="rounded-lg bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md shadow-blue-500/20 active:opacity-[0.85] w-full flex items-center gap-4 px-4 capitalize"
-          [routerLink]="ruta.routerLink"
-          [routerLinkActiveOptions]="{ exact: true }"
-          aria-current="page"
-          href="#"
-        >
-          <button
-            class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize"
-            type="button"
-          >
-            <i [class]="ruta.icon"></i>
-            <p
-              class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize"
-            >
-              {{ ruta.routeName }}
-            </p>
-          </button>
-        </a>
+        <app-sidebar-link
+          [routerLinkProp]="ruta.routerLink"
+          [routeNameProp]="ruta.routeName"
+          [iconProp]="ruta.icon"
+        />
       </li>
       } }
     </ul>
@@ -95,13 +67,17 @@
     <ul class="mb-4 flex flex-col gap-1">
       <li>
         <button
-          class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4"
-          type="button"
+          class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center justify-start gap-4 px-4 capitalize text-left"
           (click)="onLogout.emit()"
+          type="button"
         >
-          <i class="fas fa-sign-out-alt"></i>
+          <img
+            src="/assets/svgs/log-out.svg"
+            alt="Cerrar sesión icon"
+            class="w-7 h-7 filter invert"
+          />
           <p
-            class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium"
+            class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize"
           >
             Cerrar sesión
           </p>
