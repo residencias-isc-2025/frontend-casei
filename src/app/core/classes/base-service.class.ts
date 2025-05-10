@@ -4,7 +4,7 @@ export abstract class BaseService<T> {
   abstract obtenerDatosPaginados(
     page: number,
     limit: number,
-    params: any
+    params: Record<string, any>
   ): Observable<{
     count: number;
     next: string | null;

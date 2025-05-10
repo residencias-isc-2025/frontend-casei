@@ -10,6 +10,10 @@ import { Carrera } from '@core/models/carrera.model';
 import { AlumnoService } from '@core/services/alumno.service';
 import { CarreraService } from '@core/services/carrera.service';
 import { ToastService } from '@core/services/toast.service';
+import {
+  FilterBarComponent,
+  FilterConfig,
+} from '@presentation/components/filter-bar/filter-bar.component';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 import { AlumnoFormComponent } from '@presentation/forms/alumno-form/alumno-form.component';
 import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
@@ -20,6 +24,7 @@ import { ConfirmationModalComponent } from '@presentation/forms/confirmation-mod
     PaginationComponent,
     ConfirmationModalComponent,
     AlumnoFormComponent,
+    FilterBarComponent,
   ],
   templateUrl: './alumno-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,9 +41,14 @@ export default class AlumnoPageComponent implements OnInit {
   alumnoSelected = signal<Alumno | null>(null);
   alumnosList = signal<Alumno[]>([]);
   carrerasList = signal<Carrera[]>([]);
+  recordFilters = signal<Record<string, any>>({});
 
   totalItems = signal(0);
   currentPage = signal(1);
+
+  filters: FilterConfig[] = [
+    { key: 'matricula', label: 'Matricula', type: 'text' },
+  ];
 
   ngOnInit(): void {
     this.loadCarrerasList();
@@ -47,7 +57,7 @@ export default class AlumnoPageComponent implements OnInit {
 
   private loadAlumnosList(): void {
     this.alumnoService
-      .obtenerDatosPaginados(this.currentPage(), 10, {})
+      .obtenerDatosPaginados(this.currentPage(), 10, this.recordFilters())
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
@@ -119,5 +129,10 @@ export default class AlumnoPageComponent implements OnInit {
 
   carreraData(idCarrera: number) {
     return this.carreraService.obtenerDataInfo(idCarrera, this.carrerasList());
+  }
+
+  onSearch(filters: Record<string, any>) {
+    this.recordFilters.set(filters);
+    this.loadAlumnosList();
   }
 }

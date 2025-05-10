@@ -15,19 +15,30 @@ export class AlumnoService extends BaseService<Alumno> {
   override obtenerDatosPaginados(
     page: number,
     limit: number,
-    params: any
+    params: Record<string, any> = {}
   ): Observable<{
     count: number;
     next: string | null;
     previous: string | null;
     results: Alumno[];
   }> {
+    const filters = new URLSearchParams({
+      page: page.toString(),
+      page_size: limit.toString(),
+    });
+
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && value !== '') {
+        filters.append(key, value);
+      }
+    });
+
     return this.http.get<{
       count: number;
       next: string | null;
       previous: string | null;
       results: Alumno[];
-    }>(`${this.apiUrl}/?page=${page}&page_size=${limit}`);
+    }>(`${this.apiUrl}/?${filters.toString()}`);
   }
 
   override crear(data: Partial<Alumno>): Observable<{ mensaje: string }> {
