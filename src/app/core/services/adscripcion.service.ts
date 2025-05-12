@@ -4,12 +4,6 @@ import { BaseService } from '@core/classes/base-service.class';
 import { Adscripcion } from '@core/models/adscripcion.model';
 import { environment } from '@environments/environment';
 
-export interface AdscripcionSearchParams {
-  nombre?: string;
-  estado?: string;
-  siglas?: string;
-}
-
 @Injectable({
   providedIn: 'root',
 })
@@ -20,20 +14,25 @@ export class AdscripcionService extends BaseService<Adscripcion> {
   override obtenerDatosPaginados(
     page: number,
     limit: number,
-    params: AdscripcionSearchParams
+    params: Record<string, any> = {}
   ) {
-    let url = `${this.apiUrl}/area-adscripcion/?page=${page}&page_size=${limit}`;
+    const filters = new URLSearchParams({
+      page: page.toString(),
+      page_size: limit.toString(),
+    });
 
-    if (params.nombre !== '') url += `&nombre=${params.nombre}`;
-    if (params.estado !== '') url += `&estado=${params.estado}`;
-    if (params.siglas !== '') url += `&pais=${params.siglas}`;
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && value !== '') {
+        filters.append(key, value);
+      }
+    });
 
     return this.http.get<{
       count: number;
       next: string | null;
       previous: string | null;
       results: Adscripcion[];
-    }>(url);
+    }>(`${this.apiUrl}/area-adscripcion/?${filters.toString()}`);
   }
 
   obtenerAdscripcionPorId(id: number) {

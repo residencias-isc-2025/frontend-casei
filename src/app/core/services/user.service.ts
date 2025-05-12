@@ -4,13 +4,6 @@ import { BaseService } from '@core/classes/base-service.class';
 import { User } from '@core/models/user.model';
 import { environment } from '@environments/environment';
 
-export interface UserSearchParams {
-  nomina?: string;
-  nombre?: string;
-  estado?: string;
-  area?: string;
-}
-
 @Injectable({
   providedIn: 'root',
 })
@@ -21,21 +14,25 @@ export class UserService extends BaseService<User> {
   override obtenerDatosPaginados(
     page: number,
     limit: number,
-    params: UserSearchParams
+    params: Record<string, any> = {}
   ) {
-    let url = `${this.apiUrl}/users/?page=${page}&page_size=${limit}`;
+    const filters = new URLSearchParams({
+      page: page.toString(),
+      page_size: limit.toString(),
+    });
 
-    if (params.nomina !== '') url += `&username=${params.nomina}`;
-    if (params.nombre !== '') url += `&nombre=${params.nombre}`;
-    if (params.area !== '') url += `&area_adscripcion=${params.area}`;
-    if (params.estado !== '') url += `&estado=${params.estado}`;
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && value !== '') {
+        filters.append(key, value);
+      }
+    });
 
     return this.http.get<{
       count: number;
       next: string | null;
       previous: string | null;
       results: User[];
-    }>(url);
+    }>(`${this.apiUrl}/users/?${filters.toString()}`);
   }
 
   obtenerPerfil() {

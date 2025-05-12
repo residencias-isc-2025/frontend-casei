@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,6 +22,7 @@ import { ConfirmationModalComponent } from '@presentation/forms/confirmation-mod
 @Component({
   selector: 'app-alumno-page',
   imports: [
+    CommonModule,
     PaginationComponent,
     ConfirmationModalComponent,
     AlumnoFormComponent,
@@ -48,6 +50,20 @@ export default class AlumnoPageComponent implements OnInit {
 
   filters: FilterConfig[] = [
     { key: 'matricula', label: 'Matricula', type: 'text' },
+    { key: 'apellido_paterno', label: 'Apellido Paterno', type: 'text' },
+    { key: 'apellido_materno', label: 'Apellido Materno', type: 'text' },
+    { key: 'nombre', label: 'Nombre', type: 'text' },
+    { key: 'carrera', label: 'Carrrera', type: 'select', options: [] },
+    {
+      key: 'is_active',
+      label: 'Estado',
+      type: 'boolean',
+      options: [
+        { label: 'Todos', value: null },
+        { label: 'Activo', value: true },
+        { label: 'Inactivo', value: false },
+      ],
+    },
   ];
 
   ngOnInit(): void {
@@ -66,6 +82,8 @@ export default class AlumnoPageComponent implements OnInit {
           if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.alumnosList.set(res.results);
+
+          console.log(res.results);
         },
       });
   }
@@ -76,14 +94,19 @@ export default class AlumnoPageComponent implements OnInit {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        this.carrerasList.set(res.results);
-
         if (res.count === 0) {
           this.toastService.showWarning(
             'No hay carreras registradas.',
             'Advertencia'
           );
+          return;
         }
+
+        this.carrerasList.set(res.results);
+
+        this.carrerasList().forEach((c) => {
+          this.filters[4].options?.push({ label: c.nombre, value: c.id });
+        });
       },
     });
   }
@@ -104,6 +127,7 @@ export default class AlumnoPageComponent implements OnInit {
   }
 
   onSaveEmit() {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.loadAlumnosList();
     this.showAddModal.set(false);
   }
@@ -127,11 +151,24 @@ export default class AlumnoPageComponent implements OnInit {
     });
   }
 
+  onActivate(itemId: number) {
+    this.alumnoService.habilitar(itemId).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        this.loadAlumnosList();
+      },
+    });
+  }
+
   carreraData(idCarrera: number) {
     return this.carreraService.obtenerDataInfo(idCarrera, this.carrerasList());
   }
 
   onSearch(filters: Record<string, any>) {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.recordFilters.set(filters);
     this.loadAlumnosList();
   }

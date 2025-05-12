@@ -5,4 +5,5 @@ export interface Alumno {
   apellido_materno: string;
   apellido_paterno: string;
   carrera: number;
+  is_active: boolean;
 }

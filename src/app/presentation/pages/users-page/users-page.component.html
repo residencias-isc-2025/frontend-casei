@@ -23,56 +23,11 @@
     </div>
   </div>
 
-  <div class="flex justify-start items-center mb-6 space-x-1 gap-2">
-    <app-search-bar
-      #searchByNomina
-      class="w-72"
-      placeholder="Buscar por número de nómina..."
-      (onSearch)="filterUsersByNomina($event)"
-    />
-    <app-search-bar
-      #searchByName
-      placeholder="Buscar por nombre..."
-      (onSearch)="filterUsersByName($event)"
-    />
-
-    <select
-      #selectArea
-      (change)="handleSelectAreaChange($event)"
-      class="w-96 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-    >
-      <option value="" selected>Seleccionar área de adscripción</option>
-      @for(adscripcion of adscripcionesList(); track adscripcion.id) {
-      <option [value]="adscripcion.id">
-        {{ adscripcion.nombre }}
-      </option>
-      }
-    </select>
-    <select
-      #selectEstado
-      (change)="handleSelectEstadoChange($event)"
-      class="w-64 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-    >
-      <option value="" selected>Seleccionar estado</option>
-      <option value="activo">Activo</option>
-      <option value="inactivo">Inactivo</option>
-    </select>
-
-    <button
-      (click)="
-        clearAllFilters(searchByNomina, searchByName, selectArea, selectEstado)
-      "
-      class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded transition"
-    >
-      Limpiar Filtros
-    </button>
-    <button
-      (click)="searchWithFilters()"
-      class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded transition"
-    >
-      Buscar
-    </button>
-  </div>
+  <app-filter-bar
+    [filters]="filters"
+    (search)="onSearch($event)"
+    (clear)="onSearch({})"
+  />
 
   <div class="bg-white shadow-lg rounded-lg overflow-hidden mt-2">
     <table class="w-full border-collapse">

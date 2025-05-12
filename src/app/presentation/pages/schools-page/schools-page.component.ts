@@ -9,13 +9,16 @@ import {
 
 import { PaginationComponent } from '@components/pagination/pagination.component';
 
-import { SearchBarComponent } from '@presentation/components/search-bar/search-bar.component';
 import { InstitucionService } from '@core/services/institucion.service';
 import { InstitucionFormComponent } from '@presentation/forms/institucion-form/institucion-form.component';
 import { Institucion } from '@core/models/institucion.model';
 import { CommonService } from '@core/services/common.service';
 import { Countries } from '@core/models/countries.model';
 import { ToastService } from '@core/services/toast.service';
+import {
+  FilterBarComponent,
+  FilterConfig,
+} from '@presentation/components/filter-bar/filter-bar.component';
 
 @Component({
   selector: 'app-schools-page',
@@ -23,7 +26,7 @@ import { ToastService } from '@core/services/toast.service';
     CommonModule,
     PaginationComponent,
     InstitucionFormComponent,
-    SearchBarComponent,
+    FilterBarComponent,
   ],
   templateUrl: './schools-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,16 +39,28 @@ export default class SchoolsPageComponent implements OnInit {
   showAddModal = signal(false);
   showUpdateModal = signal(false);
 
-  filterName = signal<string>('');
-  filterPais = signal<string>('');
-  filterEstado = signal<string>('');
-
-  totalItems = signal(0);
   schools = signal<Institucion[]>([]);
   countries = signal<Countries[]>([]);
-
-  currentPage = signal(1);
   schoolSelected = signal<Institucion | null>(null);
+  recordFilters = signal<Record<string, any>>({});
+
+  totalItems = signal(0);
+  currentPage = signal(1);
+
+  filters: FilterConfig[] = [
+    { key: 'institucion', label: 'Nombre', type: 'text' },
+    { key: 'pais', label: 'Pais', type: 'text' },
+    {
+      key: 'estado',
+      label: 'Estado',
+      type: 'boolean',
+      options: [
+        { label: 'Todos', value: '' },
+        { label: 'Activo', value: 'activo' },
+        { label: 'Inactivo', value: 'inactivo' },
+      ],
+    },
+  ];
 
   ngOnInit(): void {
     this.cargarPaises();
@@ -62,11 +77,7 @@ export default class SchoolsPageComponent implements OnInit {
 
   private cargarInstituciones(): void {
     this.institucionService
-      .obtenerDatosPaginados(this.currentPage(), 10, {
-        estado: this.filterEstado(),
-        nombre: this.filterName(),
-        pais: this.filterPais(),
-      })
+      .obtenerDatosPaginados(this.currentPage(), 10, this.recordFilters())
       .subscribe({
         next: (response) => {
           if (response.count === 0) this.currentPage.set(0);
@@ -127,43 +138,9 @@ export default class SchoolsPageComponent implements OnInit {
     });
   }
 
-  filterInstitucionByName(searchTerm: string) {
-    this.filterName.set(searchTerm);
-  }
-
-  filterInstitucionByPais(searchTerm: string) {
-    this.filterPais.set(searchTerm);
-  }
-
-  handleSelectEstadoChange(event: Event) {
-    const select = event.target as HTMLSelectElement;
-    this.filterInstitucionByEstado(select.value ?? '');
-  }
-
-  filterInstitucionByEstado(estado: string) {
-    this.filterEstado.set(estado);
-  }
-
-  searchWithFilters() {
+  onSearch(filters: Record<string, any>) {
+    if (this.currentPage() === 0) this.currentPage.set(1);
+    this.recordFilters.set(filters);
     this.cargarInstituciones();
-  }
-
-  clearAllFilters(
-    searchByCountry: any,
-    searchByName: any,
-    selectEstado: HTMLSelectElement
-  ) {
-    searchByCountry.clearSearch();
-    searchByName.clearSearch();
-
-    selectEstado.selectedIndex = 0;
-
-    this.filterPais.set('');
-    this.filterName.set('');
-    this.filterEstado.set('');
-
-    setTimeout(() => {
-      this.cargarInstituciones();
-    }, 100);
   }
 }

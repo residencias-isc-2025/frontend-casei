@@ -50,7 +50,7 @@ export class AlumnoService extends BaseService<Alumno> {
   }
 
   override habilitar(id: number): Observable<{ mensaje: string }> {
-    throw new Error('Method not implemented.');
+    return this.http.put<{ mensaje: string }>(`${this.apiUrl}/habilitar/${id}/`, {});
   }
 
   override actualizar(

@@ -9,7 +9,11 @@
     </button>
   </div>
 
-  <app-filter-bar [filters]="filters" />
+  <app-filter-bar
+    [filters]="filters"
+    (search)="onSearch($event)"
+    (clear)="onSearch({})"
+  />
 
   <div class="bg-white shadow-lg rounded-lg overflow-hidden">
     <table class="w-full border-collapse">
@@ -28,7 +32,11 @@
           <td class="py-3 px-4">
             <div class="flex items-center justify-center">
               <span
-                class="inline-block w-3 h-3 rounded-full bg-green-500"
+                class="inline-block w-3 h-3 rounded-full"
+                [ngClass]="{
+                  'bg-green-500': alumno.is_active,
+                  'bg-red-500': !alumno.is_active,
+                }"
               ></span>
             </div>
           </td>
@@ -45,11 +53,20 @@
               >
                 Editar
               </button>
+
               <button
-                (click)="onShowDeleteModal(alumno)"
-                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
+                (click)="
+                  alumno.is_active
+                    ? onShowDeleteModal(alumno)
+                    : onActivate(alumno.id)
+                "
+                [ngClass]="{
+                  'bg-green-500': !alumno.is_active,
+                  'bg-red-500 hover:bg-red-700': alumno.is_active,
+                }"
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300"
               >
-                Desactivar
+                {{ alumno.is_active ? "Desactivar" : "Activar" }}
               </button>
             </div>
           </td>
@@ -85,12 +102,13 @@
 />
 } @if (showDeleteModal()){
 <app-confirmation-modal
-  title="Eliminar: Tema"
+  title="Descativar: Alumno"
   [message]="
-    '¿Esta seguro de querer eliminar el alumno con matrícula ' +
+    '¿Esta seguro de querer desactivar el alumno con matrícula ' +
     alumnoSelected()?.matricula +
     '?'
   "
+  confirmButtonText="Desactivar"
   (onConfirm)="onDelete(alumnoSelected()?.id!)"
   (onCancel)="showDeleteModal.set(false)"
 />

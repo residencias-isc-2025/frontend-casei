@@ -8,13 +8,16 @@ import {
 
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { CommonModule } from '@angular/common';
-import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 import { UserService } from '@core/services/user.service';
 import { User } from '@core/models/user.model';
 import { UserFormComponent } from '@presentation/forms/user-form/user-form.component';
 import { Adscripcion } from '@core/models/adscripcion.model';
 import { AdscripcionService } from '@core/services/adscripcion.service';
 import { ToastService } from '@core/services/toast.service';
+import {
+  FilterBarComponent,
+  FilterConfig,
+} from '@presentation/components/filter-bar/filter-bar.component';
 
 @Component({
   selector: 'app-users-page',
@@ -22,7 +25,7 @@ import { ToastService } from '@core/services/toast.service';
     CommonModule,
     UserFormComponent,
     PaginationComponent,
-    SearchBarComponent,
+    FilterBarComponent,
   ],
   templateUrl: './users-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,15 +36,29 @@ export default class UsersPageComponent implements OnInit {
   adscripcionService = inject(AdscripcionService);
 
   showModal = signal(false);
-  totalItems = signal(0);
+
   users = signal<User[]>([]);
   adscripcionesList = signal<Adscripcion[]>([]);
+  recordFilters = signal<Record<string, any>>({});
+
+  totalItems = signal(0);
   currentPage = signal(1);
 
-  filterNomina = signal<string>('');
-  filterName = signal<string>('');
-  filterArea = signal<string>('');
-  filterEstado = signal<string>('');
+  filters: FilterConfig[] = [
+    { key: 'username', label: 'Nomina', type: 'text' },
+    { key: 'nombre', label: 'Nombre', type: 'text' },
+    { key: 'area_adscripcion', label: 'Area de adscripción', type: 'select' },
+    {
+      key: 'estado',
+      label: 'Estado',
+      type: 'boolean',
+      options: [
+        { label: 'Todos', value: '' },
+        { label: 'Activo', value: 'activo' },
+        { label: 'Inactivo', value: 'inactivo' },
+      ],
+    },
+  ];
 
   ngOnInit(): void {
     this.loadAdscripciones();
@@ -71,12 +88,7 @@ export default class UsersPageComponent implements OnInit {
 
   private loadUsers(): void {
     this.userService
-      .obtenerDatosPaginados(this.currentPage(), 10, {
-        nomina: this.filterNomina(),
-        area: this.filterArea(),
-        estado: this.filterEstado(),
-        nombre: this.filterName(),
-      })
+      .obtenerDatosPaginados(this.currentPage(), 10, this.recordFilters())
       .subscribe({
         next: (response) => {
           if (response.count === 0) this.currentPage.set(0);
@@ -176,56 +188,10 @@ export default class UsersPageComponent implements OnInit {
     });
   }
 
-  filterUsersByNomina(searchTerm: string) {
-    this.filterNomina.set(searchTerm);
-  }
-
-  filterUsersByName(searchTerm: string) {
-    this.filterName.set(searchTerm);
-  }
-
-  handleSelectAreaChange(event: Event) {
-    const select = event.target as HTMLSelectElement;
-    this.filterUsersByArea(select.value ?? '');
-  }
-
-  handleSelectEstadoChange(event: Event) {
-    const select = event.target as HTMLSelectElement;
-    this.filterUsersByEstado(select.value ?? '');
-  }
-
-  filterUsersByArea(areaId: string) {
-    this.filterArea.set(areaId);
-  }
-
-  filterUsersByEstado(estado: string) {
-    this.filterEstado.set(estado);
-  }
-
-  searchWithFilters() {
+  onSearch(filters: Record<string, any>) {
+    if (this.currentPage() === 0) this.currentPage.set(1);
+    this.recordFilters.set(filters);
     this.loadUsers();
-  }
-
-  clearAllFilters(
-    searchByNomina: any,
-    searchByName: any,
-    selectArea: HTMLSelectElement,
-    selectEstado: HTMLSelectElement
-  ) {
-    searchByNomina.clearSearch();
-    searchByName.clearSearch();
-
-    selectArea.selectedIndex = 0;
-    selectEstado.selectedIndex = 0;
-
-    this.filterNomina.set('');
-    this.filterName.set('');
-    this.filterArea.set('');
-    this.filterEstado.set('');
-
-    setTimeout(() => {
-      this.loadUsers();
-    }, 100);
   }
 
   cleanRole(user: User): string {

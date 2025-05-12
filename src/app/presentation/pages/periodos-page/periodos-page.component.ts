@@ -9,11 +9,14 @@ import {
 
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 
-import { SearchBarComponent } from '@presentation/components/search-bar/search-bar.component';
 import { PeriodoFormComponent } from '@presentation/forms/periodo-form/periodo-form.component';
 import { Periodo } from '@core/models/periodo.model';
 import { PeriodoService } from '@core/services/periodo.service';
 import { ToastService } from '@core/services/toast.service';
+import {
+  FilterBarComponent,
+  FilterConfig,
+} from '@presentation/components/filter-bar/filter-bar.component';
 
 @Component({
   selector: 'app-periodos-page',
@@ -21,7 +24,7 @@ import { ToastService } from '@core/services/toast.service';
     CommonModule,
     PaginationComponent,
     PeriodoFormComponent,
-    SearchBarComponent,
+    FilterBarComponent,
   ],
   templateUrl: './periodos-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,14 +36,26 @@ export default class PeriodosPageComponent implements OnInit {
   showAddModal = signal(false);
   showUpdateModal = signal(false);
 
+  periodos = signal<Periodo[]>([]);
+  periodoSelected = signal<Periodo | null>(null);
+  recordFilters = signal<Record<string, any>>({});
+
   totalItems = signal(0);
   currentPage = signal(1);
 
-  periodos = signal<Periodo[]>([]);
-  periodoSelected = signal<Periodo | null>(null);
-
-  filterActivo = signal<number | undefined>(undefined);
-  filterClave = signal<string>('');
+  filters: FilterConfig[] = [
+    { key: 'clave', label: 'Clave', type: 'text' },
+    {
+      key: 'activo',
+      label: 'Estado',
+      type: 'boolean',
+      options: [
+        { label: 'Todos', value: undefined },
+        { label: 'Activo', value: 1 },
+        { label: 'Inactivo', value: 0 },
+      ],
+    },
+  ];
 
   ngOnInit(): void {
     this.loadPeriodos();
@@ -48,10 +63,7 @@ export default class PeriodosPageComponent implements OnInit {
 
   private loadPeriodos(): void {
     this.periodoService
-      .obtenerDatosPaginados(this.currentPage(), 10, {
-        activo: this.filterActivo(),
-        clave: this.filterClave(),
-      })
+      .obtenerDatosPaginados(this.currentPage(), 10, this.recordFilters())
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
@@ -112,34 +124,9 @@ export default class PeriodosPageComponent implements OnInit {
     });
   }
 
-  filterPeriodosByClave(searchTerm: string) {
-    this.filterClave.set(searchTerm);
-  }
-
-  handleSelectEstadoChange(event: Event) {
-    const select = event.target as HTMLSelectElement;
-    this.filterPeriodosByStatus(select.value ?? '');
-  }
-
-  filterPeriodosByStatus(estado: string) {
-    const activo = estado === 'activo' ? 1 : 0;
-    this.filterActivo.set(activo);
-  }
-
-  searchWithFilters() {
+  onSearch(filters: Record<string, any>) {
+    if (this.currentPage() === 0) this.currentPage.set(1);
+    this.recordFilters.set(filters);
     this.loadPeriodos();
-  }
-
-  clearAllFilters(searchByClave: any, selectEstado: HTMLSelectElement) {
-    searchByClave.clearSearch();
-
-    selectEstado.selectedIndex = 0;
-
-    this.filterClave.set('');
-    this.filterActivo.set(undefined);
-
-    setTimeout(() => {
-      this.loadPeriodos();
-    }, 100);
   }
 }

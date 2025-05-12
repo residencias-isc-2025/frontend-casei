@@ -4,12 +4,6 @@ import { BaseService } from '@core/classes/base-service.class';
 import { Institucion } from '@core/models/institucion.model';
 import { environment } from '@environments/environment';
 
-export interface InstitucionSearchParams {
-  nombre?: string;
-  pais?: string;
-  estado?: string;
-}
-
 @Injectable({
   providedIn: 'root',
 })
@@ -20,20 +14,25 @@ export class InstitucionService extends BaseService<Institucion> {
   override obtenerDatosPaginados(
     page: number,
     limit: number,
-    params: InstitucionSearchParams
+    params: Record<string, any> = {}
   ) {
-    let url = `${this.apiUrl}/institucion-pais/?page=${page}&page_size=${limit}`;
+    const filters = new URLSearchParams({
+      page: page.toString(),
+      page_size: limit.toString(),
+    });
 
-    if (params.nombre !== '') url += `&institucion=${params.nombre}`;
-    if (params.pais !== '') url += `&pais=${params.pais}`;
-    if (params.estado !== '') url += `&estado=${params.estado}`;
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && value !== '') {
+        filters.append(key, value);
+      }
+    });
 
     return this.http.get<{
       count: number;
       next: string | null;
       previous: string | null;
       results: Institucion[];
-    }>(url);
+    }>(`${this.apiUrl}/institucion-pais/?${filters.toString()}`);
   }
 
   override crear(data: Partial<Institucion>) {

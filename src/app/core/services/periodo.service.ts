@@ -4,11 +4,6 @@ import { BaseService } from '@core/classes/base-service.class';
 import { Periodo } from '@core/models/periodo.model';
 import { environment } from '@environments/environment';
 
-export interface PeriodoSearchParams {
-  clave?: string;
-  activo?: number | undefined;
-}
-
 @Injectable({
   providedIn: 'root',
 })
@@ -19,19 +14,25 @@ export class PeriodoService extends BaseService<Periodo> {
   override obtenerDatosPaginados(
     page: number,
     limit: number,
-    params: PeriodoSearchParams
+    params: Record<string, any> = {}
   ) {
-    let url = `${this.apiUrl}/periodo/?page=${page}&page_size=${limit}`;
+    const filters = new URLSearchParams({
+      page: page.toString(),
+      page_size: limit.toString(),
+    });
 
-    if (params.clave !== undefined) url += `&clave=${params.clave}`;
-    if (params.activo !== undefined) url += `&activo=${params.activo}`;
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && value !== '') {
+        filters.append(key, value);
+      }
+    });
 
     return this.http.get<{
       count: number;
       next: string | null;
       previous: string | null;
       results: Periodo[];
-    }>(url);
+    }>(`${this.apiUrl}/periodo/?${filters.toString()}`);
   }
 
   override crear(data: Partial<Periodo>) {

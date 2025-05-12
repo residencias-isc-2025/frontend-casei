@@ -10,8 +10,11 @@ import { Adscripcion } from '@core/models/adscripcion.model';
 import { AdscripcionService } from '@core/services/adscripcion.service';
 import { CommonService } from '@core/services/common.service';
 import { ToastService } from '@core/services/toast.service';
+import {
+  FilterBarComponent,
+  FilterConfig,
+} from '@presentation/components/filter-bar/filter-bar.component';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
-import { SearchBarComponent } from '@presentation/components/search-bar/search-bar.component';
 import { AdscripcionFormComponent } from '@presentation/forms/adscripcion-form/adscripcion-form.component';
 
 @Component({
@@ -20,7 +23,7 @@ import { AdscripcionFormComponent } from '@presentation/forms/adscripcion-form/a
     CommonModule,
     PaginationComponent,
     AdscripcionFormComponent,
-    SearchBarComponent,
+    FilterBarComponent,
   ],
   templateUrl: './enrolled-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,21 +31,32 @@ import { AdscripcionFormComponent } from '@presentation/forms/adscripcion-form/a
 export default class EnrolledPageComponent implements OnInit {
   toastService = inject(ToastService);
   adscripcionService = inject(AdscripcionService);
-  adscripciones = signal<Adscripcion[]>([]);
+  commonService = inject(CommonService);
 
   showAddModal = signal(false);
   showUpdateModal = signal(false);
 
+  adscripciones = signal<Adscripcion[]>([]);
+  adscripcionSelected = signal<Adscripcion | null>(null);
+  recordFilters = signal<Record<string, any>>({});
+
   totalItems = signal(0);
   currentPage = signal(1);
 
-  adscripcionSelected = signal<Adscripcion | null>(null);
-
-  filterEstado = signal<string>('');
-  filterNombre = signal<string>('');
-  filterSiglas = signal<string>('');
-
-  commonService = inject(CommonService);
+  filters: FilterConfig[] = [
+    { key: 'siglas', label: 'siglas', type: 'text' },
+    { key: 'nombre', label: 'Nombre', type: 'text' },
+    {
+      key: 'estado',
+      label: 'Estado',
+      type: 'boolean',
+      options: [
+        { label: 'Todos', value: '' },
+        { label: 'Activo', value: 'activo' },
+        { label: 'Inactivo', value: 'inactivo' },
+      ],
+    },
+  ];
 
   ngOnInit(): void {
     this.cargarAdscripciones();
@@ -50,11 +64,7 @@ export default class EnrolledPageComponent implements OnInit {
 
   private cargarAdscripciones(): void {
     this.adscripcionService
-      .obtenerDatosPaginados(this.currentPage(), 10, {
-        estado: this.filterEstado(),
-        nombre: this.filterNombre(),
-        siglas: this.filterSiglas(),
-      })
+      .obtenerDatosPaginados(this.currentPage(), 10, this.recordFilters())
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
@@ -115,43 +125,9 @@ export default class EnrolledPageComponent implements OnInit {
     });
   }
 
-  filterAdscripcionByName(searchTerm: string) {
-    this.filterNombre.set(searchTerm);
-  }
-
-  filterAdscripcionBySiglas(searchTerm: string) {
-    this.filterSiglas.set(searchTerm);
-  }
-
-  handleSelectEstadoChange(event: Event) {
-    const select = event.target as HTMLSelectElement;
-    this.filterAdscripcionByEstado(select.value ?? '');
-  }
-
-  filterAdscripcionByEstado(estado: string) {
-    this.filterEstado.set(estado);
-  }
-
-  searchWithFilters() {
+  onSearch(filters: Record<string, any>) {
+    if (this.currentPage() === 0) this.currentPage.set(1);
+    this.recordFilters.set(filters);
     this.cargarAdscripciones();
-  }
-
-  clearAllFilters(
-    searchByName: any,
-    searchBySiglas: any,
-    selectEstado: HTMLSelectElement
-  ) {
-    searchBySiglas.clearSearch();
-    searchByName.clearSearch();
-
-    selectEstado.selectedIndex = 0;
-
-    this.filterEstado.set('');
-    this.filterNombre.set('');
-    this.filterSiglas.set('');
-
-    setTimeout(() => {
-      this.cargarAdscripciones();
-    }, 100);
   }
 }
