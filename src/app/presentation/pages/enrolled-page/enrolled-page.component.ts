@@ -44,7 +44,7 @@ export default class EnrolledPageComponent implements OnInit {
   currentPage = signal(1);
 
   filters: FilterConfig[] = [
-    { key: 'siglas', label: 'siglas', type: 'text' },
+    { key: 'siglas', label: 'Siglas', type: 'text' },
     { key: 'nombre', label: 'Nombre', type: 'text' },
     {
       key: 'estado',

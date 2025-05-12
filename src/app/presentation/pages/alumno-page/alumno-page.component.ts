@@ -82,8 +82,6 @@ export default class AlumnoPageComponent implements OnInit {
           if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.alumnosList.set(res.results);
-
-          console.log(res.results);
         },
       });
   }

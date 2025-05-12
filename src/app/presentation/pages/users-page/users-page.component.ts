@@ -47,7 +47,12 @@ export default class UsersPageComponent implements OnInit {
   filters: FilterConfig[] = [
     { key: 'username', label: 'Nomina', type: 'text' },
     { key: 'nombre', label: 'Nombre', type: 'text' },
-    { key: 'area_adscripcion', label: 'Area de adscripción', type: 'select' },
+    {
+      key: 'area_adscripcion',
+      label: 'Area de adscripción',
+      type: 'select',
+      options: [],
+    },
     {
       key: 'estado',
       label: 'Estado',
@@ -74,14 +79,22 @@ export default class UsersPageComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.adscripcionesList.set(response.results);
-
           if (response.results.length === 0) {
             this.toastService.showWarning(
               'No hay áreas de adscripción registradas',
               'Advertencia'
             );
+            return;
           }
+
+          this.adscripcionesList.set(response.results);
+
+          response.results.forEach((a) => {
+            this.filters[2].options?.push({
+              label: a.nombre,
+              value: a.id,
+            });
+          });
         },
       });
   }
