@@ -100,6 +100,7 @@ export default class ActualizacionDisciplinarComponent {
   }
 
   onSaveEmit() {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.loadActualizacionDisciplinarList();
     this.showAddModal.set(false);
   }

@@ -61,6 +61,7 @@ export default class BibliografiaPageComponent implements OnInit {
   }
 
   onSaveEmit(): void {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.showAddModal.set(false);
     this.cargarBibliografia();
   }

@@ -66,6 +66,7 @@ export default class EstrategiaEnsenanzaPageComponent implements OnInit {
   }
 
   onSaveEmit() {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.loadEstrategiasEnsenanzaList();
     this.showAddModal.set(false);
   }

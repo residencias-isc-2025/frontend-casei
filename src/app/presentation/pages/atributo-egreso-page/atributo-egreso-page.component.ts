@@ -66,6 +66,7 @@ export default class AtributoEgresoPageComponent implements OnInit {
   }
 
   onSaveEmit() {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.loadAtributosEgreso();
     this.showAddModal.set(false);
   }

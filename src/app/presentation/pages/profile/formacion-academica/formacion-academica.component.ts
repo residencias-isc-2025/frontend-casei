@@ -94,6 +94,7 @@ export default class FormacionAcademicaComponent implements OnInit {
   }
 
   onSaveEmit() {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.loadFormacionAcademica();
     this.showAddModal.set(false);
   }

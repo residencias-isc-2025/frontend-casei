@@ -67,6 +67,7 @@ export default class PremiosComponent implements OnInit {
   }
 
   onSaveEmit() {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.loadPremiosList();
     this.showAddModal.set(false);
   }

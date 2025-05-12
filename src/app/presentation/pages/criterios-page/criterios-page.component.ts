@@ -78,6 +78,7 @@ export default class CriteriosPageComponent {
   }
 
   onSaveEmit() {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.loadCriteriosDesempeno();
     this.showAddModal.set(false);
   }

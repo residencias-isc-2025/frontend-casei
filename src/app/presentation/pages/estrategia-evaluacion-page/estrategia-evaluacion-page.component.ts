@@ -37,10 +37,10 @@ export default class EstrategiaEvaluacionPageComponent implements OnInit {
   currentPage = signal(1);
 
   ngOnInit(): void {
-    this.loadPremiosList();
+    this.loadEstrategiaEvaluacionList();
   }
 
-  private loadPremiosList(): void {
+  private loadEstrategiaEvaluacionList(): void {
     this.estrategiaEvaluacionService
       .obtenerDatosPaginados(this.currentPage(), 10, {})
       .subscribe({
@@ -66,18 +66,19 @@ export default class EstrategiaEvaluacionPageComponent implements OnInit {
   }
 
   onSaveEmit() {
-    this.loadPremiosList();
+    if (this.currentPage() === 0) this.currentPage.set(1);
+    this.loadEstrategiaEvaluacionList();
     this.showAddModal.set(false);
   }
 
   onEditEmit() {
-    this.loadPremiosList();
+    this.loadEstrategiaEvaluacionList();
     this.showUpdateModal.set(false);
   }
 
   onPageChanged(page: number): void {
     this.currentPage.set(page);
-    this.loadPremiosList();
+    this.loadEstrategiaEvaluacionList();
   }
 
   onDelete(itemId: number) {
@@ -89,7 +90,7 @@ export default class EstrategiaEvaluacionPageComponent implements OnInit {
       },
       next: (res) => {
         this.toastService.showSuccess(res.mensaje!, 'Éxito');
-        this.loadPremiosList();
+        this.loadEstrategiaEvaluacionList();
       },
     });
   }

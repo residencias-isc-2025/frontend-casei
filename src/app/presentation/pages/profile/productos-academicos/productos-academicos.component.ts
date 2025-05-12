@@ -67,6 +67,7 @@ export default class ProductosAcademicosComponent implements OnInit {
   }
 
   onSaveEmit() {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.loadProductosAcademicosList();
     this.showAddModal.set(false);
   }

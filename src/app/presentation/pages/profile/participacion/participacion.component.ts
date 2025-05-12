@@ -67,6 +67,7 @@ export default class ParticipacionComponent implements OnInit {
   }
 
   onSaveEmit() {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.loadParticipacionList();
     this.showAddModal.set(false);
   }

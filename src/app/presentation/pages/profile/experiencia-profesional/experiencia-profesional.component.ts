@@ -67,6 +67,7 @@ export default class ExperienciaProfesionalComponent {
   }
 
   onSaveEmit() {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.loadExperienciaProfesionalList();
     this.showAddModal.set(false);
   }

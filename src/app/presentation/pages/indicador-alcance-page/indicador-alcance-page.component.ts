@@ -68,6 +68,7 @@ export default class IndicadorAlcancePageComponent implements OnInit {
   }
 
   onSaveEmit() {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.cargarIndicadoresAlcance();
     this.showAddModal.set(false);
   }

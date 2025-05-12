@@ -67,6 +67,7 @@ export default class LogrosProfesionalesComponent implements OnInit {
   }
 
   onSaveEmit() {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.loadLogrosProfesionalesList();
     this.showAddModal.set(false);
   }

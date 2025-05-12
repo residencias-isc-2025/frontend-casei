@@ -95,6 +95,7 @@ export default class GestionAcademicaComponent implements OnInit {
   }
 
   onSaveEmit() {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.loadGestionAcademicaList();
     this.showAddModal.set(false);
   }

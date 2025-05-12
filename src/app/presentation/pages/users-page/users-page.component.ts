@@ -114,6 +114,7 @@ export default class UsersPageComponent implements OnInit {
   }
 
   onSaveEmit(): void {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.showModal.set(false);
     this.toastService.showInfo('Cargando usuarios', 'Por favor espere');
     this.loadUsers();
@@ -150,6 +151,7 @@ export default class UsersPageComponent implements OnInit {
       },
       next: (response) => {
         this.toastService.showSuccess(response.mensaje!, 'Éxito');
+        if (this.currentPage() === 0) this.currentPage.set(1);
         this.loadUsers();
       },
     });

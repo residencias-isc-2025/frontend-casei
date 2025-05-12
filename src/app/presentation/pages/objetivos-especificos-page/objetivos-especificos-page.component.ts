@@ -66,6 +66,7 @@ export default class ObjetivosEspecificosPageComponent implements OnInit {
   }
 
   onSaveEmit() {
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.loadObjetivosEspecificos();
     this.showAddModal.set(false);
   }
