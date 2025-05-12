@@ -24,7 +24,7 @@
   </div>
 
   <app-filter-bar
-    [filters]="filters"
+    [filters]="filters()"
     (search)="onSearch($event)"
     (clear)="onSearch({})"
   />
@@ -119,6 +119,8 @@
     />
   </div>
 </div>
+
+<app-loader *ngIf="isLoading()"/>
 
 @if (showModal()) {
 <app-user-form (onCancel)="showModal.set(false)" (onSave)="onSaveEmit()" />

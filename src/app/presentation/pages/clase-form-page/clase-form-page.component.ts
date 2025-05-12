@@ -19,6 +19,10 @@ import { ClaseService } from '@core/services/clase.service';
 import { MateriaService } from '@core/services/materia.service';
 import { PeriodoService } from '@core/services/periodo.service';
 import { ToastService } from '@core/services/toast.service';
+import {
+  FilterBarComponent,
+  FilterConfig,
+} from '@presentation/components/filter-bar/filter-bar.component';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 
 @Component({
@@ -28,6 +32,7 @@ import { PaginationComponent } from '@presentation/components/pagination/paginat
     ReactiveFormsModule,
     RouterModule,
     PaginationComponent,
+    FilterBarComponent,
   ],
   templateUrl: './clase-form-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,6 +50,7 @@ export default class ClaseFormPageComponent implements OnInit {
   carreras = signal<Carrera[]>([]);
   periodos = signal<Periodo[]>([]);
   alumnos = signal<Alumno[]>([]);
+  recordFilters = signal<Record<string, any>>({});
 
   router = inject(Router);
   route = inject(ActivatedRoute);
@@ -55,6 +61,14 @@ export default class ClaseFormPageComponent implements OnInit {
 
   totalItems = signal(0);
   currentPage = signal(1);
+
+  filters = signal<FilterConfig[]>([
+    { key: 'matricula', label: 'Matricula', type: 'text' },
+    { key: 'apellido_paterno', label: 'Apellido Paterno', type: 'text' },
+    { key: 'apellido_materno', label: 'Apellido Materno', type: 'text' },
+    { key: 'nombre', label: 'Nombre', type: 'text' },
+    { key: 'carrera', label: 'Carrrera', type: 'select', options: [] },
+  ]);
 
   form = this.fb.group({
     materia: [0, Validators.required],
@@ -113,13 +127,33 @@ export default class ClaseFormPageComponent implements OnInit {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        this.carreras.set(res.results);
         if (res.count === 0) {
           this.toastService.showWarning(
             'No hay carreras registradas.',
             'Advertencia'
           );
+          return;
         }
+        this.carreras.set(res.results);
+
+        const carreraOptions = res.results.map((c) => ({
+          label: c.nombre,
+          value: c.id,
+        }));
+
+        carreraOptions.unshift({ label: 'Todos', value: -1 });
+
+        this.filters.update((filtros) => {
+          const updated = [...filtros];
+          const index = updated.findIndex((f) => f.key === 'carrera');
+          if (index !== -1) {
+            updated[index] = {
+              ...updated[index],
+              options: carreraOptions,
+            };
+          }
+          return updated;
+        });
       },
     });
   }
@@ -143,7 +177,7 @@ export default class ClaseFormPageComponent implements OnInit {
 
   private cargarAlumnosList() {
     this.alumnoService
-      .obtenerDatosPaginados(this.currentPage(), 10, {})
+      .obtenerDatosPaginados(this.currentPage(), 10, this.recordFilters())
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
@@ -206,5 +240,11 @@ export default class ClaseFormPageComponent implements OnInit {
         this.toastService.showError(response.error, 'Malas noticias');
       },
     });
+  }
+
+  onSearch(filters: Record<string, any>) {
+    if (this.currentPage() === 0) this.currentPage.set(1);
+    this.recordFilters.set(filters);
+    this.cargarAlumnosList();
   }
 }

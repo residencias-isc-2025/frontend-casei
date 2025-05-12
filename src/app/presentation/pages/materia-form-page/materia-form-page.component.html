@@ -56,6 +56,13 @@
         <label class="block text-gray-600 font-medium mb-1"
           >Materias requeridas</label
         >
+
+        <app-filter-bar
+          [filters]="materiaFilters()"
+          (search)="onSearchMateria($event)"
+          (clear)="onSearchMateria({})"
+        />
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
           @for (materia of paginate(materiasOptions(), currentPage.materias());
           track materia.id) {

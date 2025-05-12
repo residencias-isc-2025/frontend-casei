@@ -12,6 +12,10 @@ import { Materia } from '@core/models/materia.model';
 import { BibliografiaService } from '@core/services/bibliografia.service';
 import { MateriaService } from '@core/services/materia.service';
 import { ToastService } from '@core/services/toast.service';
+import {
+  FilterBarComponent,
+  FilterConfig,
+} from '@presentation/components/filter-bar/filter-bar.component';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
 
@@ -22,6 +26,7 @@ import { ConfirmationModalComponent } from '@presentation/forms/confirmation-mod
     PaginationComponent,
     ConfirmationModalComponent,
     RouterModule,
+    FilterBarComponent,
   ],
   templateUrl: './materia-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,9 +44,42 @@ export default class MateriaPageComponent implements OnInit {
 
   materiaSelected = signal<Materia | null>(null);
   expandedMateriaId = signal<number | null>(null);
+  recordFilters = signal<Record<string, any>>({});
 
   totalItems = signal(0);
   currentPage = signal(1);
+
+  filters = signal<FilterConfig[]>([
+    { key: 'clave', label: 'Clave', type: 'text' },
+    { key: 'nombre', label: 'Nombre', type: 'text' },
+    {
+      key: 'semestre',
+      label: 'Semestre',
+      type: 'select',
+      options: [
+        { label: '1', value: 1 },
+        { label: '2', value: 2 },
+        { label: '3', value: 3 },
+        { label: '4', value: 4 },
+        { label: '5', value: 5 },
+        { label: '6', value: 6 },
+        { label: '7', value: 7 },
+        { label: '8', value: 8 },
+        { label: '9', value: 9 },
+        { label: '10', value: 10 },
+      ],
+    },
+    {
+      key: 'is_active',
+      label: 'Tipo de curso',
+      type: 'select',
+      options: [
+        { label: 'Todos', value: undefined },
+        { label: 'Obligatorio', value: true },
+        { label: 'Optativo', value: false },
+      ],
+    },
+  ]);
 
   ngOnInit(): void {
     this.cargarMateriasList();
@@ -51,12 +89,14 @@ export default class MateriaPageComponent implements OnInit {
 
   private cargarMateriasList() {
     this.materiaService
-      .obtenerDatosPaginados(this.currentPage(), 10, {})
+      .obtenerDatosPaginados(this.currentPage(), 9, this.recordFilters())
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
+          console.log(res);
+
           if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.materiasList.set(res.results);
@@ -131,5 +171,11 @@ export default class MateriaPageComponent implements OnInit {
       itemId,
       this.bibliografias()
     );
+  }
+
+  onSearch(filters: Record<string, any>) {
+    if (this.currentPage() === 0) this.currentPage.set(1);
+    this.recordFilters.set(filters);
+    this.cargarMateriasList();
   }
 }

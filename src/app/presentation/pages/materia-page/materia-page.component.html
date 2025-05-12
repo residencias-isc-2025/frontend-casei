@@ -8,6 +8,13 @@
       Agregar
     </button>
   </div>
+
+  <app-filter-bar
+    [filters]="filters()"
+    (search)="onSearch($event)"
+    (clear)="onSearch({})"
+  />
+
   @if (materiasList().length === 0) {
   <p class="text-xl font-bold text-gray-800 text-center">
     No hay materias registradas.
@@ -127,7 +134,7 @@
   <div class="mt-6">
     <app-pagination
       [totalItems]="totalItems()"
-      [itemsPerPage]="10"
+      [itemsPerPage]="9"
       [currentPage]="currentPage()"
       (pageChanged)="onPageChanged($event)"
     />

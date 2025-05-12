@@ -24,6 +24,11 @@ import { ObjetivosEspecificosService } from '@core/services/objetivos-especifico
 import { PerfilEgresoService } from '@core/services/perfil-egreso.service';
 import { PerfilIngresoService } from '@core/services/perfil-ingreso.service';
 import { ToastService } from '@core/services/toast.service';
+import {
+  FilterBarComponent,
+  FilterConfig,
+} from '@presentation/components/filter-bar/filter-bar.component';
+import { LoaderComponent } from '@presentation/components/loader/loader.component';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
 
@@ -34,6 +39,8 @@ import { ConfirmationModalComponent } from '@presentation/forms/confirmation-mod
     PaginationComponent,
     ConfirmationModalComponent,
     RouterModule,
+    FilterBarComponent,
+    LoaderComponent,
   ],
   templateUrl: './carrera-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -61,10 +68,33 @@ export default class CarreraPageComponent implements OnInit {
 
   carreraSelected = signal<Carrera | null>(null);
   expandedCarreaId = signal<number | null>(null);
+  recordFilters = signal<Record<string, any>>({});
+
   showDeleteModal = signal(false);
+  isLoading = signal(true);
 
   totalItems = signal(0);
   currentPage = signal(1);
+
+  filters = signal<FilterConfig[]>([
+    { key: 'nombre', label: 'Nombre', type: 'text' },
+    {
+      key: 'area_adscripcion',
+      label: 'Área de adscripcion',
+      type: 'select',
+      options: [],
+    },
+    {
+      key: 'is_active',
+      label: 'Estado',
+      type: 'select',
+      options: [
+        { label: 'Todos', value: undefined },
+        { label: 'Activo', value: true },
+        { label: 'Inactivo', value: false },
+      ],
+    },
+  ]);
 
   ngOnInit(): void {
     this.loadAdscripciones();
@@ -79,7 +109,7 @@ export default class CarreraPageComponent implements OnInit {
 
   private loadCarreras() {
     this.carreraService
-      .obtenerDatosPaginados(this.currentPage(), 10, {})
+      .obtenerDatosPaginados(this.currentPage(), 9, this.recordFilters())
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
@@ -101,14 +131,39 @@ export default class CarreraPageComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.adscripcionesList.set(response.results);
-
           if (response.results.length === 0) {
             this.toastService.showWarning(
               'No hay áreas de adscripción registradas',
               'Advertencia'
             );
+            this.isLoading.set(false);
+            return;
           }
+
+          this.adscripcionesList.set(response.results);
+
+          const adscripcionesOptions = response.results.map((a) => ({
+            label: a.nombre,
+            value: a.id,
+          }));
+
+          adscripcionesOptions.unshift({ label: 'Todas', value: -1 });
+
+          this.filters.update((filtros) => {
+            const updated = [...filtros];
+            const index = updated.findIndex(
+              (f) => f.key === 'area_adscripcion'
+            );
+            if (index !== -1) {
+              updated[index] = {
+                ...updated[index],
+                options: adscripcionesOptions,
+              };
+            }
+            return updated;
+          });
+
+          this.isLoading.set(false);
         },
       });
   }
@@ -122,12 +177,6 @@ export default class CarreraPageComponent implements OnInit {
         },
         next: (res) => {
           this.objetivosEducacionalesList.set(res.results);
-          if (res.count === 0) {
-            this.toastService.showWarning(
-              'No hay objetivos educacionales registrados.',
-              'Advertencia'
-            );
-          }
         },
       });
   }
@@ -139,12 +188,6 @@ export default class CarreraPageComponent implements OnInit {
       },
       next: (res) => {
         this.objetivosEspecificosList.set(res.results);
-        if (res.count === 0) {
-          this.toastService.showWarning(
-            'No hay objetivos específicos registrados.',
-            'Advertencia'
-          );
-        }
       },
     });
   }
@@ -156,12 +199,6 @@ export default class CarreraPageComponent implements OnInit {
       },
       next: (res) => {
         this.atributosEgresoList.set(res.results);
-        if (res.count === 0) {
-          this.toastService.showWarning(
-            'No hay atributos de egreso registrados.',
-            'Advertencia'
-          );
-        }
       },
     });
   }
@@ -173,12 +210,6 @@ export default class CarreraPageComponent implements OnInit {
       },
       next: (res) => {
         this.dondeTrabajaList.set(res.results);
-        if (res.count === 0) {
-          this.toastService.showWarning(
-            'No hay data para dónde trabaja.',
-            'Advertencia'
-          );
-        }
       },
     });
   }
@@ -190,12 +221,6 @@ export default class CarreraPageComponent implements OnInit {
       },
       next: (res) => {
         this.perfilIngresoList.set(res.results);
-        if (res.count === 0) {
-          this.toastService.showWarning(
-            'No hay data sobre el perfil de ingreso.',
-            'Advertencia'
-          );
-        }
       },
     });
   }
@@ -207,12 +232,6 @@ export default class CarreraPageComponent implements OnInit {
       },
       next: (res) => {
         this.perfilEgresoList.set(res.results);
-        if (res.count === 0) {
-          this.toastService.showWarning(
-            'No hay data sobre el perfil de egreso.',
-            'Advertencia'
-          );
-        }
       },
     });
   }
@@ -266,5 +285,11 @@ export default class CarreraPageComponent implements OnInit {
       id,
       this.atributosEgresoList()
     );
+  }
+
+  onSearch(filters: Record<string, any>) {
+    if (this.currentPage() === 0) this.currentPage.set(1);
+    this.recordFilters.set(filters);
+    this.loadCarreras();
   }
 }

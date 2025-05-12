@@ -9,6 +9,12 @@
     </button>
   </div>
 
+  <app-filter-bar
+    [filters]="filters()"
+    (search)="onSearch($event)"
+    (clear)="onSearch({})"
+  />
+
   <div class="bg-white shadow-lg rounded-lg overflow-hidden">
     <table class="w-full border-collapse">
       <thead class="bg-gray-200 text-gray-700">
@@ -92,6 +98,10 @@
   "
   (onConfirm)="onDelete(claseSelected()?.id!)"
   (onCancel)="showDeleteModal.set(false)"
+/>
+
+<app-loader
+  *ngIf="isLoading.carreras() || isLoading.materias() || isLoading.periodos()"
 />
 
 <app-alumnos-clase-form

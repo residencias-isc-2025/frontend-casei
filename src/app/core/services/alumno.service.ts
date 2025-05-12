@@ -28,7 +28,12 @@ export class AlumnoService extends BaseService<Alumno> {
     });
 
     Object.entries(params).forEach(([key, value]) => {
-      if (value !== null && value !== undefined && value !== '') {
+      if (
+        value !== null &&
+        value !== undefined &&
+        value !== '' &&
+        value !== -1
+      ) {
         filters.append(key, value);
       }
     });
@@ -50,7 +55,10 @@ export class AlumnoService extends BaseService<Alumno> {
   }
 
   override habilitar(id: number): Observable<{ mensaje: string }> {
-    return this.http.put<{ mensaje: string }>(`${this.apiUrl}/habilitar/${id}/`, {});
+    return this.http.put<{ mensaje: string }>(
+      `${this.apiUrl}/habilitar/${id}/`,
+      {}
+    );
   }
 
   override actualizar(

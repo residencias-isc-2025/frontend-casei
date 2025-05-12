@@ -9,6 +9,12 @@
     </button>
   </div>
 
+  <app-filter-bar
+    [filters]="filters()"
+    (search)="onSearch($event)"
+    (clear)="onSearch({})"
+  />
+
   @if(carrerasList().length === 0) {
   <p class="text-xl font-bold text-gray-800 text-center">
     No hay carreras registradas.
@@ -146,13 +152,15 @@
   <div class="mt-6">
     <app-pagination
       [totalItems]="totalItems()"
-      [itemsPerPage]="10"
+      [itemsPerPage]="9"
       [currentPage]="currentPage()"
       (pageChanged)="onPageChanged($event)"
     />
   </div>
   }
 </div>
+
+<app-loader *ngIf="isLoading()" />
 
 <!-- Modal de eliminación -->
 <app-confirmation-modal

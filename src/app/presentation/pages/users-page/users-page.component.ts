@@ -18,6 +18,7 @@ import {
   FilterBarComponent,
   FilterConfig,
 } from '@presentation/components/filter-bar/filter-bar.component';
+import { LoaderComponent } from '@presentation/components/loader/loader.component';
 
 @Component({
   selector: 'app-users-page',
@@ -26,6 +27,7 @@ import {
     UserFormComponent,
     PaginationComponent,
     FilterBarComponent,
+    LoaderComponent,
   ],
   templateUrl: './users-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,6 +38,7 @@ export default class UsersPageComponent implements OnInit {
   adscripcionService = inject(AdscripcionService);
 
   showModal = signal(false);
+  isLoading = signal(true);
 
   users = signal<User[]>([]);
   adscripcionesList = signal<Adscripcion[]>([]);
@@ -44,7 +47,7 @@ export default class UsersPageComponent implements OnInit {
   totalItems = signal(0);
   currentPage = signal(1);
 
-  filters: FilterConfig[] = [
+  filters = signal<FilterConfig[]>([
     { key: 'username', label: 'Nomina', type: 'text' },
     { key: 'nombre', label: 'Nombre', type: 'text' },
     {
@@ -63,7 +66,7 @@ export default class UsersPageComponent implements OnInit {
         { label: 'Inactivo', value: 'inactivo' },
       ],
     },
-  ];
+  ]);
 
   ngOnInit(): void {
     this.loadAdscripciones();
@@ -84,17 +87,34 @@ export default class UsersPageComponent implements OnInit {
               'No hay áreas de adscripción registradas',
               'Advertencia'
             );
+            this.isLoading.set(false);
             return;
           }
 
           this.adscripcionesList.set(response.results);
 
-          response.results.forEach((a) => {
-            this.filters[2].options?.push({
-              label: a.nombre,
-              value: a.id,
-            });
+          const adscripcionesOptions = response.results.map((a) => ({
+            label: a.nombre,
+            value: a.id,
+          }));
+
+          adscripcionesOptions.unshift({ label: 'Todas', value: -1 });
+
+          this.filters.update((filtros) => {
+            const updated = [...filtros];
+            const index = updated.findIndex(
+              (f) => f.key === 'area_adscripcion'
+            );
+            if (index !== -1) {
+              updated[index] = {
+                ...updated[index],
+                options: adscripcionesOptions,
+              };
+            }
+            return updated;
           });
+
+          this.isLoading.set(false);
         },
       });
   }

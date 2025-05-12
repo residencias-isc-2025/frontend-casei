@@ -15,19 +15,35 @@ export class ClaseService extends BaseService<Clase> {
   override obtenerDatosPaginados(
     page: number,
     limit: number,
-    params: any
+    params: Record<string, any> = {}
   ): Observable<{
     count: number;
     next: string | null;
     previous: string | null;
     results: Clase[];
   }> {
+    const filters = new URLSearchParams({
+      page: page.toString(),
+      page_size: limit.toString(),
+    });
+
+    Object.entries(params).forEach(([key, value]) => {
+      if (
+        value !== null &&
+        value !== undefined &&
+        value !== '' &&
+        value !== -1
+      ) {
+        filters.append(key, value);
+      }
+    });
+
     return this.http.get<{
       count: number;
       next: string | null;
       previous: string | null;
       results: Clase[];
-    }>(`${this.apiUrl}/?page=${page}&page_size=${limit}`);
+    }>(`${this.apiUrl}/?${filters.toString()}`);
   }
 
   override crear(data: Partial<Clase>): Observable<{ mensaje: string }> {

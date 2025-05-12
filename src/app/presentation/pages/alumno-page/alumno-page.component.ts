@@ -18,6 +18,7 @@ import {
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 import { AlumnoFormComponent } from '@presentation/forms/alumno-form/alumno-form.component';
 import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
+import { LoaderComponent } from '@components/loader/loader.component';
 
 @Component({
   selector: 'app-alumno-page',
@@ -27,6 +28,7 @@ import { ConfirmationModalComponent } from '@presentation/forms/confirmation-mod
     ConfirmationModalComponent,
     AlumnoFormComponent,
     FilterBarComponent,
+    LoaderComponent,
   ],
   templateUrl: './alumno-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,6 +41,7 @@ export default class AlumnoPageComponent implements OnInit {
   showAddModal = signal(false);
   showUpdateModal = signal(false);
   showDeleteModal = signal(false);
+  isLoading = signal(true);
 
   alumnoSelected = signal<Alumno | null>(null);
   alumnosList = signal<Alumno[]>([]);
@@ -48,7 +51,7 @@ export default class AlumnoPageComponent implements OnInit {
   totalItems = signal(0);
   currentPage = signal(1);
 
-  filters: FilterConfig[] = [
+  filters = signal<FilterConfig[]>([
     { key: 'matricula', label: 'Matricula', type: 'text' },
     { key: 'apellido_paterno', label: 'Apellido Paterno', type: 'text' },
     { key: 'apellido_materno', label: 'Apellido Materno', type: 'text' },
@@ -64,7 +67,7 @@ export default class AlumnoPageComponent implements OnInit {
         { label: 'Inactivo', value: false },
       ],
     },
-  ];
+  ]);
 
   ngOnInit(): void {
     this.loadCarrerasList();
@@ -90,6 +93,7 @@ export default class AlumnoPageComponent implements OnInit {
     this.carreraService.obtenerDatosPaginados(1, 100, {}).subscribe({
       error: (res) => {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
+        this.isLoading.set(false);
       },
       next: (res) => {
         if (res.count === 0) {
@@ -97,14 +101,32 @@ export default class AlumnoPageComponent implements OnInit {
             'No hay carreras registradas.',
             'Advertencia'
           );
+          this.isLoading.set(false);
           return;
         }
 
         this.carrerasList.set(res.results);
 
-        this.carrerasList().forEach((c) => {
-          this.filters[4].options?.push({ label: c.nombre, value: c.id });
+        const carreraOptions = res.results.map((c) => ({
+          label: c.nombre,
+          value: c.id,
+        }));
+
+        carreraOptions.unshift({ label: 'Todos', value: -1 });
+
+        this.filters.update((filtros) => {
+          const updated = [...filtros];
+          const index = updated.findIndex((f) => f.key === 'carrera');
+          if (index !== -1) {
+            updated[index] = {
+              ...updated[index],
+              options: carreraOptions,
+            };
+          }
+          return updated;
         });
+
+        this.isLoading.set(false);
       },
     });
   }

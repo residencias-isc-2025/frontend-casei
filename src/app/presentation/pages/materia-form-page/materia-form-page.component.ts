@@ -18,6 +18,10 @@ import { CriterioDesempenioService } from '@core/services/criterio-desempenio.se
 import { MateriaService } from '@core/services/materia.service';
 import { ToastService } from '@core/services/toast.service';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
+import {
+  FilterBarComponent,
+  FilterConfig,
+} from '@presentation/components/filter-bar/filter-bar.component';
 
 @Component({
   selector: 'app-materia-form-page',
@@ -26,6 +30,7 @@ import { PaginationComponent } from '../../components/pagination/pagination.comp
     ReactiveFormsModule,
     RouterModule,
     PaginationComponent,
+    FilterBarComponent,
   ],
   templateUrl: './materia-form-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,6 +48,7 @@ export default class MateriaFormPageComponent implements OnInit {
   competenciasOptions = signal<Competencia[]>([]);
   criteriosDesempenioOptions = signal<CriterioDesempenio[]>([]);
   bibliografiasOptions = signal<Bibliografia[]>([]);
+  materiasRecordFilters = signal<Record<string, any>>({});
 
   router = inject(Router);
   route = inject(ActivatedRoute);
@@ -56,6 +62,11 @@ export default class MateriaFormPageComponent implements OnInit {
     criterios: signal(1),
     bibliografia: signal(1),
   };
+
+  materiaFilters = signal<FilterConfig[]>([
+    { key: 'clave', label: 'Clave', type: 'text' },
+    { key: 'nombre', label: 'Nombre', type: 'text' },
+  ]);
 
   readonly ITEMS_PER_PAGE = 6;
 
@@ -106,16 +117,20 @@ export default class MateriaFormPageComponent implements OnInit {
   }
 
   cargarMaterias() {
-    this.materiaService.obtenerDatosPaginados(1, 100, {}).subscribe({
-      next: (res) => {
-        const dataFiltered = res.results.filter((m) => m.id !== this.materiaId);
+    this.materiaService
+      .obtenerDatosPaginados(1, 100, this.materiasRecordFilters())
+      .subscribe({
+        next: (res) => {
+          const dataFiltered = res.results.filter(
+            (m) => m.id !== this.materiaId
+          );
 
-        this.materiasOptions.set(dataFiltered);
-        if (dataFiltered.length === 0) this.currentPage.materias.set(0);
-      },
-      error: (err) =>
-        this.toastService.showError(err.mensaje, 'Malas noticias'),
-    });
+          this.materiasOptions.set(dataFiltered);
+          if (dataFiltered.length === 0) this.currentPage.materias.set(0);
+        },
+        error: (err) =>
+          this.toastService.showError(err.mensaje, 'Malas noticias'),
+      });
   }
 
   cargarCompetencias() {
@@ -278,5 +293,11 @@ export default class MateriaFormPageComponent implements OnInit {
     return (
       map[key] || key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' ')
     );
+  }
+
+  onSearchMateria(filters: Record<string, any>) {
+    if (this.currentPage.materias() === 0) this.currentPage.materias.set(1);
+    this.materiasRecordFilters.set(filters);
+    this.cargarMaterias();
   }
 }

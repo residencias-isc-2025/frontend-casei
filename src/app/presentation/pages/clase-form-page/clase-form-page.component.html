@@ -65,6 +65,13 @@
 
       <div class="mt-4">
         <label class="block text-gray-600 font-medium mb-1">Alumnos</label>
+
+        <app-filter-bar
+          [filters]="filters()"
+          (search)="onSearch($event)"
+          (clear)="onSearch({})"
+        />
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
           @for(alumno of alumnos(); track alumno.id) {
           <label

@@ -18,6 +18,11 @@ import { ClaseService } from '@core/services/clase.service';
 import { MateriaService } from '@core/services/materia.service';
 import { PeriodoService } from '@core/services/periodo.service';
 import { ToastService } from '@core/services/toast.service';
+import {
+  FilterBarComponent,
+  FilterConfig,
+} from '@presentation/components/filter-bar/filter-bar.component';
+import { LoaderComponent } from '@presentation/components/loader/loader.component';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 import { AlumnosClaseFormComponent } from '@presentation/forms/alumnos-clase-form/alumnos-clase-form.component';
 import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
@@ -30,6 +35,8 @@ import { ConfirmationModalComponent } from '@presentation/forms/confirmation-mod
     AlumnosClaseFormComponent,
     RouterModule,
     CommonModule,
+    FilterBarComponent,
+    LoaderComponent,
   ],
   templateUrl: './clase-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,16 +53,52 @@ export default class ClasePageComponent implements OnInit {
   periodosList = signal<Periodo[]>([]);
   materiasList = signal<Materia[]>([]);
   carrerasList = signal<Carrera[]>([]);
-
   alumnosClaseList = signal<Alumno[]>([]);
+  recordFilters = signal<Record<string, any>>({});
 
   claseSelected = signal<Clase | null>(null);
 
-  showDeleteModal = signal<boolean>(false);
-  showAlumnosClaseModal = signal<boolean>(false);
+  showDeleteModal = signal(false);
+  showAlumnosClaseModal = signal(false);
+  isLoading = {
+    materias: signal(true),
+    carreras: signal(true),
+    periodos: signal(true),
+  };
 
   totalItems = signal(0);
   currentPage = signal(1);
+
+  filters = signal<FilterConfig[]>([
+    {
+      key: 'grupo',
+      label: 'Grupo',
+      type: 'select',
+      options: [
+        { label: '1', value: '01' },
+        { label: '2', value: '02' },
+        { label: '3', value: '03' },
+      ],
+    },
+    {
+      key: 'materia',
+      label: 'Materia',
+      type: 'select',
+      options: [],
+    },
+    {
+      key: 'carrera',
+      label: 'Carrera',
+      type: 'select',
+      options: [],
+    },
+    {
+      key: 'periodo',
+      label: 'Periodo',
+      type: 'select',
+      options: [],
+    },
+  ]);
 
   ngOnInit(): void {
     this.loadPeriodos();
@@ -66,7 +109,7 @@ export default class ClasePageComponent implements OnInit {
 
   private loadClases() {
     this.claseService
-      .obtenerDatosPaginados(this.currentPage(), 10, {})
+      .obtenerDatosPaginados(this.currentPage(), 10, this.recordFilters())
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
@@ -85,13 +128,36 @@ export default class ClasePageComponent implements OnInit {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        this.periodosList.set(res.results);
         if (res.count === 0) {
           this.toastService.showWarning(
             'No hay periodos registrados.',
             'Advertencia'
           );
+          this.isLoading.periodos.set(false);
+          return;
         }
+        this.periodosList.set(res.results);
+
+        const periodoOptions = res.results.map((p) => ({
+          label: p.clave,
+          value: p.id,
+        }));
+
+        periodoOptions.unshift({ label: 'Todos', value: -1 });
+
+        this.filters.update((filtros) => {
+          const updated = [...filtros];
+          const index = updated.findIndex((f) => f.key === 'periodo');
+          if (index !== -1) {
+            updated[index] = {
+              ...updated[index],
+              options: periodoOptions,
+            };
+          }
+          return updated;
+        });
+
+        this.isLoading.periodos.set(false);
       },
     });
   }
@@ -102,13 +168,36 @@ export default class ClasePageComponent implements OnInit {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        this.materiasList.set(res.results);
         if (res.count === 0) {
           this.toastService.showWarning(
             'No hay materias registradas.',
             'Advertencia'
           );
+          this.isLoading.materias.set(false);
+          return;
         }
+        this.materiasList.set(res.results);
+
+        const materiasOptions = res.results.map((m) => ({
+          label: m.nombre,
+          value: m.id,
+        }));
+
+        materiasOptions.unshift({ label: 'Todas', value: -1 });
+
+        this.filters.update((filtros) => {
+          const updated = [...filtros];
+          const index = updated.findIndex((f) => f.key === 'materia');
+          if (index !== -1) {
+            updated[index] = {
+              ...updated[index],
+              options: materiasOptions,
+            };
+          }
+          return updated;
+        });
+
+        this.isLoading.materias.set(false);
       },
     });
   }
@@ -119,13 +208,37 @@ export default class ClasePageComponent implements OnInit {
         this.toastService.showError(res.mensaje!, 'Malas noticias');
       },
       next: (res) => {
-        this.carrerasList.set(res.results);
         if (res.count === 0) {
           this.toastService.showWarning(
             'No hay carreras registradas.',
             'Advertencia'
           );
+          this.isLoading.carreras.set(false);
+          return;
         }
+
+        this.carrerasList.set(res.results);
+
+        const carreraOptions = res.results.map((c) => ({
+          label: c.nombre,
+          value: c.id,
+        }));
+
+        carreraOptions.unshift({ label: 'Todos', value: -1 });
+
+        this.filters.update((filtros) => {
+          const updated = [...filtros];
+          const index = updated.findIndex((f) => f.key === 'carrera');
+          if (index !== -1) {
+            updated[index] = {
+              ...updated[index],
+              options: carreraOptions,
+            };
+          }
+          return updated;
+        });
+
+        this.isLoading.carreras.set(false);
       },
     });
   }
@@ -196,5 +309,11 @@ export default class ClasePageComponent implements OnInit {
         this.loadCarreras();
       },
     });
+  }
+
+  onSearch(filters: Record<string, any>) {
+    if (this.currentPage() === 0) this.currentPage.set(1);
+    this.recordFilters.set(filters);
+    this.loadClases();
   }
 }

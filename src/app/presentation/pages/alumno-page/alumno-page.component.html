@@ -10,7 +10,7 @@
   </div>
 
   <app-filter-bar
-    [filters]="filters"
+    [filters]="filters()"
     (search)="onSearch($event)"
     (clear)="onSearch({})"
   />
@@ -82,6 +82,9 @@
     />
   </div>
 </div>
+
+
+<app-loader *ngIf="isLoading()"/>
 
 @if(showAddModal()) {
 <app-alumno-form
