@@ -6,19 +6,20 @@ import {
   signal,
 } from '@angular/core';
 
-import { PaginationComponent } from '@components/pagination/pagination.component';
 import { CommonModule } from '@angular/common';
-import { UserService } from '@core/services/user.service';
-import { User } from '@core/models/user.model';
-import { UserFormComponent } from '@presentation/forms/user-form/user-form.component';
+import { PaginationComponent } from '@components/pagination/pagination.component';
 import { Adscripcion } from '@core/models/adscripcion.model';
+import { User } from '@core/models/user.model';
 import { AdscripcionService } from '@core/services/adscripcion.service';
 import { ToastService } from '@core/services/toast.service';
+import { UserService } from '@core/services/user.service';
+import { CsvFileReaderComponent } from '@presentation/components/csv-file-reader/csv-file-reader.component';
 import {
   FilterBarComponent,
   FilterConfig,
 } from '@presentation/components/filter-bar/filter-bar.component';
 import { LoaderComponent } from '@presentation/components/loader/loader.component';
+import { UserFormComponent } from '@presentation/forms/user-form/user-form.component';
 
 @Component({
   selector: 'app-users-page',
@@ -28,6 +29,7 @@ import { LoaderComponent } from '@presentation/components/loader/loader.componen
     PaginationComponent,
     FilterBarComponent,
     LoaderComponent,
+    CsvFileReaderComponent,
   ],
   templateUrl: './users-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,6 +40,7 @@ export default class UsersPageComponent implements OnInit {
   adscripcionService = inject(AdscripcionService);
 
   showModal = signal(false);
+  showReadFileModal = signal(false);
   isLoading = signal(true);
 
   users = signal<User[]>([]);
@@ -127,12 +130,14 @@ export default class UsersPageComponent implements OnInit {
           if (response.count === 0) this.currentPage.set(0);
           this.totalItems.set(response.count);
           this.users.set(response.results);
+          this.isLoading.set(false);
         },
         error: () => {
           this.toastService.showError(
             'Error al obtener usuarios.',
             'Malas noticias'
           );
+          this.isLoading.set(false);
         },
       });
   }
@@ -151,43 +156,6 @@ export default class UsersPageComponent implements OnInit {
     this.showModal.set(false);
     this.toastService.showInfo('Cargando usuarios', 'Por favor espere');
     this.loadUsers();
-  }
-
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-
-    if (!input.files?.length) {
-      this.toastService.showWarning(
-        'No se seleccionó ningún archivo.',
-        'Atención'
-      );
-      return;
-    }
-
-    const file = input.files[0];
-    if (file.type !== 'text/csv') {
-      this.toastService.showWarning(
-        'El archivo debe ser de tipo CSV.',
-        'Formato incorrecto'
-      );
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('archivo_csv', file);
-
-    this.toastService.showInfo('Por favor espere...', 'Creando usuarios');
-
-    this.userService.crearUsuariosPorCsv(formData).subscribe({
-      error: (response) => {
-        this.toastService.showError(response.mensaje!, 'Malas noticias');
-      },
-      next: (response) => {
-        this.toastService.showSuccess(response.mensaje!, 'Éxito');
-        if (this.currentPage() === 0) this.currentPage.set(1);
-        this.loadUsers();
-      },
-    });
   }
 
   onPageChanged(page: number): void {
@@ -226,6 +194,13 @@ export default class UsersPageComponent implements OnInit {
   onSearch(filters: Record<string, any>) {
     if (this.currentPage() === 0) this.currentPage.set(1);
     this.recordFilters.set(filters);
+    this.loadUsers();
+  }
+
+  onReadFile() {
+    this.isLoading.set(true);
+    this.showReadFileModal.set(false);
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.loadUsers();
   }
 

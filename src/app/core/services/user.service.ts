@@ -46,7 +46,7 @@ export class UserService extends BaseService<User> {
     );
   }
 
-  crearUsuariosPorCsv(formData: FormData) {
+  leerArchivoCsv(formData: FormData) {
     return this.http.post<{ mensaje: string }>(
       `${this.apiUrl}/create-users-by-csv/`,
       formData
