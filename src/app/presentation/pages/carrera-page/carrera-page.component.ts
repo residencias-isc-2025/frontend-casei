@@ -292,4 +292,25 @@ export default class CarreraPageComponent implements OnInit {
     this.recordFilters.set(filters);
     this.loadCarreras();
   }
+
+  descargarExcel(): void {
+    this.carreraService.descargarExcel().subscribe({
+      next: (res) => {
+        const url = window.URL.createObjectURL(res);
+        const a = document.createElement('a');
+
+        a.href = url;
+        a.download = 'carreras.xlsx';
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+      },
+      error: (err) => {
+        this.toastService.showError(
+          'No se pudo descargar el archivo.',
+          'Malas noticias...'
+        );
+      },
+    });
+  }
 }

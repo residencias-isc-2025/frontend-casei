@@ -76,4 +76,10 @@ export class CarreraService extends BaseService<Carrera> {
   obtenerItemById(id: number) {
     return this.http.get<Carrera>(`${this.apiUrl}/${id}/`);
   }
+
+  descargarExcel(): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/exportar/`, {
+      responseType: 'blob',
+    });
+  }
 }
