@@ -118,9 +118,10 @@
 <app-csv-file-reader
   *ngIf="showReadFileModal()"
   title="Cargar usuarios por CSV"
-  templateName="template2.txt"
+  templateName="usuarios-template.csv"
   [service]="userService"
   (onSuccess)="onReadFile()"
+  (onCancel)="showReadFileModal.set(false)"
 />
 
 <app-loader *ngIf="isLoading()" />
