@@ -13,12 +13,14 @@ import { Carrera } from '@core/models/carrera.model';
 import { Clase } from '@core/models/clase.model';
 import { Materia } from '@core/models/materia.model';
 import { Periodo } from '@core/models/periodo.model';
+import { User } from '@core/models/user.model';
 import { AlumnoService } from '@core/services/alumno.service';
 import { CarreraService } from '@core/services/carrera.service';
 import { ClaseService } from '@core/services/clase.service';
 import { MateriaService } from '@core/services/materia.service';
 import { PeriodoService } from '@core/services/periodo.service';
 import { ToastService } from '@core/services/toast.service';
+import { UserService } from '@core/services/user.service';
 import {
   FilterBarComponent,
   FilterConfig,
@@ -45,11 +47,13 @@ export default class ClaseFormPageComponent implements OnInit {
   carreraService = inject(CarreraService);
   periodoService = inject(PeriodoService);
   alumnoService = inject(AlumnoService);
+  userService = inject(UserService);
 
   materias = signal<Materia[]>([]);
   carreras = signal<Carrera[]>([]);
   periodos = signal<Periodo[]>([]);
   alumnos = signal<Alumno[]>([]);
+  docentes = signal<User[]>([]);
   recordFilters = signal<Record<string, any>>({});
 
   router = inject(Router);
@@ -75,7 +79,8 @@ export default class ClaseFormPageComponent implements OnInit {
     grupo: ['', Validators.required],
     carrera: [0, Validators.required],
     periodo: [0, Validators.required],
-    alumnos: [[] as number[], Validators.required],
+    docente: [0],
+    alumnos: [[] as number[]],
   });
 
   ngOnInit(): void {
@@ -83,6 +88,7 @@ export default class ClaseFormPageComponent implements OnInit {
     this.cargarCarrerasList();
     this.cargarPeriodosList();
     this.cargarAlumnosList();
+    this.cargarDocentes();
 
     const id = this.route.snapshot.paramMap.get('id');
 
@@ -194,6 +200,31 @@ export default class ClaseFormPageComponent implements OnInit {
       });
   }
 
+  private cargarDocentes() {
+    this.userService.obtenerDatosPaginados(1, 100, {}).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        const docentesList: User[] = [];
+
+        res.results.map((d) => {
+          if (d.role === 'user') docentesList.push(d);
+        });
+
+        if (docentesList.length === 0) {
+          this.toastService.showWarning(
+            'No hay áreas de adscripción registradas',
+            'Advertencia'
+          );
+          return;
+        }
+
+        this.docentes.set(docentesList);
+      },
+    });
+  }
+
   toggleCheckbox(controlName: string, value: number) {
     const control = this.form.get(controlName);
     const current = control?.value || [];
@@ -214,6 +245,8 @@ export default class ClaseFormPageComponent implements OnInit {
     return this.carreraService.obtenerDataInfo(idCarrera, this.carreras());
   }
 
+
+
   onSubmit() {
     if (this.form.invalid) return;
 
@@ -225,6 +258,7 @@ export default class ClaseFormPageComponent implements OnInit {
       carrera: formValues.carrera ?? 0,
       periodo: formValues.periodo ?? 0,
       alumnos: formValues.alumnos ?? [],
+      docente: formValues.docente ?? 0,
     };
 
     const action = this.isEditing

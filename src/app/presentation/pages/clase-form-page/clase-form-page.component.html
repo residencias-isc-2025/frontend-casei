@@ -61,6 +61,19 @@
             </option>
           </select>
         </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Docente</label>
+          <select
+            formControlName="docente"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="" selected disabled>Selecciona un docente</option>
+            <option *ngFor="let docente of docentes()" [value]="docente.id">
+              {{ docente.nombre }} {{ docente.apellido_paterno }} {{ docente.apellido_materno }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <div class="mt-4">

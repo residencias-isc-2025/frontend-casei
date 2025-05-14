@@ -12,12 +12,14 @@ import { Carrera } from '@core/models/carrera.model';
 import { Clase } from '@core/models/clase.model';
 import { Materia } from '@core/models/materia.model';
 import { Periodo } from '@core/models/periodo.model';
+import { User } from '@core/models/user.model';
 import { AlumnoService } from '@core/services/alumno.service';
 import { CarreraService } from '@core/services/carrera.service';
 import { ClaseService } from '@core/services/clase.service';
 import { MateriaService } from '@core/services/materia.service';
 import { PeriodoService } from '@core/services/periodo.service';
 import { ToastService } from '@core/services/toast.service';
+import { UserService } from '@core/services/user.service';
 import {
   FilterBarComponent,
   FilterConfig,
@@ -48,12 +50,14 @@ export default class ClasePageComponent implements OnInit {
   materiaService = inject(MateriaService);
   carreraService = inject(CarreraService);
   alumnoService = inject(AlumnoService);
+  userService = inject(UserService);
 
   clasesList = signal<Clase[]>([]);
   periodosList = signal<Periodo[]>([]);
   materiasList = signal<Materia[]>([]);
   carrerasList = signal<Carrera[]>([]);
   alumnosClaseList = signal<Alumno[]>([]);
+  usersList = signal<User[]>([]);
   recordFilters = signal<Record<string, any>>({});
 
   claseSelected = signal<Clase | null>(null);
@@ -104,6 +108,7 @@ export default class ClasePageComponent implements OnInit {
     this.loadPeriodos();
     this.loadMaterias();
     this.loadCarreras();
+    this.cargarDocentes();
     this.loadClases();
   }
 
@@ -243,6 +248,31 @@ export default class ClasePageComponent implements OnInit {
     });
   }
 
+  private cargarDocentes() {
+    this.userService.obtenerDatosPaginados(1, 100, {}).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        const docentesList: User[] = [];
+
+        res.results.map((d) => {
+          if (d.role === 'user') docentesList.push(d);
+        });
+
+        if (docentesList.length === 0) {
+          this.toastService.showWarning(
+            'No hay áreas de adscripción registradas',
+            'Advertencia'
+          );
+          return;
+        }
+
+        this.usersList.set(docentesList);
+      },
+    });
+  }
+
   onPageChanged(page: number): void {
     this.currentPage.set(page);
     this.loadClases();
@@ -315,5 +345,9 @@ export default class ClasePageComponent implements OnInit {
     if (this.currentPage() === 0) this.currentPage.set(1);
     this.recordFilters.set(filters);
     this.loadClases();
+  }
+
+  docenteData(idDocente: number) {
+    return this.userService.obtenerDataInfo(idDocente, this.usersList());
   }
 }

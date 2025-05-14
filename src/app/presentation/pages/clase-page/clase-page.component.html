@@ -23,6 +23,7 @@
         <th class="py-3 px-4 text-left">Grupo</th>
         <th class="py-3 px-4 text-left">Carrera</th>
         <th class="py-3 px-4 text-left">Periodo</th>
+        <th class="py-3 px-4 text-left">Docente</th>
         <th class="py-3 px-4 text-center">Acciones</th>
       </thead>
       <tbody class="text-gray-600">
@@ -45,6 +46,7 @@
           </td>
           <td class="py-3 px-4">{{ carreraData(clase.carrera)?.nombre }}</td>
           <td class="py-3 px-4">{{ periodoData(clase.periodo)?.clave }}</td>
+          <td class="py-3 px-4">{{ docenteData(clase.docente)?.nombre }}</td>
           <td class="py-3 px-4">
             <div class="flex flex-row space-x-2 gap-2">
               <button
