@@ -266,7 +266,7 @@ export default class ClasePageComponent implements OnInit {
 
         if (docentesList.length === 0) {
           this.toastService.showWarning(
-            'No hay áreas de adscripción registradas',
+            'No hay docentes registrados.',
             'Advertencia'
           );
           return;
