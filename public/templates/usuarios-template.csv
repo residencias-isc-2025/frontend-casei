@@ -1,10 +1,3 @@
-username,role,tipo_docente,apellido_materno,apellido_paterno,nombre,fecha_nacimiento
-990301,user,basificado,Hernandez,Lopez,Andres,1990-03-15,
-990302,user,asignatura,Torres,Gonzalez,Marina,1985-06-22,
-990303,user,basificado,Soto,Ramirez,Fernando,1992-12-09,
-990304,user,asignatura,Sanchez,Perez,Valeria,1988-01-30,
-990305,user,basificado,Ruiz,Torres,Carlos,1995-10-17,
-990306,user,asignatura,Jimenez,Flores,Gabriela,1991-05-05,
-990307,user,basificado,Vazquez,Moralez,Ricardo,1987-04-12,
-990308,user,asignatura,Pineda,Herrera,Laura,1993-08-25,
-990309,user,basificado,Castillo,Mendoza,Jorge,1989-11-03
+username,role,tipo_docente,apellido_paterno,apellido_materno,nombre,fecha_nacimiento
+990301,user,basificado,,,,1990-03-15
+990302,user,asignatura,,,,
