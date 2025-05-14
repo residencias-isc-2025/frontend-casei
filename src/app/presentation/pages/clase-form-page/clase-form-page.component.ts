@@ -209,6 +209,7 @@ export default class ClaseFormPageComponent implements OnInit {
         const docentesList: User[] = [];
 
         res.results.map((d) => {
+          console.log(d.role);
           if (d.role === 'user') docentesList.push(d);
         });
 
@@ -219,6 +220,9 @@ export default class ClaseFormPageComponent implements OnInit {
           );
           return;
         }
+
+        console.log(res.results.length);
+        console.log(docentesList.length);
 
         this.docentes.set(docentesList);
       },
@@ -245,15 +249,13 @@ export default class ClaseFormPageComponent implements OnInit {
     return this.carreraService.obtenerDataInfo(idCarrera, this.carreras());
   }
 
-
-
   onSubmit() {
     if (this.form.invalid) return;
 
     const formValues = this.form.value;
 
     const payload: Partial<Clase> = {
-      materia: formValues.periodo ?? 0,
+      materia: formValues.materia ?? 0,
       grupo: formValues.grupo ?? '',
       carrera: formValues.carrera ?? 0,
       periodo: formValues.periodo ?? 0,

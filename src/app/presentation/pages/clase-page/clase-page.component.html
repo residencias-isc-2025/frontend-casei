@@ -46,7 +46,9 @@
           </td>
           <td class="py-3 px-4">{{ carreraData(clase.carrera)?.nombre }}</td>
           <td class="py-3 px-4">{{ periodoData(clase.periodo)?.clave }}</td>
-          <td class="py-3 px-4">{{ docenteData(clase.docente)?.nombre }}</td>
+          <td class="py-3 px-4">
+            {{ docenteData(clase.docente) ?? "No asignado" }}
+          </td>
           <td class="py-3 px-4">
             <div class="flex flex-row space-x-2 gap-2">
               <button
@@ -68,6 +70,14 @@
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-red-500 hover:bg-red-700"
               >
                 Eliminar
+              </button>
+
+              <button
+                *ngIf="!claseActiva(periodoData(clase.periodo))"
+                (click)="onMigrarPressed(clase)"
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-emerald-500 hover:bg-emerald-700"
+              >
+                Migrar
               </button>
             </div>
           </td>
@@ -100,6 +110,14 @@
   "
   (onConfirm)="onDelete(claseSelected()?.id!)"
   (onCancel)="showDeleteModal.set(false)"
+/>
+
+<app-select-periodo-form
+  *ngIf="showSelectPeriodo()"
+  [idClase]="claseSelected()!.id"
+  [periodos]="periodosList()"
+  (onSave)="onMigrarEmit()"
+  (onCancel)="showSelectPeriodo.set(false)"
 />
 
 <app-loader

@@ -76,4 +76,11 @@ export class ClaseService extends BaseService<Clase> {
   obtenerItemById(id: number) {
     return this.http.get<Clase>(`${this.apiUrl}/${id}/`);
   }
+
+  migrarClase(idClase: number, idPeriodo: number) {
+    return this.http.post<Clase>(`${this.apiUrl}/migrar/`, {
+      clase_id: idClase,
+      periodo_id: idPeriodo,
+    });
+  }
 }

@@ -1,0 +1,49 @@
+<div
+  class="fixed inset-0 bg-opacity-50 flex items-center justify-center backdrop-blur-sm"
+>
+  <div
+    class="bg-white p-6 rounded-lg shadow-lg w-120 max-h-[90vh] overflow-y-auto"
+  >
+    <!-- Encabezado -->
+    <div class="flex justify-between items-center border-b pb-2">
+      <h2 class="text-xl font-semibold text-gray-800">
+        Selecciona un periodo:
+      </h2>
+      <button
+        class="text-gray-500 hover:text-gray-700 text-xl"
+        (click)="onCancel.emit()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <form [formGroup]="form" (keydown.enter)="onSubmit()" class="mt-4">
+      <div class="mb-4">
+        <select
+          formControlName="periodo"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          @for (periodo of periodos(); track $index) {
+          <option [value]="periodo.id">{{ periodo.clave }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="flex justify-end gap-3 mt-4">
+        <button
+          class="px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-lg"
+          (click)="onCancel.emit()"
+        >
+          Cancelar
+        </button>
+        <button
+          class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg disabled:bg-gray-500"
+          [disabled]="form.invalid"
+          (click)="onSubmit()"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

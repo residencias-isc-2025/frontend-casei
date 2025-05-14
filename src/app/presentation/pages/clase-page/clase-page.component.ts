@@ -28,6 +28,7 @@ import { LoaderComponent } from '@presentation/components/loader/loader.componen
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 import { AlumnosClaseFormComponent } from '@presentation/forms/alumnos-clase-form/alumnos-clase-form.component';
 import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
+import { SelectPeriodoFormComponent } from '@presentation/forms/select-periodo-form/select-periodo-form.component';
 
 @Component({
   selector: 'app-clase-page',
@@ -39,6 +40,7 @@ import { ConfirmationModalComponent } from '@presentation/forms/confirmation-mod
     CommonModule,
     FilterBarComponent,
     LoaderComponent,
+    SelectPeriodoFormComponent
   ],
   templateUrl: './clase-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -64,6 +66,8 @@ export default class ClasePageComponent implements OnInit {
 
   showDeleteModal = signal(false);
   showAlumnosClaseModal = signal(false);
+  showSelectPeriodo = signal(false);
+
   isLoading = {
     materias: signal(true),
     carreras: signal(true),
@@ -283,6 +287,11 @@ export default class ClasePageComponent implements OnInit {
     this.showDeleteModal.set(true);
   }
 
+  onMigrarPressed(item: Clase) {
+    this.claseSelected.set(item);
+    this.showSelectPeriodo.set(true);
+  }
+
   periodoData(idPeriodo: number): Periodo | undefined {
     return this.periodoService.obtenerDataInfo(idPeriodo, this.periodosList());
   }
@@ -348,6 +357,19 @@ export default class ClasePageComponent implements OnInit {
   }
 
   docenteData(idDocente: number) {
-    return this.userService.obtenerDataInfo(idDocente, this.usersList());
+    const docente = this.userService.obtenerDataInfo(
+      idDocente,
+      this.usersList()
+    );
+
+    if (!docente) return null;
+
+    return `${docente.nombre}  ${docente.apellido_paterno} ${docente.apellido_materno}`;
+  }
+
+  onMigrarEmit() {
+    this.claseSelected.set(null);
+    this.showSelectPeriodo.set(false);
+    this.loadClases();
   }
 }
