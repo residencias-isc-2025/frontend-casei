@@ -1,7 +1,7 @@
 <div class="container mx-auto p-6">
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-bold text-gray-800">Adscripciones</h1>
-    <div class="space-x-1">
+    <div class="flex flex-row space-x-2 gap-2">
       <button
         (click)="this.showAddModal.set(true)"
         class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
@@ -9,16 +9,12 @@
         Agregar
       </button>
 
-      <!-- <label
-        class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+      <button
+        (click)="showReadFileModal.set(true)"
+        class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
       >
         Cargar CSV
-        <input
-          type="file"
-          accept=".csv"
-          class="hidden"
-        />
-      </label> -->
+      </button>
     </div>
   </div>
 
@@ -93,6 +89,15 @@
     />
   </div>
 </div>
+
+<app-csv-file-reader
+  *ngIf="showReadFileModal()"
+  title="Cargar adscripciones por CSV"
+  templateName="adscripcion-template.csv"
+  [service]="adscripcionService"
+  (onSuccess)="onReadFile()"
+  (onCancel)="showReadFileModal.set(false)"
+/>
 
 @if (showAddModal()) {
 <app-adscripcion-form

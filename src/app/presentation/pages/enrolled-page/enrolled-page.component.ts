@@ -10,6 +10,7 @@ import { Adscripcion } from '@core/models/adscripcion.model';
 import { AdscripcionService } from '@core/services/adscripcion.service';
 import { CommonService } from '@core/services/common.service';
 import { ToastService } from '@core/services/toast.service';
+import { CsvFileReaderComponent } from '@presentation/components/csv-file-reader/csv-file-reader.component';
 import {
   FilterBarComponent,
   FilterConfig,
@@ -24,6 +25,7 @@ import { AdscripcionFormComponent } from '@presentation/forms/adscripcion-form/a
     PaginationComponent,
     AdscripcionFormComponent,
     FilterBarComponent,
+    CsvFileReaderComponent,
   ],
   templateUrl: './enrolled-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,6 +37,8 @@ export default class EnrolledPageComponent implements OnInit {
 
   showAddModal = signal(false);
   showUpdateModal = signal(false);
+  showReadFileModal = signal(false);
+  isLoading = signal(false);
 
   adscripciones = signal<Adscripcion[]>([]);
   adscripcionSelected = signal<Adscripcion | null>(null);
@@ -68,11 +72,13 @@ export default class EnrolledPageComponent implements OnInit {
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
+          this.isLoading.set(false);
         },
         next: (res) => {
           if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.adscripciones.set(res.results);
+          this.isLoading.set(false);
         },
       });
   }
@@ -129,6 +135,13 @@ export default class EnrolledPageComponent implements OnInit {
   onSearch(filters: Record<string, any>) {
     if (this.currentPage() === 0) this.currentPage.set(1);
     this.recordFilters.set(filters);
+    this.cargarAdscripciones();
+  }
+
+  onReadFile() {
+    this.isLoading.set(true);
+    this.showReadFileModal.set(false);
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.cargarAdscripciones();
   }
 }

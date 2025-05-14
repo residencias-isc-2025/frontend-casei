@@ -8,6 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { AdscripcionService } from '@core/services/adscripcion.service';
 import { ToastService } from '@core/services/toast.service';
 import { UserService } from '@core/services/user.service';
 
@@ -23,7 +24,7 @@ export class CsvFileReaderComponent {
 
   title = input('Título');
   templateName = input.required<string>();
-  service = input.required<UserService>();
+  service = input.required<UserService | AdscripcionService>();
 
   onSuccess = output();
   onCancel = output();
