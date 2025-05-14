@@ -1,12 +1,20 @@
 <div class="container mx-auto p-6">
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-bold text-gray-800">Alumnos</h1>
-    <button
-      (click)="showAddModal.set(true)"
-      class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-    >
-      Agregar
-    </button>
+    <div class="flex flex-row space-x-2 gap-2">
+      <button
+        (click)="showAddModal.set(true)"
+        class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+      >
+        Agregar
+      </button>
+      <button
+        (click)="showReadFileModal.set(true)"
+        class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+      >
+        Cargar CSV
+      </button>
+    </div>
   </div>
 
   <app-filter-bar
@@ -83,8 +91,16 @@
   </div>
 </div>
 
+<app-loader *ngIf="isLoading()" />
 
-<app-loader *ngIf="isLoading()"/>
+<app-csv-file-reader
+  *ngIf="showReadFileModal()"
+  title="Cargar alumnos por CSV"
+  templateName="alumnos-template.csv"
+  [service]="alumnoService"
+  (onSuccess)="onReadFile()"
+  (onCancel)="showReadFileModal.set(false)"
+/>
 
 @if(showAddModal()) {
 <app-alumno-form

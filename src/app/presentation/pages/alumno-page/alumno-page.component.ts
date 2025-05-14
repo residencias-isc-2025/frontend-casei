@@ -19,6 +19,7 @@ import { PaginationComponent } from '@presentation/components/pagination/paginat
 import { AlumnoFormComponent } from '@presentation/forms/alumno-form/alumno-form.component';
 import { ConfirmationModalComponent } from '@presentation/forms/confirmation-modal/confirmation-modal.component';
 import { LoaderComponent } from '@components/loader/loader.component';
+import { CsvFileReaderComponent } from '@presentation/components/csv-file-reader/csv-file-reader.component';
 
 @Component({
   selector: 'app-alumno-page',
@@ -29,6 +30,7 @@ import { LoaderComponent } from '@components/loader/loader.component';
     AlumnoFormComponent,
     FilterBarComponent,
     LoaderComponent,
+    CsvFileReaderComponent,
   ],
   templateUrl: './alumno-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,6 +43,7 @@ export default class AlumnoPageComponent implements OnInit {
   showAddModal = signal(false);
   showUpdateModal = signal(false);
   showDeleteModal = signal(false);
+  showReadFileModal = signal(false);
   isLoading = signal(true);
 
   alumnoSelected = signal<Alumno | null>(null);
@@ -80,11 +83,13 @@ export default class AlumnoPageComponent implements OnInit {
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
+          this.isLoading.set(false);
         },
         next: (res) => {
           if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.alumnosList.set(res.results);
+          this.isLoading.set(false);
         },
       });
   }
@@ -190,6 +195,13 @@ export default class AlumnoPageComponent implements OnInit {
   onSearch(filters: Record<string, any>) {
     if (this.currentPage() === 0) this.currentPage.set(1);
     this.recordFilters.set(filters);
+    this.loadAlumnosList();
+  }
+
+  onReadFile() {
+    this.isLoading.set(true);
+    this.showReadFileModal.set(false);
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.loadAlumnosList();
   }
 }
