@@ -99,6 +99,8 @@
   (onCancel)="showReadFileModal.set(false)"
 />
 
+<app-loader *ngIf="isLoading()" />
+
 @if (showAddModal()) {
 <app-adscripcion-form
   [editing]="false"

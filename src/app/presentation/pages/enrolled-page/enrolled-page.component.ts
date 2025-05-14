@@ -15,6 +15,7 @@ import {
   FilterBarComponent,
   FilterConfig,
 } from '@presentation/components/filter-bar/filter-bar.component';
+import { LoaderComponent } from '@presentation/components/loader/loader.component';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
 import { AdscripcionFormComponent } from '@presentation/forms/adscripcion-form/adscripcion-form.component';
 
@@ -25,6 +26,7 @@ import { AdscripcionFormComponent } from '@presentation/forms/adscripcion-form/a
     PaginationComponent,
     AdscripcionFormComponent,
     FilterBarComponent,
+    LoaderComponent,
     CsvFileReaderComponent,
   ],
   templateUrl: './enrolled-page.component.html',

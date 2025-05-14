@@ -69,4 +69,11 @@ export class InstitucionService extends BaseService<Institucion> {
     const data = lista.find((d) => d.id === id);
     return data;
   }
+
+  leerArchivoCsv(formData: FormData) {
+    return this.http.post<{ mensaje: string }>(
+      `${this.apiUrl}/institucion-pais/carga-csv/`,
+      formData
+    );
+  }
 }

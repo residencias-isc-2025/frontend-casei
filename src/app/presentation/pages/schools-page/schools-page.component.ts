@@ -19,6 +19,8 @@ import {
   FilterBarComponent,
   FilterConfig,
 } from '@presentation/components/filter-bar/filter-bar.component';
+import { CsvFileReaderComponent } from '@presentation/components/csv-file-reader/csv-file-reader.component';
+import { LoaderComponent } from '@presentation/components/loader/loader.component';
 
 @Component({
   selector: 'app-schools-page',
@@ -27,6 +29,8 @@ import {
     PaginationComponent,
     InstitucionFormComponent,
     FilterBarComponent,
+    LoaderComponent,
+    CsvFileReaderComponent,
   ],
   templateUrl: './schools-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,6 +42,8 @@ export default class SchoolsPageComponent implements OnInit {
 
   showAddModal = signal(false);
   showUpdateModal = signal(false);
+  showReadFileModal = signal(false);
+  isLoading = signal(true);
 
   schools = signal<Institucion[]>([]);
   countries = signal<Countries[]>([]);
@@ -83,9 +89,11 @@ export default class SchoolsPageComponent implements OnInit {
           if (response.count === 0) this.currentPage.set(0);
           this.totalItems.set(response.count);
           this.schools.set(response.results);
+          this.isLoading.set(false);
         },
         error: (err) => {
           this.toastService.showError(err.mensaje!, 'Malas noticias');
+          this.isLoading.set(false);
         },
       });
   }
@@ -142,6 +150,13 @@ export default class SchoolsPageComponent implements OnInit {
   onSearch(filters: Record<string, any>) {
     if (this.currentPage() === 0) this.currentPage.set(1);
     this.recordFilters.set(filters);
+    this.cargarInstituciones();
+  }
+
+  onReadFile() {
+    this.isLoading.set(true);
+    this.showReadFileModal.set(false);
+    if (this.currentPage() === 0) this.currentPage.set(1);
     this.cargarInstituciones();
   }
 }
