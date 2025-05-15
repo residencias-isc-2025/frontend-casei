@@ -71,6 +71,13 @@
           }}
         </button>
         <button
+        (click)="onDownloadProgramaAsignatura(mat)"
+          class="px-4 py-1.5 text-sm font-semibold bg-emerald-500 hover:bg-emerald-700 text-white rounded-lg transition"
+        >
+          Cédula 2.1.1 - Programa de asignatura
+        </button>
+
+        <button
           [routerLink]="['edit', mat.id]"
           class="px-4 py-1.5 text-sm font-semibold bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition"
         >

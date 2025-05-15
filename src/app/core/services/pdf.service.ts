@@ -5,6 +5,8 @@ import { ToastService } from './toast.service';
 import { curriculumSinteticoReport } from '@presentation/reports/curriculum-sintetico.report';
 import { Institucion } from '@core/models/institucion.model';
 import { CurriculumVitae } from '@core/models/curriculum-vitae.model';
+import { ProgramaAsignatura } from '@core/models/programa-asaignatura.model';
+import { programaCursoReport } from '@presentation/reports/programa-curso.report';
 
 @Injectable({
   providedIn: 'root',
@@ -44,7 +46,10 @@ export class PdfService {
     doc.save('CACEI - Cedula_0');
   }
 
-  async generarCurriculumSintetico(data: CurriculumVitae, schools: Institucion[]) {
+  async generarCurriculumSintetico(
+    data: CurriculumVitae,
+    schools: Institucion[]
+  ) {
     const { apellido_materno, apellido_paterno, nombre, fecha_nacimiento } =
       data.usuario;
 
@@ -74,5 +79,15 @@ export class PdfService {
     doc = await curriculumSinteticoReport(doc, data, schools);
 
     doc.save('CACEI - Cedula_5_1_0 - CV Sintético');
+  }
+
+  async generarProgramaCurso(data: ProgramaAsignatura) {
+    let doc = new jsPDF();
+
+    doc = await programaCursoReport(doc, data);
+
+    doc.save(
+      `CACEI - Cadula 2_1_1 - Programa del curso - ${data.materia?.nombre}`
+    );
   }
 }

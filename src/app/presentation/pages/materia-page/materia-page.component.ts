@@ -8,9 +8,15 @@ import {
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Bibliografia } from '@core/models/bibliografia.model';
+import { Competencia } from '@core/models/competencia.model';
+import { CriterioDesempenio } from '@core/models/criterio-desempenio.model';
 import { Materia } from '@core/models/materia.model';
+import { ProgramaAsignatura } from '@core/models/programa-asaignatura.model';
 import { BibliografiaService } from '@core/services/bibliografia.service';
+import { CompetenciaService } from '@core/services/competencia.service';
+import { CriterioDesempenioService } from '@core/services/criterio-desempenio.service';
 import { MateriaService } from '@core/services/materia.service';
+import { PdfService } from '@core/services/pdf.service';
 import { ToastService } from '@core/services/toast.service';
 import {
   FilterBarComponent,
@@ -35,12 +41,18 @@ export default class MateriaPageComponent implements OnInit {
   toastService = inject(ToastService);
   materiaService = inject(MateriaService);
   bibliografiaService = inject(BibliografiaService);
+  competenciaService = inject(CompetenciaService);
+  criterioDesempenoService = inject(CriterioDesempenioService);
+
+  pdfService = inject(PdfService);
 
   showDeleteModal = signal(false);
 
   materiasList = signal<Materia[]>([]);
   materias = signal<Materia[]>([]);
   bibliografias = signal<Bibliografia[]>([]);
+  competencias = signal<Competencia[]>([]);
+  criteriosDesempeno = signal<CriterioDesempenio[]>([]);
 
   materiaSelected = signal<Materia | null>(null);
   expandedMateriaId = signal<number | null>(null);
@@ -85,6 +97,8 @@ export default class MateriaPageComponent implements OnInit {
     this.cargarMateriasList();
     this.cargarMateriasRequeridasList();
     this.cargarBibliografias();
+    this.cargarCompetencias();
+    this.cargarCriteriosDesempeno();
   }
 
   private cargarMateriasList() {
@@ -95,8 +109,6 @@ export default class MateriaPageComponent implements OnInit {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
-          console.log(res);
-
           if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.materiasList.set(res.results);
@@ -130,6 +142,69 @@ export default class MateriaPageComponent implements OnInit {
         }
       },
     });
+  }
+
+  private cargarCompetencias() {
+    this.competenciaService.obtenerDatosPaginados(1, 100, {}).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        this.competencias.set(res.results);
+        if (res.count === 0) {
+          this.toastService.showWarning(
+            'No hay competencias registradas.',
+            'Advertencia'
+          );
+        }
+      },
+    });
+  }
+
+  private cargarCriteriosDesempeno() {
+    this.criterioDesempenoService.obtenerDatosPaginados(1, 100, {}).subscribe({
+      error: (res) => {
+        this.toastService.showError(res.mensaje!, 'Malas noticias');
+      },
+      next: (res) => {
+        this.criteriosDesempeno.set(res.results);
+        if (res.count === 0) {
+          this.toastService.showWarning(
+            'No hay criterios de desempeño registrados.',
+            'Advertencia'
+          );
+        }
+      },
+    });
+  }
+
+  onDownloadProgramaAsignatura(materia: Materia) {
+    const infoAsignatura: ProgramaAsignatura = {
+      materia: materia,
+      bibliografias: [],
+      competencias: [],
+      criterios_desempeno: [],
+    };
+
+    for (const b of materia.bibliografia) {
+      const bibliografia = this.bibliografia(b);
+      if (!bibliografia) continue;
+      infoAsignatura.bibliografias!.push(bibliografia);
+    }
+
+    for (const c of materia.competencias) {
+      const competencia = this.competencia(c);
+      if (!competencia) continue;
+      infoAsignatura.competencias!.push(competencia);
+    }
+
+    for (const d of materia.criterio_desempeno) {
+      const criterio = this.criterioDesempeno(d);
+      if (!criterio) continue;
+      infoAsignatura.criterios_desempeno!.push(criterio);
+    }
+
+    this.pdfService.generarProgramaCurso(infoAsignatura);
   }
 
   onShowDeleteModal(item: Materia) {
@@ -170,6 +245,17 @@ export default class MateriaPageComponent implements OnInit {
     return this.bibliografiaService.obtenerDataInfo(
       itemId,
       this.bibliografias()
+    );
+  }
+
+  competencia(itemId: number) {
+    return this.competenciaService.obtenerDataInfo(itemId, this.competencias());
+  }
+
+  criterioDesempeno(itemId: number) {
+    return this.criterioDesempenoService.obtenerDataInfo(
+      itemId,
+      this.criteriosDesempeno()
     );
   }
 

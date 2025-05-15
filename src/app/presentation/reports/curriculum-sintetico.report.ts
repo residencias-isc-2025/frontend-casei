@@ -31,9 +31,6 @@ export const curriculumSinteticoReport = async (
 
   const logoBase64 = await loadImageAsBase64('/assets/images/cacei.png');
 
-  console.log(logoBase64);
-
-
   const headerData: DocHeaderData = {
     claveCacei: 'P-CACEI-DAC-01-R01',
     numRevision: 1,

@@ -76,8 +76,6 @@ export class PeriodoFormComponent implements OnInit {
       fecha_fin: formValue.fecha_f ?? '',
     };
 
-    console.log(payload);
-
     const action = this.editing()
       ? this.periodoService.actualizar(this.periodo()!.id, payload)
       : this.periodoService.crear(payload);

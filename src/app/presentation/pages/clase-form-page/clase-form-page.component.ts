@@ -209,7 +209,6 @@ export default class ClaseFormPageComponent implements OnInit {
         const docentesList: User[] = [];
 
         res.results.map((d) => {
-          console.log(d.role);
           if (d.role === 'user') docentesList.push(d);
         });
 
@@ -220,9 +219,6 @@ export default class ClaseFormPageComponent implements OnInit {
           );
           return;
         }
-
-        console.log(res.results.length);
-        console.log(docentesList.length);
 
         this.docentes.set(docentesList);
       },
