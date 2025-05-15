@@ -44,7 +44,7 @@ export class PdfService {
     doc.save('CACEI - Cedula_0');
   }
 
-  generarCurriculumSintetico(data: CurriculumVitae, schools: Institucion[]) {
+  async generarCurriculumSintetico(data: CurriculumVitae, schools: Institucion[]) {
     const { apellido_materno, apellido_paterno, nombre, fecha_nacimiento } =
       data.usuario;
 
@@ -71,7 +71,7 @@ export class PdfService {
 
     let doc = new jsPDF();
 
-    doc = curriculumSinteticoReport(doc, data, schools);
+    doc = await curriculumSinteticoReport(doc, data, schools);
 
     doc.save('CACEI - Cedula_5_1_0 - CV Sintético');
   }

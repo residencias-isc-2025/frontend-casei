@@ -59,7 +59,7 @@ export default class CompetenciasPageComponent implements OnInit {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
         },
         next: (res) => {
-          if (res.count) this.currentPage.set(0);
+          if (res.count === 0) this.currentPage.set(0);
           this.totalItems.set(res.count);
           this.competencias.set(res.results);
         },

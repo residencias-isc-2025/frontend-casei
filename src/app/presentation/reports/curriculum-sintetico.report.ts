@@ -16,22 +16,29 @@ import { calculateSeniority } from '@helpers/calculate-seniority.helper';
 import { createTable } from '@helpers/create-table.helper';
 import { formatedBirthdate } from '@helpers/formated-birthdate.helper';
 import { getLastNomination } from '@helpers/get-last-nomination.helper';
+import { loadImageAsBase64 } from '@helpers/load-image-base64.helper';
 import { DocHeaderData } from '@interfaces/reports/doc-header-data.interface';
 import jsPDF from 'jspdf';
 
-export const curriculumSinteticoReport = (
+export const curriculumSinteticoReport = async (
   doc: jsPDF,
   data: CurriculumVitae,
   schools: Institucion[]
-): jsPDF => {
+): Promise<jsPDF> => {
   const payrollNumber = !isNaN(Number(data.usuario.username))
     ? data.usuario.username
     : '000102';
+
+  const logoBase64 = await loadImageAsBase64('/assets/images/cacei.png');
+
+  console.log(logoBase64);
+
 
   const headerData: DocHeaderData = {
     claveCacei: 'P-CACEI-DAC-01-R01',
     numRevision: 1,
     fechaVigencia: '2025-01-01',
+    logoCacei: logoBase64,
   };
 
   let docStartY = 30;
