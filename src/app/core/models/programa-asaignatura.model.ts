@@ -1,8 +1,11 @@
+import { AtributoEgreso } from './atributo-egreso.model';
 import { Bibliografia } from './bibliografia.model';
 import { Competencia } from './competencia.model';
-import { CriterioDesempenio } from './criterio-desempenio.model';
+import { EstrategiaEnsenanza } from './estrategia-ensenanza.model';
+import { EstrategiaEvaluacion } from './estrategia-evaluacion.model';
 import { Materia } from './materia.model';
 import { ObjetivoEspecifico } from './objetivo-especifico.model';
+import { Practica } from './practica.model';
 import { Tema } from './tema.model';
 
 export interface ProgramaAsignatura {
@@ -10,4 +13,9 @@ export interface ProgramaAsignatura {
   competencias: Competencia[];
   objetivos_especificos: ObjetivoEspecifico[];
   temas: Tema[];
+  atributos_egreso: AtributoEgreso[];
+  estrategias_ensenanza: EstrategiaEnsenanza[];
+  estrategias_evaluacion: EstrategiaEvaluacion[];
+  practicas: Practica[];
+  bibliografias: Bibliografia[];
 }
