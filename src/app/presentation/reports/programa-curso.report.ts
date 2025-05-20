@@ -22,6 +22,15 @@ export const programaCursoReport = async (
 
   let docStartY = 30;
 
+  const horasSemanales =
+    data.materia.horas_ciencias_basicas +
+    data.materia.horas_ciencias_economicas +
+    data.materia.horas_ciencias_ingenieria +
+    data.materia.horas_ciencias_sociales +
+    data.materia.horas_disenio_ingenieril +
+    data.materia.horas_ingenieria_aplicada +
+    data.materia.horas_otros_cursos;
+
   const objetivosEspecificosCells: CellInput[] = [];
   const objetivosEspecificosRows: RowInput[] = [];
 
@@ -107,7 +116,7 @@ export const programaCursoReport = async (
     temasRows.push([indexCell, contentCell]);
   }
 
-  for (const [i, etrategiaEnsenanza] of data.estrategias_ensenanza.entries()) {
+  for (const [i, estEnsenanza] of data.estrategias_ensenanza.entries()) {
     const indexCell: CellInput = {
       content: `${i + 1}`,
       styles: {
@@ -120,7 +129,7 @@ export const programaCursoReport = async (
     };
 
     const contentCell: CellInput = {
-      content: etrategiaEnsenanza.descripcion,
+      content: estEnsenanza.descripcion,
       colSpan: 8,
       styles: {
         fontStyle: 'normal',
@@ -131,10 +140,7 @@ export const programaCursoReport = async (
     estrategiasEnsenanza.push([indexCell, contentCell]);
   }
 
-  for (const [
-    i,
-    estrategiaEvaluacion,
-  ] of data.estrategias_evaluacion.entries()) {
+  for (const [i, estEvaluacion] of data.estrategias_evaluacion.entries()) {
     const indexCell: CellInput = {
       content: `${i + 1}`,
       styles: {
@@ -147,7 +153,7 @@ export const programaCursoReport = async (
     };
 
     const contentCell: CellInput = {
-      content: estrategiaEvaluacion.descripcion,
+      content: estEvaluacion.descripcion,
       colSpan: 8,
       styles: {
         fontStyle: 'normal',
@@ -805,14 +811,87 @@ export const programaCursoReport = async (
           },
         ],
         [
-          { content: '0' },
-          { content: '0' },
-          { content: '0' },
-          { content: '0' },
-          { content: '0' },
-          { content: '0', colSpan: 2 },
-          { content: '0' },
-          { content: '0' },
+          {
+            content: horasSemanales,
+            styles: {
+              fontStyle: 'normal',
+              fontSize,
+              halign: 'center',
+              valign: 'middle',
+              textColor: '#000',
+            },
+          },
+          {
+            content: data.materia.creditos_teoria,
+            styles: {
+              fontStyle: 'normal',
+              fontSize,
+              halign: 'center',
+              valign: 'middle',
+              textColor: '#000',
+            },
+          },
+          {
+            content: data.materia.creditos_practica,
+            styles: {
+              fontStyle: 'normal',
+              fontSize,
+              halign: 'center',
+              valign: 'middle',
+              textColor: '#000',
+            },
+          },
+          {
+            content: '0',
+            styles: {
+              fontStyle: 'normal',
+              fontSize,
+              halign: 'center',
+              valign: 'middle',
+              textColor: '#000',
+            },
+          },
+          {
+            content: 'Grupos',
+            styles: {
+              fontStyle: 'normal',
+              fontSize,
+              halign: 'center',
+              valign: 'middle',
+              textColor: '#000',
+            },
+          },
+          {
+            content: '0',
+            styles: {
+              fontStyle: 'normal',
+              fontSize,
+              halign: 'center',
+              valign: 'middle',
+              textColor: '#000',
+            },
+          },
+          {
+            content: '0',
+            colSpan: 2,
+            styles: {
+              fontStyle: 'normal',
+              fontSize,
+              halign: 'center',
+              valign: 'middle',
+              textColor: '#000',
+            },
+          },
+          {
+            content: '0',
+            styles: {
+              fontStyle: 'normal',
+              fontSize,
+              halign: 'center',
+              valign: 'middle',
+              textColor: '#000',
+            },
+          },
         ],
         [
           {
