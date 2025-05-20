@@ -138,6 +138,7 @@ export const routes: Routes = [
           import(
             '@presentation/pages/objetivos-especificos-page/objetivos-especificos-page.component'
           ),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'atributos-egreso',
@@ -145,11 +146,13 @@ export const routes: Routes = [
           import(
             '@presentation/pages/atributo-egreso-page/atributo-egreso-page.component'
           ),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'criterios',
         loadComponent: () =>
           import('@presentation/pages/criterios-page/criterios-page.component'),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'estrategias-ensenanza',
@@ -157,6 +160,7 @@ export const routes: Routes = [
           import(
             '@presentation/pages/estrategia-ensenanza-page/estrategia-ensenanza-page.component'
           ),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'estrategias-evaluacion',
@@ -164,6 +168,7 @@ export const routes: Routes = [
           import(
             '@presentation/pages/estrategia-evaluacion-page/estrategia-evaluacion-page.component'
           ),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'practicas',
@@ -174,11 +179,13 @@ export const routes: Routes = [
         path: 'temas',
         loadComponent: () =>
           import('@presentation/pages/tema-page/tema-page.component'),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'subtemas',
         loadComponent: () =>
           import('@presentation/pages/subtemas-page/subtemas-page.component'),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'formatos',
@@ -191,6 +198,7 @@ export const routes: Routes = [
           import(
             '@presentation/pages/bibliografia-page/bibliografia-page.component'
           ),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'actividad-aprendizaje',
@@ -198,6 +206,7 @@ export const routes: Routes = [
           import(
             '@presentation/pages/actividad-aprendizaje-page/actividad-aprendizaje-page.component'
           ),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'competencias-genericas',
@@ -205,6 +214,7 @@ export const routes: Routes = [
           import(
             '@presentation/pages/competencia-generica-page/competencia-generica-page.component'
           ),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'indicador-alcance',
@@ -212,6 +222,7 @@ export const routes: Routes = [
           import(
             '@presentation/pages/indicador-alcance-page/indicador-alcance-page.component'
           ),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'lista-cotejo',
@@ -219,6 +230,7 @@ export const routes: Routes = [
           import(
             '@presentation/pages/lista-cotejo-page/lista-cotejo-page.component'
           ),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'nivel-desempenio',
@@ -226,6 +238,7 @@ export const routes: Routes = [
           import(
             '@presentation/pages/nivel-desempenio-page/nivel-desempenio-page.component'
           ),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'competencias',
@@ -233,11 +246,13 @@ export const routes: Routes = [
           import(
             '@presentation/pages/competencias-page/competencias-page.component'
           ),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'materias',
         loadComponent: () =>
           import('@presentation/pages/materia-page/materia-page.component'),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'materias/add',
@@ -245,6 +260,7 @@ export const routes: Routes = [
           import(
             '@presentation/pages/materia-form-page/materia-form-page.component'
           ),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'materias/edit/:id',
@@ -252,11 +268,13 @@ export const routes: Routes = [
           import(
             '@presentation/pages/materia-form-page/materia-form-page.component'
           ),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'carrera',
         loadComponent: () =>
           import('@presentation/pages/carrera-page/carrera-page.component'),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'carrera/add',
@@ -264,6 +282,7 @@ export const routes: Routes = [
           import(
             '@presentation/pages/carrera-form-page/carrera-form-page.component'
           ),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'carrera/edit/:id',
@@ -271,11 +290,13 @@ export const routes: Routes = [
           import(
             '@presentation/pages/carrera-form-page/carrera-form-page.component'
           ),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'clase',
         loadComponent: () =>
           import('@presentation/pages/clase-page/clase-page.component'),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'clase/add',
@@ -283,12 +304,21 @@ export const routes: Routes = [
           import(
             '@presentation/pages/clase-form-page/clase-form-page.component'
           ),
+        canMatch: [userRoleGuard],
       },
       {
         path: 'clase/edit/:id',
         loadComponent: () =>
           import(
             '@presentation/pages/clase-form-page/clase-form-page.component'
+          ),
+        canMatch: [userRoleGuard],
+      },
+      {
+        path: 'asignaturas',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/asignatura-page/asignatura-page.component'
           ),
       },
       {

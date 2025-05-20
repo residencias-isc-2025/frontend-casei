@@ -852,7 +852,7 @@ export const programaCursoReport = async (
             },
           },
           {
-            content: 'Grupos',
+            content: data.total_clases_periodo_actual,
             styles: {
               fontStyle: 'normal',
               fontSize,

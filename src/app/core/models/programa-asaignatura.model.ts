@@ -18,4 +18,5 @@ export interface ProgramaAsignatura {
   estrategias_evaluacion: EstrategiaEvaluacion[];
   practicas: Practica[];
   bibliografias: Bibliografia[];
+  total_clases_periodo_actual: number;
 }

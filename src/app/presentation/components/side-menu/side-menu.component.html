@@ -51,6 +51,17 @@
         />
       </li>
       }
+
+      @if (userRole() === 'user') {
+        <li>
+          <app-sidebar-link
+          routerLinkProp="/dashboard/asignaturas"
+          routeNameProp="Asignaturas"
+          iconProp="/assets/svgs/clase.svg"
+        />
+        </li>
+      }
+
       <!-- Rutas protegidas -->
       @if(userRole() === 'superuser' || userRole() === 'admin') { @for(ruta of
       rutasProtegidas; track $index) {

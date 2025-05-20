@@ -83,4 +83,38 @@ export class ClaseService extends BaseService<Clase> {
       periodo_id: idPeriodo,
     });
   }
+
+  obtenerDatosPaginadosProfesor(
+    page: number,
+    limit: number,
+    params: Record<string, any> = {}
+  ): Observable<{
+    count: number;
+    next: string | null;
+    previous: string | null;
+    results: Clase[];
+  }> {
+    const filters = new URLSearchParams({
+      page: page.toString(),
+      page_size: limit.toString(),
+    });
+
+    Object.entries(params).forEach(([key, value]) => {
+      if (
+        value !== null &&
+        value !== undefined &&
+        value !== '' &&
+        value !== -1
+      ) {
+        filters.append(key, value);
+      }
+    });
+
+    return this.http.get<{
+      count: number;
+      next: string | null;
+      previous: string | null;
+      results: Clase[];
+    }>(`${this.apiUrl}/docente/?${filters.toString()}`);
+  }
 }

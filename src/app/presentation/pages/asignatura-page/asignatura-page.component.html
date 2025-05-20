@@ -1,0 +1,89 @@
+<div class="container mx-auto p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Asignaturas</h1>
+  </div>
+
+  <app-filter-bar
+    [filters]="filters()"
+    (search)="onSearch($event)"
+    (clear)="onSearch({})"
+  />
+
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+    <table class="w-full border-collapse">
+      <thead class="bg-gray-200 text-gray-700">
+        <th class="py-3 px-4 text-center">Estado</th>
+        <th class="py-3 px-4 text-left">Materia</th>
+        <th class="py-3 px-4 text-left">Grupo</th>
+        <th class="py-3 px-4 text-left">Carrera</th>
+        <th class="py-3 px-4 text-left">Periodo</th>
+        <th class="py-3 px-4 text-center">Acciones</th>
+      </thead>
+      <tbody class="text-gray-600">
+        @for(clase of clasesList(); track $index) {
+        <tr class="border-b hover:bg-gray-100 transition">
+          <td class="py-3 px-4">
+            <div class="flex items-center justify-center">
+              <span
+                class="inline-block w-3 h-3 rounded-full"
+                [ngClass]="{
+                  'bg-green-500': claseActiva(periodoData(clase.periodo)),
+                  'bg-red-500': !claseActiva(periodoData(clase.periodo))
+                }"
+              ></span>
+            </div>
+          </td>
+          <td class="py-3 px-4">{{ materiaData(clase.materia)?.nombre }}</td>
+          <td class="py-3 px-4">
+            {{ materiaData(clase.materia)?.clave }}{{ clase.grupo }}
+          </td>
+          <td class="py-3 px-4">{{ carreraData(clase.carrera)?.nombre }}</td>
+          <td class="py-3 px-4">{{ periodoData(clase.periodo)?.clave }}</td>
+          <td class="py-3 px-4">
+            <div class="flex flex-row space-x-2 gap-2">
+              <button
+                (click)="loadAlumnosClase(clase)"
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-amber-500 hover:bg-amber-700 disabled:bg-gray-500"
+                [disabled]="clase.alumnos.length === 0"
+              >
+                Alumnos
+              </button>
+              <button
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-green-500 hover:bg-green-700 disabled:bg-gray-500"
+              >
+                Actividades
+              </button>
+              <button
+                class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-blue-500 hover:bg-blue-700 disabled:bg-gray-500"
+              >
+                Calificaciones
+              </button>
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    <app-pagination
+      [totalItems]="totalItems()"
+      [itemsPerPage]="10"
+      [currentPage]="currentPage()"
+      (pageChanged)="onPageChanged($event)"
+    />
+  </div>
+</div>
+
+<app-loader
+  *ngIf="isLoading.carreras() || isLoading.materias() || isLoading.periodos()"
+/>
+
+<app-alumnos-clase-form
+  *ngIf="showAlumnosClaseModal()"
+  (onCancel)="showAlumnosClaseModal.set(false)"
+  [clase]="claseSelected()!"
+  [materiaClave]="materiaData(claseSelected()!.materia)!.clave"
+  [materiaNombre]="materiaData(claseSelected()!.materia)!.nombre"
+  [periodo]="periodoData(claseSelected()!.periodo)!"
+  [carrera]="carreraData(claseSelected()!.carrera)!"
+  [alumnos]="alumnosClaseList()"
+/>
