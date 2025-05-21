@@ -41,6 +41,9 @@ export const programaCursoReport = async (
   const practicasRows: RowInput[] = [];
   const bibliografiasRows: RowInput[] = [];
 
+  const responsablesCells: CellInput[] = [];
+  const responsablesRows: RowInput[] = [];
+
   let currentRow: CellInput[] = [];
 
   for (const [i, objetivo_espefico] of data.objetivos_especificos.entries()) {
@@ -210,6 +213,75 @@ export const programaCursoReport = async (
       },
     };
     bibliografiasRows.push([indexCell, contentCell]);
+  }
+
+  for (const [i, docente] of data.docentes_periodo_actual.entries()) {
+    const numeroCell: CellInput = {
+      content: docente.username,
+      styles: {
+        fontStyle: 'normal',
+        fontSize,
+        textColor: '#000',
+      },
+    };
+
+    const nombreCell: CellInput = {
+      content: `${docente.nombre}`,
+      colSpan: 2,
+      styles: {
+        fontStyle: 'normal',
+        fontSize,
+        textColor: '#000',
+      },
+    };
+
+    const apellidosCell: CellInput = {
+      content: `${docente.apellido_paterno} ${docente.apellido_materno}`,
+      colSpan: 2,
+      styles: {
+        fontStyle: 'normal',
+        fontSize,
+        textColor: '#000',
+      },
+    };
+
+    const gradoAcademicoCell: CellInput = {
+      content: `${docente.grado_academico ?? 'No aplica'}`,
+      colSpan: 2,
+      styles: {
+        fontStyle: 'normal',
+        fontSize,
+        textColor: '#000',
+      },
+    };
+
+    const experienciaCell: CellInput = {
+      content: `Si`,
+      colSpan: 2,
+      styles: {
+        fontStyle: 'normal',
+        fontSize,
+        textColor: '#000',
+      },
+    };
+
+    if (i === 0) {
+      responsablesCells.push(
+        numeroCell,
+        nombreCell,
+        apellidosCell,
+        gradoAcademicoCell,
+        experienciaCell
+      );
+    } else {
+      responsablesRows.push([
+        numeroCell,
+        nombreCell,
+        apellidosCell,
+        gradoAcademicoCell,
+        experienciaCell,
+      ]);
+    }
   }
 
   docStartY = createTable(
@@ -862,7 +934,7 @@ export const programaCursoReport = async (
             },
           },
           {
-            content: '0',
+            content: 'Calificación',
             styles: {
               fontStyle: 'normal',
               fontSize,
@@ -872,7 +944,7 @@ export const programaCursoReport = async (
             },
           },
           {
-            content: '0',
+            content: 'Aprobación',
             colSpan: 2,
             styles: {
               fontStyle: 'normal',
@@ -883,7 +955,7 @@ export const programaCursoReport = async (
             },
           },
           {
-            content: '0',
+            content: 'Reprobración',
             styles: {
               fontStyle: 'normal',
               fontSize,
@@ -1106,6 +1178,7 @@ export const programaCursoReport = async (
         [
           {
             content: '15.a Profesor(es) responsable(s)',
+            rowSpan: data.docentes_periodo_actual.length,
             styles: {
               fontStyle: 'bold',
               fontSize,
@@ -1115,7 +1188,9 @@ export const programaCursoReport = async (
               fillColor: [200, 220, 255],
             },
           },
+          ...responsablesCells,
         ],
+        ...responsablesRows,
         [
           {
             content: '15.b Otros instructores (últimos dos años)',

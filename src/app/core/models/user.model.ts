@@ -10,4 +10,5 @@ export interface User {
   tipo_docente: null | string;
   area_adscripcion: null | number;
   password?: string;
+  grado_academico?: string;
 }

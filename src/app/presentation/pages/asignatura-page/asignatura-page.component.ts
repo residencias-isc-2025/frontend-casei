@@ -23,6 +23,7 @@ import {
 } from '@presentation/components/filter-bar/filter-bar.component';
 import { LoaderComponent } from '@presentation/components/loader/loader.component';
 import { PaginationComponent } from '@presentation/components/pagination/pagination.component';
+import { ActividadFormComponent } from '@presentation/forms/actividad-form/actividad-form.component';
 import { AlumnosClaseFormComponent } from '@presentation/forms/alumnos-clase-form/alumnos-clase-form.component';
 
 @Component({
@@ -33,6 +34,7 @@ import { AlumnosClaseFormComponent } from '@presentation/forms/alumnos-clase-for
     PaginationComponent,
     LoaderComponent,
     AlumnosClaseFormComponent,
+    ActividadFormComponent
   ],
   templateUrl: './asignatura-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -55,6 +57,7 @@ export default class AsignaturaPageComponent implements OnInit {
   claseSelected = signal<Clase | null>(null);
 
   showAlumnosClaseModal = signal(false);
+  showAddActivityModal = signal(false);
 
   isLoading = {
     materias: signal(true),
@@ -278,6 +281,10 @@ export default class AsignaturaPageComponent implements OnInit {
     if (this.currentPage() === 0) this.currentPage.set(1);
     this.recordFilters.set(filters);
     this.loadClases();
+  }
+
+  onAddActividad() {
+    this.showAddActivityModal.set(true);
   }
 
   periodoData(idPeriodo: number): Periodo | undefined {

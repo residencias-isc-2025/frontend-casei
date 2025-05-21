@@ -1,0 +1,81 @@
+<div
+  class="fixed inset-0 bg-opacity-50 flex items-center justify-center backdrop-blur-sm"
+>
+  <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-2xl">
+    <div class="flex justify-between items-center border-b pb-3 mb-6">
+      <h2 class="text-2xl font-bold text-gray-800">Crear actividad</h2>
+      <button
+        class="text-gray-400 hover:text-gray-600 text-2xl leading-none"
+        (click)="onCancel.emit()"
+        aria-label="Cerrar formulario"
+      >
+        &times;
+      </button>
+    </div>
+
+    <div class="space-y-6">
+      <div>
+        <label class="block text-lg font-medium text-gray-700 mb-2">
+          Archivo de descripción a subir
+        </label>
+        <div class="flex items-center gap-4">
+          <label
+            for="archivoDescripcionInput"
+            class="cursor-pointer px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition text-lg"
+          >
+            Seleccionar archivo
+          </label>
+          <span class="text-lg text-gray-600">
+            {{ descripcionFile()?.name || "Ningún archivo seleccionado" }}
+          </span>
+        </div>
+        <input
+          type="file"
+          id="archivoDescripcionInput"
+          (change)="onDescripcionFileSelected($event)"
+          class="hidden"
+        />
+      </div>
+
+      <div>
+        <label class="block text-lg font-medium text-gray-700 mb-2">
+          Archivo de formato a subir
+        </label>
+        <div class="flex items-center gap-4">
+          <label
+            for="archivoFormatoInput"
+            class="cursor-pointer px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition text-lg"
+          >
+            Seleccionar archivo
+          </label>
+          <span class="text-lg text-gray-600">
+            {{ formatoFile()?.name || "Ningún archivo seleccionado" }}
+          </span>
+        </div>
+        <input
+          type="file"
+          id="archivoFormatoInput"
+          (change)="onFormatoFileSelected($event)"
+          class="hidden"
+        />
+      </div>
+
+      <div class="flex justify-end gap-3 border-t pt-6">
+        <button
+          type="button"
+          class="px-5 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-lg transition"
+          (click)="onCancel.emit()"
+        >
+          Cancelar
+        </button>
+        <button
+          (click)="onSubmit()"
+          [disabled]="!descripcionFile() || !formatoFile()"
+          class="px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition disabled:bg-gray-400"
+        >
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
