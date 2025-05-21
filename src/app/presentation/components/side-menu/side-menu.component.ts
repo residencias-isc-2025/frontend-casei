@@ -57,6 +57,14 @@ export class SideMenuComponent {
     },
   ];
 
+  rutasDocentes: MenuOptions[] = [
+    {
+      icon: '/assets/svgs/clase.svg',
+      routeName: 'Asignaturas',
+      routerLink: '/dashboard/asignaturas',
+    },
+  ];
+
   rutasProtegidas: MenuOptions[] = [
     {
       icon: '/assets/svgs/users.svg',

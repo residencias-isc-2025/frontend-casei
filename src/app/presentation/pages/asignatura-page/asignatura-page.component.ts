@@ -6,6 +6,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { Alumno } from '@core/models/alumno.model';
 import { Carrera } from '@core/models/carrera.model';
 import { Clase } from '@core/models/clase.model';
@@ -34,7 +35,8 @@ import { AlumnosClaseFormComponent } from '@presentation/forms/alumnos-clase-for
     PaginationComponent,
     LoaderComponent,
     AlumnosClaseFormComponent,
-    ActividadFormComponent
+    ActividadFormComponent,
+    RouterModule,
   ],
   templateUrl: './asignatura-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

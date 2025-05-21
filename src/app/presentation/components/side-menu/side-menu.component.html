@@ -53,13 +53,15 @@
       }
 
       @if (userRole() === 'user') {
-        <li>
-          <app-sidebar-link
-          routerLinkProp="/dashboard/asignaturas"
-          routeNameProp="Asignaturas"
-          iconProp="/assets/svgs/clase.svg"
+        @for(ruta of rutasDocentes; track $index) {
+      <li>
+        <app-sidebar-link
+          [routerLinkProp]="ruta.routerLink"
+          [routeNameProp]="ruta.routeName"
+          [iconProp]="ruta.icon"
         />
-        </li>
+      </li>
+      }
       }
 
       <!-- Rutas protegidas -->

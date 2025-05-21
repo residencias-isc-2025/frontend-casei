@@ -322,6 +322,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'asignaturas/calificaciones/:id',
+        loadComponent: () =>
+          import(
+            '@presentation/pages/calificaciones-page/calificaciones-page.component'
+          ),
+      },
+      {
         path: '**',
         redirectTo: 'perfil',
         pathMatch: 'full',
