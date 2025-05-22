@@ -75,42 +75,38 @@ export default class CalificacionesPageComponent implements OnInit {
   }
 
   loadAlumnosClase() {
-    let countAlumnos = 0;
+    this.alumnoService.totalRegistros().subscribe({
+      next: (res) => {
+        this.alumnoService
+          .obtenerDatosPaginados(1, res.total_alumnos, {})
+          .subscribe((res) => {
+            let alumnosFiltered = [];
 
-    this.alumnoService.totalRegistros().subscribe((res) => {
-      countAlumnos = res.total_alumnos;
+            for (const a of res.results) {
+              if (!this.claseSelected()?.alumnos.includes(a.id)) continue;
+              alumnosFiltered.push(a);
+            }
+
+            alumnosFiltered = alumnosFiltered.sort((a, b) => {
+              const apellidoPaterno = a.apellido_paterno.localeCompare(
+                b.apellido_paterno
+              );
+
+              if (apellidoPaterno !== 0) return apellidoPaterno;
+
+              const apellidoMaterno = a.apellido_materno.localeCompare(
+                b.apellido_materno
+              );
+
+              if (apellidoMaterno !== 0) return apellidoMaterno;
+
+              return a.nombre.localeCompare(b.nombre);
+            });
+
+            this.alumnosList.set(alumnosFiltered);
+          });
+      },
     });
-
-    if (countAlumnos < 10) countAlumnos = 10;
-
-    this.alumnoService
-      .obtenerDatosPaginados(1, countAlumnos, {})
-      .subscribe((res) => {
-        let alumnosFiltered = [];
-
-        for (const a of res.results) {
-          if (!this.claseSelected()?.alumnos.includes(a.id)) continue;
-          alumnosFiltered.push(a);
-        }
-
-        alumnosFiltered = alumnosFiltered.sort((a, b) => {
-          const apellidoPaterno = a.apellido_paterno.localeCompare(
-            b.apellido_paterno
-          );
-
-          if (apellidoPaterno !== 0) return apellidoPaterno;
-
-          const apellidoMaterno = a.apellido_materno.localeCompare(
-            b.apellido_materno
-          );
-
-          if (apellidoMaterno !== 0) return apellidoMaterno;
-
-          return a.nombre.localeCompare(b.nombre);
-        });
-
-        this.alumnosList.set(alumnosFiltered);
-      });
   }
 
   loadActividades() {
