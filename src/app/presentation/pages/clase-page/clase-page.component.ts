@@ -316,27 +316,23 @@ export default class ClasePageComponent implements OnInit {
   loadAlumnosClase(clase: Clase) {
     this.claseSelected.set(clase);
 
-    let countAlumnos = 0;
+    this.alumnoService.totalRegistros().subscribe({
+      next: (res) => {
+        this.alumnoService
+          .obtenerDatosPaginados(1, res.total_alumnos, {})
+          .subscribe((res) => {
+            let alumnosFiltered = [];
 
-    this.alumnoService.totalRegistros().subscribe((res) => {
-      countAlumnos = res.total_alumnos;
+            for (const a of res.results) {
+              if (!this.claseSelected()?.alumnos.includes(a.id)) continue;
+              alumnosFiltered.push(a);
+            }
+
+            this.alumnosClaseList.set(alumnosFiltered);
+            this.showAlumnosClaseModal.set(true);
+          });
+      },
     });
-
-    if (countAlumnos < 10) countAlumnos = 10;
-
-    this.alumnoService
-      .obtenerDatosPaginados(1, countAlumnos, {})
-      .subscribe((res) => {
-        let alumnosFiltered = [];
-
-        for (const a of res.results) {
-          if (!this.claseSelected()?.alumnos.includes(a.id)) continue;
-          alumnosFiltered.push(a);
-        }
-
-        this.alumnosClaseList.set(alumnosFiltered);
-        this.showAlumnosClaseModal.set(true);
-      });
   }
 
   onDelete(itemId: number) {
