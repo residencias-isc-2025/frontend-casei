@@ -9,8 +9,6 @@ export const programaCursoReport = async (
   doc: jsPDF,
   data: ProgramaAsignatura
 ): Promise<jsPDF> => {
-  console.log({ data });
-
   const logoBase64 = await loadImageAsBase64('/assets/images/cacei.png');
 
   const headerData: DocHeaderData = {
