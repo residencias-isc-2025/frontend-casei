@@ -194,44 +194,48 @@ export default class MateriaPageComponent implements OnInit {
         const clases = response.clases;
         let solicitudesPendientes = clases.length;
 
-        for (const clase of clases) {
-          this.calificacionesService
-            .obtenerCalificacionesClase(clase.id)
-            .subscribe({
-              next: (res) => {
-                this.agruparCalificaciones(res, calificacionesPorClase);
+        if (clases.length === 0) {
+          this.pdfService.generarProgramaCurso(response);
+        } else {
+          for (const clase of clases) {
+            this.calificacionesService
+              .obtenerCalificacionesClase(clase.id)
+              .subscribe({
+                next: (res) => {
+                  this.agruparCalificaciones(res, calificacionesPorClase);
 
-                solicitudesPendientes--;
+                  solicitudesPendientes--;
 
-                if (solicitudesPendientes === 0) {
-                  const resultadoFinal = this.calcularPromedios(
-                    calificacionesPorClase
-                  );
-                  const totalAlumnos = this.contarAlumnos(resultadoFinal);
-                  const promedioGeneral = this.calcularPromedioGeneral(
-                    resultadoFinal,
-                    totalAlumnos
-                  );
-                  const porcentajeSuperan = this.calcularPorcentajeSuperan(
-                    resultadoFinal,
-                    promedioGeneral,
-                    totalAlumnos
-                  );
-                  const porcentajeReprobacion =
-                    this.calcularPorcentajeReprobacion(
+                  if (solicitudesPendientes === 0) {
+                    const resultadoFinal = this.calcularPromedios(
+                      calificacionesPorClase
+                    );
+                    const totalAlumnos = this.contarAlumnos(resultadoFinal);
+                    const promedioGeneral = this.calcularPromedioGeneral(
                       resultadoFinal,
                       totalAlumnos
                     );
+                    const porcentajeSuperan = this.calcularPorcentajeSuperan(
+                      resultadoFinal,
+                      promedioGeneral,
+                      totalAlumnos
+                    );
+                    const porcentajeReprobacion =
+                      this.calcularPorcentajeReprobacion(
+                        resultadoFinal,
+                        totalAlumnos
+                      );
 
-                  // Insertar resultados al objeto que va al PDF
-                  response.calificacion = promedioGeneral;
-                  response.porcentaje_aprobacion_superado = `${porcentajeSuperan}%`;
-                  response.porcentaje_reprobacion = `${porcentajeReprobacion}%`;
+                    // Insertar resultados al objeto que va al PDF
+                    response.calificacion = promedioGeneral;
+                    response.porcentaje_aprobacion_superado = `${porcentajeSuperan}%`;
+                    response.porcentaje_reprobacion = `${porcentajeReprobacion}%`;
 
-                  this.pdfService.generarProgramaCurso(response);
-                }
-              },
-            });
+                    this.pdfService.generarProgramaCurso(response);
+                  }
+                },
+              });
+          }
         }
       },
       error: (err) => {
