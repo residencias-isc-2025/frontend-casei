@@ -69,6 +69,10 @@ export default class CalificacionesPageComponent implements OnInit {
           alumnosFiltered.push(a);
         }
 
+        alumnosFiltered = alumnosFiltered.sort((a, b) =>
+          a.apellido_paterno.localeCompare(b.apellido_paterno)
+        );
+
         this.alumnosList.set(alumnosFiltered);
       });
   }
