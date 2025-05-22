@@ -3,10 +3,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  input,
   output,
   signal,
 } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActividadService } from '@core/services/actividad.service';
 import { ToastService } from '@core/services/toast.service';
 
@@ -26,6 +27,12 @@ export class ActividadFormComponent {
 
   descripcionFile = signal<File | null>(null);
   formatoFile = signal<File | null>(null);
+
+  claseId = input.required<number>();
+
+  form = this.fb.group({
+    titulo: ['', Validators.required],
+  });
 
   onDescripcionFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -58,10 +65,15 @@ export class ActividadFormComponent {
       return;
     }
 
+    if (this.form.invalid) return;
+
+    const { titulo } = this.form.value;
     const formData = new FormData();
 
     formData.append('descripcion', this.descripcionFile()!);
     formData.append('formato', this.formatoFile()!);
+    formData.append('titulo', titulo ?? '');
+    formData.append('clase', this.claseId().toString());
 
     this.actividadService.cargarArchivo(formData).subscribe({
       next: (response) => {

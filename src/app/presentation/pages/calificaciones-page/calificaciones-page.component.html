@@ -1,3 +1,85 @@
-@for(alumno of alumnosList(); track $index){
-<p>{{ alumno.nombre }}</p>
-}
+<div class="container mx-auto p-6 max-w">
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">Calificar actividades</h1>
+
+  <div class="bg-white rounded-xl shadow p-6 border border-gray-200">
+    <h2 class="text-lg font-semibold text-gray-700 mb-4">
+      Titulo de la actividad
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-6 gap-4 mt-2">
+      <div class="block text-gray-600 font-medium mb-1">Matrícula</div>
+      <div class="block text-gray-600 font-medium mb-1">Apellido Paterno</div>
+      <div class="block text-gray-600 font-medium mb-1">Apellido Materno</div>
+      <div class="block text-gray-600 font-medium mb-1">Nombre(s)</div>
+      <div class="block text-gray-600 font-medium mb-1">Archivo</div>
+      <div class="block text-gray-600 font-medium mb-1">Calificación</div>
+    </div>
+
+    <div
+      class="grid grid-cols-1 md:grid-cols-6 gap-4 py-2 items-center"
+      *ngFor="let alumno of alumnosList()"
+    >
+      <div>
+        <input
+          type="text"
+          [value]="alumno.matricula"
+          [disabled]="true"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div>
+        <input
+          type="text"
+          [value]="alumno.apellido_paterno"
+          [disabled]="true"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div>
+        <input
+          type="text"
+          [value]="alumno.apellido_materno"
+          [disabled]="true"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div>
+        <input
+          type="text"
+          [value]="alumno.nombre"
+          [disabled]="true"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <!-- Archivo -->
+      <div>
+        <div class="flex items-center gap-4">
+          <label
+            for="archivoEvidencia"
+            class="w-full cursor-pointer px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition text-sm"
+          >
+            Evidencia
+          </label>
+        </div>
+        <input type="file" id="archivoEvidencia" class="hidden" />
+      </div>
+
+      <div>
+        <input
+          type="number"
+          value="60"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
+@for(actividad of actividadesList(); track $index){
+<p>{{ actividad.titulo }}</p>
+} -->

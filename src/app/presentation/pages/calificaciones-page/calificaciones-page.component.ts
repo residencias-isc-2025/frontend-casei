@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,14 +7,16 @@ import {
   signal,
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Actividad } from '@core/models/actividad.model';
 import { Alumno } from '@core/models/alumno.model';
 import { Clase } from '@core/models/clase.model';
+import { ActividadService } from '@core/services/actividad.service';
 import { AlumnoService } from '@core/services/alumno.service';
 import { ClaseService } from '@core/services/clase.service';
 
 @Component({
   selector: 'app-calificaciones-page',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './calificaciones-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -22,9 +25,11 @@ export default class CalificacionesPageComponent implements OnInit {
   route = inject(ActivatedRoute);
 
   claseService = inject(ClaseService);
+  actividadService = inject(ActividadService);
   alumnoService = inject(AlumnoService);
 
   alumnosList = signal<Alumno[]>([]);
+  actividadesList = signal<Actividad[]>([]);
 
   claseSelected = signal<Clase | null>(null);
 
@@ -40,6 +45,7 @@ export default class CalificacionesPageComponent implements OnInit {
       next: (res) => {
         this.claseSelected.set(res);
         this.loadAlumnosClase();
+        this.loadActividades();
       },
     });
   }
@@ -64,6 +70,16 @@ export default class CalificacionesPageComponent implements OnInit {
         }
 
         this.alumnosList.set(alumnosFiltered);
+      });
+  }
+
+  loadActividades() {
+    this.actividadService
+      .obtenerActividadesClase(this.claseSelected()!.id)
+      .subscribe({
+        next: (res) => {
+          this.actividadesList.set(res);
+        },
       });
   }
 }

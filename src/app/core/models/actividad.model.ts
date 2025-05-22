@@ -1,6 +1,8 @@
 import { Alumno } from './alumno.model';
 
 export interface Actividad {
+  clase: number;
+  titulo: string;
   descripcion: string;
   formato: string;
 

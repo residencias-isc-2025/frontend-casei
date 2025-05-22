@@ -285,8 +285,9 @@ export default class AsignaturaPageComponent implements OnInit {
     this.loadClases();
   }
 
-  onAddActividad() {
+  onAddActividad(clase: Clase) {
     this.showAddActivityModal.set(true);
+    this.claseSelected.set(clase);
   }
 
   periodoData(idPeriodo: number): Periodo | undefined {

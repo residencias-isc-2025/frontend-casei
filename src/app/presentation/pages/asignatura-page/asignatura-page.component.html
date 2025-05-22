@@ -49,13 +49,13 @@
                 Alumnos
               </button>
               <button
-                (click)="onAddActividad()"
+                (click)="onAddActividad(clase)"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-green-500 hover:bg-green-700 disabled:bg-gray-500"
               >
                 Actividades
               </button>
               <button
-              [routerLink]="['calificaciones', clase.id]"
+                [routerLink]="['calificaciones', clase.id]"
                 class="text-white font-bold py-2 px-4 rounded-lg transition duration-300 bg-blue-500 hover:bg-blue-700 disabled:bg-gray-500"
               >
                 Calificaciones
@@ -92,6 +92,7 @@
 
 <app-actividad-form
   *ngIf="showAddActivityModal()"
+  [claseId]="claseSelected()!.id"
   (onCancel)="showAddActivityModal.set(false)"
   (onSave)="showAddActivityModal.set(false)"
 />

@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class ActividadService extends BaseService<Actividad> {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.api_url}/actividad/actividad`;
+  private apiUrl = `${environment.api_url}/actividad`;
   private mediaUrl = environment.media_url;
 
   override obtenerDatosPaginados(
@@ -26,12 +26,16 @@ export class ActividadService extends BaseService<Actividad> {
     throw new Error('Method not implemented.');
   }
 
+  obtenerActividadesClase(claseId: number): Observable<Actividad[]> {
+    return this.http.get<Actividad[]>(`${this.apiUrl}/clase/${claseId}/actividades/`);
+  }
+
   override crear(data: Partial<Actividad>): Observable<{ mensaje: string }> {
-    return this.http.post<{ mensaje: string }>(`${this.apiUrl}/`, data);
+    return this.http.post<{ mensaje: string }>(`${this.apiUrl}/actividad/`, data);
   }
 
   cargarArchivo(data: FormData): Observable<{ mensaje: string }> {
-    return this.http.post<{ mensaje: string }>(`${this.apiUrl}/`, data);
+    return this.http.post<{ mensaje: string }>(`${this.apiUrl}/actividad/`, data);
   }
 
   override deshabilitar(id: number): Observable<{ mensaje: string }> {
