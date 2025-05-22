@@ -138,127 +138,6 @@ export default class MateriaPageComponent implements OnInit {
     });
   }
 
-  onDownloadProgramaAsignatura(materia: Materia) {
-    this.cedulaService.obtenerProgramaAsignatura(materia.id).subscribe({
-      next: (response) => {
-        const calificacionesPorClase = new Map<number, Map<number, number[]>>();
-
-        const clases = response.clases;
-        let solicitudes = 0;
-
-        for (const clase of clases) {
-          solicitudes++;
-          this.calificacionesService
-            .obtenerCalificacionesClase(clase.id)
-            .subscribe({
-              next: (res) => {
-                for (const calificacion of res) {
-                  const idClase = calificacion.clase;
-                  const idAlumno = calificacion.alumno;
-
-                  if (!calificacionesPorClase.has(idClase)) {
-                    calificacionesPorClase.set(idClase, new Map());
-                  }
-
-                  const alumnosMap = calificacionesPorClase.get(idClase)!;
-
-                  if (!alumnosMap.has(idAlumno)) {
-                    alumnosMap.set(idAlumno, []);
-                  }
-
-                  alumnosMap.get(idAlumno)!.push(calificacion.calificacion);
-                }
-
-                solicitudes--;
-                if (solicitudes === 0) {
-                  const resultadoFinal: {
-                    claseId: number;
-                    alumnos: { alumnoId: number; promedio: number }[];
-                  }[] = [];
-
-                  for (const [
-                    claseId,
-                    alumnosMap,
-                  ] of calificacionesPorClase.entries()) {
-                    const alumnos: { alumnoId: number; promedio: number }[] =
-                      [];
-
-                    for (const [alumnoId, califs] of alumnosMap.entries()) {
-                      const promedio =
-                        califs.reduce((acc, curr) => acc + curr, 0) /
-                        califs.length;
-                      alumnos.push({
-                        alumnoId,
-                        promedio: Math.round(promedio),
-                      });
-                    }
-
-                    resultadoFinal.push({ claseId, alumnos });
-                  }
-
-                  console.log(resultadoFinal);
-
-                  let sumaTotal = 0;
-                  let totalAlumnos = 0;
-
-                  for (const clase of resultadoFinal) {
-                    for (const alumno of clase.alumnos) {
-                      sumaTotal += alumno.promedio;
-                      totalAlumnos += 1;
-                    }
-                  }
-
-                  const promedioGeneral =
-                    totalAlumnos > 0 ? Math.round(sumaTotal / totalAlumnos) : 0;
-
-                  response.calificacion = promedioGeneral;
-
-                  let alumnosQueSuperan = 0;
-
-                  for (const clase of resultadoFinal) {
-                    for (const alumno of clase.alumnos) {
-                      if (alumno.promedio >= promedioGeneral) {
-                        alumnosQueSuperan += 1;
-                      }
-                    }
-                  }
-
-                  const porcentajeSuperan =
-                    totalAlumnos > 0
-                      ? Math.round((alumnosQueSuperan / totalAlumnos) * 100)
-                      : 0;
-
-                  response.porcentaje_aprobacion_superado = `${porcentajeSuperan}%`;
-
-                  let alumnosReprobados = 0;
-
-                  for (const clase of resultadoFinal) {
-                    for (const alumno of clase.alumnos) {
-                      if (alumno.promedio < 70) {
-                        alumnosReprobados += 1;
-                      }
-                    }
-                  }
-
-                  const porcentajeReprobacion =
-                    totalAlumnos > 0
-                      ? Math.round((alumnosReprobados / totalAlumnos) * 100)
-                      : 0;
-
-                  response.porcentaje_reprobacion = `${porcentajeReprobacion}%`;
-
-                  this.pdfService.generarProgramaCurso(response);
-                }
-              },
-            });
-        }
-      },
-      error: (err) => {
-        this.toastService.showError(err.mensaje, 'Malas noticias...');
-      },
-    });
-  }
-
   onShowDeleteModal(item: Materia) {
     this.materiaSelected.set(item);
     this.showDeleteModal.set(true);
@@ -304,5 +183,139 @@ export default class MateriaPageComponent implements OnInit {
     if (this.currentPage() === 0) this.currentPage.set(1);
     this.recordFilters.set(filters);
     this.cargarMateriasList();
+  }
+
+  // Descargar formato 2.1.1
+
+  onDownloadProgramaAsignatura(materia: Materia) {
+    this.cedulaService.obtenerProgramaAsignatura(materia.id).subscribe({
+      next: (response) => {
+        const calificacionesPorClase = new Map<number, Map<number, number[]>>();
+        const clases = response.clases;
+        let solicitudesPendientes = clases.length;
+
+        for (const clase of clases) {
+          this.calificacionesService
+            .obtenerCalificacionesClase(clase.id)
+            .subscribe({
+              next: (res) => {
+                this.agruparCalificaciones(res, calificacionesPorClase);
+
+                solicitudesPendientes--;
+
+                if (solicitudesPendientes === 0) {
+                  const resultadoFinal = this.calcularPromedios(
+                    calificacionesPorClase
+                  );
+                  const totalAlumnos = this.contarAlumnos(resultadoFinal);
+                  const promedioGeneral = this.calcularPromedioGeneral(
+                    resultadoFinal,
+                    totalAlumnos
+                  );
+                  const porcentajeSuperan = this.calcularPorcentajeSuperan(
+                    resultadoFinal,
+                    promedioGeneral,
+                    totalAlumnos
+                  );
+                  const porcentajeReprobacion =
+                    this.calcularPorcentajeReprobacion(
+                      resultadoFinal,
+                      totalAlumnos
+                    );
+
+                  // Insertar resultados al objeto que va al PDF
+                  response.calificacion = promedioGeneral;
+                  response.porcentaje_aprobacion_superado = `${porcentajeSuperan}%`;
+                  response.porcentaje_reprobacion = `${porcentajeReprobacion}%`;
+
+                  this.pdfService.generarProgramaCurso(response);
+                }
+              },
+            });
+        }
+      },
+      error: (err) => {
+        this.toastService.showError(err.mensaje, 'Malas noticias...');
+      },
+    });
+  }
+
+  private agruparCalificaciones(
+    res: Calificacion[],
+    agrupador: Map<number, Map<number, number[]>>
+  ) {
+    for (const calificacion of res) {
+      const { clase, alumno, calificacion: valor } = calificacion;
+
+      if (!agrupador.has(clase)) {
+        agrupador.set(clase, new Map());
+      }
+
+      const alumnosMap = agrupador.get(clase)!;
+
+      if (!alumnosMap.has(alumno)) {
+        alumnosMap.set(alumno, []);
+      }
+
+      alumnosMap.get(alumno)!.push(valor);
+    }
+  }
+
+  private calcularPromedios(agrupador: Map<number, Map<number, number[]>>) {
+    const resultado: {
+      claseId: number;
+      alumnos: { alumnoId: number; promedio: number }[];
+    }[] = [];
+
+    for (const [claseId, alumnosMap] of agrupador.entries()) {
+      const alumnos: { alumnoId: number; promedio: number }[] = [];
+
+      for (const [alumnoId, califs] of alumnosMap.entries()) {
+        const promedio = califs.reduce((a, b) => a + b, 0) / califs.length;
+        alumnos.push({ alumnoId, promedio: Math.round(promedio) });
+      }
+
+      resultado.push({ claseId, alumnos });
+    }
+
+    return resultado;
+  }
+
+  private contarAlumnos(resultados: { alumnos: any[] }[]) {
+    return resultados.reduce((acc, clase) => acc + clase.alumnos.length, 0);
+  }
+
+  private calcularPromedioGeneral(
+    resultados: { alumnos: { promedio: number }[] }[],
+    total: number
+  ) {
+    const suma = resultados
+      .flatMap((clase) => clase.alumnos)
+      .reduce((acc, a) => acc + a.promedio, 0);
+
+    return total > 0 ? Math.round(suma / total) : 0;
+  }
+
+  private calcularPorcentajeSuperan(
+    resultados: { alumnos: { promedio: number }[] }[],
+    promedioGeneral: number,
+    total: number
+  ) {
+    const conteo = resultados
+      .flatMap((clase) => clase.alumnos)
+      .filter((a) => a.promedio >= promedioGeneral).length;
+
+    return total > 0 ? Math.round((conteo / total) * 100) : 0;
+  }
+
+  private calcularPorcentajeReprobacion(
+    resultados: { alumnos: { promedio: number }[] }[],
+    total: number
+  ) {
+    const reprobados = resultados
+      .flatMap((clase) => clase.alumnos)
+      .filter((a) => a.promedio < 70).length;
+
+    return total > 0 ? Math.round((reprobados / total) * 100) : 0;
   }
 }
