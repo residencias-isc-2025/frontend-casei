@@ -8,14 +8,18 @@ import {
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Alumno } from '@core/models/alumno.model';
+import { Calificacion } from '@core/models/calificacion.model';
 import { Carrera } from '@core/models/carrera.model';
 import { Clase } from '@core/models/clase.model';
 import { Materia } from '@core/models/materia.model';
 import { Periodo } from '@core/models/periodo.model';
 import { AlumnoService } from '@core/services/alumno.service';
+import { CalificacionesService } from '@core/services/calificaciones.service';
 import { CarreraService } from '@core/services/carrera.service';
+import { CedulaService } from '@core/services/cedula.service';
 import { ClaseService } from '@core/services/clase.service';
 import { MateriaService } from '@core/services/materia.service';
+import { PdfService } from '@core/services/pdf.service';
 import { PeriodoService } from '@core/services/periodo.service';
 import { ToastService } from '@core/services/toast.service';
 import {
@@ -48,6 +52,9 @@ export default class AsignaturaPageComponent implements OnInit {
   materiaService = inject(MateriaService);
   carreraService = inject(CarreraService);
   alumnoService = inject(AlumnoService);
+  cedulaService = inject(CedulaService);
+  calificacionesService = inject(CalificacionesService);
+  pdfService = inject(PdfService);
 
   clasesList = signal<Clase[]>([]);
   periodosList = signal<Periodo[]>([]);
@@ -306,5 +313,140 @@ export default class AsignaturaPageComponent implements OnInit {
     if (periodo === undefined) return false;
     const hoy = new Date().toISOString().split('T')[0];
     return periodo.fecha_fin > hoy ? true : false;
+  }
+
+  // Descargar formato 2.1.1
+  onDownloadProgramaAsignatura(materiaId: number, claseId: number) {
+    this.cedulaService.obtenerProgramaAsignatura(materiaId).subscribe({
+      next: (response) => {
+        const calificacionesPorClase = new Map<number, Map<number, number[]>>();
+        const clases = response.clases;
+        let solicitudesPendientes = clases.length;
+
+        for (const clase of clases) {
+          if (clase.id !== claseId) continue;
+
+          this.calificacionesService
+            .obtenerCalificacionesClase(clase.id)
+            .subscribe({
+              next: (res) => {
+                this.agruparCalificaciones(res, calificacionesPorClase);
+
+                solicitudesPendientes--;
+
+                if (solicitudesPendientes === 0) {
+                  const resultadoFinal = this.calcularPromedios(
+                    calificacionesPorClase
+                  );
+                  const totalAlumnos = this.contarAlumnos(resultadoFinal);
+                  const promedioGeneral = this.calcularPromedioGeneral(
+                    resultadoFinal,
+                    totalAlumnos
+                  );
+                  const porcentajeSuperan = this.calcularPorcentajeSuperan(
+                    resultadoFinal,
+                    promedioGeneral,
+                    totalAlumnos
+                  );
+                  const porcentajeReprobacion =
+                    this.calcularPorcentajeReprobacion(
+                      resultadoFinal,
+                      totalAlumnos
+                    );
+
+                  // Insertar resultados al objeto que va al PDF
+                  response.calificacion = promedioGeneral;
+                  response.porcentaje_aprobacion_superado = `${porcentajeSuperan}%`;
+                  response.porcentaje_reprobacion = `${porcentajeReprobacion}%`;
+
+                  this.pdfService.generarProgramaCurso(response);
+                }
+              },
+            });
+        }
+      },
+      error: (err) => {
+        this.toastService.showError(err.mensaje, 'Malas noticias...');
+      },
+    });
+  }
+
+  private agruparCalificaciones(
+    res: Calificacion[],
+    agrupador: Map<number, Map<number, number[]>>
+  ) {
+    for (const calificacion of res) {
+      const { clase, alumno, calificacion: valor } = calificacion;
+
+      if (!agrupador.has(clase)) {
+        agrupador.set(clase, new Map());
+      }
+
+      const alumnosMap = agrupador.get(clase)!;
+
+      if (!alumnosMap.has(alumno)) {
+        alumnosMap.set(alumno, []);
+      }
+
+      alumnosMap.get(alumno)!.push(valor);
+    }
+  }
+
+  private calcularPromedios(agrupador: Map<number, Map<number, number[]>>) {
+    const resultado: {
+      claseId: number;
+      alumnos: { alumnoId: number; promedio: number }[];
+    }[] = [];
+
+    for (const [claseId, alumnosMap] of agrupador.entries()) {
+      const alumnos: { alumnoId: number; promedio: number }[] = [];
+
+      for (const [alumnoId, califs] of alumnosMap.entries()) {
+        const promedio = califs.reduce((a, b) => a + b, 0) / califs.length;
+        alumnos.push({ alumnoId, promedio: Math.round(promedio) });
+      }
+
+      resultado.push({ claseId, alumnos });
+    }
+
+    return resultado;
+  }
+
+  private contarAlumnos(resultados: { alumnos: any[] }[]) {
+    return resultados.reduce((acc, clase) => acc + clase.alumnos.length, 0);
+  }
+
+  private calcularPromedioGeneral(
+    resultados: { alumnos: { promedio: number }[] }[],
+    total: number
+  ) {
+    const suma = resultados
+      .flatMap((clase) => clase.alumnos)
+      .reduce((acc, a) => acc + a.promedio, 0);
+
+    return total > 0 ? Math.round(suma / total) : 0;
+  }
+
+  private calcularPorcentajeSuperan(
+    resultados: { alumnos: { promedio: number }[] }[],
+    promedioGeneral: number,
+    total: number
+  ) {
+    const conteo = resultados
+      .flatMap((clase) => clase.alumnos)
+      .filter((a) => a.promedio >= promedioGeneral).length;
+
+    return total > 0 ? Math.round((conteo / total) * 100) : 0;
+  }
+
+  private calcularPorcentajeReprobacion(
+    resultados: { alumnos: { promedio: number }[] }[],
+    total: number
+  ) {
+    const reprobados = resultados
+      .flatMap((clase) => clase.alumnos)
+      .filter((a) => a.promedio < 70).length;
+
+    return total > 0 ? Math.round((reprobados / total) * 100) : 0;
   }
 }
