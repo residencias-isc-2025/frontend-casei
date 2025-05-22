@@ -17,10 +17,11 @@ import { AlumnoService } from '@core/services/alumno.service';
 import { CalificacionesService } from '@core/services/calificaciones.service';
 import { ClaseService } from '@core/services/clase.service';
 import { ToastService } from '@core/services/toast.service';
+import { ActividadFormComponent } from '@presentation/forms/actividad-form/actividad-form.component';
 
 @Component({
   selector: 'app-calificaciones-page',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ActividadFormComponent],
   templateUrl: './calificaciones-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -33,6 +34,8 @@ export default class CalificacionesPageComponent implements OnInit {
   actividadService = inject(ActividadService);
   calificacionService = inject(CalificacionesService);
   alumnoService = inject(AlumnoService);
+
+  showAddActivityModal = signal(false);
 
   filesSelected: { [actividadId: number]: { [alumnoId: number]: File } } = {};
   calificaciones: { [actividadId: number]: { [alumnoId: number]: number } } =
@@ -51,6 +54,7 @@ export default class CalificacionesPageComponent implements OnInit {
   calificacionesList = signal<Calificacion[]>([]);
 
   claseSelected = signal<Clase | null>(null);
+  actividadSelected = signal<Actividad | null>(null);
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -129,6 +133,11 @@ export default class CalificacionesPageComponent implements OnInit {
           this.setCalificacion(c.calificacion, c.actividad, c.alumno);
         });
       });
+  }
+
+  onSave() {
+    this.showAddActivityModal.set(false);
+    this.loadClase(this.claseSelected()!.id);
   }
 
   onArchivoChange(event: Event, alumnoId: number, actividadId: number) {
@@ -365,7 +374,7 @@ export default class CalificacionesPageComponent implements OnInit {
     return false;
   }
 
-  downlaodFile(actividad: Actividad, alumno: Alumno) {
+  downlaodFileEvidencia(actividad: Actividad, alumno: Alumno) {
     let file = '';
 
     if (actividad.alumno_alto === alumno.id) {
@@ -388,6 +397,33 @@ export default class CalificacionesPageComponent implements OnInit {
       doc.download = `${actividad.titulo} - ${alumno.matricula}`;
       doc.click();
     });
+  }
+
+  updateActividad(actividad: Actividad) {
+    this.actividadSelected.set(actividad);
+    this.showAddActivityModal.set(true);
+  }
+
+  downloadFileDescripcion(actividad: Actividad) {
+    this.actividadService
+      .descargarArchivo(actividad.descripcion)
+      .subscribe((blob) => {
+        const doc = document.createElement('a');
+        doc.href = URL.createObjectURL(blob);
+        doc.download = `${actividad.titulo} - Descripción`;
+        doc.click();
+      });
+  }
+
+  downloadFileFormato(actividad: Actividad) {
+    this.actividadService
+      .descargarArchivo(actividad.formato)
+      .subscribe((blob) => {
+        const doc = document.createElement('a');
+        doc.href = URL.createObjectURL(blob);
+        doc.download = `${actividad.titulo} - Formato`;
+        doc.click();
+      });
   }
 
   recargarComponente(): void {

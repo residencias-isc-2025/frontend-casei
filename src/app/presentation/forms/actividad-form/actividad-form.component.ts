@@ -4,10 +4,12 @@ import {
   Component,
   inject,
   input,
+  OnInit,
   output,
   signal,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Actividad } from '@core/models/actividad.model';
 import { ActividadService } from '@core/services/actividad.service';
 import { ToastService } from '@core/services/toast.service';
 
@@ -17,7 +19,7 @@ import { ToastService } from '@core/services/toast.service';
   templateUrl: './actividad-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ActividadFormComponent {
+export class ActividadFormComponent implements OnInit {
   onCancel = output();
   onSave = output();
 
@@ -30,9 +32,21 @@ export class ActividadFormComponent {
 
   claseId = input.required<number>();
 
+  title = input('');
+  editing = input.required<boolean>();
+  actividad = input<Actividad>();
+
   form = this.fb.group({
     titulo: ['', Validators.required],
   });
+
+  ngOnInit(): void {
+    if (!this.editing()) return;
+
+    this.form.patchValue({
+      titulo: this.actividad()?.titulo,
+    });
+  }
 
   onDescripcionFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -48,8 +62,16 @@ export class ActividadFormComponent {
     this.formatoFile.set(file);
   }
 
+  disableForm() {
+    if (this.editing()) return false;
+
+    return !this.descripcionFile() || !this.formatoFile();
+  }
+
   onSubmit() {
-    if (this.descripcionFile() === null) {
+    if (this.form.invalid) return;
+
+    if (!this.editing && this.descripcionFile() === null) {
       this.toastService.showWarning(
         'El archivo de descripción es obligatorio',
         'Atención'
@@ -57,7 +79,7 @@ export class ActividadFormComponent {
       return;
     }
 
-    if (this.formatoFile() === null) {
+    if (!this.editing && this.formatoFile() === null) {
       this.toastService.showWarning(
         'El archivo de formato es obligatorio',
         'Atención'
@@ -65,17 +87,31 @@ export class ActividadFormComponent {
       return;
     }
 
-    if (this.form.invalid) return;
+    const fileDescripcion = this.descripcionFile();
+    const fileFormato = this.formatoFile();
 
     const { titulo } = this.form.value;
     const formData = new FormData();
 
-    formData.append('descripcion', this.descripcionFile()!);
-    formData.append('formato', this.formatoFile()!);
     formData.append('titulo', titulo ?? '');
     formData.append('clase', this.claseId().toString());
 
-    this.actividadService.cargarArchivo(formData).subscribe({
+    if (fileDescripcion !== null) {
+      formData.append('descripcion', fileDescripcion);
+    }
+
+    if (fileFormato !== null) {
+      formData.append('formato', fileFormato);
+    }
+
+    const action = this.editing()
+      ? this.actividadService.actualizarActividad(
+          this.actividad()!.id,
+          formData
+        )
+      : this.actividadService.cargarArchivo(formData);
+
+    action.subscribe({
       next: (response) => {
         this.toastService.showSuccess(response.mensaje, 'Éxito');
         this.onSave.emit();

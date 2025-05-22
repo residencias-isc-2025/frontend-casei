@@ -1,100 +1,165 @@
-<div class="container mx-auto p-6 max-w">
-  <h1 class="text-2xl font-bold text-gray-800 mb-6">Calificar actividades</h1>
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">
+    Calificar actividades
+  </h1>
 
   <div
-    class="bg-white rounded-xl shadow p-6 border border-gray-200 mb-4"
+    class="bg-white rounded-2xl shadow-md p-6 border border-gray-200 mb-8 space-y-4"
     *ngFor="let actividad of actividadesList()"
   >
-    <h2 class="text-lg font-semibold text-gray-700 mb-4">
-      {{ actividad.titulo }}
-    </h2>
+    <div
+      class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+    >
+      <h2 class="text-xl font-semibold text-gray-700">
+        {{ actividad.titulo }}
+      </h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-7 gap-4 mt-2">
-      <div class="block text-gray-600 font-medium mb-1">Matrícula</div>
-      <div class="block text-gray-600 font-medium mb-1">Apellido Paterno</div>
-      <div class="block text-gray-600 font-medium mb-1">Apellido Materno</div>
-      <div class="block text-gray-600 font-medium mb-1">Nombre(s)</div>
-      <div class="block text-gray-600 font-medium mb-1">Archivo</div>
-      <div class="block text-gray-600 font-medium mb-1">Calificación</div>
+      <div class="flex flex-wrap gap-2">
+        <button
+          (click)="updateActividad(actividad)"
+          class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-lg transition"
+        >
+          Editar actividad
+        </button>
+
+        <button
+          (click)="downloadFileDescripcion(actividad)"
+          class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-lg transition"
+        >
+          Descargar descripción
+        </button>
+        <button
+          (click)="downloadFileFormato(actividad)"
+          class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-lg transition"
+        >
+          Descargar formato
+        </button>
+      </div>
     </div>
 
+    <!-- Encabezados -->
     <div
-      class="grid grid-cols-1 md:grid-cols-7 gap-4 py-2 items-center"
+      class="hidden md:grid grid-cols-7 gap-4 border-b border-b-gray-300 pb-2 mt-4 text-sm font-medium text-gray-600"
+    >
+      <div>Matrícula</div>
+      <div>Apellido Paterno</div>
+      <div>Apellido Materno</div>
+      <div>Nombre(s)</div>
+      <div>Archivo</div>
+      <div>Calificación</div>
+      <div>Descargar</div>
+    </div>
+
+    <!-- Lista de alumnos -->
+    <div
+      class="grid grid-cols-1 md:grid-cols-7 gap-4 border-b border-b-gray-300 py-4 items-center"
       *ngFor="let alumno of alumnosList()"
     >
+      <!-- Matrícula -->
       <div>
+        <label class="md:hidden text-sm font-medium text-gray-500 block mb-1"
+          >Matrícula</label
+        >
         <input
           type="text"
           [value]="alumno.matricula"
-          [disabled]="true"
-          class="custom-input"
+          disabled
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-gray-50"
         />
       </div>
 
+      <!-- Apellido Paterno -->
       <div>
+        <label class="md:hidden text-sm font-medium text-gray-500 block mb-1"
+          >Apellido Paterno</label
+        >
         <input
           type="text"
           [value]="alumno.apellido_paterno"
-          [disabled]="true"
-          class="custom-input"
+          disabled
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-gray-50"
         />
       </div>
 
+      <!-- Apellido Materno -->
       <div>
+        <label class="md:hidden text-sm font-medium text-gray-500 block mb-1"
+          >Apellido Materno</label
+        >
         <input
           type="text"
           [value]="alumno.apellido_materno"
-          [disabled]="true"
-          class="custom-input"
+          disabled
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-gray-50"
         />
       </div>
 
+      <!-- Nombre(s) -->
       <div>
+        <label class="md:hidden text-sm font-medium text-gray-500 block mb-1"
+          >Nombre(s)</label
+        >
         <input
           type="text"
           [value]="alumno.nombre"
-          [disabled]="true"
-          class="custom-input"
+          disabled
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-gray-50"
         />
       </div>
 
       <!-- Archivo -->
-      <div class="flex items-center gap-2">
-        <label
-          [for]="'archivoEvidencia-' + actividad.id + '-' + alumno.id"
-          class="w-full cursor-pointer px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition text-sm"
+      <div>
+        <label class="md:hidden text-sm font-medium text-gray-500 block mb-1"
+          >Archivo</label
         >
-          {{ mostrarMensajeBoton(actividad, alumno.id) }}
-        </label>
-        <input
-          type="file"
-          [id]="'archivoEvidencia-' + actividad.id + '-' + alumno.id"
-          (change)="onArchivoChange($event, alumno.id, actividad.id)"
-          class="hidden"
-        />
+        <div class="flex items-center gap-2">
+          <label
+            [for]="'archivoEvidencia-' + actividad.id + '-' + alumno.id"
+            class="w-full text-center cursor-pointer px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg text-sm transition"
+          >
+            {{ mostrarMensajeBoton(actividad, alumno.id) }}
+          </label>
+          <input
+            type="file"
+            class="hidden"
+            [id]="'archivoEvidencia-' + actividad.id + '-' + alumno.id"
+            (change)="onArchivoChange($event, alumno.id, actividad.id)"
+          />
+        </div>
       </div>
 
+      <!-- Calificación -->
       <div>
+        <label class="md:hidden text-sm font-medium text-gray-500 block mb-1"
+          >Calificación</label
+        >
         <input
           type="number"
           [ngModel]="getCalificacion(actividad.id, alumno.id)"
           (ngModelChange)="setCalificacion(+$event, actividad.id, alumno.id)"
-          class="custom-input"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
         />
       </div>
 
-      <button
-        *ngIf="evidenciaEnSistema(actividad, alumno.id)"
-        (click)="downlaodFile(actividad, alumno)"
-        class="px-4 py-2 bg-emerald-400 hover:bg-emerald-500 text-white font-semibold rounded-lg transition text-sm"
-      >
-        Descargar
-      </button>
+      <!-- Botón de descarga -->
+      <div>
+        <label class="md:hidden text-sm font-medium text-gray-500 block mb-1"
+          >Descargar</label
+        >
+        <button
+          *ngIf="evidenciaEnSistema(actividad, alumno.id)"
+          (click)="downlaodFileEvidencia(actividad, alumno)"
+          class="w-full px-3 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-lg text-sm transition"
+        >
+          Descargar
+        </button>
+      </div>
     </div>
 
-    <div class="mt-4 text-right">
+    <!-- Enviar -->
+    <div class="mt-6 text-right">
       <button
-        class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg"
+        class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition"
         (click)="enviarActividad(actividad)"
       >
         Enviar calificaciones
@@ -102,3 +167,13 @@
     </div>
   </div>
 </div>
+
+<app-actividad-form
+  *ngIf="showAddActivityModal()"
+  [editing]="true"
+  title="Editar actividad"
+  [actividad]="actividadSelected()!"
+  [claseId]="claseSelected()!.id"
+  (onCancel)="showAddActivityModal.set(false)"
+  (onSave)="onSave()"
+/>

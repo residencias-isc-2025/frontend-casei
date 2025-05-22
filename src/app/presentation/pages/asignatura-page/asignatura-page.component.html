@@ -92,6 +92,8 @@
 
 <app-actividad-form
   *ngIf="showAddActivityModal()"
+  [editing]="false"
+  title="Crear actividad"
   [claseId]="claseSelected()!.id"
   (onCancel)="showAddActivityModal.set(false)"
   (onSave)="showAddActivityModal.set(false)"
