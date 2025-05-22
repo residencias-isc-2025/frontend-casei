@@ -81,4 +81,9 @@ export class ActividadService extends BaseService<Actividad> {
       data
     );
   }
+
+  descargarArchivo(url: string) {
+    const fullUrl = `${this.mediaUrl}${url}`;
+    return this.http.get(fullUrl, { responseType: 'blob' });
+  }
 }

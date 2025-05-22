@@ -174,28 +174,19 @@ export default class CalificacionesPageComponent implements OnInit {
     this.calificaciones[actividadId][alumnoId] = value;
   }
 
-  actividadData(actividadId: number) {
-    return this.actividadService.obtenerDataInfo(
-      actividadId,
-      this.actividadesList()
-    );
-  }
-
-  enviarActividad(actividadId: number) {
-    const actividad = this.actividadData(actividadId);
-
+  enviarActividad(actividad: Actividad) {
     const alumnos = this.alumnosList();
     const calificacionesActividad: { alumno: Alumno; calificacion: number }[] =
       [];
 
     for (const alumno of alumnos) {
-      const calificacion = this.calificaciones[actividadId]?.[alumno.id];
+      const calificacion = this.calificaciones[actividad.id]?.[alumno.id];
       if (calificacion == null) continue;
 
       calificacionesActividad.push({ alumno, calificacion });
 
       const calificacionExistenteId = this.tieneCalificacion(
-        actividadId,
+        actividad.id,
         alumno.id
       );
 
@@ -209,7 +200,7 @@ export default class CalificacionesPageComponent implements OnInit {
 
       const data: Partial<Calificacion> = {
         alumno: alumno.id,
-        actividad: actividadId,
+        actividad: actividad.id,
         clase: this.claseSelected()!.id,
         calificacion,
       };
@@ -245,18 +236,18 @@ export default class CalificacionesPageComponent implements OnInit {
         );
       }
 
-      this.alumnosEspeciales[actividadId] = {
+      this.alumnosEspeciales[actividad.id] = {
         mayor: alumnoMayor.alumno.id,
         menor: alumnoMenor.alumno.id,
         promedio: alumnoPromedio?.alumno.id,
       };
 
       const fileAlumnoAlto =
-        this.filesSelected[actividadId]?.[alumnoMayor.alumno.id];
+        this.filesSelected[actividad.id]?.[alumnoMayor.alumno.id];
       const fileAlumnoPromedio =
-        this.filesSelected[actividadId]?.[alumnoPromedio.alumno.id];
+        this.filesSelected[actividad.id]?.[alumnoPromedio.alumno.id];
       const fileAlumnoBajo =
-        this.filesSelected[actividadId]?.[alumnoMenor.alumno.id];
+        this.filesSelected[actividad.id]?.[alumnoMenor.alumno.id];
 
       const formData = new FormData();
 
@@ -321,9 +312,7 @@ export default class CalificacionesPageComponent implements OnInit {
     }
   }
 
-  mostrarMensajeBoton(actividadId: number, alumnoId: number): string {
-    const actividad = this.actividadData(actividadId);
-
+  mostrarMensajeBoton(actividad: Actividad, alumnoId: number): string {
     if (actividad?.alumno_alto === alumnoId) {
       if (actividad.alumno_alto_evidencia !== null) {
         return 'Evidencia en sistema';
@@ -349,6 +338,56 @@ export default class CalificacionesPageComponent implements OnInit {
     }
 
     return 'Evidencia';
+  }
+
+  evidenciaEnSistema(actividad: Actividad, alumnoId: number): boolean {
+    if (
+      actividad?.alumno_alto === alumnoId &&
+      actividad.alumno_alto_evidencia !== null
+    ) {
+      return true;
+    }
+
+    if (
+      actividad?.alumno_promedio === alumnoId &&
+      actividad.alumno_promedio_evidencia !== null
+    ) {
+      return true;
+    }
+
+    if (
+      actividad?.alumno_bajo === alumnoId &&
+      actividad.alumno_bajo_evidencia !== null
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  downlaodFile(actividad: Actividad, alumno: Alumno) {
+    let file = '';
+
+    if (actividad.alumno_alto === alumno.id) {
+      file = actividad.alumno_alto_evidencia ?? '';
+    }
+
+    if (actividad.alumno_promedio === alumno.id) {
+      file = actividad.alumno_promedio_evidencia ?? '';
+    }
+
+    if (actividad.alumno_bajo === alumno.id) {
+      file = actividad.alumno_bajo_evidencia ?? '';
+    }
+
+    if (file === '') return;
+
+    this.actividadService.descargarArchivo(file).subscribe((blob) => {
+      const doc = document.createElement('a');
+      doc.href = URL.createObjectURL(blob);
+      doc.download = `${actividad.titulo} - ${alumno.matricula}`;
+      doc.click();
+    });
   }
 
   recargarComponente(): void {
