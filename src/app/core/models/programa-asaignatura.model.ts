@@ -24,7 +24,7 @@ export interface ProgramaAsignatura {
   total_clases_periodo_actual: number;
   docentes_periodo_actual: User[];
   clases: Clase[];
-  calificacion?: number;
+  calificacion?: string;
   porcentaje_aprobacion_superado?: string;
   porcentaje_reprobacion?: string;
 }

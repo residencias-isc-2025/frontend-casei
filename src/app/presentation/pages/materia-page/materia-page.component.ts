@@ -195,6 +195,10 @@ export default class MateriaPageComponent implements OnInit {
         let solicitudesPendientes = clases.length;
 
         if (clases.length === 0) {
+          response.calificacion = 'No aplica';
+          response.porcentaje_aprobacion_superado = 'No aplica';
+          response.porcentaje_reprobacion = 'No aplica';
+
           this.pdfService.generarProgramaCurso(response);
         } else {
           for (const clase of clases) {
@@ -227,7 +231,7 @@ export default class MateriaPageComponent implements OnInit {
                       );
 
                     // Insertar resultados al objeto que va al PDF
-                    response.calificacion = promedioGeneral;
+                    response.calificacion = `${promedioGeneral}`;
                     response.porcentaje_aprobacion_superado = `${porcentajeSuperan}%`;
                     response.porcentaje_reprobacion = `${porcentajeReprobacion}%`;
 
