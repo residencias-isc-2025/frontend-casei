@@ -40,7 +40,7 @@ import { SelectPeriodoFormComponent } from '@presentation/forms/select-periodo-f
     CommonModule,
     FilterBarComponent,
     LoaderComponent,
-    SelectPeriodoFormComponent
+    SelectPeriodoFormComponent,
   ],
   templateUrl: './clase-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -69,6 +69,7 @@ export default class ClasePageComponent implements OnInit {
   showSelectPeriodo = signal(false);
 
   isLoading = {
+    clases: signal(false),
     materias: signal(true),
     carreras: signal(true),
     periodos: signal(true),
@@ -122,11 +123,13 @@ export default class ClasePageComponent implements OnInit {
       .subscribe({
         error: (res) => {
           this.toastService.showError(res.mensaje!, 'Malas noticias');
+          this.isLoading.clases.set(false);
         },
         next: (res) => {
           if (res.count === 0) this.currentPage.set(0);
           this.clasesList.set(res.results);
           this.totalItems.set(res.count);
+          this.isLoading.clases.set(false);
         },
       });
   }
@@ -345,6 +348,7 @@ export default class ClasePageComponent implements OnInit {
       },
       next: (res) => {
         this.toastService.showSuccess(res.mensaje!, 'Éxito');
+        this.isLoading.clases.set(true);
         this.loadCarreras();
       },
     });
@@ -370,6 +374,7 @@ export default class ClasePageComponent implements OnInit {
   onMigrarEmit() {
     this.claseSelected.set(null);
     this.showSelectPeriodo.set(false);
+    this.isLoading.clases.set(true);
     this.loadClases();
   }
 }

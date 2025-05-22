@@ -121,7 +121,12 @@
 />
 
 <app-loader
-  *ngIf="isLoading.carreras() || isLoading.materias() || isLoading.periodos()"
+  *ngIf="
+    isLoading.carreras() ||
+    isLoading.materias() ||
+    isLoading.periodos() ||
+    isLoading.clases()
+  "
 />
 
 <app-alumnos-clase-form
