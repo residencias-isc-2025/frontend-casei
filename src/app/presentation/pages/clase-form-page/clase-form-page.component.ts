@@ -181,7 +181,7 @@ export default class ClaseFormPageComponent implements OnInit {
     });
   }
 
-  private cargarAlumnosList() {
+  cargarAlumnosList() {
     this.alumnoService
       .obtenerDatosPaginados(this.currentPage(), 10, this.recordFilters())
       .subscribe({
@@ -190,6 +190,8 @@ export default class ClaseFormPageComponent implements OnInit {
         },
         next: (res) => {
           this.alumnos.set(res.results);
+          this.totalItems.set(res.count);
+
           if (res.count === 0) {
             this.toastService.showWarning(
               'No hay alumnos registrados.',

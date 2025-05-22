@@ -70,7 +70,8 @@
           >
             <!-- <option value="" selected disabled>Selecciona un docente</option> -->
             <option *ngFor="let docente of docentes()" [value]="docente.id">
-              {{ docente.nombre }} {{ docente.apellido_paterno }} {{ docente.apellido_materno }}
+              {{ docente.nombre }} {{ docente.apellido_paterno }}
+              {{ docente.apellido_materno }}
             </option>
           </select>
         </div>
@@ -108,7 +109,7 @@
 
         <div class="flex justify-center gap-2 mt-3">
           <app-pagination
-            [totalItems]="alumnos().length"
+            [totalItems]="totalItems()"
             [itemsPerPage]="10"
             [currentPage]="currentPage()"
             (pageChanged)="onPageChanged($event)"
