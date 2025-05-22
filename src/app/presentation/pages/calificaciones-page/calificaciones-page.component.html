@@ -64,7 +64,7 @@
           [for]="'archivoEvidencia-' + actividad.id + '-' + alumno.id"
           class="w-full cursor-pointer px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition text-sm"
         >
-          Evidencia
+          {{ mostrarMensajeBoton(actividad.id, alumno.id) }}
         </label>
         <input
           type="file"

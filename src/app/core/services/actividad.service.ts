@@ -27,15 +27,23 @@ export class ActividadService extends BaseService<Actividad> {
   }
 
   obtenerActividadesClase(claseId: number): Observable<Actividad[]> {
-    return this.http.get<Actividad[]>(`${this.apiUrl}/clase/${claseId}/actividades/`);
+    return this.http.get<Actividad[]>(
+      `${this.apiUrl}/clase/${claseId}/actividades/`
+    );
   }
 
   override crear(data: Partial<Actividad>): Observable<{ mensaje: string }> {
-    return this.http.post<{ mensaje: string }>(`${this.apiUrl}/actividad/`, data);
+    return this.http.post<{ mensaje: string }>(
+      `${this.apiUrl}/actividad/`,
+      data
+    );
   }
 
   cargarArchivo(data: FormData): Observable<{ mensaje: string }> {
-    return this.http.post<{ mensaje: string }>(`${this.apiUrl}/actividad/`, data);
+    return this.http.post<{ mensaje: string }>(
+      `${this.apiUrl}/actividad/`,
+      data
+    );
   }
 
   override deshabilitar(id: number): Observable<{ mensaje: string }> {
@@ -50,13 +58,27 @@ export class ActividadService extends BaseService<Actividad> {
     id: number,
     data: Partial<Actividad>
   ): Observable<{ mensaje: string }> {
-    throw new Error('Method not implemented.');
+    return this.http.put<{ mensaje: string }>(
+      `${this.apiUrl}/actividad/${id}/`,
+      data
+    );
   }
 
   override obtenerDataInfo(
     id: number,
     lista: Actividad[]
   ): Actividad | undefined {
-    throw new Error('Method not implemented.');
+    const data = lista.find((d) => d.id === id);
+    return data;
+  }
+
+  actualizarActividad(
+    id: number,
+    data: FormData
+  ): Observable<{ mensaje: string }> {
+    return this.http.put<{ mensaje: string }>(
+      `${this.apiUrl}/actividad/${id}/`,
+      data
+    );
   }
 }

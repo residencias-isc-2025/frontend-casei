@@ -16,6 +16,7 @@ import { ActividadService } from '@core/services/actividad.service';
 import { AlumnoService } from '@core/services/alumno.service';
 import { CalificacionesService } from '@core/services/calificaciones.service';
 import { ClaseService } from '@core/services/clase.service';
+import { ToastService } from '@core/services/toast.service';
 
 @Component({
   selector: 'app-calificaciones-page',
@@ -27,6 +28,7 @@ export default class CalificacionesPageComponent implements OnInit {
   router = inject(Router);
   route = inject(ActivatedRoute);
 
+  toastService = inject(ToastService);
   claseService = inject(ClaseService);
   actividadService = inject(ActividadService);
   calificacionService = inject(CalificacionesService);
@@ -35,6 +37,14 @@ export default class CalificacionesPageComponent implements OnInit {
   filesSelected: { [actividadId: number]: { [alumnoId: number]: File } } = {};
   calificaciones: { [actividadId: number]: { [alumnoId: number]: number } } =
     {};
+
+  alumnosEspeciales: {
+    [actividadId: number]: {
+      mayor?: number;
+      menor?: number;
+      promedio?: number;
+    };
+  } = {};
 
   alumnosList = signal<Alumno[]>([]);
   actividadesList = signal<Actividad[]>([]);
@@ -123,7 +133,12 @@ export default class CalificacionesPageComponent implements OnInit {
 
   onArchivoChange(event: Event, alumnoId: number, actividadId: number) {
     const input = event.target as HTMLInputElement;
+
     if (input.files && input.files.length > 0) {
+      if (!this.filesSelected[actividadId]) {
+        this.filesSelected[actividadId] = {};
+      }
+
       this.filesSelected[actividadId][alumnoId] = input.files[0];
     }
   }
@@ -159,16 +174,34 @@ export default class CalificacionesPageComponent implements OnInit {
     this.calificaciones[actividadId][alumnoId] = value;
   }
 
+  actividadData(actividadId: number) {
+    return this.actividadService.obtenerDataInfo(
+      actividadId,
+      this.actividadesList()
+    );
+  }
+
   enviarActividad(actividadId: number) {
-    for (const alumno of this.alumnosList()) {
+    const actividad = this.actividadData(actividadId);
+
+    const alumnos = this.alumnosList();
+    const calificacionesActividad: { alumno: Alumno; calificacion: number }[] =
+      [];
+
+    for (const alumno of alumnos) {
       const calificacion = this.calificaciones[actividadId]?.[alumno.id];
       if (calificacion == null) continue;
 
-      const tieneCalificacion = this.tieneCalificacion(actividadId, alumno.id);
+      calificacionesActividad.push({ alumno, calificacion });
 
-      if (tieneCalificacion) {
+      const calificacionExistenteId = this.tieneCalificacion(
+        actividadId,
+        alumno.id
+      );
+
+      if (calificacionExistenteId) {
         this.calificacionService
-          .actualizar(tieneCalificacion!, { calificacion })
+          .actualizar(calificacionExistenteId!, { calificacion })
           .subscribe();
 
         continue;
@@ -183,5 +216,146 @@ export default class CalificacionesPageComponent implements OnInit {
 
       this.calificacionService.crear(data).subscribe();
     }
+
+    if (calificacionesActividad.length > 0) {
+      const promedio =
+        calificacionesActividad.reduce(
+          (acc, curr) => acc + curr.calificacion,
+          0
+        ) / calificacionesActividad.length;
+
+      const alumnoMayor = calificacionesActividad.reduce((a, b) =>
+        a.calificacion > b.calificacion ? a : b
+      );
+
+      const alumnoMenor = calificacionesActividad.reduce((a, b) =>
+        a.calificacion < b.calificacion ? a : b
+      );
+
+      let alumnoPromedio = calificacionesActividad.find(
+        (a) => a.calificacion === Math.round(promedio)
+      );
+
+      if (!alumnoPromedio) {
+        alumnoPromedio = calificacionesActividad.reduce((a, b) =>
+          Math.abs(a.calificacion - promedio) <
+          Math.abs(b.calificacion - promedio)
+            ? a
+            : b
+        );
+      }
+
+      this.alumnosEspeciales[actividadId] = {
+        mayor: alumnoMayor.alumno.id,
+        menor: alumnoMenor.alumno.id,
+        promedio: alumnoPromedio?.alumno.id,
+      };
+
+      const fileAlumnoAlto =
+        this.filesSelected[actividadId]?.[alumnoMayor.alumno.id];
+      const fileAlumnoPromedio =
+        this.filesSelected[actividadId]?.[alumnoPromedio.alumno.id];
+      const fileAlumnoBajo =
+        this.filesSelected[actividadId]?.[alumnoMenor.alumno.id];
+
+      const formData = new FormData();
+
+      formData.append('alumno_alto', alumnoMayor.alumno.id.toString());
+      formData.append(
+        'alumno_alto_calificacion',
+        alumnoMayor.calificacion.toString()
+      );
+
+      if (fileAlumnoAlto) {
+        formData.append('alumno_alto_evidencia', fileAlumnoAlto);
+      } else {
+        this.toastService.showInfo(
+          `Adjunta la evidencia del alumno con matrícula ${alumnoMayor.alumno.matricula} para la actividad correspondiente a ${actividad?.titulo}`,
+          'Por favor'
+        );
+      }
+
+      formData.append('alumno_promedio', alumnoPromedio.alumno.id.toString());
+      formData.append(
+        'alumno_promedio_calificacion',
+        alumnoPromedio.calificacion.toString()
+      );
+
+      if (fileAlumnoPromedio) {
+        formData.append('alumno_promedio_evidencia', fileAlumnoPromedio);
+      } else {
+        this.toastService.showInfo(
+          `Adjunta la evidencia del alumno con matrícula ${alumnoPromedio.alumno.matricula} para la actividad correspondiente a ${actividad?.titulo}`,
+          'Por favor'
+        );
+      }
+
+      formData.append('alumno_bajo', alumnoMenor.alumno.id.toString());
+      formData.append(
+        'alumno_bajo_calificacion',
+        alumnoMenor.calificacion.toString()
+      );
+
+      if (fileAlumnoBajo) {
+        formData.append('alumno_bajo_evidencia', fileAlumnoBajo);
+      } else {
+        this.toastService.showInfo(
+          `Favor de subir la evidencia del alumno con matrícula ${alumnoMenor.alumno.matricula} para la actividad correspondiente a ${actividad?.titulo}`,
+          'Por favor'
+        );
+      }
+
+      this.actividadService
+        .actualizarActividad(actividad!.id, formData)
+        .subscribe({
+          next: (res) => {
+            this.toastService.showSuccess(res.mensaje, 'Éxito');
+            this.recargarComponente();
+          },
+        });
+    } else {
+      this.toastService.showError(
+        `No hay calificaciones registradas para la actividad ${actividad?.titulo}`,
+        'Malas noticias...'
+      );
+    }
+  }
+
+  mostrarMensajeBoton(actividadId: number, alumnoId: number): string {
+    const actividad = this.actividadData(actividadId);
+
+    if (actividad?.alumno_alto === alumnoId) {
+      if (actividad.alumno_alto_evidencia !== null) {
+        return 'Evidencia en sistema';
+      } else {
+        return 'Evidencia requerida';
+      }
+    }
+
+    if (actividad?.alumno_promedio === alumnoId) {
+      if (actividad.alumno_promedio_evidencia !== null) {
+        return 'Evidencia en sistema';
+      } else {
+        return 'Evidencia requerida';
+      }
+    }
+
+    if (actividad?.alumno_bajo === alumnoId) {
+      if (actividad.alumno_bajo_evidencia !== null) {
+        return 'Evidencia en sistema';
+      } else {
+        return 'Evidencia requerida';
+      }
+    }
+
+    return 'Evidencia';
+  }
+
+  recargarComponente(): void {
+    const currentUrl = this.router.url;
+
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
   }
 }
