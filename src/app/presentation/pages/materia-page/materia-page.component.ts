@@ -8,14 +8,11 @@ import {
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Bibliografia } from '@core/models/bibliografia.model';
-import { Competencia } from '@core/models/competencia.model';
-import { CriterioDesempenio } from '@core/models/criterio-desempenio.model';
+import { Calificacion } from '@core/models/calificacion.model';
 import { Materia } from '@core/models/materia.model';
-import { ProgramaAsignatura } from '@core/models/programa-asaignatura.model';
 import { BibliografiaService } from '@core/services/bibliografia.service';
+import { CalificacionesService } from '@core/services/calificaciones.service';
 import { CedulaService } from '@core/services/cedula.service';
-import { CompetenciaService } from '@core/services/competencia.service';
-import { CriterioDesempenioService } from '@core/services/criterio-desempenio.service';
 import { MateriaService } from '@core/services/materia.service';
 import { PdfService } from '@core/services/pdf.service';
 import { ToastService } from '@core/services/toast.service';
@@ -42,6 +39,7 @@ export default class MateriaPageComponent implements OnInit {
   toastService = inject(ToastService);
   materiaService = inject(MateriaService);
   bibliografiaService = inject(BibliografiaService);
+  calificacionesService = inject(CalificacionesService);
 
   cedulaService = inject(CedulaService);
   pdfService = inject(PdfService);
@@ -143,7 +141,117 @@ export default class MateriaPageComponent implements OnInit {
   onDownloadProgramaAsignatura(materia: Materia) {
     this.cedulaService.obtenerProgramaAsignatura(materia.id).subscribe({
       next: (response) => {
-        this.pdfService.generarProgramaCurso(response);
+        const calificacionesPorClase = new Map<number, Map<number, number[]>>();
+
+        const clases = response.clases;
+        let solicitudes = 0;
+
+        for (const clase of clases) {
+          solicitudes++;
+          this.calificacionesService
+            .obtenerCalificacionesClase(clase.id)
+            .subscribe({
+              next: (res) => {
+                for (const calificacion of res) {
+                  const idClase = calificacion.clase;
+                  const idAlumno = calificacion.alumno;
+
+                  if (!calificacionesPorClase.has(idClase)) {
+                    calificacionesPorClase.set(idClase, new Map());
+                  }
+
+                  const alumnosMap = calificacionesPorClase.get(idClase)!;
+
+                  if (!alumnosMap.has(idAlumno)) {
+                    alumnosMap.set(idAlumno, []);
+                  }
+
+                  alumnosMap.get(idAlumno)!.push(calificacion.calificacion);
+                }
+
+                solicitudes--;
+                if (solicitudes === 0) {
+                  const resultadoFinal: {
+                    claseId: number;
+                    alumnos: { alumnoId: number; promedio: number }[];
+                  }[] = [];
+
+                  for (const [
+                    claseId,
+                    alumnosMap,
+                  ] of calificacionesPorClase.entries()) {
+                    const alumnos: { alumnoId: number; promedio: number }[] =
+                      [];
+
+                    for (const [alumnoId, califs] of alumnosMap.entries()) {
+                      const promedio =
+                        califs.reduce((acc, curr) => acc + curr, 0) /
+                        califs.length;
+                      alumnos.push({
+                        alumnoId,
+                        promedio: Math.round(promedio),
+                      });
+                    }
+
+                    resultadoFinal.push({ claseId, alumnos });
+                  }
+
+                  console.log(resultadoFinal);
+
+                  let sumaTotal = 0;
+                  let totalAlumnos = 0;
+
+                  for (const clase of resultadoFinal) {
+                    for (const alumno of clase.alumnos) {
+                      sumaTotal += alumno.promedio;
+                      totalAlumnos += 1;
+                    }
+                  }
+
+                  const promedioGeneral =
+                    totalAlumnos > 0 ? Math.round(sumaTotal / totalAlumnos) : 0;
+
+                  response.calificacion = promedioGeneral;
+
+                  let alumnosQueSuperan = 0;
+
+                  for (const clase of resultadoFinal) {
+                    for (const alumno of clase.alumnos) {
+                      if (alumno.promedio >= promedioGeneral) {
+                        alumnosQueSuperan += 1;
+                      }
+                    }
+                  }
+
+                  const porcentajeSuperan =
+                    totalAlumnos > 0
+                      ? Math.round((alumnosQueSuperan / totalAlumnos) * 100)
+                      : 0;
+
+                  response.porcentaje_aprobacion_superado = `${porcentajeSuperan}%`;
+
+                  let alumnosReprobados = 0;
+
+                  for (const clase of resultadoFinal) {
+                    for (const alumno of clase.alumnos) {
+                      if (alumno.promedio < 70) {
+                        alumnosReprobados += 1;
+                      }
+                    }
+                  }
+
+                  const porcentajeReprobacion =
+                    totalAlumnos > 0
+                      ? Math.round((alumnosReprobados / totalAlumnos) * 100)
+                      : 0;
+
+                  response.porcentaje_reprobacion = `${porcentajeReprobacion}%`;
+
+                  this.pdfService.generarProgramaCurso(response);
+                }
+              },
+            });
+        }
       },
       error: (err) => {
         this.toastService.showError(err.mensaje, 'Malas noticias...');

@@ -8,6 +8,8 @@ import { ObjetivoEspecifico } from './objetivo-especifico.model';
 import { Practica } from './practica.model';
 import { Tema } from './tema.model';
 import { User } from './user.model';
+import { Calificacion } from './calificacion.model';
+import { Clase } from './clase.model';
 
 export interface ProgramaAsignatura {
   materia: Materia;
@@ -21,4 +23,8 @@ export interface ProgramaAsignatura {
   bibliografias: Bibliografia[];
   total_clases_periodo_actual: number;
   docentes_periodo_actual: User[];
+  clases: Clase[];
+  calificacion?: number;
+  porcentaje_aprobacion_superado?: string;
+  porcentaje_reprobacion?: string;
 }

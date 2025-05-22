@@ -9,6 +9,8 @@ export const programaCursoReport = async (
   doc: jsPDF,
   data: ProgramaAsignatura
 ): Promise<jsPDF> => {
+  console.log({ data });
+
   const logoBase64 = await loadImageAsBase64('/assets/images/cacei.png');
 
   const headerData: DocHeaderData = {
@@ -934,7 +936,7 @@ export const programaCursoReport = async (
             },
           },
           {
-            content: 'Calificación',
+            content: data.calificacion,
             styles: {
               fontStyle: 'normal',
               fontSize,
@@ -944,7 +946,7 @@ export const programaCursoReport = async (
             },
           },
           {
-            content: 'Aprobación',
+            content: data.porcentaje_aprobacion_superado,
             colSpan: 2,
             styles: {
               fontStyle: 'normal',
@@ -955,7 +957,7 @@ export const programaCursoReport = async (
             },
           },
           {
-            content: 'Reprobración',
+            content: data.porcentaje_reprobacion,
             styles: {
               fontStyle: 'normal',
               fontSize,
